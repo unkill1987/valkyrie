@@ -37,11 +37,25 @@ def share1(request):
 
     for id in check_ids:
         try:
+
             share = Contract_LCR.objects.get(id=id)
             share.share3=share_user
             share.save()
 
-        except:
+            user_id = request.session['user_id']
+            member = Member.objects.get(user_id=user_id)
+            contract = Contract_LCR.objects.filter(owner=member)
+            hash = contract.values('sha256')[0]['sha256']
+            contract_id = contract.values('contract_id')[0]['contract_id']
+
+            process = Process.objects.get(id=contract_id)
+            process.user1 = user_id
+            process.LCR_hash = hash
+            process.user3 = share_user
+            process.save()
+
+        except Exception as e:
+            print(e)
             pass
     return redirect('ing')
 
@@ -53,10 +67,21 @@ def share2(request):
     for id in check_ids:
         try:
             share = Contract_CI.objects.get(id=id)
-            share.share1=share_user
+            share.share1 = share_user
             share.save()
 
-        except:
+            user_id = request.session['user_id']
+            member = Member.objects.get(user_id=user_id)
+            contract = Contract_CI.objects.filter(owner=member)
+            hash = contract.values('sha256')[0]['sha256']
+
+
+            process = Process.objects.get(CI_hash=hash)
+            process.user1 = share_user
+            process.save()
+
+        except Exception as e:
+            print(e)
             pass
     return redirect('ing2')
 
@@ -71,7 +96,18 @@ def share2_1(request):
             share.share4=share_user
             share.save()
 
-        except:
+            user_id = request.session['user_id']
+            member = Member.objects.get(user_id=user_id)
+            contract = Contract_SR.objects.filter(owner=member)
+            hash = contract.values('sha256')[0]['sha256']
+            contract_id = contract.values('contract_id')[0]['contract_id']
+
+            process = Process.objects.get(id=contract_id)
+            process.SR_hash = hash
+            process.user4 = share_user
+            process.save()
+        except Exception as e:
+            print (e)
             pass
     return redirect('ing2_1')
 
@@ -88,7 +124,17 @@ def share3(request):
             share.share2=share_user2
             share.save()
 
-        except:
+            user_id = request.session['user_id']
+            member = Member.objects.get(user_id=user_id)
+            contract = Contract_LC.objects.filter(owner=member)
+            hash = contract.values('sha256')[0]['sha256']
+            contract_id = contract.values('contract_id')[0]['contract_id']
+
+            process = Process.objects.get(id=contract_id)
+            process.LC_hash = hash
+            process.save()
+        except Exception as e:
+            print(e)
             pass
     return redirect('ing3')
 
@@ -104,6 +150,15 @@ def share4_1(request):
             share.share2=share_user2
             share.save()
 
+            user_id = request.session['user_id']
+            member = Member.objects.get(user_id=user_id)
+            contract = Contract_BL.objects.filter(owner=member)
+            hash = contract.values('sha256')[0]['sha256']
+            contract_id = contract.values('contract_id')[0]['contract_id']
+
+            process = Process.objects.get(id=contract_id)
+            process.BL_hash = hash
+            process.save()
         except:
             pass
     return redirect('ing4_1')
@@ -120,6 +175,15 @@ def share4_2(request):
             share.share1=share_user
             share.save()
 
+            user_id = request.session['user_id']
+            member = Member.objects.get(user_id=user_id)
+            contract = Contract_DO.objects.filter(owner=member)
+            hash = contract.values('sha256')[0]['sha256']
+            contract_id = contract.values('contract_id')[0]['contract_id']
+
+            process = Process.objects.get(id=contract_id)
+            process.DO_hash = hash
+            process.save()
         except:
             pass
     return redirect('ing4_2')
@@ -396,10 +460,6 @@ def submit(request):
     contract.owner = member
     contract.save()
 
-    process = Process.objects.get(id=contract_id)
-    process.user1=user_id
-    process.LCR_hash = hash
-    process.save()
     return redirect('ing')
 
 #
@@ -539,9 +599,6 @@ def submit2_1(request):
 
     contract.save()
 
-    process = Process.objects.get(id=contract_id)
-    process.SR_hash = hash
-    process.save()
     return redirect('ing2_1')
 
 
@@ -650,10 +707,7 @@ letteroflc + '\n'
 
     contract.save()
 
-    process = Process.objects.get(id=contract_id)
-    process.user3 = user_id
-    process.LC_hash = hash
-    process.save()
+
     return redirect('ing3')
 
 
@@ -711,10 +765,6 @@ def submit4_1(request):
 
     contract.save()
 
-    process = Process.objects.get(id=contract_id)
-    process.BL_hash = hash
-    process.user4=user_id
-    process.save()
     return redirect('ing4_1')
 
 
@@ -764,16 +814,13 @@ def submit4_2(request):
     user_id = request.session['user_id']
     member = Member.objects.get(user_id=user_id)
     contract.owner = member
-
     contract.save()
-    process = Process.objects.get(id=contract_id)
-    process.DO_hash = hash
-    process.save()
+
     return redirect('ing4_2')
 
 def download(request):
     id = request.GET['id']
-    c = Contract.objects.get(id=id)
+    c = Contract_LCR.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
@@ -843,17 +890,85 @@ def download4_2(request):
         response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
-def process(request):
-
+def process1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        process = Process.objects.filter(user1=member)
+        try:
+            contract = Process.objects.filter(user1=member).order_by('-id')
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
 
-        return render(request, 'app/process.html',{'process':process})
+        except:
+            contract=None
+
+        return render(request, 'app/process1.html',{'contract':contracts})
     except Exception as e:
         print(e)
+
         pass
+    return redirect('index')
+
+def process2(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        try:
+            contract = Process.objects.filter(user2=member).order_by('-id')
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
+
+        except:
+            contract = None
+
+        return render(request, 'app/process2.html', {'contract': contracts})
+    except Exception as e:
+        print(e)
+
+        pass
+    return redirect('index')
+
+def process3(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        try:
+            contract = Process.objects.filter(user3=member).order_by('-id')
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
+
+        except:
+            contract = None
+
+        return render(request, 'app/process3.html', {'contract': contracts})
+    except Exception as e:
+        print(e)
+
+        pass
+    return redirect('index')
+
+def process4(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        try:
+            contract = Process.objects.filter(user4=member).order_by('-id')
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
+
+        except:
+            contract = None
+
+        return render(request, 'app/process1.html', {'contract': contracts})
+    except Exception as e:
+        print(e)
+
+        pass
+    return redirect('index')
 
 def ing(request):
     try:
@@ -1108,7 +1223,8 @@ def lcrecieved2(request):
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(LC_hash=hash)
-        except:
+        except Exception as e:
+            print(e)
             hash = None
             process = None
         paginator = Paginator(contract, 6)
@@ -1235,7 +1351,7 @@ def index(request):
         else:
             templates = 'app/login.html'
 
-        return render(request, templates, {'n': n,'n1':n1,'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,
+        return render(request, templates, {'user_id':user_id, 'n': n,'n1':n1,'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,
                                                'basePrice2':basePrice2,'sellprice2':sellprice2,'buyprice2':buyprice2,
                                                'basePrice3':basePrice3,'sellprice3':sellprice3,'buyprice3':buyprice3})
     except Exception as e:

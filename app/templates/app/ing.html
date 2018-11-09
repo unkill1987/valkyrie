@@ -120,8 +120,8 @@
             <span>받은 문서</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+             <a class="dropdown-item" href="{% url 'cirecieved' %}">C/I 확인</a>
             <a class="dropdown-item" href="{% url 'lcrecieved1' %}">L/C 확인</a>
-            <a class="dropdown-item" href="{% url 'cirecieved' %}">C/I 확인</a>
             <a class="dropdown-item" href="{% url 'blrecieved1' %}">B/L 확인</a>
             <a class="dropdown-item" href="{% url 'dorecieved' %}">D/O 확인</a>
 
@@ -172,9 +172,9 @@
           <div class="card h-100">
 
             <h4 class="card-header">
-              {% for p in process %}
-              Contract ID. {{p.id}}
-              {%endfor%}<hr>
+
+              Contract ID.{{c.contract_id}}
+              <hr>
               {{c.contractname}}</h4>
             <div class="card-body">
               <p class="card-text">
@@ -296,6 +296,7 @@
 
       $('#share1').click(function(){
         var share_user = $("#share_user").val();
+        var contract_id = $("#contract_id").val();
         check_ids = ''
         sep = ''
         if($('#share_user').val().length==0){

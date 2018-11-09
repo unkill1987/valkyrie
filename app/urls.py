@@ -78,12 +78,12 @@ urlpatterns = [
 
 
     path('CI_received/', views.cirecieved, name='cirecieved'),
-    path('BL_received/', views.blrecieved1, name='blrecieved1'),
-    path('BL_received/', views.blrecieved2, name='blrecieved2'),
+    path('BL_received1/', views.blrecieved1, name='blrecieved1'),
+    path('BL_received2/', views.blrecieved2, name='blrecieved2'),
     path('DO_received/', views.dorecieved, name='dorecieved'),
     path('SR_received', views.srrecieved, name='srrecieved'),
-    path('LC_received/', views.lcrecieved1, name='lcrecieved1'),
-    path('LC_received/', views.lcrecieved2, name='lcrecieved2'),
+    path('LC_received1/', views.lcrecieved1, name='lcrecieved1'),
+    path('LC_received2/', views.lcrecieved2, name='lcrecieved2'),
     path('LCR_received/', views.lcrrecieved, name='lcrrecieved'),
 
 
@@ -111,6 +111,9 @@ urlpatterns = [
     path('money/', views.money, name='money'),
     path('people/', views.people, name='people'),
 
-    path('process/', views.process, name='process')
+    path('process1/', views.process1, name='process1'),
+    path('process2/', views.process2, name='process2'),
+    path('process3/', views.process3, name='process3'),
+    path('process4/', views.process4, name='process4'),
 
 ]
