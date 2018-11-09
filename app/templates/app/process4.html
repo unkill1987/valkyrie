@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/img/icon.ico'%}">
-    <title>Valkyrie - forms</title>
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/img/icon.ico'%}">
+    <title>Valkyrie - Dashboard</title>
 
     <!-- Bootstrap core CSS-->
     <link href="{% static 'app/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
@@ -25,25 +25,36 @@
     <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
 
   </head>
+<style>
+.bg-primary {
+    background-color: #004085ed!important;
+}
 
+.bg-warning {
+    background-color: #004085ed!important;
+}
+.bg-success {
+    background-color: #004085ed!important;
+}
+.bg-danger {
+    background-color: #004085ed!important;
+}
+
+
+</style>
   <body id="page-top">
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="{% url 'index3' %}">Valkyrie system</a>
+      <a class="navbar-brand mr-1" href="#">Valkyrie system</a>
 
-      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle">
         <i class="fas fa-bars"></i>
       </button>
 
       <!-- Navbar Search -->
       <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
 
-          <div class="input-group-append">
-
-          </div>
-        </div>
       </form>
 
       <!-- Navbar -->
@@ -92,26 +103,25 @@
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="{% url 'index3' %}">
+          <a class="nav-link" href="{% url 'index' %}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </a>
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'charts3' %}">
+          <a class="nav-link" href="{% url 'charts' %}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>환율정보</span></a>
         </li>
-       <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-clipboard"></i>
-            <span>신용장(L/C) 개설</span>
+            <span>신용장(L/C) 신청</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-           <a class="dropdown-item" href="{% url 'forms3' %}">신용장(L/C) 개설</a>
-            <a class="dropdown-item" href="{% url 'ing3' %}">신용장(L/C) 관리</a>
-
+            <a class="dropdown-item" href="{% url 'forms' %}">L/C 신청서 작성</a>
+            <a class="dropdown-item" href="{% url 'ing' %}">L/C 신청서 관리</a>
 
           </div>
         </li>
@@ -121,14 +131,15 @@
             <span>받은 문서</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-           <a class="dropdown-item" href="{% url 'lcrrecieved' %}">신용장(L/C) 신청서</a>
-
-
+            <a class="dropdown-item" href="{% url 'lcreceived1' %}">L/C 확인</a>
+            <a class="dropdown-item" href="{% url 'cireceived' %}">C/I 확인</a>
+            <a class="dropdown-item" href="{% url 'blreceived1' %}">B/L 확인</a>
+            <a class="dropdown-item" href="{% url 'doreceived' %}">D/O 확인</a>
 
           </div>
         </li>
             <li class="nav-item">
-          <a class="nav-link" href="{% url 'calendar3' %}">
+          <a class="nav-link" href="{% url 'calendar' %}">
             <i class="fas fa-fw fa-calendar"></i>
             <span>일정 관리</span></a>
         </li>
@@ -141,6 +152,7 @@
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">결제 내역</a>
             <a class="dropdown-item" href="">결제 하기</a>
+            <a class="dropdown-item" href="">입금 하기</a>
             <a class="dropdown-item" href="">출금 하기</a>
 
           </div>
@@ -159,43 +171,67 @@
         </li>
       </ul>
 
-        <!--진행중인 계약-->
-<div class="container-fluid" style="margin:5px; margin-bottom:100px;">
-    <h1 class="my-4">신용장(L/C) 신청서 확인({{n}}건)</h1>
 
-    <div class="row">
-        {% for c in contract %}
-        <div class="col-lg-4 mb-4" >
+      <div class="container-fluid" style="margin:5px; margin-bottom:100px;">
+        <h2 class="my-4">진행중인 계약({{n}}건)</h2>
 
-          <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><span>Check</span>
-          <div class="card h-100">
 
-            <h4 class="card-header">
-              {%for p in process %}
+            <div class="row">
+              <div class="col-lg-12 mb-4" >
+                {%for p in contract %}
+                <div class="card h-100">
 
-            Contract ID.{{p.id}}<hr>
-            {%endfor%}
-              {{c.contractname}}</h4>
-            <div class="card-body">
-              <p class="card-text">
+                  <h2 class="card-header">
+                             Contract ID: {{p.id}}</h2>
+                  <div class="card-body">
+                    <p class="card-text">
+                      <h4>
+                    <table>
+                    <tr>
+                      <td>1. C/I &nbsp&nbsp발급</td>
+                      <td>:</td>
+                      <td> {{p.CI_hash}}</td>
 
-              {{c.sha256}}</p>
-            </div>
-            <div class="card-footer">
-              <a href="{% url 'download' %}?id={{ c.id }}" class="btn btn-primary" target="_blank">
-                    {{c.filename}}
-              </a>
+                      </tr>
+                      <tr>
+                      <td>2. L/C&nbsp&nbsp요청</td>
+                        <td>:</td>
+                      <td>{{p.LCR_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>3. L/C&nbsp&nbsp발급</td>
+                          <td>:</td>
+                      <td>{{p.LC_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>4. S/R&nbsp&nbsp요청</td>
+                          <td>:</td>
+                      <td>{{p.SR_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>5. B/L&nbsp&nbsp발급</td>
+                          <td>:</td>
+                      <td>{{p.BL_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>6. D/O&nbsp발급</td>
+                          <td>:</td>
+                      <td>{{p.DO_hash}}</td>
+                      </tr>
+                      </table>
+                    </h4>
+                    </p>
+                  </div>
+                </div>
+              </div>
+          {%endfor%}
               <hr>
-              <a>From (수입자ID):{{c.owner_id}}</a>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-<hr>
-    </div>
+                </div>
+        <hr>
 
-<hr>
-  <div class="pagination" style="text-align:center; margin:auto;">
+
+
+<div class="pagination" style="text-align:center; margin:auto;">
     <span class="step-links" style="text-align:center; margin:auto;">
       <ul class="pagination pagination-lg" >
         {% if contract.has_previous %}
@@ -220,28 +256,7 @@
         </ul>
     </span>
   </div>
-
-  <div class="row">
-
-    <div style="text-align:center; margin:auto;" >
-
-      <input class="btn btn-primary" type="button" value="선택삭제" id="delete_btn">
-
-
-        </div>
-  </div>
-
-<!--</form>-->
-</div>
-
-        <!-- Sticky Footer -->
-
-
-
-      </div>
-      <!-- /.content-wrapper -->
-
-
+    </div>
     <!-- /#wrapper -->
 
     <!-- Scroll to Top Button-->
@@ -275,23 +290,21 @@
     <!-- Core plugin JavaScript-->
     <script src="{% static 'app/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
 
+    <!-- Page level plugin JavaScript-->
+    <script src="{% static 'app/vendor/chart.js/Chart.min.js'%}"></script>
+    <script src="{% static 'app/vendor/datatables/jquery.dataTables.js'%}"></script>
+    <script src="{% static 'app/vendor/datatables/dataTables.bootstrap4.js'%}"></script>
+
     <!-- Custom scripts for all pages-->
     <script src="{% static 'app/js/sb-admin.min.js'%}"></script>
 
+    <!-- Demo scripts for this page-->
+    <script src="{% static 'app/js/demo/datatables-demo.js'%}"></script>
+    <script src="{% static 'app/js/demo/chart-area-demo.js'%}"></script>
+
+        </div>
+      </div>
+    </div>
   </body>
-  <script>
-      $('#delete_btn').click(function() {
-        check_ids = ''
-        sep = ''
-        $('input:checked').each(function() {
-          check_ids += sep + $(this).val()
-          sep = ','
-        })
-
-        location = '/app/lcrremove?check_id=' + check_ids
-        return false
-      })
-
-    </script>
 
 </html>

@@ -103,28 +103,39 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>환율정보</span></a>
         </li>
-       <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-clipboard"></i>
-            <span>신용장(L/C) 신청</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="{% url 'forms' %}">L/C 신청서 작성</a>
-            <a class="dropdown-item" href="{% url 'ing' %}">L/C 신청서 관리</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-clipboard"></i>
+                <span>선하증권(B/L)</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="{% url 'forms4_1' %}">B/L 작성</a>
+                <a class="dropdown-item" href="{% url 'ing4_1' %}">B/L 관리</a>
 
-          </div>
+
+            </div>
         </li>
         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-clipboard"></i>
+                <span>인도지시서(D/O)</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="{% url 'forms4_2' %}">D/O 작성</a>
+                <a class="dropdown-item" href="{% url 'ing4_2' %}">D/O 관리</a>
+
+
+            </div>
+        </li>
+          <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-clipboard"></i>
             <span>받은 문서</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="{% url 'cirecieved' %}">C/I 확인</a>
-            <a class="dropdown-item" href="{% url 'lcrecieved1' %}">L/C 확인</a>
-            <a class="dropdown-item" href="{% url 'blrecieved1' %}">B/L 확인</a>
-            <a class="dropdown-item" href="{% url 'dorecieved' %}">D/O 확인</a>
-
+           <a class="dropdown-item" href="{% url 'srreceived' %}">S/R 확인</a>
           </div>
         </li>
             <li class="nav-item">
@@ -161,7 +172,7 @@
 
         <!--진행중인 계약-->
 <div class="container-fluid" style="margin:5px; margin-bottom:100px;">
-    <h1 class="my-4">선하증권(B/L) 확인({{n}}건)</h1>
+    <h2 class="my-4">선적요청서(S/R) 확인({{n}}건)</h2>
 
     <div class="row">
         {% for c in contract %}
@@ -172,6 +183,7 @@
 
             <h4 class="card-header">
               {%for p in process %}
+
             Contract ID.{{p.id}}<hr>
             {%endfor%}
               {{c.contractname}}</h4>
@@ -185,7 +197,7 @@
                     {{c.filename}}
               </a>
               <hr>
-              <a>From (운송사ID):{{c.owner_id}}</a>
+              <a>From (수출자ID):{{c.owner_id}}</a>
             </div>
           </div>
         </div>
@@ -287,10 +299,9 @@
           sep = ','
         })
 
-        location = '/app/blremove1?check_id=' + check_ids
+        location = '/app/srremove?check_id=' + check_ids
         return false
       })
 
     </script>
 
-</html>

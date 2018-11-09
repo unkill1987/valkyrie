@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from app import views
-from app.views import srrecieved
+from app.views import srreceived
 
 urlpatterns = [
 
@@ -77,14 +77,14 @@ urlpatterns = [
     path('share4_2/', views.share4_2, name='share4_2'),
 
 
-    path('CI_received/', views.cirecieved, name='cirecieved'),
-    path('BL_received1/', views.blrecieved1, name='blrecieved1'),
-    path('BL_received2/', views.blrecieved2, name='blrecieved2'),
-    path('DO_received/', views.dorecieved, name='dorecieved'),
-    path('SR_received', views.srrecieved, name='srrecieved'),
-    path('LC_received1/', views.lcrecieved1, name='lcrecieved1'),
-    path('LC_received2/', views.lcrecieved2, name='lcrecieved2'),
-    path('LCR_received/', views.lcrrecieved, name='lcrrecieved'),
+    path('CI_received/', views.cireceived, name='cireceived'),
+    path('BL_received1/', views.blreceived1, name='blreceived1'),
+    path('BL_received2/', views.blreceived2, name='blreceived2'),
+    path('DO_received/', views.doreceived, name='doreceived'),
+    path('SR_received', views.srreceived, name='srreceived'),
+    path('LC_received1/', views.lcreceived1, name='lcreceived1'),
+    path('LC_received2/', views.lcreceived2, name='lcreceived2'),
+    path('LCR_received/', views.lcrreceived, name='lcrreceived'),
 
 
     path('blremove1/', views.blremove1, name='blremove1'),

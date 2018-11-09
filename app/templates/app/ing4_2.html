@@ -137,7 +137,7 @@
             <span>받은 문서</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-           <a class="dropdown-item" href="{% url 'srrecieved' %}">S/R 확인</a>
+           <a class="dropdown-item" href="{% url 'srreceived' %}">S/R 확인</a>
           </div>
         </li>
             <li class="nav-item">
@@ -175,7 +175,7 @@
 
         <!--진행중인 계약-->
 <div class="container-fluid" style="margin:5px; margin-bottom:100px;">
-    <h1 class="my-4">인도지시서(D/O) 관리({{n}}건)</h1>
+    <h2 class="my-4">인도지시서(D/O) 관리({{n}}건)</h2>
 
     <div class="row">
         {% for c in contract %}

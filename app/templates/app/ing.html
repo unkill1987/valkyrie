@@ -120,10 +120,10 @@
             <span>받은 문서</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-             <a class="dropdown-item" href="{% url 'cirecieved' %}">C/I 확인</a>
-            <a class="dropdown-item" href="{% url 'lcrecieved1' %}">L/C 확인</a>
-            <a class="dropdown-item" href="{% url 'blrecieved1' %}">B/L 확인</a>
-            <a class="dropdown-item" href="{% url 'dorecieved' %}">D/O 확인</a>
+             <a class="dropdown-item" href="{% url 'cireceived' %}">C/I 확인</a>
+            <a class="dropdown-item" href="{% url 'lcreceived1' %}">L/C 확인</a>
+            <a class="dropdown-item" href="{% url 'blreceived1' %}">B/L 확인</a>
+            <a class="dropdown-item" href="{% url 'doreceived' %}">D/O 확인</a>
 
           </div>
         </li>
@@ -160,9 +160,9 @@
       </ul>
 
         <!--진행중인 계약-->
-<div class="container-fluid" style="margin-bottom:100px;">
+<div class="container-fluid" style="margin:5px; margin-bottom:100px;">
   <div id="container-wrapper">
-    <h1 class="my-4">신용장(L/C) 신청서 관리({{n}}건)</h1>
+    <h2 class="my-4">신용장(L/C) 신청서 관리({{n}}건)</h2>
 
     <div class="row">
         {% for c in contract %}

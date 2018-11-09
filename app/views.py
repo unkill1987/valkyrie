@@ -287,7 +287,7 @@ def ciremove(request):
             share.save()
         except:
             pass
-    return redirect('cirecieved')
+    return redirect('cireceived')
 
 
 def blremove1(request):
@@ -303,7 +303,7 @@ def blremove1(request):
             share.save()
         except:
             pass
-    return redirect('blrecieved1')
+    return redirect('blreceived1')
 
 def lcremove1(request):
     # deletes all objects from Car database table
@@ -318,7 +318,7 @@ def lcremove1(request):
             share.save()
         except:
             pass
-    return redirect('lcrecieved1')
+    return redirect('lcreceived1')
 
 def blremove2(request):
     # deletes all objects from Car database table
@@ -333,7 +333,7 @@ def blremove2(request):
             share.save()
         except:
             pass
-    return redirect('blrecieved2')
+    return redirect('blreceived2')
 
 
 def lcremove2(request):
@@ -349,7 +349,7 @@ def lcremove2(request):
             share.save()
         except:
             pass
-    return redirect('lcrecieved2')
+    return redirect('lcreceived2')
 
 def doremove(request):
     # deletes all objects from Car database table
@@ -364,7 +364,7 @@ def doremove(request):
             share.save()
         except:
             pass
-    return redirect('dorecieved')
+    return redirect('doreceived')
 
 def lcrremove(request):
     # deletes all objects from Car database table
@@ -379,7 +379,7 @@ def lcrremove(request):
             share.save()
         except:
             pass
-    return redirect('lcrrecieved')
+    return redirect('lcrreceived')
 
 
 def srremove(request):
@@ -395,7 +395,7 @@ def srremove(request):
             share.save()
         except:
             pass
-    return redirect('cirecieved')
+    return redirect('cireceived')
 
 def submit(request):
     contractname = request.POST['contractname']
@@ -517,7 +517,7 @@ def submit2(request):
     file = open('CI_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = 'SHA-256 : ' + hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -586,7 +586,7 @@ def submit2_1(request):
     file = open('SR_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = 'SHA-256 : ' + hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -694,7 +694,7 @@ letteroflc + '\n'
     #
     # a = 'MD5 : ' + hashlib.md5(data).hexdigest()
     # b = 'SHA-1 : ' + hashlib.sha1(data).hexdigest()
-    hash = 'SHA-256 : ' + hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -751,7 +751,7 @@ def submit4_1(request):
     file = open('BL_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = 'SHA-256 : ' + hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
 
@@ -804,7 +804,7 @@ def submit4_2(request):
     file = open('DO_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = 'SHA-256 : ' + hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -896,14 +896,16 @@ def process1(request):
         member = Member.objects.get(user_id=user_id)
         try:
             contract = Process.objects.filter(user1=member).order_by('-id')
+            n = len(contract)
             paginator = Paginator(contract, 3)
             page = request.GET.get('page')
             contracts = paginator.get_page(page)
 
         except:
             contract=None
+            n=0
 
-        return render(request, 'app/process1.html',{'contract':contracts})
+        return render(request, 'app/process1.html',{'contract':contracts, 'n':n})
     except Exception as e:
         print(e)
 
@@ -1103,7 +1105,7 @@ def ing4_2(request):
     except:
         return redirect('login')
 
-def cirecieved(request):
+def cireceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1120,13 +1122,13 @@ def cirecieved(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/cirecieved.html', {'contract': contracts, 'process':process, 'n': n})
+        return render(request, 'app/cireceived.html', {'contract': contracts, 'process':process, 'n': n})
     except Exception as e:
         print(e)
         return redirect('login')
 
 
-def srrecieved(request):
+def srreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1144,13 +1146,13 @@ def srrecieved(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/srrecieved.html', {'contract': contracts, 'process':process, 'n': n})
+        return render(request, 'app/srreceived.html', {'contract': contracts, 'process':process, 'n': n})
     except Exception as e:
         print(e)
         return redirect('login')
 
 
-def blrecieved1(request):
+def blreceived1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1167,11 +1169,11 @@ def blrecieved1(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/blrecieved1.html', {'contract': contracts,'process':process, 'n': n})
+        return render(request, 'app/blreceived1.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
-def lcrecieved1(request):
+def lcreceived1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1188,11 +1190,11 @@ def lcrecieved1(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/lcrecieved1.html', {'contract': contracts,'process':process, 'n': n})
+        return render(request, 'app/lcreceived1.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
-def blrecieved2(request):
+def blreceived2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1210,11 +1212,11 @@ def blrecieved2(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/blrecieved2.html', {'contract': contracts,'process':process, 'n': n})
+        return render(request, 'app/blreceived2.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
-def lcrecieved2(request):
+def lcreceived2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1232,11 +1234,11 @@ def lcrecieved2(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/lcrecieved2.html', {'contract': contracts,'process':process, 'n': n})
+        return render(request, 'app/lcreceived2.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
-def dorecieved(request):
+def doreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1253,11 +1255,11 @@ def dorecieved(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/dorecieved.html', {'contract': contracts,'process':process,'n': n})
+        return render(request, 'app/doreceived.html', {'contract': contracts,'process':process,'n': n})
     except:
         return redirect('login')
 
-def lcrrecieved(request):
+def lcrreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
@@ -1274,7 +1276,7 @@ def lcrrecieved(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/lcrrecieved.html', {'contract': contracts, 'process':process,'n': n})
+        return render(request, 'app/lcrreceived.html', {'contract': contracts, 'process':process,'n': n})
     except:
         return redirect('login')
 
