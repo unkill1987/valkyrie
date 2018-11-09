@@ -22,26 +22,26 @@ from app.views import srrecieved
 urlpatterns = [
 
     path('index/',views.index, name='index'),
-    path('index2/',views.index, name='index2'),
-    path('index3/',views.index, name='index3'),
-    path('index4/',views.index, name='index4'),
+    path('index/',views.index, name='index2'),
+    path('index/',views.index, name='index3'),
+    path('index/',views.index, name='index4'),
 
     path('charts/', views.charts, name='charts'),
-    path('charts2/', views.charts, name='charts2'),
-    path('charts3/', views.charts, name='charts3'),
-    path('charts4/', views.charts, name='charts4'),
+    path('charts/', views.charts, name='charts2'),
+    path('charts/', views.charts, name='charts3'),
+    path('charts/', views.charts, name='charts4'),
 
-    path('ing/', views.ing, name='ing'),
-    path('ing2/', views.ing2, name='ing2'),
-    path('ing2_1/', views.ing2_1, name='ing2_1'),
-    path('ing3/', views.ing3, name='ing3'),
-    path('ing4_1/', views.ing4_1, name='ing4_1'),
-    path('ing4_2/', views.ing4_2, name='ing4_2'),
+    path('LCR/', views.ing, name='ing'),
+    path('CI/', views.ing2, name='ing2'),
+    path('SR/', views.ing2_1, name='ing2_1'),
+    path('LC/', views.ing3, name='ing3'),
+    path('BL/', views.ing4_1, name='ing4_1'),
+    path('DO/', views.ing4_2, name='ing4_2'),
 
     path('calendar/', views.calendar, name='calendar'),
-    path('calendar2/', views.calendar, name='calendar2'),
-    path('calendar3/', views.calendar, name='calendar3'),
-    path('calendar4/', views.calendar, name='calendar4'),
+    path('calendar/', views.calendar, name='calendar2'),
+    path('calendar/', views.calendar, name='calendar3'),
+    path('calendar/', views.calendar, name='calendar4'),
 
     path('done/', views.done, name='done'),
     path('done2/', views.done, name='done2'),
@@ -55,12 +55,12 @@ urlpatterns = [
 
 
 
-    path('forms/', views.forms, name='forms'),
-    path('forms2/', views.forms2, name='forms2'),
-    path('forms2_1/', views.forms2_1, name='forms2_1'),
-    path('forms3/', views.forms3, name='forms3'),
-    path('forms4_1/', views.forms4_1, name='forms4_1'),
-    path('forms4_2/', views.forms4_2, name='forms4_2'),
+    path('LCR_form/', views.forms, name='forms'),
+    path('CI_form/', views.forms2, name='forms2'),
+    path('SR_form/', views.forms2_1, name='forms2_1'),
+    path('LC_form/', views.forms3, name='forms3'),
+    path('BL_form/', views.forms4_1, name='forms4_1'),
+    path('DO_form/', views.forms4_2, name='forms4_2'),
 
     path('submit/', views.submit, name='submit'),
     path('submit2/', views.submit2, name='submit2'),
@@ -77,14 +77,14 @@ urlpatterns = [
     path('share4_2/', views.share4_2, name='share4_2'),
 
 
-    path('cirecieved/', views.cirecieved, name='cirecieved'),
-    path('blrecieved1/', views.blrecieved1, name='blrecieved1'),
-    path('blrecieved2/', views.blrecieved2, name='blrecieved2'),
-    path('dorecieved/', views.dorecieved, name='dorecieved'),
-    path('srrecieved', views.srrecieved, name='srrecieved'),
-    path('lcrecieved1/', views.lcrecieved1, name='lcrecieved1'),
-    path('lcrecieved2/', views.lcrecieved2, name='lcrecieved2'),
-    path('lcrrecieved/', views.lcrrecieved, name='lcrrecieved'),
+    path('CI_received/', views.cirecieved, name='cirecieved'),
+    path('BL_received/', views.blrecieved1, name='blrecieved1'),
+    path('BL_received/', views.blrecieved2, name='blrecieved2'),
+    path('DO_received/', views.dorecieved, name='dorecieved'),
+    path('SR_received', views.srrecieved, name='srrecieved'),
+    path('LC_received/', views.lcrecieved1, name='lcrecieved1'),
+    path('LC_received/', views.lcrecieved2, name='lcrecieved2'),
+    path('LCR_received/', views.lcrrecieved, name='lcrrecieved'),
 
 
     path('blremove1/', views.blremove1, name='blremove1'),
@@ -110,5 +110,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('money/', views.money, name='money'),
     path('people/', views.people, name='people'),
+
+    path('process/', views.process, name='process')
 
 ]

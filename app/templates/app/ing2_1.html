@@ -194,7 +194,12 @@
           <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><span>Check</span>
           <div class="card h-100">
 
-            <h4 class="card-header">{{c.contractname}}</h4>
+            <h4 class="card-header">
+              {%for p in process %}
+
+            Contract ID.{{p.id}}<hr>
+            {%endfor%}
+              {{c.contractname}}</h4>
             <div class="card-body">
               <p class="card-text">
 
@@ -243,8 +248,8 @@
   <div class="row">
 
     <div style="text-align:center; margin:auto;" >
-      <input type="text" name="share_user" id="share_user">
-      운송사ID:<input class="btn btn-primary" type="button" value="전송하기" id="share2_1">
+      운송사ID:<input type="text" name="share_user" id="share_user">
+      <input class="btn btn-primary" type="button" value="전송하기" id="share2_1">
       <input class="btn btn-primary" type="button" value="선택삭제" id="delete_btn">
 
 

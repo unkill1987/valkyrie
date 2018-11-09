@@ -184,7 +184,13 @@
           <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><span>Check</span>
           <div class="card h-100">
 
-            <h4 class="card-header">{{c.contractname}}</h4>
+            <h4 class="card-header">
+
+              {%for p in process %}
+
+            Contract ID.{{p.id}}<hr>
+            {%endfor%}
+              {{c.contractname}}</h4>
             <div class="card-body">
               <p class="card-text">
 

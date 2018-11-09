@@ -1,15 +1,20 @@
-import mpld3
+from calendar import monthrange
+
+
 import requests
+from django.template import RequestContext
+from django.utils.datetime_safe import date
+from django.utils.safestring import mark_safe
 from pylab import *
-import pandas_datareader.data as web
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 import hashlib
 import sys
 import os
 import time
-from app.models import Contract, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC
+
+from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process
 from valweb import settings
 from django.utils import timezone
 
@@ -17,7 +22,7 @@ from django.utils import timezone
 def paging(request):
     user_id = request.session['user_id']
     member = Member.objects.get(user_id=user_id)
-    contract_list = Contract.objects.filter(owner=member)
+    contract_list = Contract_LCR.objects.filter(owner=member)
     paginator = Paginator(contract_list, 6)
 
     page = request.GET.get('page')
@@ -32,7 +37,7 @@ def share1(request):
 
     for id in check_ids:
         try:
-            share = Contract.objects.get(id=id)
+            share = Contract_LCR.objects.get(id=id)
             share.share3=share_user
             share.save()
 
@@ -128,7 +133,7 @@ def remove(request):
 
     for id in check_ids:
         try:
-            Contract.objects.get(id=id).delete()
+            Contract_LCR.objects.get(id=id).delete()
         except:
             pass
 
@@ -330,6 +335,7 @@ def srremove(request):
 
 def submit(request):
     contractname = request.POST['contractname']
+    contract_id = request.POST['contract_id']
     a = request.POST['a']
     b = request.POST['b']
     c = request.POST['c']
@@ -349,7 +355,7 @@ def submit(request):
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
     file = open('LCR_' + time_format + '.txt', 'wt')
-    file.write('Letter of Credit' + '\n'
+    file.write('Letter of Credit Request' + '\n'
 '1.Advising bank:' + a + '\n'
 '2.Credit No.:' + b + '\n'
 '3.Beneficiary:' + c + '\n'
@@ -382,15 +388,18 @@ def submit(request):
     file.close()
 
     # 데이터 저장
-    contract = Contract(contractname=contractname, sha256=hash, filename='LCR_' + time_format + '.txt')
+    contract = Contract_LCR(contractname=contractname, contract_id = contract_id, sha256=hash, filename='LCR_' + time_format + '.txt')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
     member = Member.objects.get(user_id=user_id)
     contract.owner = member
-
     contract.save()
 
+    process = Process.objects.get(id=contract_id)
+    process.user1=user_id
+    process.LCR_hash = hash
+    process.save()
     return redirect('ing')
 
 #
@@ -461,11 +470,15 @@ def submit2(request):
 
     contract.save()
 
+    process = Process(user2=user_id, CI_hash=hash)
+    process.save()
+
     return redirect('ing2')
 
 
 def submit2_1(request):
     srname = request.POST['srequestname']
+    contract_id = request.POST['contract_id']
     a = request.POST['a']
     b = request.POST['b']
     c = request.POST['c']
@@ -517,7 +530,7 @@ def submit2_1(request):
     file.close()
 
     # 데이터 저장
-    contract = Contract_SR(contractname=srname, sha256=hash, filename='SR_' + time_format + '.txt')
+    contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, filename='SR_' + time_format + '.txt')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -526,11 +539,15 @@ def submit2_1(request):
 
     contract.save()
 
+    process = Process.objects.get(id=contract_id)
+    process.SR_hash = hash
+    process.save()
     return redirect('ing2_1')
 
 
 def submit3(request):
     letteroflc = request.POST['letteroflc']
+    contract_id = request.POST['contract_id']
     a = request.POST['a']
     b = request.POST['b']
     c = request.POST['c']
@@ -624,7 +641,7 @@ letteroflc + '\n'
     file.close()
 
     # 데이터 저장
-    contract = Contract_LC(contractname=letteroflc, sha256=hash, filename='LC_' + time_format + '.txt')
+    contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, filename='LC_' + time_format + '.txt')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -633,11 +650,16 @@ letteroflc + '\n'
 
     contract.save()
 
+    process = Process.objects.get(id=contract_id)
+    process.user3 = user_id
+    process.LC_hash = hash
+    process.save()
     return redirect('ing3')
 
 
 def submit4_1(request):
     contractname = request.POST['contractname']
+    contract_id = request.POST['contract_id']
     a = request.POST['a']
     b = request.POST['b']
     c = request.POST['c']
@@ -678,8 +700,9 @@ def submit4_1(request):
     hash = 'SHA-256 : ' + hashlib.sha256(data).hexdigest()
     file.close()
 
+
     # 데이터 저장
-    contract = Contract_BL(contractname=contractname, sha256=hash, filename='BL_' + time_format + '.txt')
+    contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, filename='BL_' + time_format + '.txt')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -688,11 +711,16 @@ def submit4_1(request):
 
     contract.save()
 
+    process = Process.objects.get(id=contract_id)
+    process.BL_hash = hash
+    process.user4=user_id
+    process.save()
     return redirect('ing4_1')
 
 
 def submit4_2(request):
     contractname = request.POST['contractname']
+    contract_id = request.POST['contract_id']
     a = request.POST['a']
     b = request.POST['b']
     c = request.POST['c']
@@ -730,7 +758,7 @@ def submit4_2(request):
     file.close()
 
     # 데이터 저장
-    contract = Contract_DO(contractname=contractname, sha256=hash, filename='DO_' + time_format + '.txt')
+    contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, filename='DO_' + time_format + '.txt')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -738,7 +766,9 @@ def submit4_2(request):
     contract.owner = member
 
     contract.save()
-
+    process = Process.objects.get(id=contract_id)
+    process.DO_hash = hash
+    process.save()
     return redirect('ing4_2')
 
 def download(request):
@@ -813,23 +843,40 @@ def download4_2(request):
         response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
+def process(request):
 
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        process = Process.objects.filter(user1=member)
 
+        return render(request, 'app/process.html',{'process':process})
+    except Exception as e:
+        print(e)
+        pass
 
 def ing(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract.objects.filter(owner=member).order_by('-id')
+        contract = Contract_LCR.objects.filter(owner=member).order_by('-id')
         n = len(contract)
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(LCR_hash=hash)
+
+        except:
+            hash = None
+            process = None
 
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/ing.html', {'contract': contracts, 'n': n})
-    except:
+        return render(request, 'app/ing.html', {'contract': contracts,'process':process, 'n': n})
+    except Exception as e:
+        print(e)
         return redirect('login')
 
 def ing2(request):
@@ -838,16 +885,18 @@ def ing2(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_CI.objects.filter(owner=member).order_by('-id')
         n = len(contract)
-
-        # to = Contract_invoice.objects.get(share1=share1)
-
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(CI_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/ing2.html', {'contract': contracts, 'n': n, })
+        return render(request, 'app/ing2.html', {'contract': contracts,'process':process,  'n': n, })
     except Exception as e:
         print(e)
         return redirect('login')
@@ -857,7 +906,12 @@ def ing2_1(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_SR.objects.filter(owner=member).order_by('-id')
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(SR_hash=hash)
+        except:
+            hash = None
+            process = None
         n = len(contract)
 
         paginator = Paginator(contract, 6)
@@ -865,7 +919,7 @@ def ing2_1(request):
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/ing2_1.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/ing2_1.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
@@ -874,15 +928,19 @@ def ing3(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LC.objects.filter(owner=member).order_by('-id')
-
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(LC_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/ing3.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/ing3.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
@@ -893,13 +951,18 @@ def ing4_1(request):
         contract = Contract_BL.objects.filter(owner=member).order_by('-id')
 
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(BL_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/ing4_1.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/ing4_1.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
@@ -910,13 +973,18 @@ def ing4_2(request):
         contract = Contract_DO.objects.filter(owner=member).order_by('-id')
 
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(DO_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/ing4_2.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/ing4_2.html', {'contract': contracts, 'process':process,'n': n})
     except:
         return redirect('login')
 
@@ -926,14 +994,20 @@ def cirecieved(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_CI.objects.filter(share1=member).order_by('-id')
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(CI_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/cirecieved.html', {'contract': contracts, 'n': n})
-    except:
+        return render(request, 'app/cirecieved.html', {'contract': contracts, 'process':process, 'n': n})
+    except Exception as e:
+        print(e)
         return redirect('login')
 
 
@@ -942,14 +1016,20 @@ def srrecieved(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_SR.objects.filter(share4=member).order_by('-id')
-
         n = len(contract)
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(SR_hash=hash)
+        except:
+            hash = None
+            process = None
+
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/srrecieved.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/srrecieved.html', {'contract': contracts, 'process':process, 'n': n})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -961,13 +1041,18 @@ def blrecieved1(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(share1=member).order_by('-id')
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(BL_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/blrecieved1.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/blrecieved1.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
@@ -977,13 +1062,18 @@ def lcrecieved1(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LC.objects.filter(share1=member).order_by('-id')
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(LC_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/lcrecieved1.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/lcrecieved1.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
@@ -993,13 +1083,19 @@ def blrecieved2(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(share2=member).order_by('-id')
         n = len(contract)
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(BL_hash=hash)
+        except:
+            hash = None
+            process = None
 
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/blrecieved2.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/blrecieved2.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
@@ -1009,13 +1105,18 @@ def lcrecieved2(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LC.objects.filter(share2=member).order_by('-id')
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(LC_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/lcrecieved2.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/lcrecieved2.html', {'contract': contracts,'process':process, 'n': n})
     except:
         return redirect('login')
 
@@ -1023,15 +1124,20 @@ def dorecieved(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_DO.objects.filter(share2=member).order_by('-id')
+        contract = Contract_DO.objects.filter(share1=member).order_by('-id')
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(DO_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/dorecieved.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/dorecieved.html', {'contract': contracts,'process':process,'n': n})
     except:
         return redirect('login')
 
@@ -1039,15 +1145,20 @@ def lcrrecieved(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract.objects.filter(share3=member).order_by('-id')
+        contract = Contract_LCR.objects.filter(share3=member).order_by('-id')
         n = len(contract)
-
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(LCR_hash=hash)
+        except:
+            hash = None
+            process = None
         paginator = Paginator(contract, 6)
 
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/lcrrecieved.html', {'contract': contracts, 'n': n})
+        return render(request, 'app/lcrrecieved.html', {'contract': contracts, 'process':process,'n': n})
     except:
         return redirect('login')
 
@@ -1109,8 +1220,8 @@ def index(request):
 
         user_id = request.session['user_id']
         user_role = request.session['user_role']
-        n = len(Contract.objects.filter(owner=Member.objects.get(user_id=user_id)))
-        n1 = len(Contract.objects.filter(share1=Member.objects.get(user_id=user_id)))
+        n = len(Contract_LCR.objects.filter(owner=Member.objects.get(user_id=user_id)))
+        n1 = len(Contract_LCR.objects.filter(share1=Member.objects.get(user_id=user_id)))
 
         templates = ''
         if user_role == '1':
