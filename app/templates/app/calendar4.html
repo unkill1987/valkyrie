@@ -186,6 +186,93 @@
     </ul>
 
 <!-- /.content-wrapper -->
+
+
+      <div class="container-fluid" style="margin:5px; margin-bottom:100px;">
+        <h4 class="my-4">진행중인 계약({{n}}건)</h4>
+
+
+            <div class="row">
+              <div class="col-lg-12 mb-4" >
+                {%for p in contract %}
+                <div class="card h-100">
+
+                  <h4 class="card-header">
+                             Contract ID: {{p.id}}</h4>
+                  <div class="card-body">
+                    <p class="card-text">
+                      <h4>
+                    <table>
+                    <tr>
+                      <td>1. C/I &nbsp&nbsp발급</td>
+                      <td>:</td>
+                      <td> {{p.CI_hash}}</td>
+
+                      </tr>
+                      <tr>
+                      <td>2. L/C&nbsp&nbsp요청</td>
+                        <td>:</td>
+                      <td>{{p.LCR_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>3. L/C&nbsp&nbsp발급</td>
+                          <td>:</td>
+                      <td>{{p.LC_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>4. S/R&nbsp&nbsp요청</td>
+                          <td>:</td>
+                      <td>{{p.SR_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>5. B/L&nbsp&nbsp발급</td>
+                          <td>:</td>
+                      <td>{{p.BL_hash}}</td>
+                      </tr>
+                      <tr>
+                      <td>6. D/O&nbsp발급</td>
+                          <td>:</td>
+                      <td>{{p.DO_hash}}</td>
+                      </tr>
+                      </table>
+                    </h4>
+                    </p>
+                  </div>
+                </div>
+              </div>
+          {%endfor%}
+              <hr>
+                </div>
+        <hr>
+
+
+
+<div class="pagination" style="text-align:center; margin:auto;">
+    <span class="step-links" style="text-align:center; margin:auto;">
+      <ul class="pagination pagination-lg" >
+        {% if contract.has_previous %}
+            <li><a class="btn" style="font-size:20px" href="?page=1">&laquo; first&nbsp</a></li>
+            <li><a class="btn" style="font-size:20px" href="?page={{ contract.previous_page_number }}">previous</a></li>
+        {% endif %}
+
+
+      {% for pg in contract.paginator.page_range %}
+        {% if blogs.number == pg %}
+          <li><a style="font-size:20px" href="?page={{pg}}" class="btn btn-default">{{pg}}</a></li>
+        {% else %}
+          <li><a style="font-size:20px" href="?page={{pg}}" class="btn">{{pg}}</a></li>
+        {% endif %}
+      {% endfor %}
+
+
+        {% if contract.has_next %}
+            <li><a class="btn" style="font-size:20px" href="?page={{ contract.next_page_number }}">next&nbsp</a></li>
+            <li><a class="btn" style="font-size:20px" href="?page={{ contract.paginator.num_pages }}">last &raquo;</a></li>
+        {% endif %}
+        </ul>
+    </span>
+  </div>
+    </div>
 <!-- /#wrapper -->
 
 <!-- Scroll to Top Button-->
@@ -232,7 +319,7 @@
 <script src="{% static 'app/js/demo/datatables-demo.js'%}"></script>
 <script src="{% static 'app/js/demo/chart-area-demo.js'%}"></script>
 
-
+</div>
 </body>
 
 </html>

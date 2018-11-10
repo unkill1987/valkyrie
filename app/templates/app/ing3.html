@@ -175,24 +175,24 @@
           <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><span>Check</span>
           <div class="card h-100">
 
-            <h4 class="card-header">
+            <h5 class="card-header">
 
 
             Contract ID.{{c.contract_id}}<hr>
 
-              {{c.contractname}}</h4>
+              {{c.contractname}}</h5>
             <div class="card-body">
               <p class="card-text">
 
-              {{c.sha256}}</p>
+              <h5>Document Hash:<br>{{c.sha256}}</h5></p>
             </div>
             <div class="card-footer">
               <a href="{% url 'download3' %}?id={{ c.id }}" class="btn btn-primary" target="_blank">
                     {{c.filename}}
               </a>
               <hr>
-              <a>To (수입자ID):{{c.share1}}</a><br>
-                <a>To (수출자ID):{{c.share2}}</a>
+              <h5>To (수입자ID):{{c.share1}}</h5><br>
+                <h5>To (수출자ID):{{c.share2}}</h5>
             </div>
           </div>
         </div>

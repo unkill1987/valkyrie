@@ -21,10 +21,10 @@ from app.views import srreceived
 
 urlpatterns = [
 
-    path('index/',views.index, name='index'),
-    path('index/',views.index, name='index2'),
-    path('index/',views.index, name='index3'),
-    path('index/',views.index, name='index4'),
+    path('index/', views.index, name='index'),
+    path('index/', views.index, name='index2'),
+    path('index/', views.index, name='index3'),
+    path('index/', views.index, name='index4'),
 
     path('charts/', views.charts, name='charts'),
     path('charts/', views.charts, name='charts2'),
@@ -78,12 +78,12 @@ urlpatterns = [
 
 
     path('CI_received/', views.cireceived, name='cireceived'),
-    path('BL_received1/', views.blreceived1, name='blreceived1'),
-    path('BL_received2/', views.blreceived2, name='blreceived2'),
+    path('BL_received_I/', views.blreceived1, name='blreceived1'),
+    path('BL_received_E/', views.blreceived2, name='blreceived2'),
     path('DO_received/', views.doreceived, name='doreceived'),
     path('SR_received', views.srreceived, name='srreceived'),
-    path('LC_received1/', views.lcreceived1, name='lcreceived1'),
-    path('LC_received2/', views.lcreceived2, name='lcreceived2'),
+    path('LC_received_I/', views.lcreceived1, name='lcreceived1'),
+    path('LC_received_E/', views.lcreceived2, name='lcreceived2'),
     path('LCR_received/', views.lcrreceived, name='lcrreceived'),
 
 
@@ -111,9 +111,9 @@ urlpatterns = [
     path('money/', views.money, name='money'),
     path('people/', views.people, name='people'),
 
-    path('process1/', views.process1, name='process1'),
-    path('process2/', views.process2, name='process2'),
-    path('process3/', views.process3, name='process3'),
-    path('process4/', views.process4, name='process4'),
+    path('I_process/', views.process1, name='process1'),
+    path('E_process/', views.process2, name='process2'),
+    path('B_process/', views.process3, name='process3'),
+    path('F_process/', views.process4, name='process4'),
 
 ]

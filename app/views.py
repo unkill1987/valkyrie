@@ -448,7 +448,7 @@ def submit(request):
 
     # a = 'MD5 : ' + hashlib.md5(data).hexdigest()
     # b = 'SHA-1 : ' + hashlib.sha1(data).hexdigest()
-    hash = 'SHA-256 : ' + hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest().upper()
     file.close()
 
     # 데이터 저장
@@ -517,7 +517,7 @@ def submit2(request):
     file = open('CI_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest().upper()
     file.close()
 
     # 데이터 저장
@@ -586,7 +586,7 @@ def submit2_1(request):
     file = open('SR_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest().upper()
     file.close()
 
     # 데이터 저장
@@ -694,7 +694,7 @@ letteroflc + '\n'
     #
     # a = 'MD5 : ' + hashlib.md5(data).hexdigest()
     # b = 'SHA-1 : ' + hashlib.sha1(data).hexdigest()
-    hash = hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest().upper()
     file.close()
 
     # 데이터 저장
@@ -751,7 +751,7 @@ def submit4_1(request):
     file = open('BL_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest().upper()
     file.close()
 
 
@@ -804,7 +804,7 @@ def submit4_2(request):
     file = open('DO_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest()
+    hash = hashlib.sha256(data).hexdigest().upper()
     file.close()
 
     # 데이터 저장
@@ -965,7 +965,7 @@ def process4(request):
         except:
             contract = None
 
-        return render(request, 'app/process1.html', {'contract': contracts})
+        return render(request, 'app/process4.html', {'contract': contracts})
     except Exception as e:
         print(e)
 
