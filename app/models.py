@@ -3,6 +3,18 @@ from django.db import models
 
 # Create your models here.
 
+class Process_complete(models.Model):
+    contract_id = models.CharField(max_length=20)
+    CI_hash = models.CharField(max_length=100)
+    SR_hash = models.CharField(max_length=100)
+    LCR_hash = models.CharField(max_length=100)
+    LC_hash = models.CharField(max_length=100)
+    BL_hash = models.CharField(max_length=100)
+    DO_hash = models.CharField(max_length=100)
+    user1 = models.CharField(max_length=50)
+    user2 = models.CharField(max_length=50)
+    user3 = models.CharField(max_length=50)
+    user4 = models.CharField(max_length=50)
 
 class Process(models.Model):
     contract_id = models.CharField(max_length=20)

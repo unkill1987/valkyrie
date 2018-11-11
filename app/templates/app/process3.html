@@ -155,26 +155,17 @@
         </li>
       </ul>
 
-      <div id="content-wrapper">
-
-        <div class="container-fluid">
-
-          <!-- Breadcrumbs-->
-
-
-
-          </div>
-        </div>
         <!-- /.container-fluid -->
 
 
-      <div class="container-fluid" style="margin:5px; margin-bottom:100px;">
+      <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
         <h4 class="my-4">진행중인 계약({{n}}건)</h4>
 
 
             <div class="row">
               <div class="col-lg-12 mb-4" >
                 {%for p in contract %}
+                <input type="checkbox" id="{{p.id}}" value="{{ p.id }}"><span>Check</span>
                 <div class="card h-100">
 
                   <h4 class="card-header">
@@ -252,6 +243,16 @@
         </ul>
     </span>
   </div>
+         <div class="row">
+
+    <div style="text-align:center; margin:auto;" >
+
+      <input class="btn btn-primary" type="button" value="계약완료" id="done">
+      <input class="btn btn-primary" type="button" value="선택삭제" id="delete_btn">
+
+
+        </div>
+  </div>
     </div>
         <!-- Sticky Footer -->
 
@@ -286,7 +287,7 @@
       </div>
     </div>
 
-	<script src="{% static 'app/dist/vbc-browser.js'%}"></script>
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'app/vendor/jquery/jquery.min.js'%}"></script>
@@ -301,5 +302,28 @@
 
 
   </body>
+<script>
+  $('#delete_btn').click(function(){
+        check_ids = ''
+        sep = ''
+        $('input:checked').each(function() {
+          check_ids += sep + $(this).val()
+          sep = ','
+        })
 
+        location = '/app/process3_remove?check_id=' + check_ids
+        return false
+      })
+ $('#done').click(function(){
+    check_ids=''
+    sep=''
+    $('input:checked').each(function(){
+        check_ids +=sep+$(this).val()
+        sep = ','
+    })
+    location = '/app/process3_complete?check_id=' + check_ids
+    return false
+    })
+
+</script>
 </html>

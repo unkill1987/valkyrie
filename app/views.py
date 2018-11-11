@@ -14,7 +14,7 @@ import sys
 import os
 import time
 
-from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process
+from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process, Process_complete
 from valweb import settings
 from django.utils import timezone
 
@@ -48,11 +48,16 @@ def share1(request):
             hash = contract.values('sha256')[0]['sha256']
             contract_id = contract.values('contract_id')[0]['contract_id']
 
+
             process = Process.objects.get(id=contract_id)
             process.user1 = user_id
             process.LCR_hash = hash
             process.user3 = share_user
             process.save()
+
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.LCR_hash = hash
+            process_complete.save()
 
         except Exception as e:
             print(e)
@@ -80,6 +85,7 @@ def share2(request):
             process.user1 = share_user
             process.save()
 
+
         except Exception as e:
             print(e)
             pass
@@ -106,6 +112,9 @@ def share2_1(request):
             process.SR_hash = hash
             process.user4 = share_user
             process.save()
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.SR_hash = hash
+            process_complete.save()
         except Exception as e:
             print (e)
             pass
@@ -133,6 +142,9 @@ def share3(request):
             process = Process.objects.get(id=contract_id)
             process.LC_hash = hash
             process.save()
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.LC_hash = hash
+            process_complete.save()
         except Exception as e:
             print(e)
             pass
@@ -159,6 +171,9 @@ def share4_1(request):
             process = Process.objects.get(id=contract_id)
             process.BL_hash = hash
             process.save()
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.BL_hash = hash
+            process_complete.save()
         except:
             pass
     return redirect('ing4_1')
@@ -184,6 +199,9 @@ def share4_2(request):
             process = Process.objects.get(id=contract_id)
             process.DO_hash = hash
             process.save()
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.DO_hash = hash
+            process_complete.save()
         except:
             pass
     return redirect('ing4_2')
@@ -272,6 +290,75 @@ def remove4_2(request):
             pass
 
     return redirect('ing4_2')
+
+
+def process1_remove(request):
+    # deletes all objects from Car database table
+    # Contract.objects.get('id').delete()
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            remove = Process.objects.get(id=id)
+            remove.user1 = ' '
+            remove.save()
+        except Excption as e:
+            print(e)
+            pass
+
+    return redirect('process1')
+
+def process2_remove(request):
+    # deletes all objects from Car database table
+    # Contract.objects.get('id').delete()
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            remove = Process.objects.get(id=id)
+            remove.user2 = ' '
+            remove.save()
+        except Excption as e:
+            print(e)
+            pass
+
+    return redirect('process2')
+
+def process3_remove(request):
+    # deletes all objects from Car database table
+    # Contract.objects.get('id').delete()
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            remove = Process.objects.get(id=id)
+            remove.user3 = ' '
+            remove.save()
+        except Excption as e:
+            print(e)
+            pass
+
+    return redirect('process3')
+
+def process4_remove(request):
+    # deletes all objects from Car database table
+    # Contract.objects.get('id').delete()
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            remove = Process.objects.get(id=id)
+            remove.user4 = ' '
+            remove.save()
+        except Excption as e:
+            print(e)
+            pass
+
+    return redirect('process4')
 
 
 def ciremove(request):
@@ -396,6 +483,77 @@ def srremove(request):
         except:
             pass
     return redirect('cireceived')
+
+def process1_complete(request):
+    user_id= request.session['user_id']
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            process = Process.objects.get(id=id)
+            process.user1 = ' '
+            process.save()
+            process_complete = Process_complete.objects.get(id=id)
+            process_complete.user1 = user_id
+            process_complete.save()
+        except:
+            pass
+    return redirect('process1')
+
+def process2_complete(request):
+    user_id= request.session['user_id']
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            process = Process.objects.get(id=id)
+            process.user2 = ' '
+            process.save()
+            process_complete = Process_complete.objects.get(id=id)
+            process_complete.user2 = user_id
+            process_complete.save()
+        except Exception as e:
+            print (e)
+            pass
+    return redirect('process2')
+
+def process3_complete(request):
+    user_id= request.session['user_id']
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            process = Process.objects.get(id=id)
+            process.user3 = ' '
+            process.save()
+            process_complete = Process_complete.objects.get(id=id)
+            process_complete.user3 = user_id
+            process_complete.save()
+        except:
+            pass
+    return redirect('process3')
+
+def process4_complete(request):
+    user_id= request.session['user_id']
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            process = Prcoess.objects.get(id=id)
+            process.user4 = ' '
+            process.save()
+            process_complete = Process_complete.objects.get(id=id)
+            process_complete.user4 = user_id
+            process_complete.save()
+        except:
+            pass
+    return redirect('process4')
+
+
 
 def submit(request):
     contractname = request.POST['contractname']
@@ -532,6 +690,8 @@ def submit2(request):
 
     process = Process(user2=user_id, CI_hash=hash)
     process.save()
+    process_complete = Process_complete(CI_hash=hash)
+    process_complete.save()
 
     return redirect('ing2')
 
@@ -916,16 +1076,19 @@ def process2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
+
         try:
             contract = Process.objects.filter(user2=member).order_by('-id')
+            n = len(contract)
             paginator = Paginator(contract, 3)
             page = request.GET.get('page')
             contracts = paginator.get_page(page)
 
         except:
             contract = None
+            n = 0
 
-        return render(request, 'app/process2.html', {'contract': contracts})
+        return render(request, 'app/process2.html', {'contract': contracts,'n':n})
     except Exception as e:
         print(e)
 
@@ -936,16 +1099,19 @@ def process3(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
+
         try:
             contract = Process.objects.filter(user3=member).order_by('-id')
+            n = len(contract)
             paginator = Paginator(contract, 3)
             page = request.GET.get('page')
             contracts = paginator.get_page(page)
 
         except:
             contract = None
+            n = 0
 
-        return render(request, 'app/process3.html', {'contract': contracts})
+        return render(request, 'app/process3.html', {'contract': contracts, 'n':n})
     except Exception as e:
         print(e)
 
@@ -956,16 +1122,113 @@ def process4(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
+
         try:
             contract = Process.objects.filter(user4=member).order_by('-id')
+            n = len(contract)
             paginator = Paginator(contract, 3)
             page = request.GET.get('page')
             contracts = paginator.get_page(page)
 
         except:
             contract = None
+            n = 0
 
-        return render(request, 'app/process4.html', {'contract': contracts})
+        return render(request, 'app/process4.html', {'contract': contracts,'n':n})
+    except Exception as e:
+        print(e)
+
+        pass
+    return redirect('index')
+
+def process1_done(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+
+        try:
+            contract = Process_complete.objects.filter(user1=member).order_by('-id')
+            n = len(contract)
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
+
+        except:
+            contract = None
+            n = 0
+
+        return render(request, 'app/process1_done.html', {'contract': contracts,'n':n})
+    except Exception as e:
+        print(e)
+
+        pass
+    return redirect('index')
+
+def process2_done(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+
+        try:
+            contract = Process_complete.objects.filter(user2=member).order_by('-id')
+            n = len(contract)
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
+
+        except:
+            contract = None
+            n = 0
+
+        return render(request, 'app/process2_done.html', {'contract': contracts,'n':n})
+    except Exception as e:
+        print(e)
+
+        pass
+    return redirect('index')
+
+
+def process3_done(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+
+        try:
+            contract = Process_complete.objects.filter(user3=member).order_by('-id')
+            n = len(contract)
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
+
+        except:
+            contract = None
+            n = 0
+
+        return render(request, 'app/process3_done.html', {'contract': contracts,'n':n})
+    except Exception as e:
+        print(e)
+
+        pass
+    return redirect('index')
+
+
+def process4_done(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+
+        try:
+            contract = Process_complete.objects.filter(user4=member).order_by('-id')
+            n = len(contract)
+            paginator = Paginator(contract, 3)
+            page = request.GET.get('page')
+            contracts = paginator.get_page(page)
+
+        except:
+            contract = None
+            n = 0
+
+        return render(request, 'app/process4_done.html', {'contract': contracts,'n':n})
     except Exception as e:
         print(e)
 
