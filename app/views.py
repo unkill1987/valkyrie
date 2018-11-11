@@ -543,13 +543,14 @@ def process4_complete(request):
 
     for id in check_ids:
         try:
-            process = Prcoess.objects.get(id=id)
+            process = Process.objects.get(id=id)
             process.user4 = ' '
             process.save()
             process_complete = Process_complete.objects.get(id=id)
             process_complete.user4 = user_id
             process_complete.save()
-        except:
+        except Exception as e:
+            print(e)
             pass
     return redirect('process4')
 
