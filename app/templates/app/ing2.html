@@ -189,16 +189,17 @@
 
     <div class="row">
         {% for c in contract %}
-        <div class="col-lg-4 mb-4" >
+        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px" >
 
           <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><span>Check</span>
           <div class="card h-100">
 
             <h5 class="card-header">
-              {%for p in process %}
 
-            Contract ID.{{p.id}}<hr>
-            {%endfor%}
+
+            Contract ID.{{c.id}}<hr>
+
+
               {{c.contractname}}</h5>
             <div class="card-body">
               <p class="card-text">
@@ -213,8 +214,11 @@
               <h5>To (수입자ID):{{c.share1}}</h5>
             </div>
           </div>
+
         </div>
         {% endfor %}
+
+
 
 <hr>
     </div>

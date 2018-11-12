@@ -45,9 +45,9 @@ def share1(request):
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_LCR.objects.filter(owner=member)
-            hash = contract.values('sha256')[0]['sha256']
-            contract_id = contract.values('contract_id')[0]['contract_id']
-
+            getid = contract.filter(id=id)
+            hash = getid.values('sha256')[0]['sha256']
+            contract_id = getid.values('contract_id')[0]['contract_id']
 
             process = Process.objects.get(id=contract_id)
             process.user1 = user_id
@@ -74,12 +74,13 @@ def share2(request):
             share = Contract_CI.objects.get(id=id)
             share.share1 = share_user
             share.save()
-
+            print(id)
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_CI.objects.filter(owner=member)
-            hash = contract.values('sha256')[0]['sha256']
-
+            getid = contract.filter(id=id)
+            hash = getid.values('sha256')[0]['sha256']
+            print(hash)
 
             process = Process.objects.get(CI_hash=hash)
             process.user1 = share_user
@@ -105,8 +106,9 @@ def share2_1(request):
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_SR.objects.filter(owner=member)
-            hash = contract.values('sha256')[0]['sha256']
-            contract_id = contract.values('contract_id')[0]['contract_id']
+            getid = contract.filter(id=id)
+            hash = getid.values('sha256')[0]['sha256']
+            contract_id = getid.values('contract_id')[0]['contract_id']
 
             process = Process.objects.get(id=contract_id)
             process.SR_hash = hash
@@ -136,8 +138,9 @@ def share3(request):
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_LC.objects.filter(owner=member)
-            hash = contract.values('sha256')[0]['sha256']
-            contract_id = contract.values('contract_id')[0]['contract_id']
+            getid = contract.filter(id=id)
+            hash = getid.values('sha256')[0]['sha256']
+            contract_id = getid.values('contract_id')[0]['contract_id']
 
             process = Process.objects.get(id=contract_id)
             process.LC_hash = hash
@@ -165,8 +168,9 @@ def share4_1(request):
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_BL.objects.filter(owner=member)
-            hash = contract.values('sha256')[0]['sha256']
-            contract_id = contract.values('contract_id')[0]['contract_id']
+            getid = contract.filter(id=id)
+            hash = getid.values('sha256')[0]['sha256']
+            contract_id = getid.values('contract_id')[0]['contract_id']
 
             process = Process.objects.get(id=contract_id)
             process.BL_hash = hash
@@ -193,8 +197,9 @@ def share4_2(request):
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_DO.objects.filter(owner=member)
-            hash = contract.values('sha256')[0]['sha256']
-            contract_id = contract.values('contract_id')[0]['contract_id']
+            getid = contract.filter(id=id)
+            hash = getid.values('sha256')[0]['sha256']
+            contract_id = getid.values('contract_id')[0]['contract_id']
 
             process = Process.objects.get(id=contract_id)
             process.DO_hash = hash
@@ -579,6 +584,7 @@ def submit(request):
 
     file = open('LCR_' + time_format + '.txt', 'wt')
     file.write('Letter of Credit Request' + '\n'
+'requestname' + contractname+ '\n'
 '1.Advising bank:' + a + '\n'
 '2.Credit No.:' + b + '\n'
 '3.Beneficiary:' + c + '\n'
@@ -593,7 +599,8 @@ def submit(request):
 '12.Latest shipment date:' + l + '\n'
 '13.All banking charges:' + m + '\n'
 '14.Confirmation:' + n + '\n'
-'15.T/T reimbursement:' + o + '\n')
+'15.T/T reimbursement:' + o + '\n'
+'time'+ time_format)
     file.close()
 
     file = open('LCR_' + time_format + '.txt', 'rb')
@@ -621,7 +628,7 @@ def submit(request):
 
     return redirect('ing')
 
-#
+
 
 def submit2(request):
     invoicename = request.POST['invoicename']
@@ -669,6 +676,7 @@ def submit2(request):
 '16.Unit price:' + p + '\n'
 '17. Amount:' + q + '\n'
 '18.Singed by:' + r + '\n'
+'time' + time_format
                )
 
     file.close()
@@ -739,8 +747,7 @@ def submit2_1(request):
 '13.Measurement:' + m + '\n'
 '14.Freight Term:' + n + '\n'
 '15.Original B/L:' + o + '\n'
-
-               )
+ 'time' + time_format)
 
     file.close()
 
@@ -839,8 +846,8 @@ letteroflc + '\n'
 '31.Country of Origin:' + ee + '\n'
 '32.HS CODE:' + ff + '\n'
 '33.CommodityDescription:' + gg + '\n'
+'time' + time_format)
 
-               )
 
     file.close()
 
@@ -904,8 +911,8 @@ def submit4_1(request):
 '8.Description of goods:' + h + '\n'
 '9.Weight:' + i + '\n'
 '10.Measurement:' + j + '\n'
+ 'time' + time_format)
 
-               )
 
     file.close()
 
@@ -956,9 +963,8 @@ def submit4_2(request):
 '5.ID verified (yes or no):' + e + '\n'
 '6.USPS initals:' + f + '\n'
 '7.Date:' + g + '\n'
+'time' + time_format)
 
-
-               )
 
     file.close()
 
@@ -990,6 +996,7 @@ def download(request):
         response = HttpResponse(f, content_type='text/plain')
         response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
+
 
 def download2(request):
     id = request.GET['id']
@@ -1236,6 +1243,7 @@ def process4_done(request):
         pass
     return redirect('index')
 
+
 def ing(request):
     try:
         user_id = request.session['user_id']
@@ -1260,24 +1268,30 @@ def ing(request):
         print(e)
         return redirect('login')
 
+
 def ing2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_CI.objects.filter(owner=member).order_by('-id')
         n = len(contract)
+
         try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(CI_hash=hash)
+            for i in range(0, n):
+                hash = contract.values('sha256')[i]['sha256']
+                process = Process.objects.filter(CI_hash=hash)
+
+
         except:
             hash = None
             process = None
-        paginator = Paginator(contract, 6)
 
+        paginator = Paginator(contract, 6)
         page = request.GET.get('page')
         contracts = paginator.get_page(page)
 
-        return render(request, 'app/ing2.html', {'contract': contracts,'process':process,  'n': n, })
+
+        return render(request, 'app/ing2.html', {'contract': contracts, 'process':process,  'n': n, })
     except Exception as e:
         print(e)
         return redirect('login')

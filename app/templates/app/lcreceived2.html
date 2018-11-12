@@ -187,21 +187,21 @@
 
     <div class="row">
         {% for c in contract %}
-        <div class="col-lg-4 mb-4" >
+        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
 
           <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><span>Check</span>
           <div class="card h-100">
 
             <h5 class="card-header">
-              {%for p in process %}
 
-            Contract ID.{{p.id}}<hr>
-            {%endfor%}
+
+            Contract ID.{{c.contract_id}}<hr>
+
               {{c.contractname}}</h5>
             <div class="card-body">
               <p class="card-text">
 
-              <h5>Document Hash<br>{{c.sha256}}</h5></p>
+              <h5>Document Hash:<br>{{c.sha256}}</h5></p>
             </div>
             <div class="card-footer">
               <a href="{% url 'download3' %}?id={{ c.id }}" class="btn btn-primary" target="_blank">
