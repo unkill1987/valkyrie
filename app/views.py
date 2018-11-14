@@ -466,7 +466,7 @@ def lcrremove(request):
 
     for id in check_ids:
         try:
-            share = Contract.objects.get(id=id)
+            share = Contract_LCR.objects.get(id=id)
             share.share3 = ' '
             share.save()
         except:
@@ -696,10 +696,13 @@ def submit2(request):
     contract.owner = member
 
     contract.save()
+    id = Contract_CI.objects.filter(sha256=hash).values('id')[0]['id']
+    print(id)
 
-    process = Process(user2=user_id, CI_hash=hash)
+
+    process = Process(contract_id=id, user2=user_id, CI_hash=hash)
     process.save()
-    process_complete = Process_complete(CI_hash=hash)
+    process_complete = Process_complete(contract_id=id, CI_hash=hash)
     process_complete.save()
 
     return redirect('ing2')
