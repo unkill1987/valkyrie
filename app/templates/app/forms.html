@@ -29,8 +29,8 @@
   <body id="page-top">
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
-      <a class="navbar-brand mr-1" href="{% url 'index' %}">Valkyrie system</a>
+<img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
+      <a class="navbar-brand mr-1" href="{% url 'index' %}">&nbspVALKYRIE SYSTEM</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -93,7 +93,7 @@
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'index' %}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-fw fa-chalkboard"></i>
             <span>Dashboard</span>
           </a>
 
@@ -104,7 +104,7 @@
             <span>환율정보</span></a>
        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-clipboard"></i>
+            <i class="fas fa-fw fa-edit"></i>
             <span>신용장(L/C) 신청</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
@@ -301,8 +301,8 @@
                             <!-- /.row (nested) -->
                                     <div style="text-align:center">
                                         <hr>
-                                        <button type="submit" class="btn btn-primary">작성 완료</button>
-                                        <button type="reset" class="btn btn-primary">다시 작성하기</button>
+                                        <button type="submit" class="btn btn-dark">작성 완료</button>
+                                        <button type="reset" class="btn btn-dark">다시 작성하기</button>
                                     </div>
                                                                         {% csrf_token %}
                             </form>
@@ -346,7 +346,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+            <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
           </div>
         </div>
       </div>

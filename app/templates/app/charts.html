@@ -30,7 +30,8 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="{% url 'index' %}">Valkyrie system</a>
+      <img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
+      <a class="navbar-brand mr-1" href="{% url 'index' %}">&nbspVALKYRIE SYSTEM</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -88,7 +89,7 @@
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'index' %}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-fw fa-chalkboard"></i>
             <span>Dashboard</span>
           </a>
 
@@ -100,7 +101,7 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-clipboard"></i>
+            <i class="fas fa-fw fa-edit"></i>
             <span>신용장(L/C) 신청</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
@@ -159,9 +160,9 @@
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a >환율정보</a>
+              <a>환율정보</a>
             </li>
-            <li class="breadcrumb-item active">Charts</li>
+            <li class="breadcrumb-item active">  {{date1}}, {{time1}}기준</li>
           </ol>
 
           <!-- Area Chart Example-->
@@ -174,32 +175,34 @@
 
           <div class="card h-100">
 
-            <h4 class="card-header">USD(달러)</h4>
+            <h4 class="card-header">USD(달러)$</h4>
             <div class="card-body">
               <table class="card-text">
 
                 <tr>
                   <td>BasePrice : </td>
-                  <td>${{ basePrice1 }}</td>
+                  <td>￦{{ basePrice1 }}</td>
                 </tr>
                 <tr>
                   <td>SellingPrice :</td>
-                  <td>${{sellprice1}}</td>
+                  <td>￦{{sellprice1}}</td>
                 </tr>
                 <tr>
                   <td>BuyingPrice :</td>
-                  <td>${{buyprice1}}</td>
+                  <td>￦{{buyprice1}}</td>
               </table>
             </div>
             <div class="card-footer">
+
             <table>
+
             <tr>
               <td>$</td>
               <td><input class="form-control" id="usnum"></td>
             </tr>
               <tr>
                 <td></td>
-                <td><input class="btn btn-primary" style="width:170px; height:40px;" type="button" value="결과보기" onclick="mul1()"></td>
+                <td><input class="btn btn-dark" style="width:205px; height:38px;" type="button" value="결과보기" onclick="mul1()"></td>
               </tr>
               <tr>
                 <td>￦</td>
@@ -213,21 +216,21 @@
 
           <div class="card h-100">
 
-            <h4 class="card-header">JPY(엔)</h4>
+            <h4 class="card-header">JPY(엔)¥</h4>
             <div class="card-body">
               <table class="card-text">
 
                 <tr>
                   <td>BasePrice : </td>
-                  <td>¥{{ basePrice2 }}</td>
+                  <td>￦{{ basePrice2 }}</td>
                 </tr>
                 <tr>
                   <td>SellingPrice :</td>
-                  <td>¥{{sellprice2}}</td>
+                  <td>￦{{sellprice2}}</td>
                 </tr>
                 <tr>
                   <td>BuyingPrice :</td>
-                  <td>¥{{buyprice2}}</td>
+                  <td>￦{{buyprice2}}</td>
               </table>
             </div>
             <div class="card-footer">
@@ -238,7 +241,7 @@
             </tr>
               <tr>
                 <td></td>
-                <td><input class="btn btn-primary" style="width:170px; height:40px;" type="button" value="결과보기" onclick="mul2()"></td>
+                <td><input class="btn btn-dark" style="width:205px; height:38px;" type="button" value="결과보기" onclick="mul2()"></td>
               </tr>
               <tr>
                 <td>￦</td>
@@ -254,21 +257,21 @@
 
           <div class="card h-100">
 
-            <h4 class="card-header">CNY(위안)</h4>
+            <h4 class="card-header">CNY(위안)Y</h4>
             <div class="card-body">
               <table class="card-text">
 
                 <tr>
                   <td>BasePrice : </td>
-                  <td>Y{{ basePrice3 }}</td>
+                  <td>￦{{ basePrice3 }}</td>
                 </tr>
                 <tr>
                   <td>SellingPrice :</td>
-                  <td>Y{{sellprice3}}</td>
+                  <td>￦{{sellprice3}}</td>
                 </tr>
                 <tr>
                   <td>BuyingPrice :</td>
-                  <td>Y{{buyprice3}}</td>
+                  <td>￦{{buyprice3}}</td>
               </table>
             </div>
             <div class="card-footer">
@@ -279,7 +282,7 @@
             </tr>
               <tr>
                 <td></td>
-                <td><input class="btn btn-primary" style="width:170px; height:40px;" type="button" value="결과보기" onclick="mul3()"></td>
+                <td><input class="btn btn-dark" style="width:205px; height:38px;" type="button" value="결과보기" onclick="mul3()"></td>
               </tr>
               <tr>
                 <td>￦</td>
@@ -291,6 +294,7 @@
           </div>
         </div>
     </div>
+
   </div>
 </div>
 
@@ -339,7 +343,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+            <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
           </div>
         </div>
       </div>

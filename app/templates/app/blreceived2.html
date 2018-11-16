@@ -30,7 +30,8 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="{% url 'index2' %}">Valkyrie system</a>
+      <img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
+      <a class="navbar-brand mr-1" href="{% url 'index2' %}">&nbspVALKYRIE SYSTEM</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -93,7 +94,7 @@
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'index2' %}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-fw fa-chalkboard"></i>
             <span>Dashboard</span>
           </a>
 
@@ -106,7 +107,7 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-clipboard"></i>
+            <i class="fas fa-fw fa-edit"></i>
             <span>상업송장(C/I)</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
@@ -119,7 +120,7 @@
 
           <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-clipboard"></i>
+            <i class="fas fa-fw fa-edit"></i>
             <span>선적요청서(S/R)</span>
           </a>
 
@@ -203,7 +204,7 @@
               <h5>Document Hash:<br>{{c.sha256}}</h5></p>
             </div>
             <div class="card-footer">
-              <a href="{% url 'download' %}?id={{ c.id }}" class="btn btn-primary" target="_blank">
+              <a href="{% url 'download' %}?id={{ c.id }}" class="btn btn-dark" target="_blank">
                     {{c.filename}}
               </a>
               <hr>
@@ -246,7 +247,7 @@
 
     <div style="text-align:center; margin:auto;" >
 
-      <input class="btn btn-primary" type="button" value="선택삭제" id="delete_btn">
+      <input class="btn btn-dark" type="button" value="선택삭제" id="delete_btn">
 
 
         </div>
@@ -283,7 +284,7 @@
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+            <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
           </div>
         </div>
       </div>

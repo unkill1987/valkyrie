@@ -34,12 +34,12 @@
     <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
   </head>
 <style>
-  .bg-dark{ background:white!important; }
-  .btn-primary{ background:##004085!important; border-color:#007bff!important;}
-   a{color:#007bffed}
+  .bg-dark{ background:black!important; }
+  .btn-dark{ background:##050505!important; border-color:#3d3d3d!important;}
+   a{color:#3d3d3ded}
     img {text-align:center; }
-  .form-control:focus{border-color:#004085ed; }
-  .custom-select:focus{border-color:#004085ed; }
+  .form-control:focus{border-color:#050505ed; }
+  .custom-select:focus{border-color:#050505ed; }
   .custom-select{ -webkit-appearance:none;}
 
   @media (max-width:560px) {
@@ -54,10 +54,10 @@
     }
   }
 </style>
-  <body class="bg-dark">
-  <div style='text-align:right'>Ver. 1.0 </div>
+  <body class="bg-dark" style="background:black" >
+
   <div style="text-align:center;">
-    <img class="container-fluid" src="{% static 'app/img/img3.png'%}">
+    <img class="container-fluid" src="{% static 'app/img/img2.png'%}">
     </div>
     <div class="container">
       <div class="card-login mx-auto mt-5">
@@ -75,7 +75,7 @@
             </div>
             <div class="form-group">
               <div class="form-label-group">
-                <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
+                <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus" >
                 <label for="inputEmail">Email address</label>
               </div>
             </div>
@@ -89,18 +89,18 @@
               <div class="checkbox">
                 <label>
                   <input type="checkbox" value="remember-me">
-                  Remember Password
+                  <a  style="color:#e9ecef">Remember Password</a>
                 </label>
               </div>
             </div>
-            <a id='login' class="btn btn-primary btn-block" href="{% url 'index' %}">Login</a>
+            <a id='login' class="btn btn-dark btn-block" href="{% url 'index' %}">Login</a>
 
               <div class="g-signin2" data-onsuccess="onSignIn"></div>
               {% csrf_token %}
           </form>
           <div class="text-center">
-            <a class="d-block small mt-3" href="{% url 'register' %}">Register an Account</a>
-            <a class="d-block small" href="{% url 'forgot'%}">Forgot Password?</a>
+            <a class="d-block small mt-3" href="{% url 'register' %}" style="color:#e9ecef">Register an Account</a>
+            <a class="d-block small" href="{% url 'forgot'%}" style="color:#e9ecef">Forgot Password?</a>
           </div>
         </div>
       </div>

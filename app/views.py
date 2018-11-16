@@ -1601,6 +1601,8 @@ def index(request):
     basePrice1 = json_data[0]['basePrice']
     sellprice1 = json_data[0]['cashSellingPrice']
     buyprice1 = json_data[0]['cashBuyingPrice']
+    date1 = json_data[0]['date']
+    time1 = json_data[0]['time']
 
     res2 = requests.get('https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWJPY', headers=headers)
     json_data = res2.json()
@@ -1634,9 +1636,10 @@ def index(request):
         else:
             templates = 'app/login.html'
 
-        return render(request, templates, {'user_id':user_id, 'n': n,'n1':n1,'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,
-                                               'basePrice2':basePrice2,'sellprice2':sellprice2,'buyprice2':buyprice2,
-                                               'basePrice3':basePrice3,'sellprice3':sellprice3,'buyprice3':buyprice3})
+        return render(request, templates, {'user_id':user_id, 'n': n,'n1':n1,
+                                           'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,'date1':date1,'time1':time1,
+                                            'basePrice2':basePrice2,'sellprice2':sellprice2,'buyprice2':buyprice2,
+                                           'basePrice3':basePrice3,'sellprice3':sellprice3,'buyprice3':buyprice3})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -1650,6 +1653,8 @@ def charts(request):
     basePrice1 = json_data[0]['basePrice']
     sellprice1 = json_data[0]['cashSellingPrice']
     buyprice1 = json_data[0]['cashBuyingPrice']
+    date1=json_data[0]['date']
+    time1 = json_data[0]['time']
 
     res2 = requests.get('https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWJPY', headers=headers)
     json_data = res2.json()
@@ -1682,7 +1687,7 @@ def charts(request):
         else:
             templates = 'app/login.html'
 
-        return render(request, templates, {'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,
+        return render(request, templates, {'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,'date1':date1,'time1':time1,
                                            'basePrice2':basePrice2,'sellprice2':sellprice2,'buyprice2':buyprice2,
                                            'basePrice3':basePrice3,'sellprice3':sellprice3,'buyprice3':buyprice3})
     except:

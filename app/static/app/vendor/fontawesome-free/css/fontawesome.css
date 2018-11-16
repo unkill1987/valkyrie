@@ -3214,8 +3214,8 @@ readers do not read off random characters that represent icons */
 .fa-tablets:before {
   content: "\f490"; }
 
-.fa-tachometer-alt:before {
-  content: "\f3fd"; }
+.fa-chalkboard:before {
+  content: "\f51b"; }
 
 .fa-tag:before {
   content: "\f02b"; }

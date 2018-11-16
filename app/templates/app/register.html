@@ -23,7 +23,7 @@
 </head>
 
 <body class="bg-dark">
-
+<div class="wrraper">
 <div class="container">
     <div class="card card-register mx-auto mt-5">
         <div class="card-header">Register an Account</div>
@@ -35,7 +35,7 @@
 
 
                 <!--user_name-->
-                <hr>
+
                 <p>Role</p>
                 <input type="checkbox" name="user_role" value="1">&nbsp수입자&nbsp
                 <input type="checkbox" name="user_role" value="2">&nbsp수출자&nbsp
@@ -82,7 +82,7 @@
                 <!--</div>-->
                 <!--</div>-->
 
-                <a id='register' class="btn btn-primary btn-block" href="{% url 'login' %}">Register</a>
+                <a id='register' class="btn btn-dark btn-block" href="{% url 'login' %}">Register</a>
                 {% csrf_token %}
 
             </form>
@@ -90,10 +90,12 @@
                 <a class="d-block small mt-3" href="{% url 'login'%}">Login Page</a>
                 <a class="d-block small" href="{% url 'forgot' %}">Forgot Password?</a>
             </div>
-            <hr>
+
         </div>
     </div>
 </div>
+</div>
+
 <!--여기까지 수정했습니다!-->
 <!--여기까지 수정했습니다!-->
 <!--여기까지 수정했습니다!-->
