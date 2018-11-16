@@ -35,9 +35,18 @@
     .btn { width:90%!important}
     }
 
+.bg-dark {
+background: linear-gradient(to right, #050505ed, #b4fff2);}
+
+#content-wrapper {
+background: linear-gradient(to right, #050505ed, #b4fff2); }
+h4,a{color:white!important}
+.dropdown-menu{background-color:#171717c4!important}
+.dropdown-item:hover{color:#171717c4!important}
+</style>
 
 
-  </style>
+
   <body id="page-top">
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -180,9 +189,8 @@
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a>환율정보</a>
-            </li>
-            <li class="breadcrumb-item active">  {{date1}}, {{time1}}기준</li>
+              <a>환율정보 /
+                {{date1}}, {{time1}}기준</a>
           </ol>
 
           <!-- Area Chart Example-->

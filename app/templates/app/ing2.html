@@ -26,7 +26,18 @@
     <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
 
   </head>
+<style>
+  .bg-dark {
+background: linear-gradient(to right, #050505ed, #b4fff2);}
 
+#content-wrapper {
+background: linear-gradient(to right, #050505ed, #b4fff2); }
+
+h4,a{color:white!important}
+label{color:white!important}
+.dropdown-menu{background-color:#171717c4!important}
+.dropdown-item:hover{color:#171717c4!important}
+</style>
   <body id="page-top">
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -192,6 +203,7 @@
       </ul>
 
         <!--진행중인 계약-->
+       <div id="content-wrapper">
 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
     <h4 class="my-4">상업송장(C/I) 관리({{n}}건)</h4>
 
@@ -199,7 +211,7 @@
         {% for c in contract %}
         <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px" >
 
-          <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><span>Check</span>
+          <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><a >Check</a>
           <div class="card h-100">
 
             <h5 class="card-header">
@@ -261,7 +273,8 @@
   <div class="row">
 
     <div style="text-align:center; margin:auto;" >
-      수입자ID:<input class="form-control" name="share_user" id="share_user">
+      <a >수입자ID:</a>
+      <input class="form-control" name="share_user" id="share_user">
       <br>
       <input class="btn btn-dark" type="button" value="전송하기" id="share2">
       <input class="btn btn-dark" type="button" value="선택삭제" id="delete_btn">
@@ -275,7 +288,7 @@
 
         <!-- Sticky Footer -->
 
-
+       </div>
 
       </div>
       <!-- /.content-wrapper -->

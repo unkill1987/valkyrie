@@ -26,19 +26,16 @@
 
 </head>
 <style>
-.bg-primary {
-    background-color: #050505ed!important;
-}
+  .bg-dark {
+background: linear-gradient(to right, #050505ed, #b4fff2);}
 
-.bg-warning {
-    background-color: #050505ed!important;
-}
-.bg-success {
-    background-color: #050505ed!important;
-}
-.bg-danger {
-    background-color: #050505ed!important;
-}
+#content-wrapper {
+background: linear-gradient(to right, #050505ed, #b4fff2); }
+
+h4,a{color:white!important}
+label{color:white!important}
+.dropdown-menu{background-color:#171717c4!important}
+.dropdown-item:hover{color:#171717c4!important}
 </style>
 <body id="page-top">
 
@@ -195,10 +192,8 @@
    <div class="container-fluid">
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a >환율정보</a>
-            </li>
-            <li class="breadcrumb-item active">  {{date1}}, {{time1}}기준</li>
+            <a class="breadcrumb-item">
+              <a >환율정보 /  {{date1}}, {{time1}}기준</a>
           </ol>
 
           <!-- Area Chart Example-->

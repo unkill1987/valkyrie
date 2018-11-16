@@ -26,19 +26,16 @@
 
 </head>
 <style>
-.bg-primary {
-    background-color: #050505ed!important;
-}
+  .bg-dark {
+background: linear-gradient(to right, #050505ed, #b4fff2);}
 
-.bg-warning {
-    background-color: #050505ed!important;
-}
-.bg-success {
-    background-color: #050505ed!important;
-}
-.bg-danger {
-    background-color: #050505ed!important;
-}
+#content-wrapper {
+background: linear-gradient(to right, #050505ed, #b4fff2); }
+
+h4,a{color:white!important}
+label{color:white!important}
+.dropdown-menu{background-color:#171717c4!important}
+.dropdown-item:hover{color:#171717c4!important}
 </style>
 <body id="page-top">
 
@@ -209,7 +206,7 @@
                  {%for p in contract %}
               <div class="col-lg-12 mb-4" style="margin-bottom:30px; margin-top:30px">
 
-                <input type="checkbox" id="{{p.id}}" value="{{ p.id }}"><span>Check</span>
+                <input type="checkbox" id="{{p.id}}" value="{{ p.id }}"><a>Check</a>
                 <div class="card h-100">
 
                   <h4 class="card-header">
