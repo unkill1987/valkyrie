@@ -200,7 +200,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
     position: static !important;
     margin: 0 1rem;
     top: 0;
-    
+
   }
   .sidebar .nav-item.dropdown .dropdown-toggle::after {
     display: block;

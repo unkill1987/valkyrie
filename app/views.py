@@ -1294,7 +1294,7 @@ def ing2(request):
         contracts = paginator.get_page(page)
 
 
-        return render(request, 'app/ing2.html', {'contract': contracts, 'process':process,  'n': n, })
+        return render(request, 'app/ing2.html', {'contract': contracts,  'n': n, })
     except Exception as e:
         print(e)
         return redirect('login')
