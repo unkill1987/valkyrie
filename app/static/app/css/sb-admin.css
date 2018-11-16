@@ -155,7 +155,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   position: absolute !important;
   -webkit-transform: none !important;
   transform: none !important;
-  left: calc(90px + 0.5rem) !important;
+  left: calc(90px) !important;
   margin: 0;
 }
 
@@ -200,6 +200,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
     position: static !important;
     margin: 0 1rem;
     top: 0;
+    
   }
   .sidebar .nav-item.dropdown .dropdown-toggle::after {
     display: block;
@@ -224,7 +225,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
     position: absolute !important;
     -webkit-transform: none !important;
     transform: none !important;
-    left: calc(90px + 0.5rem) !important;
+    left: calc(90px) !important;
     margin: 0;
   }
   .sidebar.toggled .nav-item .dropdown-menu.dropup {

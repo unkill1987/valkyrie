@@ -19,11 +19,12 @@
     .dropdown-menu {
       position: absolute !important;
       transform: none !important;
-      left: calc(#{$sidebar-collapsed-width} + 0.5rem) !important;
+      left: calc(#{$sidebar-collapsed-width}) !important;
       margin: 0;
       &.dropup {
         bottom: 0;
         top: auto !important;
+
       }
     }
     &.dropdown .dropdown-toggle::after {
