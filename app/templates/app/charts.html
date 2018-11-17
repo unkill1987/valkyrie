@@ -41,8 +41,9 @@ background: linear-gradient(to right, #050505ed, #b4fff2);}
 #content-wrapper {
 background: linear-gradient(to right, #050505ed, #b4fff2); }
 h4,a{color:white!important}
-.dropdown-menu{background-color:#171717c4!important}
-.dropdown-item:hover{color:#171717c4!important}
+.dropdown-menu{background-color:#171717ed!important}
+.dropdown-item:hover{color:#171717ed!important}
+@media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
 
 
@@ -107,15 +108,18 @@ h4,a{color:white!important}
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
-         <li class="nav-item active">
+     <ul class="sidebar navbar-nav">
+        <li class="nav-item active">
           <a class="nav-link" href="">
-            <i class="fas fa-fw fa-angle-double-right"></i>
-            <span>IMPORTER</span>
-            <i class="fas fa-fw fa-angle-double-left"></i>
+              <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
+            <!--<span>IMPORTER</span>-->
+            <!--<i class="fas fa-fw fa-angle-double-left"></i>-->
+            <img id="img" src="{% static 'app/img/importer.png'%}" style="width:200px;">
+
           </a>
 
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'index' %}">
             <i class="fas fa-fw fa-chalkboard"></i>
@@ -124,7 +128,7 @@ h4,a{color:white!important}
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="{% url 'charts' %}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>환율정보</span></a>
         </li>
@@ -135,6 +139,7 @@ h4,a{color:white!important}
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="{% url 'forms' %}">L/C 신청서 작성</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'ing' %}">L/C 신청서 관리</a>
 
           </div>
@@ -146,8 +151,11 @@ h4,a{color:white!important}
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="{% url 'cireceived' %}">C/I 확인</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'lcreceived1' %}">L/C 확인</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'blreceived1' %}">B/L 확인</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'doreceived' %}">D/O 확인</a>
 
           </div>
@@ -165,7 +173,11 @@ h4,a{color:white!important}
             </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">결제 내역</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">결제 하기</a>
+             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="">입금 하기</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">출금 하기</a>
 
           </div>
@@ -177,8 +189,11 @@ h4,a{color:white!important}
             <span>계약자 관리</span></a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">수출자</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">은행</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">운송사</a>
+             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">관세청</a>
           </div>
         </li>

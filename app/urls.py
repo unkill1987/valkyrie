@@ -43,8 +43,7 @@ urlpatterns = [
     path('calendar/', views.calendar, name='calendar3'),
     path('calendar/', views.calendar, name='calendar4'),
 
-    path('done/', views.done, name='done'),
-    path('done2/', views.done, name='done2'),
+
 
     path('remove/', views.remove, name='remove'),
     path('remove2/', views.remove2, name='remove2'),

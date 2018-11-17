@@ -1562,25 +1562,7 @@ def lcrreceived(request):
         return redirect('login')
 
 
-def done(request):
 
-    try:
-        user_role = request.session['user_role']
-
-        templates = ''
-        if user_role == '1':
-            templates = 'app/done.html'
-        elif user_role == '2':
-            templates = 'app/done2.html'
-        elif user_role == '3':
-            templates = 'app/blank.html'
-        elif user_role == '4':
-            templates = 'app/blank.html'
-        else:
-            templates = 'app/login.html'
-        return render(request, templates, {})
-    except:
-        return redirect('login')
 
 
 def logout(request):
