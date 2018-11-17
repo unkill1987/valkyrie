@@ -308,7 +308,7 @@ def process1_remove(request):
             remove = Process.objects.get(id=id)
             remove.user1 = ' '
             remove.save()
-        except Excption as e:
+        except Exception as e:
             print(e)
             pass
 
@@ -325,7 +325,7 @@ def process2_remove(request):
             remove = Process.objects.get(id=id)
             remove.user2 = ' '
             remove.save()
-        except Excption as e:
+        except Exception as e:
             print(e)
             pass
 
@@ -342,7 +342,7 @@ def process3_remove(request):
             remove = Process.objects.get(id=id)
             remove.user3 = ' '
             remove.save()
-        except Excption as e:
+        except Exception as e:
             print(e)
             pass
 
@@ -359,7 +359,7 @@ def process4_remove(request):
             remove = Process.objects.get(id=id)
             remove.user4 = ' '
             remove.save()
-        except Excption as e:
+        except Exception as e:
             print(e)
             pass
 
@@ -1672,7 +1672,8 @@ def charts(request):
         return render(request, templates, {'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,'date1':date1,'time1':time1,
                                            'basePrice2':basePrice2,'sellprice2':sellprice2,'buyprice2':buyprice2,
                                            'basePrice3':basePrice3,'sellprice3':sellprice3,'buyprice3':buyprice3})
-    except:
+    except Exception as e:
+        print(e)
         return redirect('login')
 
 

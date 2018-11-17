@@ -27,13 +27,17 @@
   </head>
 
   <style>
-    @media (max-width:400px) {
-    .form-control { width:90%}
-    }
+@media (max-width:400px) {
+.form-control { width:90%}
+}
 
-    @media (max-width:400px) {
-    .btn { width:90%!important}
-    }
+@media (max-width:400px) {
+.btn { width:90%!important}
+}
+
+.card{background:#2125295e!important}
+td{color:white!important}
+.card-body{padding:1.00rem!important}
 
 .bg-dark {
 background: linear-gradient(to right, #050505ed, #b4fff2);}
@@ -41,8 +45,9 @@ background: linear-gradient(to right, #050505ed, #b4fff2);}
 #content-wrapper {
 background: linear-gradient(to right, #050505ed, #b4fff2); }
 h4,a{color:white!important}
-.dropdown-menu{background-color:#171717ed!important}
+.dropdown-menu{background-color:#171717ed!important;border-color:#eceeef7a!important}
 .dropdown-item:hover{color:#171717ed!important}
+.dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
 
@@ -213,7 +218,7 @@ h4,a{color:white!important}
   <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
     <h1 class="my-4"></h1>
 
-    <div class="row">
+   <div class="row">
         <div class="col-lg-4 mb-4" >
 
           <div class="card h-100">
@@ -223,22 +228,23 @@ h4,a{color:white!important}
               <table class="card-text">
 
                 <tr>
-                  <td>BasePrice : </td>
+                  <td>Base Price</td>
+                  <td>:</td>
                   <td>￦{{ basePrice1 }}</td>
                 </tr>
                 <tr>
-                  <td>SellingPrice :</td>
+                  <td>Selling Price</td>
+                  <td>:</td>
                   <td>￦{{sellprice1}}</td>
                 </tr>
                 <tr>
-                  <td>BuyingPrice :</td>
+                  <td>Buying Price</td>
+                  <td>:</td>
                   <td>￦{{buyprice1}}</td>
               </table>
             </div>
             <div class="card-footer">
-
             <table>
-
             <tr>
               <td>$</td>
               <td><input class="form-control" id="usnum"></td>
@@ -264,15 +270,18 @@ h4,a{color:white!important}
               <table class="card-text">
 
                 <tr>
-                  <td>BasePrice : </td>
+                  <td>Base Price</td>
+                  <td>:</td>
                   <td>￦{{ basePrice2 }}</td>
                 </tr>
                 <tr>
-                  <td>SellingPrice :</td>
+                  <td>Selling Price</td>
+                  <td>:</td>
                   <td>￦{{sellprice2}}</td>
                 </tr>
                 <tr>
-                  <td>BuyingPrice :</td>
+                  <td>Buying Price</td>
+                  <td>:</td>
                   <td>￦{{buyprice2}}</td>
               </table>
             </div>
@@ -305,15 +314,18 @@ h4,a{color:white!important}
               <table class="card-text">
 
                 <tr>
-                  <td>BasePrice : </td>
+                  <td>Base Price</td>
+                  <td>:</td>
                   <td>￦{{ basePrice3 }}</td>
                 </tr>
                 <tr>
-                  <td>SellingPrice :</td>
+                  <td>Selling Price</td>
+                  <td>:</td>
                   <td>￦{{sellprice3}}</td>
                 </tr>
                 <tr>
-                  <td>BuyingPrice :</td>
+                  <td>Buying Price</td>
+                  <td>:</td>
                   <td>￦{{buyprice3}}</td>
               </table>
             </div>

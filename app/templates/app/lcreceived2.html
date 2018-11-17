@@ -34,8 +34,9 @@ background: linear-gradient(to right, #050505ed, #b4fff2); }
 
 h4,a{color:white!important}
 label{color:white!important}
-.dropdown-menu{background-color:#171717ed!important}
+.dropdown-menu{background-color:#171717ed!important;border-color:#eceeef7a!important}
 .dropdown-item:hover{color:#171717ed!important}
+.dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
   <body id="page-top">
@@ -103,9 +104,9 @@ label{color:white!important}
 
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
+         <li class="nav-item active">
           <a class="nav-link" href="">
-          <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
+            <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
             <!--<span>EXPORTER</span>-->
             <!--<i class="fas fa-fw fa-angle-double-left"></i>-->
              <img id="img" src="{% static 'app/img/exporter.png'%}" style="width:200px;">
@@ -132,6 +133,7 @@ label{color:white!important}
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
            <a class="dropdown-item" href="{% url 'forms2' %}">C/I 작성</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'ing2' %}">C/I 관리</a>
 
 
@@ -147,6 +149,7 @@ label{color:white!important}
 
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
            <a class="dropdown-item" href="{% url 'forms2_1' %}">S/R 작성</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'ing2_1' %}">S/R 관리</a>
 
 
@@ -162,7 +165,8 @@ label{color:white!important}
 
 
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-             <a class="dropdown-item" href="{% url 'lcreceived2' %}">L/C 확인</a>
+            <a class="dropdown-item" href="{% url 'lcreceived2' %}">L/C 확인</a>
+            <div class="dropdown-divider"></div>
            <a class="dropdown-item" href="{% url 'blreceived2' %}">B/L 확인</a>
 
 
@@ -183,7 +187,9 @@ label{color:white!important}
             </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">결제 내역</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">결제 하기</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">출금 하기</a>
 
           </div>
@@ -195,14 +201,18 @@ label{color:white!important}
             <span>계약자 관리</span></a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">수출자</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">은행</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">운송사</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">관세청</a>
           </div>
         </li>
       </ul>
 
         <!--진행중인 계약-->
+      <div id="content-wrapper">
 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
     <h4 class="my-4">신용장(L/C) 확인({{n}}건)</h4>
 
@@ -276,7 +286,7 @@ label{color:white!important}
 
 <!--</form>-->
 </div>
-
+      </div>
         <!-- Sticky Footer -->
 
 

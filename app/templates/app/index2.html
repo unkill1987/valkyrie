@@ -46,9 +46,10 @@ background: linear-gradient(to right, #050505ed, #b4fff2);}
 background: linear-gradient(to right, #050505ed, #b4fff2); }
 
 #page-heager {font-color:white!important}
-h4,a{color:white!important}
-.dropdown-menu{background-color:#171717ed!important}
+h4,a,li{color:white!important}
+.dropdown-menu{background-color:#171717ed!important;border-color:#eceeef7a!important}
 .dropdown-item:hover{color:#171717ed!important}
+.dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
   <body id="page-top">
@@ -110,10 +111,10 @@ h4,a{color:white!important}
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
+    <ul class="sidebar navbar-nav">
+         <li class="nav-item active">
           <a class="nav-link" href="">
-          <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
+            <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
             <!--<span>EXPORTER</span>-->
             <!--<i class="fas fa-fw fa-angle-double-left"></i>-->
              <img id="img" src="{% static 'app/img/exporter.png'%}" style="width:200px;">
@@ -128,7 +129,7 @@ h4,a{color:white!important}
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'charts2' %}">
+          <a class="nav-link" href="{% url 'charts' %}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>환율정보</span></a>
         </li>
@@ -140,6 +141,7 @@ h4,a{color:white!important}
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
            <a class="dropdown-item" href="{% url 'forms2' %}">C/I 작성</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'ing2' %}">C/I 관리</a>
 
 
@@ -155,6 +157,7 @@ h4,a{color:white!important}
 
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
            <a class="dropdown-item" href="{% url 'forms2_1' %}">S/R 작성</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'ing2_1' %}">S/R 관리</a>
 
 
@@ -171,6 +174,7 @@ h4,a{color:white!important}
 
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="{% url 'lcreceived2' %}">L/C 확인</a>
+            <div class="dropdown-divider"></div>
            <a class="dropdown-item" href="{% url 'blreceived2' %}">B/L 확인</a>
 
 
@@ -178,10 +182,8 @@ h4,a{color:white!important}
 
           </div>
         </li>
-
-
             <li class="nav-item">
-          <a class="nav-link" href="{% url 'calendar2' %}">
+          <a class="nav-link" href="{% url 'calendar' %}">
             <i class="fas fa-fw fa-calendar"></i>
             <span>일정 관리</span></a>
         </li>
@@ -193,8 +195,9 @@ h4,a{color:white!important}
             </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">결제 내역</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">결제 하기</a>
-            <a class="dropdown-item" href="">입금 하기</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">출금 하기</a>
 
           </div>
@@ -206,8 +209,11 @@ h4,a{color:white!important}
             <span>계약자 관리</span></a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">수출자</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">은행</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">운송사</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">관세청</a>
           </div>
         </li>
@@ -280,94 +286,94 @@ h4,a{color:white!important}
 </div>
 
           <!-- Area Chart Example-->
-          <div class="container-fluid">
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-chart-area"></i>
-              환율 정보 / {{date1}}, {{time1}}기준</div>
+          <!--<div class="container-fluid">-->
+          <!--<div class="card mb-3">-->
+            <!--<div class="card-header">-->
+              <!--<i class="fas fa-chart-area"></i>-->
+              <!--환율 정보 / {{date1}}, {{time1}}기준</div>-->
 
-  <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-    <h1 class="my-4"></h1>
+  <!--<div class="container-fluid" style="margin:5px; margin-bottom:10px;">-->
+    <!--<h1 class="my-4"></h1>-->
 
-    <div class="row">
-        <div class="col-lg-4 mb-4" >
+    <!--<div class="row">-->
+        <!--<div class="col-lg-4 mb-4" >-->
 
-          <div class="card h-100">
+          <!--<div class="card h-100">-->
 
-            <h4 class="card-header">USD(달러)$</h4>
-            <div class="card-body">
-              <table class="card-text">
-                <tr>
-                  <td>BasePrice : </td>
-                  <td>￦{{ basePrice1 }}</td>
-                </tr>
-                <tr>
-                  <td>SellingPrice :</td>
-                  <td>￦{{sellprice1}}</td>
-                </tr>
-                <tr>
-                  <td>BuyingPrice :</td>
-                  <td>￦{{buyprice1}}</td>
-              </table>
-            </div>
-            <div class="card-footer">
-            </div>
-          </div>
-        </div>
-      <div class="col-lg-4 mb-4" >
+            <!--<h4 class="card-header">USD(달러)$</h4>-->
+            <!--<div class="card-body">-->
+              <!--<table class="card-text">-->
+                <!--<tr>-->
+                  <!--<td>BasePrice : </td>-->
+                  <!--<td>￦{{ basePrice1 }}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>SellingPrice :</td>-->
+                  <!--<td>￦{{sellprice1}}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>BuyingPrice :</td>-->
+                  <!--<td>￦{{buyprice1}}</td>-->
+              <!--</table>-->
+            <!--</div>-->
+            <!--<div class="card-footer">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--<div class="col-lg-4 mb-4" >-->
 
-          <div class="card h-100">
+          <!--<div class="card h-100">-->
 
-            <h4 class="card-header">JPY(엔)¥</h4>
-            <div class="card-body">
-              <table class="card-text">
-                <tr>
-                  <td>BasePrice : </td>
-                  <td>￦{{ basePrice2 }}</td>
-                </tr>
-                <tr>
-                  <td>SellingPrice :</td>
-                  <td>￦{{sellprice2}}</td>
-                </tr>
-                <tr>
-                  <td>BuyingPrice :</td>
-                  <td>￦{{buyprice2}}</td>
-              </table>
-            </div>
-            <div class="card-footer">
-            </div>
-          </div>
-        </div>
-      <div class="col-lg-4 mb-4" >
+            <!--<h4 class="card-header">JPY(엔)¥</h4>-->
+            <!--<div class="card-body">-->
+              <!--<table class="card-text">-->
+                <!--<tr>-->
+                  <!--<td>BasePrice : </td>-->
+                  <!--<td>￦{{ basePrice2 }}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>SellingPrice :</td>-->
+                  <!--<td>￦{{sellprice2}}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>BuyingPrice :</td>-->
+                  <!--<td>￦{{buyprice2}}</td>-->
+              <!--</table>-->
+            <!--</div>-->
+            <!--<div class="card-footer">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--<div class="col-lg-4 mb-4" >-->
 
-          <div class="card h-100">
+          <!--<div class="card h-100">-->
 
-            <h4 class="card-header">CNY(위안)Y</h4>
-            <div class="card-body">
-              <table class="card-text">
-                <tr>
-                  <td>BasePrice : </td>
-                  <td>￦{{ basePrice3 }}</td>
-                </tr>
-                <tr>
-                  <td>SellingPrice :</td>
-                  <td>￦{{sellprice3}}</td>
-                </tr>
-                <tr>
-                  <td>BuyingPrice :</td>
-                  <td>￦{{buyprice3}}</td>
-              </table>
-            </div>
-            <div class="card-footer">
-            </div>
-          </div>
-        </div>
-    </div>
-  </div>
-</div>
+            <!--<h4 class="card-header">CNY(위안)Y</h4>-->
+            <!--<div class="card-body">-->
+              <!--<table class="card-text">-->
+                <!--<tr>-->
+                  <!--<td>BasePrice : </td>-->
+                  <!--<td>￦{{ basePrice3 }}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>SellingPrice :</td>-->
+                  <!--<td>￦{{sellprice3}}</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td>BuyingPrice :</td>-->
+                  <!--<td>￦{{buyprice3}}</td>-->
+              <!--</table>-->
+            <!--</div>-->
+            <!--<div class="card-footer">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 
 
-            </div>
+            <!--</div>-->
           </div>
       <!-- /.content-wrapper -->
 

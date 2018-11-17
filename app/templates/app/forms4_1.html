@@ -34,8 +34,9 @@ background: linear-gradient(to right, #050505ed, #b4fff2); }
 
 h4,a{color:white!important}
 label{color:white!important}
-.dropdown-menu{background-color:#171717ed!important}
+.dropdown-menu{background-color:#171717ed!important;border-color:#eceeef7a!important}
 .dropdown-item:hover{color:#171717ed!important}
+.dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
   <body id="page-top">
@@ -102,26 +103,28 @@ label{color:white!important}
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
-           <li class="nav-item active">
+    <ul class="sidebar navbar-nav">
+        <li class="nav-item active">
           <a class="nav-link" href="">
-            <i class="fas fa-fw fa-angle-double-right"></i>
-            <span>SHIPPER</span>
-            <i class="fas fa-fw fa-angle-double-left"></i>
+            <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
+            <!--<span>SHIPPER</span>-->
+            <!--<i class="fas fa-fw fa-angle-double-left"></i>-->
+
+             <img id="img" src="{% static 'app/img/shipper.png'%}" style="width:200px;">
           </a>
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'index4' %}">
-            <i class="fas fa-fw fa-chalkboard"></i>
-            <span>Dashboard</span>
-          </a>
+            <a class="nav-link" href="{% url 'index4' %}">
+                <i class="fas fa-fw fa-chalkboard"></i>
+                <span>Dashboard</span>
+            </a>
 
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'charts' %}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>환율정보</span></a>
+            <a class="nav-link" href="{% url 'charts4' %}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>환율정보</span></a>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
@@ -131,6 +134,7 @@ label{color:white!important}
             </a>
             <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                 <a class="dropdown-item" href="{% url 'forms4_1' %}">B/L 작성</a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'ing4_1' %}">B/L 관리</a>
 
 
@@ -144,12 +148,13 @@ label{color:white!important}
             </a>
             <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                 <a class="dropdown-item" href="{% url 'forms4_2' %}">D/O 작성</a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'ing4_2' %}">D/O 관리</a>
 
 
             </div>
         </li>
-          <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-clipboard"></i>
             <span>받은 문서</span>
@@ -158,37 +163,46 @@ label{color:white!important}
            <a class="dropdown-item" href="{% url 'srreceived' %}">S/R 확인</a>
           </div>
         </li>
-            <li class="nav-item">
-          <a class="nav-link" href="{% url 'calendar4' %}">
-            <i class="fas fa-fw fa-calendar"></i>
-            <span>일정 관리</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'calendar4' %}">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>일정 관리</span></a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-credit-card"></i>
-            <span>자금 관리</span>
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-credit-card"></i>
+                <span>자금 관리</span>
             </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="">결제 내역</a>
-            <a class="dropdown-item" href="">결제 하기</a>
-            <a class="dropdown-item" href="">출금 하기</a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="">결제 내역</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">결제 하기</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">입금 하기</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">출금 하기</a>
 
-          </div>
+            </div>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-address-book"></i>
-            <span>계약자 관리</span></a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="">수출자</a>
-            <a class="dropdown-item" href="">은행</a>
-            <a class="dropdown-item" href="">운송사</a>
-            <a class="dropdown-item" href="">관세청</a>
-          </div>
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-address-book"></i>
+                <span>계약자 관리</span></a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="">수출자</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">은행</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">운송사</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">관세청</a>
+            </div>
         </li>
-      </ul>
+    </ul>
 
 
 

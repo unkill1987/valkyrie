@@ -32,10 +32,13 @@ background: linear-gradient(to right, #050505ed, #b4fff2);}
 #content-wrapper {
 background: linear-gradient(to right, #050505ed, #b4fff2); }
 
+
+#CI,#LCR,#LC,#SR,#BL,#DO{color:black!important}
 h4,a{color:white!important}
 label{color:white!important}
-.dropdown-menu{background-color:#171717ed!important}
+.dropdown-menu{background-color:#171717ed!important;border-color:#eceeef7a!important}
 .dropdown-item:hover{color:#171717ed!important}
+.dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
   <body id="page-top">
@@ -126,6 +129,7 @@ label{color:white!important}
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
            <a class="dropdown-item" href="{% url 'forms3' %}">신용장(L/C) 개설</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'ing3' %}">신용장(L/C) 관리</a>
 
 
@@ -156,8 +160,11 @@ label{color:white!important}
             </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">결제 내역</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">결제 하기</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">입금 하기</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">출금 하기</a>
 
           </div>
@@ -169,8 +176,11 @@ label{color:white!important}
             <span>계약자 관리</span></a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">수출자</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">은행</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">운송사</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">관세청</a>
           </div>
         </li>
@@ -196,22 +206,22 @@ label{color:white!important}
                 <input type="checkbox" id="{{p.id}}" value="{{ p.id }}"><a>Check</a>
                 <div class="card h-100">
 
-                  <h4 class="card-header">
-                             Contract ID: {{p.contract_id}}</h4>
+                  <h5 class="card-header">
+                             Contract ID: {{p.contract_id}}</h5>
                   <div class="card-body">
                     <p class="card-text">
-                      <h4>1. C/I &nbsp&nbsp발급 :
-                    <a id="CI">{{p.CI_hash}}</a></h4>
-                      <h4>2. L/C&nbsp&nbsp요청 :
-                    <a id="LCR">{{p.LCR_hash}}</a></h4>
-                     <h4>3. L/C&nbsp&nbsp발급 :
-                    <a id="LC">{{p.LC_hash}}</a></h4>
-                      <h4>4. S/R&nbsp&nbsp요청 :
-                    <a id="SR">{{p.SR_hash}}</a></h4>
-                      <h4>5. B/L&nbsp&nbsp발급 :
-                    <a id="BL">{{p.BL_hash}}</a></h4>
-                      <h4>6. D/O&nbsp발급 :
-                    <a id="DO">{{p.DO_hash}}</a></h4>
+                      <h5>1. C/I &nbsp&nbsp발급 :
+                    <a id="CI">{{p.CI_hash}}</a></h5>
+                      <h5>2. L/C&nbsp&nbsp요청 :
+                    <a id="LCR">{{p.LCR_hash}}</a></h5>
+                     <h5>3. L/C&nbsp&nbsp발급 :
+                    <a id="LC">{{p.LC_hash}}</a></h5>
+                      <h5>4. S/R&nbsp&nbsp요청 :
+                    <a id="SR">{{p.SR_hash}}</a></h5>
+                      <h5>5. B/L&nbsp&nbsp발급 :
+                    <a id="BL">{{p.BL_hash}}</a></h5>
+                      <h5>6. D/O&nbsp발급 :
+                    <a id="DO">{{p.DO_hash}}</a></h5>
 
                     </h4>
 

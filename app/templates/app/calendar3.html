@@ -34,8 +34,9 @@ background: linear-gradient(to right, #050505ed, #b4fff2); }
 
 h4,a{color:white!important}
 label{color:white!important}
-.dropdown-menu{background-color:#171717ed!important}
+.dropdown-menu{background-color:#171717ed!important;border-color:#eceeef7a!important}
 .dropdown-item:hover{color:#171717ed!important}
+.dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
   <body id="page-top">
@@ -127,6 +128,7 @@ label{color:white!important}
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
            <a class="dropdown-item" href="{% url 'forms3' %}">신용장(L/C) 개설</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'ing3' %}">신용장(L/C) 관리</a>
 
 
@@ -157,8 +159,11 @@ label{color:white!important}
             </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">결제 내역</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">결제 하기</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">입금 하기</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">출금 하기</a>
 
           </div>
@@ -170,8 +175,11 @@ label{color:white!important}
             <span>계약자 관리</span></a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item" href="">수출자</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">은행</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">운송사</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="">관세청</a>
           </div>
         </li>

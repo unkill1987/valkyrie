@@ -31,9 +31,12 @@ background: linear-gradient(to right, #050505ed, #b4fff2);}
 
 #content-wrapper {
 background: linear-gradient(to right, #050505ed, #b4fff2); }
+
+#CI,#LCR,#LC,#SR,#BL,#DO{color:black!important}
 h4,a{color:white!important}
-.dropdown-menu{background-color:#171717ed!important}
+.dropdown-menu{background-color:#171717ed!important;border-color:#eceeef7a!important}
 .dropdown-item:hover{color:#171717ed!important}
+.dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 </style>
   <body id="page-top">
@@ -187,70 +190,56 @@ h4,a{color:white!important}
       </ul>
 
 
-  <div id="content-wrapper">
+    <div id="content-wrapper">
+
+
+        <!-- /.container-fluid -->
+
+
       <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
         <h4 class="my-4">완료된 계약({{n}}건)</h4>
 
 
             <div class="row">
-              {%for p in contract %}
+               {%for p in contract %}
               <div class="col-lg-12 mb-4" style="margin-bottom:30px; margin-top:30px">
 
 
                 <div class="card h-100">
 
-                  <h4 class="card-header">
-                             Contract ID: {{p.id}}</h4>
+                  <h5 class="card-header">
+                             Contract ID: {{p.contract_id}}</h5>
                   <div class="card-body">
                     <p class="card-text">
-                      <h4>
-                    <table>
-                    <tr>
-                      <td>1. C/I &nbsp&nbsp발급</td>
-                      <td>:</td>
-                      <td> {{p.CI_hash}}</td>
+                      <h5>
 
-                      </tr>
-                      <tr>
-                      <td>2. L/C&nbsp&nbsp요청</td>
-                        <td>:</td>
-                      <td>{{p.LCR_hash}}</td>
-                      </tr>
-                      <tr>
-                      <td>3. L/C&nbsp&nbsp발급</td>
-                          <td>:</td>
-                      <td>{{p.LC_hash}}</td>
-                      </tr>
-                      <tr>
-                      <td>4. S/R&nbsp&nbsp요청</td>
-                          <td>:</td>
-                      <td>{{p.SR_hash}}</td>
-                      </tr>
-                      <tr>
-                      <td>5. B/L&nbsp&nbsp발급</td>
-                          <td>:</td>
-                      <td>{{p.BL_hash}}</td>
-                      </tr>
-                      <tr>
-                      <td>6. D/O&nbsp발급</td>
-                          <td>:</td>
-                      <td>{{p.DO_hash}}</td>
-                      </tr>
-                      </table>
-                    </h4>
-                    </p>
+                      1. C/I &nbsp&nbsp발급 :
+                      {{p.CI_hash}}<br>
+                      2. L/C&nbsp&nbsp요청 :
+                      {{p.LCR_hash}}<br>
+                      3. L/C&nbsp&nbsp발급 :
+                      {{p.LC_hash}}<br>
+                      4. S/R&nbsp&nbsp요청 :
+                      {{p.SR_hash}}<br>
+                      5. B/L&nbsp&nbsp발급 :
+                      {{p.BL_hash}}<br>
+                      6. D/O&nbsp발급 :
+                      {{p.DO_hash}}<br>
+
+                    </h5>
+
                   </div>
                 </div>
               </div>
           {%endfor%}
 
                 </div>
+      </div>
         <hr>
 
 
 
-
-               <div class="pagination" style="text-align:center; margin:auto;">
+<div class="pagination" style="text-align:center; margin:auto;">
     <span class="step-links" style="text-align:center; margin:auto;">
       <ul class="pagination pagination-lg" >
         {% if contract.has_previous %}
@@ -275,7 +264,6 @@ h4,a{color:white!important}
         </ul>
     </span>
   </div>
-      </div>
 
     </div>
     <!-- /#wrapper -->
