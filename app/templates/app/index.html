@@ -53,6 +53,8 @@ h4,a,li{color:white!important}
 
 
 @media (max-width:768px) { #img{ width:70px!important; margin-left:-5px;}}
+
+
 </style>
   <body id="page-top" >
 
@@ -414,6 +416,26 @@ h4,a,li{color:white!important}
         </div>
       </div>
     </div>
+
+
+  <script>
+jQuery(document).ready(function($) {
+  var alterClass = function() {
+    var ww = document.body.clientWidth;
+    if (ww < 768) {
+      $('.sidebar').addClass('toggled');
+    } else if (ww >= 768) {
+      $('.sidebar').removeClass('toggled');
+    };
+  };
+  $(window).resize(function(){
+    alterClass();
+  });
+  //Fire it when the page first loads:
+  alterClass();
+});
+
+  </script>
   </body>
 
 </html>

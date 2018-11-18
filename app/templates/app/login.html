@@ -13,9 +13,11 @@
 
 
 
-<!--</script>-->
-<!--<meta name = "google-signin-client_id"content = " 291743131584-mt4pdmfk57hp2u7k4t0bah2mb60pp58i.apps.googleusercontent.com ">-->
+
   <head>
+
+
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -54,6 +56,8 @@
       max-width:720px;
     }
   }
+
+
 </style>
 
 
@@ -99,7 +103,8 @@
             </div>
             <a id='login' class="btn btn-dark btn-block" href="{% url 'index' %}">Login</a>
 
-              <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+
               {% csrf_token %}
           </form>
           <div class="text-center">
@@ -111,6 +116,8 @@
       </div>
 
 
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'app/vendor/jquery/jquery.min.js'%}"></script>
     <script src="{% static 'app/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
@@ -120,6 +127,7 @@
 
 
     <script>
+    //로그인 버튼 활성화
       $('#login').click(function() {
         $.ajax({
           url: '/app/',
@@ -136,7 +144,7 @@
       })
 
 
-
+//엔터로 로그인하기
 var input = document.getElementById("inputPassword");
 
 // Execute a function when the user releases a key on the keyboard

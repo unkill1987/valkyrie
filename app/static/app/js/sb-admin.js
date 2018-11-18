@@ -3,11 +3,13 @@
 
   // Toggle the side navigation
   $("#sidebarToggle").on('click',function(e) {
+
     e.preventDefault();
 
     $(".sidebar").toggleClass("toggled");
     $("body").toggleClass("sidebar-toggled");
   });
+
 
   // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
   $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
@@ -19,7 +21,7 @@
     }
   });
 
- function openNav() {
+function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
 }
 
@@ -47,4 +49,12 @@ function closeNav() {
     event.preventDefault();
   });
 
+
+
 })(jQuery); // End of use strict
+
+
+
+
+
+

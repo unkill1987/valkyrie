@@ -50,6 +50,17 @@ label{color:white!important}
 .dropdown-item:hover{color:#171717ed!important}
 .dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
+
+#usa { background:url('../../static/app/img/usa.png');
+        background-repeat:no-repeat;
+        background-size:cover;}
+#jpn { background:url('../../static/app/img/jpn.png');
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position: center;}
+#chn { background:url('../../static/app/img/chn.png');
+        background-repeat:no-repeat;
+        background-size:cover;}
 </style>
   <body id="page-top">
 
@@ -212,7 +223,7 @@ label{color:white!important}
    <div class="row">
         <div class="col-lg-4 mb-4" >
 
-          <div class="card h-100">
+          <div id="usa" class="card h-100">
 
             <h4 class="card-header">USD(달러)$</h4>
             <div class="card-body">
@@ -254,7 +265,7 @@ label{color:white!important}
         </div>
       <div class="col-lg-4 mb-4" >
 
-          <div class="card h-100">
+          <div id="jpn" class="card h-100">
 
             <h4 class="card-header">JPY(엔)¥</h4>
             <div class="card-body">
@@ -298,7 +309,7 @@ label{color:white!important}
 
       <div class="col-lg-4 mb-4" >
 
-          <div class="card h-100">
+          <div id="chn" class="card h-100">
 
             <h4 class="card-header">CNY(위안)Y</h4>
             <div class="card-body">
@@ -424,7 +435,26 @@ label{color:white!important}
         <!--})-->
     <!--})-->
       <!--</script>-->
-    </div></div>
+    </div>
+    </div>
+  <script>
+jQuery(document).ready(function($) {
+  var alterClass = function() {
+    var ww = document.body.clientWidth;
+    if (ww < 768) {
+      $('.sidebar').addClass('toggled');
+    } else if (ww >= 768) {
+      $('.sidebar').removeClass('toggled');
+    };
+  };
+  $(window).resize(function(){
+    alterClass();
+  });
+  //Fire it when the page first loads:
+  alterClass();
+});
+
+  </script>
   </body>
 
 
