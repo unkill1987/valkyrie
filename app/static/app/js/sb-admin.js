@@ -50,7 +50,6 @@ function closeNav() {
   });
 
 
-
 })(jQuery); // End of use strict
 
 

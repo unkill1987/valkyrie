@@ -50,6 +50,8 @@ h4,a{color:white!important}
 .dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
 
+@media (min-width:500px) { td {font-size:25px}}
+
 #usa { background:url('../../static/app/img/usa.png');
         background-repeat:no-repeat;
         background-size:cover;
@@ -61,6 +63,11 @@ h4,a{color:white!important}
 #chn { background:url('../../static/app/img/chn.png');
         background-repeat:no-repeat;
         background-size:cover;}
+
+#eur { background:url('../../static/app/img/eur.png');
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position: center;}
 
 
 
@@ -261,15 +268,18 @@ h4,a{color:white!important}
             <div class="card-footer">
             <table>
             <tr>
-              <td>$</td>
+              <td style="text-align:center">$</td>
+
               <td><input class="form-control" id="usnum"></td>
             </tr>
               <tr>
                 <td></td>
+
                 <td><input class="btn btn-dark" style="width:205px; height:38px;" type="button" value="결과보기" onclick="mul1()"></td>
               </tr>
               <tr>
                 <td>￦</td>
+
           <td><input class="form-control" id="result1"></td>
               </tr>
                 </table>
@@ -304,7 +314,7 @@ h4,a{color:white!important}
             <div class="card-footer">
          <table>
             <tr>
-              <td>¥</td>
+              <td style="text-align:center">¥</td>
               <td><input class="form-control" id="jpnum"></td>
             </tr>
               <tr>
@@ -348,7 +358,7 @@ h4,a{color:white!important}
             <div class="card-footer">
               <table>
             <tr>
-              <td>Y</td>
+              <td style="text-align:center">Y</td>
               <td><input class="form-control" id="chnum"></td>
             </tr>
               <tr>
@@ -357,7 +367,51 @@ h4,a{color:white!important}
               </tr>
               <tr>
                 <td>￦</td>
-          <td><input class="form-control" id="result3"></td>
+                <td><input class="form-control" id="result3"></td>
+              </tr>
+                </table>
+
+            </div>
+          </div>
+        </div>
+
+       <div class="col-lg-4 mb-4" >
+
+          <div id="eur"class="card h-100">
+
+            <h4 class="card-header">EUR(유로)€</h4>
+            <div class="card-body">
+              <table class="card-text">
+
+                <tr>
+                  <td>Base Price</td>
+                  <td>:</td>
+                  <td>￦{{ basePrice4}}</td>
+                </tr>
+                <tr>
+                  <td>Selling Price</td>
+                  <td>:</td>
+                  <td>￦{{sellprice4}}</td>
+                </tr>
+                <tr>
+                  <td>Buying Price</td>
+                  <td>:</td>
+                  <td>￦{{buyprice4}}</td>
+              </table>
+            </div>
+            <div class="card-footer">
+              <table>
+            <tr>
+              <td style="text-align:center">€</td>
+              <td><input class="form-control" id="eunum"></td>
+            </tr>
+              <tr>
+                <td></td>
+                <td><input class="btn btn-dark" style="width:205px; height:38px;" type="button" value="결과보기" onclick="mul4()"></td>
+              </tr>
+              <tr>
+                <td>￦</td>
+                <td><input class="form-control" id="result4"></td>
               </tr>
                 </table>
 
@@ -378,14 +432,24 @@ h4,a{color:white!important}
             var usnum = document.getElementById('usnum');
             var result1 = eval(usnum.value)*{{ basePrice1 }}
             document.getElementById('result1').value = result1;}
+
+
+
+
             function mul2() {
             var jpnum = document.getElementById('jpnum');
             var result2 = eval(jpnum.value)*{{ basePrice2 }}
             document.getElementById('result2').value = result2;}
+
             function mul3() {
             var chnum = document.getElementById('chnum');
             var result3 = eval(chnum.value)*{{ basePrice3 }}
             document.getElementById('result3').value = result3;}
+
+            function mul4() {
+            var eunum = document.getElementById('eunum');
+            var result4 = eval(eunum.value)*{{ basePrice4 }}
+            document.getElementById('result4').value = result4;}
 
 
           </script>
