@@ -2,14 +2,14 @@
 {% load static %}
 <html lang="en">
 
-  <head>
+<head>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-  <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/img/icon.ico'%}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/img/icon.ico'%}">
     <title>Valkyrie - Dashboard</title>
 
     <!-- Bootstrap core CSS-->
@@ -24,7 +24,7 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
 
-  </head>
+</head>
 <style>
 .bg-primary {
     background-color: #0505057a!important;
@@ -43,7 +43,8 @@
 background: linear-gradient(to right, #050505ed, #b4fff2);}
 
 #content-wrapper {
-background: linear-gradient(to right, #050505ed, #b4fff2); }
+background: linear-gradient(to right, #050505ed, #b4fff2);
+ padding-bottom:0px!important;}
 
 #page-heager {font-color:white!important}
 h4,a,li{color:white!important}
@@ -54,344 +55,302 @@ h4,a,li{color:white!important}
 
 @media (max-width:768px) { #img{ width:70px!important; margin-left:-5px;}}
 
+@media (max-width:576px) { #contact,#middle { display:none;}}
+
+#middle { background:url('../../static/app/img/world.png');
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position: center;}
 
 </style>
-  <body id="page-top" >
+<body id="page-top">
 
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-<img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
-      <a class="navbar-brand mr-1" href="#">&nbspVALKYRIE SYSTEM</a>
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+    <img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
+    <a class="navbar-brand mr-1" href="#">&nbspVALKYRIE SYSTEM</a>
 
-      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle">
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle">
         <i class="fas fa-bars"></i>
-      </button>
+    </button>
 
-      <!-- Navbar Search -->
-      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
 
-      </form>
+    </form>
 
-      <!-- Navbar -->
-      <ul class="navbar-nav ml-auto ml-md-0">
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown no-arrow mx-1">
-          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-bell fa-fw"></i>
-            <span class="badge badge-danger"></span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <span class="badge badge-danger"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
         </li>
         <li class="nav-item dropdown no-arrow mx-1">
-          <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-envelope fa-fw"></i>
-            <span class="badge badge-danger"></span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <span class="badge badge-danger"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
         </li>
         <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user-circle fa-fw"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activity Log</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-          </div>
-        </li>
-      </ul>
-
-    </nav>
-
-    <div id="wrapper">
-
-      <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="">
-              <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
-            <!--<span>IMPORTER</span>-->
-            <!--<i class="fas fa-fw fa-angle-double-left"></i>-->
-            <img id="img" src="{% static 'app/img/importer.png'%}" style="width:200px;">
-
-          </a>
-
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}">
-            <i class="fas fa-fw fa-chalkboard"></i>
-            <span>Dashboard</span>
-          </a>
-
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'charts' %}">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>환율정보</span></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-edit"></i>
-            <span>신용장(L/C) 신청</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="{% url 'forms' %}">L/C 신청서 작성</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'ing' %}">L/C 신청서 관리</a>
-
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-clipboard"></i>
-            <span>받은 문서</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="{% url 'cireceived' %}">C/I 확인</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'lcreceived1' %}">L/C 확인</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'blreceived1' %}">B/L 확인</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'doreceived' %}">D/O 확인</a>
-
-          </div>
-        </li>
-            <li class="nav-item">
-          <a class="nav-link" href="{% url 'calendar' %}">
-            <i class="fas fa-fw fa-calendar"></i>
-            <span>일정 관리</span></a>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-credit-card"></i>
-            <span>자금 관리</span>
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle fa-fw"></i>
             </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="">결제 내역</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">결제 하기</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">입금 하기</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">출금 하기</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">Settings</a>
+                <a class="dropdown-item" href="#">Activity Log</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+            </div>
+        </li>
+    </ul>
 
-          </div>
+</nav>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="">
+                <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
+                <!--<span>IMPORTER</span>-->
+                <!--<i class="fas fa-fw fa-angle-double-left"></i>-->
+                <img id="img" src="{% static 'app/img/importer.png'%}" style="width:200px;">
+
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'index' %}">
+                <i class="fas fa-fw fa-chalkboard"></i>
+                <span>Dashboard</span>
+            </a>
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'charts' %}">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>환율정보</span></a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-edit"></i>
+                <span>신용장(L/C) 신청</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="{% url 'forms' %}">L/C 신청서 작성</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'ing' %}">L/C 신청서 관리</a>
+
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-clipboard"></i>
+                <span>받은 문서</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="{% url 'cireceived' %}">C/I 확인</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'lcreceived1' %}">L/C 확인</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'blreceived1' %}">B/L 확인</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'doreceived' %}">D/O 확인</a>
+
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'calendar' %}">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>일정 관리</span></a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-address-book"></i>
-            <span>계약자 관리</span></a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="">수출자</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">은행</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">운송사</a>
-             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">관세청</a>
-          </div>
-        </li>
-      </ul>
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-credit-card"></i>
+                <span>자금 관리</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="">결제 내역</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">결제 하기</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">입금 하기</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">출금 하기</a>
 
-      <div id="content-wrapper">
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-address-book"></i>
+                <span>계약자 관리</span></a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" href="">수출자</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">은행</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">운송사</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="">관세청</a>
+            </div>
+        </li>
+    </ul>
+
+    <div id="content-wrapper">
 
         <div class="container-fluid">
-        <ol class="breadcrumb">
+            <ol class="breadcrumb">
 
-            <li class="breadcrumb-item active">{{user_id}}님의 Dashboard</li>
-          </ol>
-          <!-- Breadcrumbs-->
+                <li class="breadcrumb-item active">{{user_id}}님의 Dashboard</li>
+            </ol>
+            <!-- Breadcrumbs-->
 
-<div class="container-fluid" >
+            <div class="container-fluid">
 
-          <!-- Icon Cards-->
-            <div class="row" >
-            <div class="col-xl-4 col-sm-6 mb-3" >
-              <div class="card text-white bg-primary o-hidden h-100" >
-                <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fas fa-fw fa-edit"></i>
-                  </div>
-                  <div class="mr-5">진행중인 계약</div>
-                </div>
-                <a class="card-footer text-white clearfix small z-1" href="{% url 'process1' %}">
-                  <span class="float-left">View Details</span>
-                  <span class="float-right">
+                <!-- Icon Cards-->
+                <div class="row">
+                    <div class="col-xl-4 col-sm-6 mb-3">
+                        <div class="card text-white bg-primary o-hidden h-100">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-edit"></i>
+                                </div>
+                                <div class="mr-5">진행중인 계약</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="{% url 'process1' %}">
+                                <span class="float-left">View Details</span>
+                                <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
-                </a>
-              </div>
-            </div>
-            <div class="col-xl-4 col-sm-6 mb-3" >
-              <div class="card text-white bg-warning o-hidden h-100">
-                <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fas fa-fw fa-list"></i>
-                  </div>
-                  <div class="mr-5">완료된 계약</div>
-                </div>
-                <a class="card-footer text-white clearfix small z-1" href="{% url 'process1_done' %}">
-                  <span class="float-left">View Details</span>
-                  <span class="float-right">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-6 mb-3">
+                        <div class="card text-white bg-warning o-hidden h-100">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-file-archive"></i>
+                                </div>
+                                <div class="mr-5">완료된 계약</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="{% url 'process1_done' %}">
+                                <span class="float-left">View Details</span>
+                                <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
-                </a>
-              </div>
-            </div>
+                            </a>
+                        </div>
+                    </div>
 
-            <div class="col-xl-4 col-sm-6 mb-3" >
-              <div class="card text-white bg-danger o-hidden h-100">
-                <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fas fa-fw fa-credit-card"></i>
-                  </div>
-                  <div class="mr-5">입력</div>
-                </div>
-                <a class="card-footer text-white clearfix small z-1" href="">
-                  <span class="float-left">View Details</span>
-                  <span class="float-right">
+                    <div class="col-xl-4 col-sm-6 mb-3">
+                        <div class="card text-white bg-danger o-hidden h-100">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-link"></i>
+                                </div>
+                                <div class="mr-5">트랜젝션 검색</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="">
+                                <span class="float-left">View Details</span>
+                                <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
-                </a>
-              </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-</div>
-</div>
+        </div>
 
-          <!-- Area Chart Example-->
-          <!--<div class="container-fluid">-->
-          <!--<div class="card mb-3">-->
-            <!--<div class="card-header">-->
-              <!--<i class="fas fa-chart-area"></i>-->
-              <!--환율 정보 / {{date1}}, {{time1}}기준</div>-->
+       <div class="content-wrapper" style="font-size:100px;color:white;text-align:center;padding:30px" id="middle">
+            <h2>VALKRIE SYSTEM</h2>
+               <h2> BLOCKCHAIN FOR TRADE</h2>
+          <h2> &nbsp</h2>
+           <h3>Increase </h3>
+               <h3>Trust, Transparency and Accountability</h3>
+           <h3>for your trade.</h3>
 
+       </div>
+        <div class="container-fluid" style="padding-right:200px;padding-left:200px" id="contact">
+            <form name="sentMessage" id="contactForm" novalidate="novalidate" >
+            <div style="color:white; font-size:20px">CONTACT US</div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
 
-  <!--<div class="container-fluid" >-->
-    <!--<h1 class="my-4"></h1>-->
+                  <input class="form-control" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
 
-    <!--<div class="row" >-->
-        <!--<div class="col-lg-4 mb-4" >-->
+                  <input class="form-control" id="phone" type="tel" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
 
-          <!--<div class="card h-100">-->
-
-            <!--<h4 class="card-header">USD(달러)$</h4>-->
-            <!--<div class="card-body">-->
-              <!--<table class="card-text">-->
-                <!--<tr>-->
-                  <!--<td>BasePrice : </td>-->
-                  <!--<td>￦{{ basePrice1 }}</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>SellingPrice :</td>-->
-                  <!--<td>￦{{sellprice1}}</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>BuyingPrice :</td>-->
-                  <!--<td>￦{{buyprice1}}</td>-->
-              <!--</table>-->
-            <!--</div>-->
-            <!--<div class="card-footer">-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--<div class="col-lg-4 mb-4" >-->
-
-          <!--<div class="card h-100">-->
-
-            <!--<h4 class="card-header">JPY(엔)¥</h4>-->
-            <!--<div class="card-body">-->
-              <!--<table class="card-text">-->
-                <!--<tr>-->
-                  <!--<td>BasePrice : </td>-->
-                  <!--<td>￦{{ basePrice2 }}</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>SellingPrice :</td>-->
-                  <!--<td>￦{{sellprice2}}</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>BuyingPrice :</td>-->
-                  <!--<td>￦{{buyprice2}}</td>-->
-              <!--</table>-->
-            <!--</div>-->
-            <!--<div class="card-footer">-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--<div class="col-lg-4 mb-4" >-->
-
-          <!--<div class="card h-100">-->
-
-            <!--<h4 class="card-header">CNY(위안)Y</h4>-->
-            <!--<div class="card-body">-->
-              <!--<table class="card-text">-->
-                <!--<tr>-->
-                  <!--<td>BasePrice : </td>-->
-                  <!--<td>￦{{ basePrice3 }}</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>SellingPrice :</td>-->
-                  <!--<td>￦{{sellprice3}}</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                  <!--<td>BuyingPrice :</td>-->
-                  <!--<td>￦{{buyprice3}}</td>-->
-              <!--</table>-->
-            <!--</div>-->
-            <!--<div class="card-footer">-->
-
-
-
-            <!--</div>-->
-
-          <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-
-          <!--</div>-->
-      <!-- /.content-wrapper -->
-
+                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+             <div id="success"></div>
+              <div class="form-group" style="text-align:center;">
+                <button type="submit" class="btn btn-dark" id="sendMessageButton" style="width:200px">Send</button>
+              </div>
+            </form>
+        </div>
     </div>
     <!-- /#wrapper -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
+        <i class="fas fa-angle-up"></i>
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
-          </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
@@ -412,13 +371,12 @@ h4,a,li{color:white!important}
     <!-- Demo scripts for this page-->
 
 
+</div>
+</div>
+</div>
 
-        </div>
-      </div>
-    </div>
 
-
-  <script>
+<script>
 jQuery(document).ready(function($) {
   var alterClass = function() {
     var ww = document.body.clientWidth;
@@ -435,7 +393,8 @@ jQuery(document).ready(function($) {
   alterClass();
 });
 
-  </script>
-  </body>
+
+</script>
+</body>
 
 </html>

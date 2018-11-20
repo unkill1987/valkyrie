@@ -43,7 +43,8 @@
 background: linear-gradient(to right, #050505ed, #b4fff2);}
 
 #content-wrapper {
-background: linear-gradient(to right, #050505ed, #b4fff2); }
+background: linear-gradient(to right, #050505ed, #b4fff2);
+padding-bottom:0px!important;}
 
 #page-heager {font-color:white!important}
 h4,a,li{color:white!important}
@@ -51,6 +52,13 @@ h4,a,li{color:white!important}
 .dropdown-item:hover{color:#171717ed!important}
 .dropdown-divider{background:#eceeef7a!important}
 @media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
+
+@media (max-width:576px) { #contact,#middle { display:none;}}
+
+#middle { background:url('../../static/app/img/world.png');
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position: center;}
 </style>
 <body id="page-top">
 
@@ -247,7 +255,7 @@ h4,a,li{color:white!important}
               <div class="card text-white bg-warning o-hidden h-100">
                 <div class="card-body">
                   <div class="card-body-icon">
-                    <i class="fas fa-fw fa-list"></i>
+                    <i class="fas fa-fw fa-file-archive"></i>
                   </div>
                   <div class="mr-5">완료된 계약</div>
                 </div>
@@ -264,9 +272,9 @@ h4,a,li{color:white!important}
               <div class="card text-white bg-danger o-hidden h-100">
                 <div class="card-body">
                   <div class="card-body-icon">
-                    <i class="fas fa-fw fa-credit-card"></i>
+                    <i class="fas fa-fw fa-link"></i>
                   </div>
-                  <div class="mr-5">입력</div>
+                  <div class="mr-5">트랜젝션 검색</div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="">
                   <span class="float-left">View Details</span>
@@ -366,7 +374,46 @@ h4,a,li{color:white!important}
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
-    </div>
+
+    <div class="content-wrapper" style="font-size:100px;color:white;text-align:center;padding:30px" id="middle">
+            <h2>VALKRIE SYSTEM</h2>
+               <h2> BLOCKCHAIN FOR TRADE</h2>
+          <h2> &nbsp</h2>
+           <h3>Increase </h3>
+               <h3>Trust, Transparency and Accountability</h3>
+           <h3>for your trade.</h3>
+
+       </div>
+        <div class="container-fluid" style="padding-right:200px;padding-left:200px" id="contact">
+            <form name="sentMessage" id="contactForm" novalidate="novalidate" >
+            <div style="color:white; font-size:20px">CONTACT US</div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+
+                  <input class="form-control" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+
+                  <input class="form-control" id="phone" type="tel" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+
+                  <textarea class="form-control" id="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+             <div id="success"></div>
+              <div class="form-group" style="text-align:center;">
+                <button type="submit" class="btn btn-dark" id="sendMessageButton" style="width:200px">Send</button>
+              </div>
+            </form>
+        </div>
 </div>
 <!-- /.content-wrapper -->
 <!-- /#wrapper -->
@@ -404,7 +451,7 @@ h4,a,li{color:white!important}
 <script src="{% static 'app/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
 
 <!-- Page level plugin JavaScript-->
-<script src="{% static 'app/vendor/chart.js/Chart.min.js'%}"></script>
+
 <script src="{% static 'app/vendor/datatables/jquery.dataTables.js'%}"></script>
 <script src="{% static 'app/vendor/datatables/dataTables.bootstrap4.js'%}"></script>
 
@@ -413,7 +460,7 @@ h4,a,li{color:white!important}
 
 <!-- Demo scripts for this page-->
 <script src="{% static 'app/js/demo/datatables-demo.js'%}"></script>
-<script src="{% static 'app/js/demo/chart-area-demo.js'%}"></script>
+
 
 <script>
 jQuery(document).ready(function($) {
