@@ -3,19 +3,16 @@
 <html lang="en">
 
 <!--<script src="https://apis.google.com/js/platform.js" async defer>-->
-  <!--function onSignIn(googleUser) {-->
-  <!--var profile = googleUser.getBasicProfile();-->
-  <!--console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.-->
-  <!--console.log('Name: ' + profile.getName());-->
-  <!--console.log('Image URL: ' + profile.getImageUrl());-->
-  <!--console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.-->
+<!--function onSignIn(googleUser) {-->
+<!--var profile = googleUser.getBasicProfile();-->
+<!--console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.-->
+<!--console.log('Name: ' + profile.getName());-->
+<!--console.log('Image URL: ' + profile.getImageUrl());-->
+<!--console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.-->
 <!--}-->
 
 
-
-
-  <head>
-
+<head>
 
 
     <meta charset="utf-8">
@@ -34,7 +31,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
-  </head>
+</head>
 
 <style>
   .bg-dark{ background: linear-gradient(to right, #050505, #b4fff2)!important; }
@@ -58,75 +55,74 @@
   }
 
 
+
 </style>
 
 
+<body class="bg-dark" style="background:black">
 
-  <body class="bg-dark" style="background:black" >
-
-  <div style="text-align:center;">
+<div style="text-align:center;">
     <img class="container-fluid" src="{% static 'app/img/img2.png'%}">
-    </div>
-    <div class="container">
-      <div class="card-login mx-auto mt-5">
-          <form>
+</div>
+<div class="container">
+    <div class="card-login mx-auto mt-5">
+        <form>
             <select class="custom-select" name="user_role" style="width:200px;height:45px;">
-                <option  value="1" selected>수입자</option>
-                <option  value="2">수출자</option>
-                <option  value="3">은행</option>
-                <option  value="4">운송사</option>
+                <option value="1" selected>수입자</option>
+                <option value="2">수출자</option>
+                <option value="3">은행</option>
+                <option value="4">운송사</option>
             </select>
             <div class="form-group">
-              <div class="form-label-group">
+                <div class="form-label-group">
 
-              </div>
+                </div>
             </div>
             <div class="form-group">
-              <div class="form-label-group">
-                <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus" >
-                <label for="inputEmail">Email address</label>
-              </div>
+                <div class="form-label-group">
+                    <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"
+                           required="required" autofocus="autofocus">
+                    <label for="inputEmail">Email address</label>
+                </div>
             </div>
             <div class="form-group">
-              <div class="form-label-group">
-                <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
-                <label for="inputPassword">Password</label>
-              </div>
+                <div class="form-label-group">
+                    <input name="password" type="password" id="inputPassword" class="form-control"
+                           placeholder="Password" required="required">
+                    <label for="inputPassword">Password</label>
+                </div>
             </div>
             <div class="form-group">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" value="remember-me">
-                  <a  style="color:#2125295e">Remember Password</a>
-                </label>
-              </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me">
+                        <a style="color:#2125295e">Remember Password</a>
+                    </label>
+                </div>
             </div>
             <a id='login' class="btn btn-dark btn-block" href="{% url 'index' %}">Login</a>
 
 
-
-              {% csrf_token %}
-          </form>
-          <div class="text-center">
+            {% csrf_token %}
+        </form>
+        <div class="text-center">
             <a class="d-block small mt-3" href="{% url 'register' %}" style="color:#2125295e">Register an Account</a>
             <a class="d-block small" href="{% url 'forgot'%}" style="color:#2125295e">Forgot Password?</a>
             <br>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 
 
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'app/vendor/jquery/jquery.min.js'%}"></script>
+<script src="{% static 'app/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{% static 'app/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'app/vendor/jquery/jquery.min.js'%}"></script>
-    <script src="{% static 'app/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'app/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
-
-
-    <script>
+<script>
     //로그인 버튼 활성화
       $('#login').click(function() {
         $.ajax({
@@ -161,7 +157,8 @@ document.getElementById("login").click();
 }
 });
 
-    </script>
-  </body>
+
+</script>
+</body>
 
 </html>

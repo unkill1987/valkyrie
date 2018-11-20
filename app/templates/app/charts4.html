@@ -34,7 +34,7 @@
 .btn { width:90%!important}
 }
 
-.card{background:#2125295e!important}
+.card{background:#2125295e}
 td{color:white!important}
 .card-body{padding:1.00rem!important}
 
@@ -61,6 +61,10 @@ label{color:white!important}
 #chn { background:url('../../static/app/img/chn.png');
         background-repeat:no-repeat;
         background-size:cover;}
+#eur { background:url('../../static/app/img/eur.png');
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position: center;}
 </style>
 <body id="page-top">
 
@@ -369,6 +373,50 @@ label{color:white!important}
             </div>
           </div>
         </div>
+       <div class="col-lg-4 mb-4">
+
+                            <div id="eur" class="card h-100">
+
+                                <h4 class="card-header">EUR(유로)€</h4>
+                                <div class="card-body">
+                                    <table class="card-text">
+
+                                        <tr>
+                                            <td>Base Price</td>
+                                            <td>:</td>
+                                            <td>￦{{ basePrice4}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Selling Price</td>
+                                            <td>:</td>
+                                            <td>￦{{sellprice4}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Buying Price</td>
+                                            <td>:</td>
+                                            <td>￦{{buyprice4}}</td>
+                                    </table>
+                                </div>
+                                <div class="card-footer">
+                                    <table>
+                                        <tr>
+                                            <td style="text-align:center">€</td>
+                                            <td><input class="form-control" id="eunum"></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td><input class="btn btn-dark" style="width:205px; height:38px;"
+                                                       type="button" value="결과보기" onclick="mul4()"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>￦</td>
+                                            <td><input class="form-control" id="result4"></td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
     </div>
   </div>
 </div>
@@ -391,7 +439,10 @@ label{color:white!important}
             var result3 = eval(chnum.value)*{{ basePrice3 }}
             document.getElementById('result3').value = result3;}
 
-
+            function mul4() {
+            var eunum = document.getElementById('eunum');
+            var result4 = eval(eunum.value)*{{ basePrice4 }}
+            document.getElementById('result4').value = result4;}
           </script>
 
 
