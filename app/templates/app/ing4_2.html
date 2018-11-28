@@ -335,17 +335,16 @@
       $('#share4_1').click(function(){
         var share_user = $("#share_user").val();
 
-        check_ids = ''
-        sep = ''
+
         if($('#share_user').val().length==0){
         alert("수입자ID를 입력하세요.");
         $('#share_user').focus();return false;}
         $('input:checked').each(function() {
-          check_ids += sep + $(this).val()
-          sep = ','
+          check_id = $(this).val()
+
         alert(share_user+'에게 전송되었습니다.')
         })
-        location = '/app/share4_2?check_id=' + check_ids +'&share_user=' + share_user
+        location = '/app/share4_2?check_id=' + check_id +'&share_user=' + share_user
         return false
       })
 

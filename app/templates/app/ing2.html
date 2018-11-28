@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -33,7 +32,7 @@
   <body id="page-top">
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-<img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
+    <img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
       <a class="navbar-brand mr-1" href="{% url 'index2' %}">&nbspVALKYRIE SYSTEM</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
@@ -217,14 +216,15 @@
             <h5 class="card-header">
 
 
-            Contract ID.{{c.id}}<hr>
+              Contract ID.<a id = "contract_id">{{c.id}}</a><hr>
 
 
               {{c.contractname}}</h5>
             <div class="card-body">
               <p class="card-text">
 
-              <h5>Document Hash:<br>{{c.sha256}}</h5></p>
+              <h5>Document Hash:</h5>
+              <h5 id = "hash">{{c.sha256}}</h5></p>
             </div>
             <div class="card-footer">
               <a href="{% url 'download2' %}?id={{ c.id }}" class="btn btn-dark" target="_blank">
@@ -346,17 +346,19 @@
 
       $('#share2').click(function(){
         var share_user = $("#share_user").val();
-        check_ids = ''
-        sep = ''
+
+
         if($('#share_user').val().length==0){
         alert("수입자ID를 입력하세요.");
         $('#share_user').focus();return false;}
         $('input:checked').each(function() {
-          check_ids += sep + $(this).val()
-          sep = ','
+          check_id=$(this).val()
+
+          var contract_id = $("#contract_id").text();
           alert(share_user+'에게 전송되었습니다.')
         })
-        location = '/app/share2?check_id=' + check_ids +'&share_user=' + share_user
+        location = '/app/share2?check_id=' + check_id +'&share_user=' + share_user
+
         return false
       })
 

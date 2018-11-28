@@ -1,16 +1,14 @@
+import webbrowser
 from calendar import monthrange
 
 
 import requests
-from django.template import RequestContext
-from django.utils.datetime_safe import date
-from django.utils.safestring import mark_safe
 from pylab import *
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect
 import hashlib
-import sys
+
 import os
 import time
 
@@ -48,6 +46,8 @@ def share1(request):
             getid = contract.filter(id=id)
             hash = getid.values('sha256')[0]['sha256']
             contract_id = getid.values('contract_id')[0]['contract_id']
+            contract = str(contract_id)
+            user_id = getid.values('owner')[0]['owner']
 
             process = Process.objects.get(id=contract_id)
             process.user1 = user_id
@@ -58,6 +58,7 @@ def share1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.LCR_hash = hash
             process_complete.save()
+            webbrowser.open_new_tab('http://localhost:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
 
         except Exception as e:
             print(e)
@@ -69,23 +70,26 @@ def share2(request):
     check_ids = check_id.split(',')
     share_user = request.GET['share_user']
 
+
     for id in check_ids:
         try:
             share = Contract_CI.objects.get(id=id)
             share.share1 = share_user
             share.save()
-            print(id)
+
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_CI.objects.filter(owner=member)
             getid = contract.filter(id=id)
             hash = getid.values('sha256')[0]['sha256']
-            print(hash)
+            contract_id = getid.values('id')[0]['id']
+            contract = str(contract_id)
+            user_id = getid.values('owner')[0]['owner']
 
             process = Process.objects.get(CI_hash=hash)
             process.user1 = share_user
             process.save()
-
+            webbrowser.open_new_tab('http://localhost:8001/add_CI/'+ contract +'-'+user_id+'-'+hash)
 
         except Exception as e:
             print(e)
@@ -109,6 +113,8 @@ def share2_1(request):
             getid = contract.filter(id=id)
             hash = getid.values('sha256')[0]['sha256']
             contract_id = getid.values('contract_id')[0]['contract_id']
+            contract = str(contract_id)
+            user_id = getid.values('owner')[0]['owner']
 
             process = Process.objects.get(id=contract_id)
             process.SR_hash = hash
@@ -117,10 +123,11 @@ def share2_1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.SR_hash = hash
             process_complete.save()
+            webbrowser.open_new_tab('http://localhost:8001/add_SR/' + contract + '-' + user_id + '-' + hash)
         except Exception as e:
             print (e)
             pass
-    return redirect('ing2_1')
+        return redirect('ing2_1')
 
 def share3(request):
     check_id = request.GET['check_id']
@@ -141,6 +148,8 @@ def share3(request):
             getid = contract.filter(id=id)
             hash = getid.values('sha256')[0]['sha256']
             contract_id = getid.values('contract_id')[0]['contract_id']
+            contract = str(contract_id)
+            user_id = getid.values('owner')[0]['owner']
 
             process = Process.objects.get(id=contract_id)
             process.LC_hash = hash
@@ -148,10 +157,11 @@ def share3(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.LC_hash = hash
             process_complete.save()
+            webbrowser.open_new_tab('http://localhost:8001/add_LC/' + contract + '-' + user_id + '-' + hash)
         except Exception as e:
             print(e)
             pass
-    return redirect('ing3')
+        return redirect('ing3')
 
 def share4_1(request):
     check_id = request.GET['check_id']
@@ -171,6 +181,8 @@ def share4_1(request):
             getid = contract.filter(id=id)
             hash = getid.values('sha256')[0]['sha256']
             contract_id = getid.values('contract_id')[0]['contract_id']
+            contract = str(contract_id)
+            user_id = getid.values('owner')[0]['owner']
 
             process = Process.objects.get(id=contract_id)
             process.BL_hash = hash
@@ -178,9 +190,10 @@ def share4_1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.BL_hash = hash
             process_complete.save()
+            webbrowser.open_new_tab('http://localhost:8001/add_BL/' + contract + '-' + user_id + '-' + hash)
         except:
             pass
-    return redirect('ing4_1')
+        return redirect('ing4_1')
 
 def share4_2(request):
 
@@ -200,6 +213,8 @@ def share4_2(request):
             getid = contract.filter(id=id)
             hash = getid.values('sha256')[0]['sha256']
             contract_id = getid.values('contract_id')[0]['contract_id']
+            contract = str(contract_id)
+            user_id = getid.values('owner')[0]['owner']
 
             process = Process.objects.get(id=contract_id)
             process.DO_hash = hash
@@ -207,9 +222,10 @@ def share4_2(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.DO_hash = hash
             process_complete.save()
+            webbrowser.open_new_tab('http://localhost:8001/add_DO/' + contract + '-' + user_id + '-' + hash)
         except:
             pass
-    return redirect('ing4_2')
+        return redirect('ing4_2')
 
 
 def remove(request):

@@ -338,8 +338,7 @@
       $('#share4_1').click(function(){
         var share_user = $("#share_user").val();
         var share_user2 = $("#share_user2").val();
-        check_ids = ''
-        sep = ''
+
         if($('#share_user').val().length==0){
         alert("수입자ID를 입력하세요.");
         $('#share_user').focus();return false;}
@@ -347,11 +346,11 @@
         alert("수출자ID를 입력하세요.");
         $('#share_user2').focus();return false;}
         $('input:checked').each(function() {
-          check_ids += sep + $(this).val()
-          sep = ','
+          check_id = $(this).val()
+
           alert(share_user+','+share_user2+'에게 전송되었습니다.')
         })
-        location = '/app/share4_1?check_id=' + check_ids +'&share_user=' + share_user +'&share_user2=' + share_user2
+        location = '/app/share4_1?check_id=' + check_id +'&share_user=' + share_user +'&share_user2=' + share_user2
         return false
       })
 
