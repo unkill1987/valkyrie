@@ -3,10 +3,11 @@ from calendar import monthrange
 
 
 import requests
+from django.template import RequestContext
 from pylab import *
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 import hashlib
 
 import os
@@ -1722,7 +1723,8 @@ def calendar(request):
             templates = 'app/login.html'
 
         return render(request, templates, {})
-    except:
+    except Exception as e:
+        print(e);
         return redirect('login')
 
 
@@ -1812,5 +1814,6 @@ def register(request):
 
 def forgot(request):
     return render(request, 'app/forgot.html', {})
+
 
 
