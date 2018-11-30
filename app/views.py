@@ -1,8 +1,10 @@
 import webbrowser
 from calendar import monthrange
+import smtplib
 
 
 import requests
+from django.core.mail import send_mail
 from django.template import RequestContext
 from pylab import *
 from django.core.paginator import Paginator
@@ -13,7 +15,7 @@ import hashlib
 import os
 import time
 
-from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process, Process_complete
+from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process, Process_complete, Contact
 from valweb import settings
 from django.utils import timezone
 
@@ -1593,35 +1595,14 @@ def logout(request):
 
 
 def index(request):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-    res1 = requests.get('https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD', headers=headers)
-    json_data = res1.json()
-    basePrice1 = json_data[0]['basePrice']
-    sellprice1 = json_data[0]['cashSellingPrice']
-    buyprice1 = json_data[0]['cashBuyingPrice']
-    date1 = json_data[0]['date']
-    time1 = json_data[0]['time']
 
-    res2 = requests.get('https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWJPY', headers=headers)
-    json_data = res2.json()
-    basePrice2 = json_data[0]['basePrice']
-    sellprice2 = json_data[0]['cashSellingPrice']
-    buyprice2 = json_data[0]['cashBuyingPrice']
-
-    res3 = requests.get('https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWCNY', headers=headers)
-    json_data = res3.json()
-    basePrice3 = json_data[0]['basePrice']
-    sellprice3 = json_data[0]['cashSellingPrice']
-    buyprice3 = json_data[0]['cashBuyingPrice']
 
     try:
 
 
         user_id = request.session['user_id']
         user_role = request.session['user_role']
-        n = len(Contract_LCR.objects.filter(owner=Member.objects.get(user_id=user_id)))
-        n1 = len(Contract_LCR.objects.filter(share1=Member.objects.get(user_id=user_id)))
+
 
         templates = ''
         if user_role == '1':
@@ -1635,10 +1616,7 @@ def index(request):
         else:
             templates = 'app/login.html'
 
-        return render(request, templates, {'user_id':user_id, 'n': n,'n1':n1,
-                                           'basePrice1': basePrice1,'sellprice1':sellprice1,'buyprice1':buyprice1,'date1':date1,'time1':time1,
-                                            'basePrice2':basePrice2,'sellprice2':sellprice2,'buyprice2':buyprice2,
-                                           'basePrice3':basePrice3,'sellprice3':sellprice3,'buyprice3':buyprice3})
+        return render(request, templates, {'user_id':user_id})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -1695,7 +1673,6 @@ def charts(request):
                                            'basePrice2':basePrice2,'sellprice2':sellprice2,'buyprice2':buyprice2,
                                            'basePrice3':basePrice3,'sellprice3':sellprice3,'buyprice3':buyprice3,
                                            'basePrice4': basePrice4, 'sellprice4': sellprice4, 'buyprice4': buyprice4})
-    #
 
 
     except Exception as e:
@@ -1815,5 +1792,15 @@ def register(request):
 def forgot(request):
     return render(request, 'app/forgot.html', {})
 
+def send(request):
+    user_id = request.session['user_id']
+    user_role = request.session['user_role']
+    email = request.POST['email_address']
+    phone = request.POST['phone_number']
+    message = request.POST['message']
 
+    contact = Contact(user_id=user_id, user_role=user_role, email=email, phone=phone, message=message)
+    contact.save()
+
+    return  redirect('index')
 

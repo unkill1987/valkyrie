@@ -133,4 +133,6 @@ urlpatterns = [
     path('B_process/', views.process3, name='process3'),
     path('F_process/', views.process4, name='process4'),
 
+    path('send/', views.send, name='send'),
+
 ]

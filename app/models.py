@@ -2,6 +2,12 @@ from django.db import models
 
 
 # Create your models here.
+class Contact(models.Model):
+    user_id=models.CharField(max_length=100)
+    user_role=models.CharField(max_length=100)
+    email=models.CharField(max_length=100)
+    phone=models.CharField(max_length=100)
+    message=models.CharField(max_length=500)
 
 class Process_complete(models.Model):
     contract_id = models.CharField(max_length=20)
