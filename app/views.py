@@ -1,9 +1,8 @@
-import webbrowser
-from calendar import monthrange
-import smtplib
-
+from tkinter.messagebox import showerror, showinfo
+from tkinter import *
 
 import requests
+from django.contrib import messages
 from django.core.mail import send_mail
 from django.template import RequestContext
 from pylab import *
@@ -61,8 +60,20 @@ def share1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.LCR_hash = hash
             process_complete.save()
-            webbrowser.open_new_tab('http://localhost:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
+            url = 'http://localhost:8001/add_LCR/' + contract + '-' + user_id + '-' + hash
+            response = requests.get(url)
+            res = response.text
 
+            root = Tk()
+            root.withdraw()
+            root.lift()
+            root.attributes("-topmost", True)
+
+            if (res == "The contract already exists"):
+                showerror("Error", res)
+            else:
+                showinfo("Success", 'Txid:' + res)
+            root.mainloop()
         except Exception as e:
             print(e)
             pass
@@ -92,8 +103,19 @@ def share2(request):
             process = Process.objects.get(CI_hash=hash)
             process.user1 = share_user
             process.save()
-            webbrowser.open_new_tab('http://localhost:8001/add_CI/'+ contract +'-'+user_id+'-'+hash)
+            url = 'http://localhost:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
+            response = requests.get(url)
 
+            res = response.text
+            root = Tk()
+            root.withdraw()
+            root.lift()
+            root.attributes("-topmost", True)
+            if ( res == "The contract already exists" ):
+                showerror("Error",res)
+            else:
+                showinfo("Success", 'Txid:' + res)
+            root.mainloop()
         except Exception as e:
             print(e)
             pass
@@ -126,7 +148,19 @@ def share2_1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.SR_hash = hash
             process_complete.save()
-            webbrowser.open_new_tab('http://localhost:8001/add_SR/' + contract + '-' + user_id + '-' + hash)
+            url = 'http://localhost:8001/add_SR/' + contract + '-' + user_id + '-' + hash
+            response = requests.get(url)
+            res = response.text
+            root = Tk()
+            root.withdraw()
+            root.lift()
+            root.attributes("-topmost", True)
+
+            if (res == "The contract already exists"):
+                showerror("Error", res)
+            else:
+                showinfo("Success", 'Txid:' + res)
+            root.mainloop()
         except Exception as e:
             print (e)
             pass
@@ -160,7 +194,18 @@ def share3(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.LC_hash = hash
             process_complete.save()
-            webbrowser.open_new_tab('http://localhost:8001/add_LC/' + contract + '-' + user_id + '-' + hash)
+            url = 'http://localhost:8001/add_LC/' + contract + '-' + user_id + '-' + hash
+            response = requests.get(url)
+            res = response.text
+            root = Tk()
+            root.withdraw()
+            root.lift()
+            root.attributes("-topmost", True)
+            if (res == "The contract already exists"):
+                showerror("Error", res)
+            else:
+                showinfo("Success", 'Txid:' + res)
+            root.mainloop()
         except Exception as e:
             print(e)
             pass
@@ -193,7 +238,18 @@ def share4_1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.BL_hash = hash
             process_complete.save()
-            webbrowser.open_new_tab('http://localhost:8001/add_BL/' + contract + '-' + user_id + '-' + hash)
+            url = 'http://localhost:8001/add_BL/' + contract + '-' + user_id + '-' + hash
+            response = requests.get(url)
+            res = response.text
+            root = Tk()
+            root.withdraw()
+            root.lift()
+            root.attributes("-topmost", True)
+            if (res == "The contract already exists"):
+                showerror("Error", res)
+            else:
+                showinfo("Success", 'Txid:' + res)
+            root.mainloop()
         except:
             pass
         return redirect('ing4_1')
@@ -225,7 +281,18 @@ def share4_2(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.DO_hash = hash
             process_complete.save()
-            webbrowser.open_new_tab('http://localhost:8001/add_DO/' + contract + '-' + user_id + '-' + hash)
+            url = 'http://localhost:8001/add_DO/' + contract + '-' + user_id + '-' + hash
+            response = requests.get(url)
+            res = response.text
+            root = Tk()
+            root.withdraw()
+            root.lift()
+            root.attributes("-topmost", True)
+            if (res == "The contract already exists"):
+                showerror("Error", res)
+            else:
+                showinfo("Success", 'Txid:' + res)
+            root.mainloop()
         except:
             pass
         return redirect('ing4_2')
@@ -633,7 +700,7 @@ def submit(request):
 
     # a = 'MD5 : ' + hashlib.md5(data).hexdigest()
     # b = 'SHA-1 : ' + hashlib.sha1(data).hexdigest()
-    hash = hashlib.sha256(data).hexdigest().upper()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -703,7 +770,7 @@ def submit2(request):
     file = open('CI_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest().upper()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -776,7 +843,7 @@ def submit2_1(request):
     file = open('SR_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest().upper()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -884,7 +951,7 @@ letteroflc + '\n'
     #
     # a = 'MD5 : ' + hashlib.md5(data).hexdigest()
     # b = 'SHA-1 : ' + hashlib.sha1(data).hexdigest()
-    hash = hashlib.sha256(data).hexdigest().upper()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -941,7 +1008,7 @@ def submit4_1(request):
     file = open('BL_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest().upper()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
 
@@ -993,7 +1060,7 @@ def submit4_2(request):
     file = open('DO_' + time_format + '.txt', 'rb')
     data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest().upper()
+    hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
@@ -1313,7 +1380,7 @@ def ing2(request):
         contracts = paginator.get_page(page)
 
 
-        return render(request, 'app/ing2.html', {'contract': contracts,  'n': n, })
+        return render(request, 'app/ing2.html', {'contract': contracts,  'n': n, 'user': user_id})
     except Exception as e:
         print(e)
         return redirect('login')

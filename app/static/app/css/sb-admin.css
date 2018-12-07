@@ -135,6 +135,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   background-color: #white;
   min-height: calc(100vh - 56px);
   border-color: #05050552;
+  z-index:1;
 }
 
 .sidebar .nav-item:last-child {
@@ -182,6 +183,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   width: 0 !important;
   overflow: hidden;
   border: none;
+  z-index:3;
 }
 
 @media (min-width: 768px) {
