@@ -10,7 +10,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Studio - Creative Photography Template | Blog</title>
+    <title>Valkyrie System</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="{% static 'app/img/core-img/favicon.ico'%}">
@@ -25,218 +25,184 @@
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="showbox">
-            <div class="loader">
-                <svg class="circular" viewBox="25 25 50 50">
-                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-                </svg>
-            </div>
-        </div>
-        <div class="questions-area text-center">
-            <p>Please Wait...</p>
-            <ul>
-                <li>Valkyrie Blockchain Trade System</li>
-            </ul>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="showbox">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
         </div>
     </div>
+    <div class="questions-area text-center">
+        <p>Please Wait...</p>
+        <ul>
+            <li>Valkyrie Blockchain Trade System</li>
+        </ul>
+    </div>
+</div>
 
-    <!-- Gradient Background Overlay -->
-    <div class="gradient-background-overlay"></div>
+<!-- Gradient Background Overlay -->
+<div class="gradient-background-overlay"></div>
 
-    <!-- Header Area Start -->
-    <header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
-        <div class="container-fluid h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12 h-100">
-                    <div class="main-menu h-100">
-                        <nav class="navbar h-100 navbar-expand-lg">
-                            <!-- Logo Area  -->
-                            <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}" alt="Logo"></a>
+<!-- Header Area Start -->
+<header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 h-100">
+                <div class="main-menu h-100">
+                    <nav class="navbar h-100 navbar-expand-lg">
+                        <!-- Logo Area  -->
+                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
+                                                                       alt="Logo"></a>
 
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu" aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i> Menu</button>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
+                                aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
+                                class="fa fa-bars"></i> Menu
+                        </button>
 
-                            <div class="collapse navbar-collapse" id="studioMenu">
-                                <!-- Menu Area Start  -->
-                                <ul class="navbar-nav ml-auto">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="{% url 'index' %}">Home </a>
-                                    </li>
-                                     <li class="nav-item active">
-                                        <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">문서 작성</a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url 'forms'%}">신용장 신청서</a>
-                                        </div>
-                                    </li>
-                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url 'ing'%}">신용장 신청서</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
-                                            <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
-                                            <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
-                                            <a class="dropdown-item" href="{% url 'doreceived'%}">인도지시서</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="contact.html">MYPAGE</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
-                                    </li>
-                                </ul>
+                        <div class="collapse navbar-collapse" id="studioMenu">
+                            <!-- Menu Area Start  -->
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'index' %}">Home </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">문서 작성</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'forms'%}">신용장 신청서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'ing'%}">신용장 신청서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
+                                        <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'doreceived'%}">인도지시서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="contact.html">MYPAGE</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
+                                </li>
+                            </ul>
 
-                            </div>
-                        </nav>
-                    </div>
+                        </div>
+                    </nav>
                 </div>
             </div>
         </div>
-    </header>
-    <!-- Header Area End -->
-
-    <!-- Social Sidebar Area Start -->
-    <div class="social-sidebar-area">
-        <!-- Social Area -->
-        <div class="social-info-area">
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i> <span>Facebook</span></a>
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i> <span>Twitter</span></a>
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i> <span>Pinterest</span></a>
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance" aria-hidden="true"></i> <span>Behance</span></a>
-        </div>
     </div>
-    <!-- Social Sidebar Area End -->
+</header>
+<!-- Header Area End -->
 
-    <!-- Blog Area Start -->
-    <section class="blog-area section_padding_100 mt-100">
-        <div class="container">
-            <div class="row justify-content-center">
+<!-- Social Sidebar Area Start -->
+<div class="social-sidebar-area">
+    <!-- Social Area -->
+    <div class="social-info-area">
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
+                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
+                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
+                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
+                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
+    </div>
+</div>
+<!-- Social Sidebar Area End -->
+
+<!--Valkyrie System Area Start -->
+<section class="blog-area section_padding_100 mt-100">
+    <div class="container">
+        <div class="row justify-content-center">
             <!-- Breadcrumbs-->
 
             <div class="container-fluid">
-
-                <!-- Icon Cards-->
+                <form method="post" action="{% url 'search'%}">
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10 mx-auto">
+                            <h2>블록체인 검색</h2>
+                            <div class="input-group">
+                                <label class="input-group-text" for="cid">Contract ID</label>
+                                <input class="form-control" id="cid" name="cid" type="text">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-outline-dark">search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% csrf_token %}
+                </form>
                 <div class="row">
-                    <div class="col-xl-4 col-sm-6 mb-3">
-                        <div class="card text-white bg-primary o-hidden h-100">
-                            <div class="card-body">
-                                <div class="card-body-icon">
-                                    <i class="fas fa-fw fa-edit"></i>
-                                </div>
-                                <div class="mr-5">진행중인 계약</div>
-                            </div>
-                            <a class="card-footer text-white clearfix small z-1" href="{% url 'process1' %}">
-                                <span class="float-left">View Details</span>
-                                <span class="float-right">
-                    <i class="fas fa-angle-right"></i>
-                  </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-6 mb-3">
-                        <div class="card text-white bg-warning o-hidden h-100">
-                            <div class="card-body">
-                                <div class="card-body-icon">
-                                    <i class="fas fa-fw fa-file-archive"></i>
-                                </div>
-                                <div class="mr-5">완료된 계약</div>
-                            </div>
-                            <a class="card-footer text-white clearfix small z-1" href="{% url 'process1_done' %}">
-                                <span class="float-left">View Details</span>
-                                <span class="float-right">
-                    <i class="fas fa-angle-right"></i>
-                  </span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-sm-6 mb-3">
-                        <div class="card text-white bg-danger o-hidden h-100">
-                            <div class="card-body">
-                                <div class="card-body-icon">
-                                    <i class="fas fa-fw fa-link"></i>
-                                </div>
-                                <div class="mr-5">블록체인 검색</div>
-                            </div>
-                            <a class="card-footer text-white clearfix small z-1" href="#" onclick="window.open('http://localhost:8001')">
-                                <span class="float-left">View Details</span>
-                                <span class="float-right">
-                    <i class="fas fa-angle-right"></i>
-                  </span>
-                            </a>
-                        </div>
+                    <div class="col-lg-12" style="text-align:center;">
+                        <h4 style="color:#ff0018b0"><br>{{message}}</h4>
                     </div>
                 </div>
+
+
             </div>
+            <!-- /#wrapper -->
         </div>
-
-       <div class="content-wrapper" style="font-size:100px;text-align:center;padding:30px" id="middle">
-            <h2>VALKRIE SYSTEM</h2>
-               <h2> BLOCKCHAIN FOR TRADE</h2>
-          <h2> &nbsp</h2>
-           <h3>Increase </h3>
-               <h3>Trust, Transparency and Accountability</h3>
-           <h3>for your trade.</h3>
-
-       </div>
-
-
+        <!-- Pagination -->
     </div>
-    <!-- /#wrapper -->
-</div>
-            <!-- Pagination -->
-        </div>
-    </section>
-    <!-- Blog Area End -->
+</section>
+<!--Valkyrie System Area End -->
 
-    <!-- Footer Area Start -->
-    <footer class="footer-area">
-        <div class="container-fluid h-100">
-            <div class="row h-100">
-                <div class="col-12 h-100">
-                    <div class="footer-content h-100 d-md-flex align-items-center justify-content-between">
-                        <!-- Single Footer Content -->
-                        <div class="single-footer-content">
-                            <img src="{% static 'app/img/core-img/map.png'%}" alt="">
-                            <a href="#">Blvd Libertad, 34 m05200 Arévalo</a>
-                        </div>
-                        <!-- Single Footer Content -->
-                        <div class="single-footer-content">
-                            <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
-                            <a href="#">0034 37483 2445 322</a>
-                        </div>
-                        <!-- Single Footer Content -->
-                        <div class="single-footer-content">
-                            <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
-                            <a href="#">hello@company.com</a>
-                        </div>
+<!-- Footer Area Start -->
+<footer class="footer-area">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-12 h-100">
+                <div class="footer-content h-100 d-md-flex align-items-center justify-content-between">
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/map.png'%}" alt="">
+                        <a href="#">Korea, Seoul</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
+                        <a href="#">0000000000</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
+                        <a href="#">hello@company.com</a>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
-    <!-- Footer Area End -->
+    </div>
+</footer>
+<!-- Footer Area End -->
 
 
-    <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
-    <!-- Popper js -->
-    <script src="{% static 'app/js/popper.min.js'%}"></script>
-    <!-- Bootstrap js -->
-    <script src="{% static 'app/js/bootstrap.min.js'%}"></script>
-    <!-- Plugins js -->
-    <script src="{% static 'app/js/plugins.js'%}"></script>
-    <!-- Active js -->
-    <script src="{% static 'app/js/active.js'%}"></script>
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
+<!-- Popper js -->
+<script src="{% static 'app/js/popper.min.js'%}"></script>
+<!-- Bootstrap js -->
+<script src="{% static 'app/js/bootstrap.min.js'%}"></script>
+<!-- Plugins js -->
+<script src="{% static 'app/js/plugins.js'%}"></script>
+<!-- Active js -->
+<script src="{% static 'app/js/active.js'%}"></script>
 
 </body>
 

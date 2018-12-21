@@ -11,7 +11,7 @@
 :: 8.0 Follow Instagram Area CSS
 :: 9.0 Footer Area CSS
 :: 10.0 Portfolio Area CSS
-:: 11.0 Blog & Contact Area CSS
+:: 11.0Valkyrie System & Contact Area CSS
 :: 12.0 Elements Area CSS
 ------------------------------------------------ */
 
@@ -292,7 +292,7 @@ img {
 }
 
 .mt-100 {
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 .mb-15 {
@@ -899,7 +899,7 @@ img {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-/* :: 11.0 Blog & Contact Area CSS */
+/* :: 11.0Valkyrie System & Contact Area CSS */
 
 .blog-content span,
 .contact-heading-text span {

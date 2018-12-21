@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.template import RequestContext
 from pylab import *
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, render_to_response
 import hashlib
@@ -19,15 +19,22 @@ from valweb import settings
 from django.utils import timezone
 
 
-def paging(request):
-    user_id = request.session['user_id']
-    member = Member.objects.get(user_id=user_id)
-    contract_list = Contract_LCR.objects.filter(owner=member)
-    paginator = Paginator(contract_list, 6)
+def search(request):
+    try:
+        cid = str(request.POST['cid'])
+        url = ("http://192.168.0.6:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+        if len(history) == 0:
+            message = "Invalid Contract ID"
+            return render(request, 'app/index.html', {'message': message})
+        else:
+            history.reverse()
 
-    page = request.GET.get('page')
-    contracts = paginator.get_page(page)
-    return render(request, 'app/ing.html', {'contracts': contracts})
+            return render(request, 'app/search.html', {'cid': cid, 'history': history})
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 
 def share1(request):
@@ -38,10 +45,6 @@ def share1(request):
     for id in check_ids:
         try:
 
-            share = Contract_LCR.objects.get(id=id)
-            share.share3=share_user
-            share.save()
-
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract = Contract_LCR.objects.filter(owner=member)
@@ -51,17 +54,8 @@ def share1(request):
             contract = str(contract_id)
             user_id = getid.values('owner')[0]['owner']
 
-            process = Process.objects.get(id=contract_id)
-            process.user1 = user_id
-            process.LCR_hash = hash
-            process.user3 = share_user
-            process.save()
-
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.LCR_hash = hash
-            process_complete.save()
-            url = 'http://localhost:8001/add_LCR/' + contract + '-' + user_id + '-' + hash
-            response = requests.get(url)
+            url = ('http://192.168.0.6:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
+            response = requests.post(url)
             res = response.text
 
             root = Tk()
@@ -72,7 +66,21 @@ def share1(request):
             if (res == "The contract already exists"):
                 showerror("Error", res)
             else:
+                share = Contract_LCR.objects.get(id=id)
+                share.share3 = share_user
+                share.save()
+
+                process = Process.objects.get(id=contract_id)
+                process.user1 = user_id
+                process.LCR_hash = hash
+                process.user3 = share_user
+                process.save()
+
+                process_complete = Process_complete.objects.get(id=contract_id)
+                process_complete.LCR_hash = hash
+                process_complete.save()
                 showinfo("Success", 'Txid:' + res)
+
             root.mainloop()
         except Exception as e:
             print(e)
@@ -87,9 +95,6 @@ def share2(request):
 
     for id in check_ids:
         try:
-            share = Contract_CI.objects.get(id=id)
-            share.share1 = share_user
-            share.save()
 
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
@@ -100,12 +105,9 @@ def share2(request):
             contract = str(contract_id)
             user_id = getid.values('owner')[0]['owner']
 
-            process = Process.objects.get(CI_hash=hash)
-            process.user1 = share_user
-            process.save()
-            url = 'http://localhost:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
-            response = requests.get(url)
 
+            url = 'http://192.168.0.6:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
+            response = requests.post(url)
             res = response.text
             root = Tk()
             root.withdraw()
@@ -114,8 +116,16 @@ def share2(request):
             if ( res == "The contract already exists" ):
                 showerror("Error",res)
             else:
+                share = Contract_CI.objects.get(id=id)
+                share.share1 = share_user
+                share.save()
+
+                process = Process.objects.get(CI_hash=hash)
+                process.user1 = share_user
+                process.save()
                 showinfo("Success", 'Txid:' + res)
             root.mainloop()
+
         except Exception as e:
             print(e)
             pass
@@ -128,9 +138,6 @@ def share2_1(request):
 
     for id in check_ids:
         try:
-            share = Contract_SR.objects.get(id=id)
-            share.share4=share_user
-            share.save()
 
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
@@ -141,15 +148,9 @@ def share2_1(request):
             contract = str(contract_id)
             user_id = getid.values('owner')[0]['owner']
 
-            process = Process.objects.get(id=contract_id)
-            process.SR_hash = hash
-            process.user4 = share_user
-            process.save()
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.SR_hash = hash
-            process_complete.save()
-            url = 'http://localhost:8001/add_SR/' + contract + '-' + user_id + '-' + hash
-            response = requests.get(url)
+
+            url = 'http://192.168.0.6:8001/add_SR/' + contract + '-' + user_id + '-' + hash
+            response = requests.post(url)
             res = response.text
             root = Tk()
             root.withdraw()
@@ -159,6 +160,19 @@ def share2_1(request):
             if (res == "The contract already exists"):
                 showerror("Error", res)
             else:
+                process = Process.objects.get(id=contract_id)
+                process.SR_hash = hash
+                process.user4 = share_user
+                process.save()
+
+                process_complete = Process_complete.objects.get(id=contract_id)
+                process_complete.SR_hash = hash
+                process_complete.save()
+
+                share = Contract_SR.objects.get(id=id)
+                share.share4 = share_user
+                share.save()
+
                 showinfo("Success", 'Txid:' + res)
             root.mainloop()
         except Exception as e:
@@ -174,10 +188,6 @@ def share3(request):
 
     for id in check_ids:
         try:
-            share = Contract_LC.objects.get(id=id)
-            share.share1=share_user
-            share.share2=share_user2
-            share.save()
 
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
@@ -188,14 +198,9 @@ def share3(request):
             contract = str(contract_id)
             user_id = getid.values('owner')[0]['owner']
 
-            process = Process.objects.get(id=contract_id)
-            process.LC_hash = hash
-            process.save()
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.LC_hash = hash
-            process_complete.save()
-            url = 'http://localhost:8001/add_LC/' + contract + '-' + user_id + '-' + hash
-            response = requests.get(url)
+
+            url = 'http://192.168.0.6:8001/add_LC/' + contract + '-' + user_id + '-' + hash
+            response = requests.post(url)
             res = response.text
             root = Tk()
             root.withdraw()
@@ -204,6 +209,19 @@ def share3(request):
             if (res == "The contract already exists"):
                 showerror("Error", res)
             else:
+                share = Contract_LC.objects.get(id=id)
+                share.share1 = share_user
+                share.share2 = share_user2
+                share.save()
+
+                process = Process.objects.get(id=contract_id)
+                process.LC_hash = hash
+                process.save()
+
+                process_complete = Process_complete.objects.get(id=contract_id)
+                process_complete.LC_hash = hash
+                process_complete.save()
+
                 showinfo("Success", 'Txid:' + res)
             root.mainloop()
         except Exception as e:
@@ -218,10 +236,6 @@ def share4_1(request):
     share_user2 = request.GET['share_user2']
     for id in check_ids:
         try:
-            share = Contract_BL.objects.get(id=id)
-            share.share1=share_user
-            share.share2=share_user2
-            share.save()
 
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
@@ -232,14 +246,9 @@ def share4_1(request):
             contract = str(contract_id)
             user_id = getid.values('owner')[0]['owner']
 
-            process = Process.objects.get(id=contract_id)
-            process.BL_hash = hash
-            process.save()
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.BL_hash = hash
-            process_complete.save()
-            url = 'http://localhost:8001/add_BL/' + contract + '-' + user_id + '-' + hash
-            response = requests.get(url)
+
+            url = 'http://192.168.0.6:8001/add_BL/' + contract + '-' + user_id + '-' + hash
+            response = requests.post(url)
             res = response.text
             root = Tk()
             root.withdraw()
@@ -248,6 +257,19 @@ def share4_1(request):
             if (res == "The contract already exists"):
                 showerror("Error", res)
             else:
+                share = Contract_BL.objects.get(id=id)
+                share.share1 = share_user
+                share.share2 = share_user2
+                share.save()
+
+                process = Process.objects.get(id=contract_id)
+                process.BL_hash = hash
+                process.save()
+
+                process_complete = Process_complete.objects.get(id=contract_id)
+                process_complete.BL_hash = hash
+                process_complete.save()
+
                 showinfo("Success", 'Txid:' + res)
             root.mainloop()
         except:
@@ -262,9 +284,7 @@ def share4_2(request):
 
     for id in check_ids:
         try:
-            share = Contract_DO.objects.get(id=id)
-            share.share1=share_user
-            share.save()
+
 
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
@@ -275,14 +295,9 @@ def share4_2(request):
             contract = str(contract_id)
             user_id = getid.values('owner')[0]['owner']
 
-            process = Process.objects.get(id=contract_id)
-            process.DO_hash = hash
-            process.save()
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.DO_hash = hash
-            process_complete.save()
-            url = 'http://localhost:8001/add_DO/' + contract + '-' + user_id + '-' + hash
-            response = requests.get(url)
+
+            url = 'http://192.168.0.6:8001/add_DO/' + contract + '-' + user_id + '-' + hash
+            response = requests.post(url)
             res = response.text
             root = Tk()
             root.withdraw()
@@ -291,6 +306,18 @@ def share4_2(request):
             if (res == "The contract already exists"):
                 showerror("Error", res)
             else:
+                share = Contract_DO.objects.get(id=id)
+                share.share1 = share_user
+                share.save()
+
+                process = Process.objects.get(id=contract_id)
+                process.DO_hash = hash
+                process.save()
+
+                process_complete = Process_complete.objects.get(id=contract_id)
+                process_complete.DO_hash = hash
+                process_complete.save()
+
                 showinfo("Success", 'Txid:' + res)
             root.mainloop()
         except:
@@ -1338,7 +1365,6 @@ def ing(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LCR.objects.filter(owner=member).order_by('-id')
-        n = len(contract)
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(LCR_hash=hash)
@@ -1347,15 +1373,32 @@ def ing(request):
             hash = None
             process = None
 
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/ing.html', {'contract': contracts,'process':process, 'n': n})
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing.html', notice)
     except Exception as e:
         print(e)
-        return redirect('login')
+        return redirect('index')
+
 
 
 def ing2(request):
@@ -1375,15 +1418,31 @@ def ing2(request):
             hash = None
             process = None
 
-        paginator = Paginator(contract, 6)
+        total_len = len(contract)
         page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        paginator = Paginator(contract, 6)
 
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/ing2.html', {'contract': contracts,  'n': n, 'user': user_id})
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing2.html', notice)
     except Exception as e:
         print(e)
-        return redirect('login')
+        return redirect('index')
 
 def ing2_1(request):
     try:
@@ -1396,37 +1455,69 @@ def ing2_1(request):
         except:
             hash = None
             process = None
-        n = len(contract)
-
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/ing2_1.html', {'contract': contracts,'process':process, 'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing2_1.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def ing3(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LC.objects.filter(owner=member).order_by('-id')
-        n = len(contract)
+
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(LC_hash=hash)
         except:
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/ing3.html', {'contract': contracts,'process':process, 'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing3.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def ing4_1(request):
     try:
@@ -1434,21 +1525,37 @@ def ing4_1(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(owner=member).order_by('-id')
 
-        n = len(contract)
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(BL_hash=hash)
         except:
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/ing4_1.html', {'contract': contracts,'process':process, 'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing4_1.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def ing4_2(request):
     try:
@@ -1463,36 +1570,70 @@ def ing4_2(request):
         except:
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/ing4_2.html', {'contract': contracts, 'process':process,'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing4_2.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def cireceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_CI.objects.filter(share1=member).order_by('-id')
-        n = len(contract)
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(CI_hash=hash)
         except:
             hash = None
             process = None
+
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/cireceived.html', {'contract': contracts, 'process':process, 'n': n})
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/cireceived.html', notice)
     except Exception as e:
         print(e)
-        return redirect('login')
+        return redirect('index')
 
 
 def srreceived(request):
@@ -1500,7 +1641,6 @@ def srreceived(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_SR.objects.filter(share4=member).order_by('-id')
-        n = len(contract)
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(SR_hash=hash)
@@ -1508,15 +1648,32 @@ def srreceived(request):
             hash = None
             process = None
 
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/srreceived.html', {'contract': contracts, 'process':process, 'n': n})
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/srreceived.html', notice)
     except Exception as e:
         print(e)
-        return redirect('login')
+        return redirect('index')
 
 
 def blreceived1(request):
@@ -1524,21 +1681,38 @@ def blreceived1(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(share1=member).order_by('-id')
-        n = len(contract)
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(BL_hash=hash)
         except:
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/blreceived1.html', {'contract': contracts,'process':process, 'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/blreceived1.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def lcreceived1(request):
     try:
@@ -1552,21 +1726,39 @@ def lcreceived1(request):
         except:
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/lcreceived1.html', {'contract': contracts,'process':process, 'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/lcreceived1.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def blreceived2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(share2=member).order_by('-id')
-        n = len(contract)
+
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(BL_hash=hash)
@@ -1574,14 +1766,32 @@ def blreceived2(request):
             hash = None
             process = None
 
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/blreceived2.html', {'contract': contracts,'process':process, 'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/blreceived2.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def lcreceived2(request):
     try:
@@ -1596,35 +1806,70 @@ def lcreceived2(request):
             print(e)
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/lcreceived2.html', {'contract': contracts,'process':process, 'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/lcreceived2.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def doreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_DO.objects.filter(share1=member).order_by('-id')
-        n = len(contract)
         try:
             hash = contract.values('sha256')[0]['sha256']
             process = Process.objects.filter(DO_hash=hash)
         except:
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/doreceived.html', {'contract': contracts,'process':process,'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/doreceived.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def lcrreceived(request):
     try:
@@ -1638,17 +1883,32 @@ def lcrreceived(request):
         except:
             hash = None
             process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
         paginator = Paginator(contract, 6)
 
-        page = request.GET.get('page')
-        contracts = paginator.get_page(page)
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
 
-        return render(request, 'app/lcrreceived.html', {'contract': contracts, 'process':process,'n': n})
-    except:
-        return redirect('login')
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
 
-
-
+        return render(request, 'app/lcrreceived.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 
 def logout(request):
@@ -1662,7 +1922,6 @@ def logout(request):
 
 
 def index(request):
-
 
     try:
 
@@ -1749,38 +2008,6 @@ def charts(request):
 
 
 
-
-def calendar(request):
-    try:
-        user_role = request.session['user_role']
-
-        templates = ''
-        if user_role == '1':
-            templates = 'app/calendar.html'
-        elif user_role == '2':
-            templates = 'app/calendar2.html'
-        elif user_role == '3':
-            templates = 'app/calendar3.html'
-        elif user_role == '4':
-            templates = 'app/calendar4.html'
-        else:
-            templates = 'app/login.html'
-
-        return render(request, templates, {})
-    except Exception as e:
-        print(e);
-        return redirect('login')
-
-
-
-def money(request):
-    return render(request, 'app/money.html', {})
-
-
-def people(request):
-    return render(request, 'app/people.html', {})
-
-
 def forms(request):
     return render(request, 'app/forms.html', {})
 
@@ -1818,7 +2045,8 @@ def login(request):
         return JsonResponse(result_dict)
 
 
-
+def registerpage(request):
+    return render(request, 'app/register.html',{})
 
 def register(request):
 
@@ -1856,16 +2084,4 @@ def register(request):
 
 def forgot(request):
     return render(request, 'app/forgot.html', {})
-
-def send(request):
-    user_id = request.session['user_id']
-    user_role = request.session['user_role']
-    email = request.POST['email_address']
-    phone = request.POST['phone_number']
-    message = request.POST['message']
-
-    contact = Contact(user_id=user_id, user_role=user_role, email=email, phone=phone, message=message)
-    contact.save()
-
-    return  redirect('index')
 

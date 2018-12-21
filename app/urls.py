@@ -38,15 +38,6 @@ urlpatterns = [
     path('BL/', views.ing4_1, name='ing4_1'),
     path('DO/', views.ing4_2, name='ing4_2'),
 
-
-
-    path('calendar/', views.calendar, name='calendar'),
-    path('calendar/', views.calendar, name='calendar2'),
-    path('calendar/', views.calendar, name='calendar3'),
-    path('calendar/', views.calendar, name='calendar4'),
-
-
-
     path('remove/', views.remove, name='remove'),
     path('remove2/', views.remove2, name='remove2'),
     path('remove2_1/', views.remove2_1, name='remove2_1'),
@@ -122,17 +113,16 @@ urlpatterns = [
 
 
     path('', views.login, name='login'),
+    path('registerpage', views.registerpage, name='registerpage'),
     path('register/', views.register, name='register'),
     path('forgot/', views.forgot, name='forgot'),
     path('logout/', views.logout, name='logout'),
-    path('money/', views.money, name='money'),
-    path('people/', views.people, name='people'),
 
     path('I_process/', views.process1, name='process1'),
     path('E_process/', views.process2, name='process2'),
     path('B_process/', views.process3, name='process3'),
     path('F_process/', views.process4, name='process4'),
 
-    path('send/', views.send, name='send'),
+    path('search/', views.search, name='search'),
 
 ]

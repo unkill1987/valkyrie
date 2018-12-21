@@ -10,7 +10,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Studio - Creative Photography Template | Blog</title>
+    <title>Valkyrie System|Valkyrie System</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="{% static 'app/img/core-img/favicon.ico'%}">
@@ -128,114 +128,72 @@
 </div>
 <!-- Social Sidebar Area End -->
 
-<!-- Blog Area Start -->
+<!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
-<div class="container-fluid" >
+            <div class="container-fluid">
 
-          <!-- Icon Cards-->
-            <div class="row" >
-            <div class="col-xl-4 col-sm-6 mb-3" >
-              <div class="card text-white bg-primary o-hidden h-100" >
-                <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fas fa-fw fa-edit"></i>
-                  </div>
-                  <div class="mr-5">진행중인 계약</div>
-                </div>
-                <a class="card-footer text-white clearfix small z-1" href="{% url 'process3' %}">
-                  <span class="float-left">View Details</span>
-                  <span class="float-right">
+                <!-- Icon Cards-->
+                <div class="row">
+                    <div class="col-xl-4 col-sm-6 mb-3">
+                        <div class="card text-white bg-primary o-hidden h-100">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-edit"></i>
+                                </div>
+                                <div class="mr-5">진행중인 계약</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="{% url 'process3' %}">
+                                <span class="float-left">View Details</span>
+                                <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
-                </a>
-              </div>
-            </div>
-            <div class="col-xl-4 col-sm-6 mb-3" >
-              <div class="card text-white bg-warning o-hidden h-100">
-                <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fas fa-fw fa-file-archive"></i>
-                  </div>
-                  <div class="mr-5">완료된 계약</div>
-                </div>
-                <a class="card-footer text-white clearfix small z-1" href="{% url 'process3_done' %}">
-                  <span class="float-left">View Details</span>
-                  <span class="float-right">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-6 mb-3">
+                        <div class="card text-white bg-warning o-hidden h-100">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-file-archive"></i>
+                                </div>
+                                <div class="mr-5">완료된 계약</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="{% url 'process3_done' %}">
+                                <span class="float-left">View Details</span>
+                                <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
-                </a>
-              </div>
-            </div>
+                            </a>
+                        </div>
+                    </div>
 
-            <div class="col-xl-4 col-sm-6 mb-3" >
-              <div class="card text-white bg-danger o-hidden h-100">
-                <div class="card-body">
-                  <div class="card-body-icon">
-                    <i class="fas fa-fw fa-credit-link"></i>
-                  </div>
-                  <div class="mr-5">블록체인 검색</div>
-                </div>
-                <a class="card-footer text-white clearfix small z-1" href="#" onclick="window.open('http://localhost:8001')">
-                  <span class="float-left">View Details</span>
-                  <span class="float-right">
+                    <div class="col-xl-4 col-sm-6 mb-3">
+                        <div class="card text-white bg-danger o-hidden h-100">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-credit-link"></i>
+                                </div>
+                                <div class="mr-5">블록체인 검색</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="#"
+                               onclick="window.open('http://localhost:8001')">
+                                <span class="float-left">View Details</span>
+                                <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
-                </a>
-              </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-</div>
-</div>
-
-<div class="content-wrapper" style="font-size:100px;text-align:center;padding:30px" id="middle">
-            <h2>VALKRIE SYSTEM</h2>
-               <h2> BLOCKCHAIN FOR TRADE</h2>
-          <h2> &nbsp</h2>
-           <h3>Increase </h3>
-               <h3>Trust, Transparency and Accountability</h3>
-           <h3>for your trade.</h3>
-
-       </div>
-        <div class="container-fluid" style="padding-right:200px;padding-left:200px" id="contact">
-            <form name="sentMessage" id="contactForm" novalidate="novalidate" action="{% url 'send' %}" method="post">
-            <div style="color:white; font-size:20px">CONTACT US</div>
-              <div class="control-group">
-                <div class="form-group floating-label-form-group controls mb-0 pb-2">
-
-                  <input class="form-control" name="email_address" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
-                  <p class="help-block text-danger"></p>
-                </div>
-              </div>
-              <div class="control-group">
-                <div class="form-group floating-label-form-group controls mb-0 pb-2">
-
-                  <input class="form-control" id="phone" name="phone_number" type="tel" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number.">
-                  <p class="help-block text-danger"></p>
-                </div>
-              </div>
-              <div class="control-group">
-                <div class="form-group floating-label-form-group controls mb-0 pb-2">
-
-                  <textarea class="form-control" id="message" name="message" rows="5" placeholder="Message" required="required" data-validation-required-message="Please enter a message."></textarea>
-                  <p class="help-block text-danger"></p>
-                </div>
-              </div>
-             <div id="success"></div>
-              <div class="form-group" style="text-align:center;">
-                <button type="submit" class="btn btn-dark" id="sendMessageButton" style="width:200px">Send</button>
-              </div>
-                {% csrf_token %}
-            </form>
         </div>
+
     </div>
-      <!-- /.content-wrapper -->
-   </div>
-        <!-- Pagination -->
-    </div>
+
 </section>
-<!-- Blog Area End -->
+<!--Valkyrie System Area End -->
 
 <!-- Footer Area Start -->
 <footer class="footer-area">
@@ -246,12 +204,12 @@
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/map.png'%}" alt="">
-                        <a href="#">Blvd Libertad, 34 m05200 Arévalo</a>
+                        <a href="#">Korea, Seoul</a>
                     </div>
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
-                        <a href="#">0034 37483 2445 322</a>
+                        <a href="#">0000000000</a>
                     </div>
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
@@ -278,9 +236,9 @@
 <script src="{% static 'app/js/active.js'%}"></script>
 
 </body>
-  <script>
+<script>
 
-  </script>
+</script>
 
 
 </html>

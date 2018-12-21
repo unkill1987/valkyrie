@@ -24,9 +24,7 @@
 
 </head>
 <style>
-     @media (min-width:968px){.card-login{width:500px}}
-body{background-image: url(../../static/app/img/bg-img/14.jpg);}
-label,a{color:#ff8a12; weight:500;}
+     th,td{border: 1px solid;}
 </style>
 <body>
 <!-- Preloader -->
@@ -50,7 +48,7 @@ label,a{color:#ff8a12; weight:500;}
 <div class="gradient-background-overlay"></div>
 
 <!-- Header Area Start -->
-<header class="header-area bg-img" style="">
+<header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
     <div class="container-fluid h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12 h-100">
@@ -68,17 +66,43 @@ label,a{color:#ff8a12; weight:500;}
                         <div class="collapse navbar-collapse" id="studioMenu">
                             <!-- Menu Area Start  -->
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="">ABOUT</a>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'index' %}">Home </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">문서 작성</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'forms'%}">신용장 신청서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'ing'%}">신용장 신청서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
+                                        <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'doreceived'%}">인도지시서</a>
+                                    </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'registerpage'%}">REGISTER</a>
+                                    <a class="nav-link" href="contact.html">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'login'%}">LOGIN</a>
+                                    <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
                                 </li>
                             </ul>
-                            <!-- Search Form -->
 
                         </div>
                     </nav>
@@ -106,65 +130,67 @@ label,a{color:#ff8a12; weight:500;}
 <!-- Social Sidebar Area End -->
 
 <!--Valkyrie System Area Start -->
-<section class="blog-area" style="margin-top:300px;" >
+<section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
+            <!-- Breadcrumbs-->
+
             <div class="container-fluid">
+                <h2>Trade History</h2>
+                <h3>Contract ID : {{cid}}</h3>
+                <table style="word-break:break-all; text-align:center;">
+                    <tr  style="word-break:break-all; text-align:center;">
+                        <th>시간</th>
 
-                    <div class="card-login mx-auto mt-5">
-                        <form>
-                            <select class="custom-select" name="user_role" style="width:200px;height:45px;">
-                                <option value="1" selected>수입자</option>
-                                <option value="2">수출자</option>
-                                <option value="3">은행</option>
-                                <option value="4">운송사</option>
-                            </select>
-                            <div class="form-group">
-                                <div class="form-label-group">
+                        <th>수입자</th>
+                        <th>수출자</th>
+                        <th>은행</th>
+                        <th>운송사</th>
 
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label for="inputEmail">Email address</label>
-                                    <input name="email" type="email" id="inputEmail" class="form-control"
-                                           placeholder="Email address"
-                                           required="required" autofocus="autofocus">
+                        <th>상업송장</th>
+                        <th>신용장신청서</th>
+                        <th>신용장</th>
 
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label for="inputPassword">Password</label>
-                                    <input name="password" type="password" id="inputPassword" class="form-control"
-                                           placeholder="Password" required="required">
+                        <th>선적요청서</th>
+                        <th>선하증권</th>
+                        <th>인도지시서</th>
 
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="remember-me">
-                                        <a>Remember Password</a>
-                                    </label>
-                                </div>
-                            </div>
-                            <a id='login' class="btn btn-dark btn-block" href="{% url 'index' %}">Login</a>
+                        <th>TxID</th>
 
 
-                            {% csrf_token %}
-                        </form>
-                        <div class="text-center">
-                            <a class="d-block small mt-3" href="{% url 'registerpage' %}">Register an Account</a>
-                            <a class="d-block small" href="{% url 'forgot'%}">Forgot Password?</a>
-                            <br>
-                        </div>
-                    </div>
+                    </tr>
+                    {% for c in history %}
+                    <tr style="word-break:break-all">
+                        <td>{{c.Timestamp}}</td>
+
+                        <td>{{c.Value.importer}}</td>
+                        <td>{{c.Value.exporter}}</td>
+                        <td>{{c.Value.bank}}</td>
+                        <td>{{c.Value.shipper}}</td>
+
+                        <td>{{c.Value.ci_hash}}</td>
+                        <td>{{c.Value.lcr_hash}}</td>
+                        <td>{{c.Value.lc_hash}}</td>
+                        <td>{{c.Value.sr_hash}}</td>
+                        <td>{{c.Value.bl_hash}}</td>
+                        <td>{{c.Value.do_hash}}</td>
+
+                        <td>{{c.TxId}}</td>
+
+                    </tr>
+                    {%endfor%}
+                </table>
+
 
             </div>
-
         </div>
-        <!-- Pagination -->
+
+
+
+    </div>
+    <!-- /#wrapper -->
+    </div>
+    <!-- Pagination -->
     </div>
 </section>
 <!--Valkyrie System Area End -->
@@ -210,43 +236,10 @@ label,a{color:#ff8a12; weight:500;}
 <script src="{% static 'app/js/active.js'%}"></script>
 
 </body>
+
 <script>
-    //로그인 버튼 활성화
-      $('#login').click(function() {
-        $.ajax({
-          url: '/app/',
-          type: 'post',
-          data: $('form').serialize(),
-          success: function(res) {
-            alert(res.result)
-            if(res.result == 'success') {
-              location = '/app/index'
-            }
-          }
-        })
-        return false
-      })
-
-
-//엔터로 로그인하기
-var input = document.getElementById("inputPassword");
-
-// Execute a function when the user releases a key on the keyboard
-input.addEventListener("keyup", function(event) {
-
-// Cancel the default action, if needed
-event.preventDefault();
-
-// Number 13 is the "Enter" key on the keyboard
-if (event.keyCode === 13) {
-
-// Trigger the button element with a click
-document.getElementById("login").click();
-}
-});
-
-
 
 </script>
+
 
 </html>
