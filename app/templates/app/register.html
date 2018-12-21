@@ -3,121 +3,218 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/img/icon.ico'%}">
-    <title>Valkyrie - register</title>
+    <!-- Title  -->
+    <title>Studio - Creative Photography Template | Blog</title>
 
-    <!-- Bootstrap core CSS-->
-    <link href="{% static 'app/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <!-- Favicon  -->
+    <link rel="icon" href="{% static 'app/img/core-img/favicon.ico'%}">
 
-    <!-- Custom fonts for this template-->
-    <link href="{% static 'app/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="{% static 'app/css/core-style.css'%}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css'%}">
 
-    <!-- Custom styles for this template-->
-    <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
+    <!-- Responsive CSS -->
+    <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
+
 </head>
-<style>
 
-  .btn-dark{ background:##050505!important; border-color:#3d3d3d!important;}
-.bg-dark{background:white!important;}
-
-  .form-control:focus{border-color:#050505ed; }
-  .custom-select:focus{border-color:#050505ed; }
-  .custom-select{ -webkit-appearance:none;}
-
-</style>
-<body class="bg-dark">
-<div class="wrraper">
-<div class="container">
-    <div class="card card-register mx-auto mt-5">
-        <div class="card-header">Register an Account</div>
-        <div class="card-body">
-            <form>
-                <!--수정한 부분입니다.여기서부터~~!!-->
-                <!--수정한 부분입니다.여기서부터~~!!-->
-                <!--수정한 부분입니다.여기서부터~~!!-->
-
-
-                <!--user_name-->
-
-                <p>Role</p>
-                <input type="checkbox" name="user_role" value="1">&nbsp수입자&nbsp
-                <input type="checkbox" name="user_role" value="2">&nbsp수출자&nbsp
-                <input type="checkbox" name="user_role" value="3">&nbsp은행&nbsp
-                <input type="checkbox" name="user_role" value="4">&nbsp운송사&nbsp
-                <hr>
-                <div class="form-group">
-                    <div class="form-label-group">
-                        <input type="text" name="user_name" id="user_name" class="form-control" placeholder="name"
-                               required="required" autofocus="autofocus">
-                        <label for="user_name">user_name</label>
-                    </div>
-                </div>
-                <!--user_email-->
-                <div class="form-group">
-                    <div class="form-label-group">
-                        <input type="email" name='user_id' id="user_id" class="form-control"
-                               placeholder="Email address" required="required">
-                        <label for="user_id">Email address (This is ID)</label>
-                    </div>
-                </div>
-                <!--user_password-->
-                <div class="form-group">
-                    <div class="form-label-group">
-                        <input type="password" name='user_pw' id="user_pw" class="form-control"
-                               placeholder="Password" required="required">
-                        <label for="user_pw">Password</label>
-                    </div>
-                </div>
-                 <!--user_confrim_password-->
-                <div class="form-group">
-                    <div class="form-label-group">
-                        <input type="password" name='user_confirm_pw' id="user_confirm_pw" class="form-control"
-                               placeholder="Password" required="required">
-                        <label for="user_confirm_pw">Comfirm_Password</label>
-                    </div>
-                </div>
-                <hr>
-                <!--&lt;!&ndash;user_comfirm_password&ndash;&gt;-->
-                <!--<div class="form-group">-->
-                <!--<div class="form-label-group">-->
-                <!--<input type="text" name='user_confirm_pw' id="confirmPassword" class="form-control" placeholder="Confirm password" required="required">-->
-                <!--<label for="confirmPassword">Confirm password</label>-->
-                <!--</div>-->
-                <!--</div>-->
-
-                <a id='register' class="btn btn-dark btn-block" href="{% url 'login' %}">Register</a>
-                {% csrf_token %}
-
-            </form>
-            <div class="text-center">
-                <a class="d-block small mt-3" href="{% url 'login'%}">Login Page</a>
-                <a class="d-block small" href="{% url 'forgot' %}">Forgot Password?</a>
-            </div>
-
+<body>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="showbox">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
         </div>
     </div>
+    <div class="questions-area text-center">
+        <p>Please Wait...</p>
+        <ul>
+            <li>Valkyrie Blockchain Trade System</li>
+        </ul>
+    </div>
 </div>
+
+<!-- Gradient Background Overlay -->
+<div class="gradient-background-overlay"></div>
+
+<!-- Header Area Start -->
+<header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 h-100">
+                <div class="main-menu h-100">
+                    <nav class="navbar h-100 navbar-expand-lg">
+                        <!-- Logo Area  -->
+                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
+                                                                       alt="Logo"></a>
+
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
+                                aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
+                                class="fa fa-bars"></i> Menu
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="studioMenu">
+                            <!-- Menu Area Start  -->
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">ABOUT</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'register'%}">REGISTER</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login'%}">LOGIN</a>
+                                </li>
+                            </ul>
+                            <!-- Search Form -->
+
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Header Area End -->
+
+<!-- Social Sidebar Area Start -->
+<div class="social-sidebar-area">
+    <!-- Social Area -->
+    <div class="social-info-area">
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
+                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
+                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
+                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
+                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
+    </div>
 </div>
+<!-- Social Sidebar Area End -->
 
-<!--여기까지 수정했습니다!-->
-<!--여기까지 수정했습니다!-->
-<!--여기까지 수정했습니다!-->
+<!-- Blog Area Start -->
+<section class="blog-area section_padding_100 mt-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="container-fluid">
+                <div class="card card-register mx-auto mt-5">
+                    <div class="card-header">Register an Account</div>
+                    <div class="card-body">
+                        <form>
+
+                            <p>Role</p>
+                            <input type="checkbox" name="user_role" value="1">&nbsp수입자&nbsp
+                            <input type="checkbox" name="user_role" value="2">&nbsp수출자&nbsp
+                            <input type="checkbox" name="user_role" value="3">&nbsp은행&nbsp
+                            <input type="checkbox" name="user_role" value="4">&nbsp운송사&nbsp
+                            <hr>
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label for="user_name">user_name</label>
+                                    <input type="text" name="user_name" id="user_name" class="form-control"
+                                           placeholder="name"
+                                           required="required" autofocus="autofocus">
+
+                                </div>
+                            </div>
+                            <!--user_email-->
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <input type="email" name='user_id' id="user_id" class="form-control"
+                                           placeholder="Email address" required="required">
+                                    <label for="user_id">Email address (This is ID)</label>
+                                </div>
+                            </div>
+                            <!--user_password-->
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <input type="password" name='user_pw' id="user_pw" class="form-control"
+                                           placeholder="Password" required="required">
+                                    <label for="user_pw">Password</label>
+                                </div>
+                            </div>
+                            <!--user_confrim_password-->
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <input type="password" name='user_confirm_pw' id="user_confirm_pw"
+                                           class="form-control"
+                                           placeholder="Password" required="required">
+                                    <label for="user_confirm_pw">Comfirm Password</label>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <button id='register' class="btn btn-dark btn-block" href="{% url 'login' %}">Register</button>
+                            {% csrf_token %}
+
+                        </form>
+                        <div class="text-center">
+                            <a class="d-block small mt-3" href="{% url 'login'%}">Login Page</a>
+                            <a class="d-block small" href="{% url 'forgot' %}">Forgot Password?</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pagination -->
+    </div>
+</section>
+<!-- Blog Area End -->
+
+<!-- Footer Area Start -->
+<footer class="footer-area">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-12 h-100">
+                <div class="footer-content h-100 d-md-flex align-items-center justify-content-between">
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/map.png'%}" alt="">
+                        <a href="#">Blvd Libertad, 34 m05200 Arévalo</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
+                        <a href="#">0034 37483 2445 322</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
+                        <a href="#">hello@company.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->
 
 
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
+<!-- Popper js -->
+<script src="{% static 'app/js/popper.min.js'%}"></script>
+<!-- Bootstrap js -->
+<script src="{% static 'app/js/bootstrap.min.js'%}"></script>
+<!-- Plugins js -->
+<script src="{% static 'app/js/plugins.js'%}"></script>
+<!-- Active js -->
+<script src="{% static 'app/js/active.js'%}"></script>
 
-<!-- Bootstrap core JavaScript-->
-<script src="{% static 'app/vendor/jquery/jquery.min.js'%}"></script>
-<script src="{% static 'app/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+</body>
 
-<!-- Core plugin JavaScript-->
-<script src="{% static 'app/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
-    <script>
+<script>
       $('#register').click(function() {
         $.ajax({
           url: '/app/register/',
@@ -133,8 +230,7 @@
         return false
       })
 
-    </script>
 
-</body>
+</script>
 
 </html>

@@ -1,202 +1,137 @@
-
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
 
-  <head>
-
-    <meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/img/icon.ico'%}">
-    <title>Valkyrie - Shipper</title>
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <!-- Bootstrap core CSS-->
-    <link href="{% static 'app/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <!-- Title  -->
+    <title>Studio - Creative Photography Template | Blog</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="{% static 'app/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <!-- Favicon  -->
+    <link rel="icon" href="{% static 'app/img/core-img/favicon.ico'%}">
 
-    <!-- Page level plugin CSS-->
-    <link href="{% static 'app/vendor/datatables/dataTables.bootstrap4.css'%}" rel="stylesheet">
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="{% static 'app/css/core-style.css'%}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css'%}">
 
-    <!-- Custom styles for this template-->
-    <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
+    <!-- Responsive CSS -->
+    <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
-  </head>
-<style>
+</head>
 
-@media (max-width:768px) { #img{ width:70px!important;margin-left:-5px;}}
-</style>
-  <body id="page-top">
-
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-<img src="{% static 'app/img/white.png' %}" style="height:20px; width:20px;">
-      <a class="navbar-brand mr-1" href="{% url 'index4' %}">&nbspVALKYRIE SYSTEM</a>
-
-      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <!-- Navbar Search -->
-      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
-
-          <div class="input-group-append">
-
-          </div>
+<body>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="showbox">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
         </div>
-      </form>
+    </div>
+    <div class="questions-area text-center">
+        <p>Please Wait...</p>
+        <ul>
+            <li>Valkyrie Blockchain Trade System</li>
+        </ul>
+    </div>
+</div>
 
-      <!-- Navbar -->
-      <ul class="navbar-nav ml-auto ml-md-0">
-        <li class="nav-item dropdown no-arrow mx-1">
-          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-bell fa-fw"></i>
-            <span class="badge badge-danger"></span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1">
-          <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-envelope fa-fw"></i>
-            <span class="badge badge-danger"></span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user-circle fa-fw"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activity Log</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-          </div>
-        </li>
-      </ul>
+<!-- Gradient Background Overlay -->
+<div class="gradient-background-overlay"></div>
 
-    </nav>
+<!-- Header Area Start -->
+<header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 h-100">
+                <div class="main-menu h-100">
+                    <nav class="navbar h-100 navbar-expand-lg">
+                        <!-- Logo Area  -->
+                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
+                                                                       alt="Logo"></a>
 
-    <div id="wrapper">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
+                                aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
+                                class="fa fa-bars"></i> Menu
+                        </button>
 
-      <!-- Sidebar -->
-      <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="">
-            <!--<i class="fas fa-fw fa-angle-double-right"></i>-->
-            <!--<span>SHIPPER</span>-->
-            <!--<i class="fas fa-fw fa-angle-double-left"></i>-->
+                        <div class="collapse navbar-collapse" id="studioMenu">
+                            <!-- Menu Area Start  -->
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'index4'%}">Home </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">문서 작성</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'forms4_1'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'forms4_2'%}">인도지시서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'ing4_1'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'ing4_2'%}">인도지시서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'srreceived'%}">선적요청서</a>
 
-             <img id="img" src="{% static 'app/img/shipper.png'%}" style="width:200px;">
-          </a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">MYPAGE</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'logout'%}">LOGOUT</a>
+                                </li>
+                            </ul>
+                            <!-- Search Form -->
 
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'index4' %}">
-                <i class="fas fa-fw fa-chalkboard"></i>
-                <span>Dashboard</span>
-            </a>
-
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'charts4' %}">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>환율정보</span></a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-edit"></i>
-                <span>선하증권(B/L)</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                <a class="dropdown-item" href="{% url 'forms4_1' %}">B/L 작성</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'ing4_1' %}">B/L 관리</a>
-
-
+                        </div>
+                    </nav>
+                </div>
             </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-edit"></i>
-                <span>인도지시서(D/O)</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                <a class="dropdown-item" href="{% url 'forms4_2' %}">D/O 작성</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'ing4_2' %}">D/O 관리</a>
+        </div>
+    </div>
+</header>
+<!-- Header Area End -->
 
+<!-- Social Sidebar Area Start -->
+<div class="social-sidebar-area">
+    <!-- Social Area -->
+    <div class="social-info-area">
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
+                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
+                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
+                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
+                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
+    </div>
+</div>
+<!-- Social Sidebar Area End -->
 
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-clipboard"></i>
-            <span>받은 문서</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-           <a class="dropdown-item" href="{% url 'srreceived' %}">S/R 확인</a>
-          </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'calendar4' %}">
-                <i class="fas fa-fw fa-calendar"></i>
-                <span>일정 관리</span></a>
-        </li>
-
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-credit-card"></i>
-                <span>자금 관리</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                <a class="dropdown-item" href="">결제 내역</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">결제 하기</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">입금 하기</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">출금 하기</a>
-
-            </div>
-        </li>
-
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-address-book"></i>
-                <span>계약자 관리</span></a>
-            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                <a class="dropdown-item" href="">수출자</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">은행</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">운송사</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">관세청</a>
-            </div>
-        </li>
-    </ul>
-
-        <!--진행중인 계약-->
-         <div id="content-wrapper">
+<!-- Blog Area Start -->
+<section class="blog-area section_padding_100 mt-100">
+    <div class="container">
+        <div class="row justify-content-center">
 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
     <h4 class="my-4">인도지시서(D/O) 관리({{n}}건)</h4>
 
@@ -276,49 +211,53 @@
 
         <!-- Sticky Footer -->
 
-         </div>
-
-      </div>
-      <!-- /.content-wrapper -->
-
-
-    <!-- /#wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
-          </div>
-        </div>
-      </div>
+  </div>
+        <!-- Pagination -->
     </div>
+</section>
+<!-- Blog Area End -->
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'app/vendor/jquery/jquery.min.js'%}"></script>
-    <script src="{% static 'app/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Footer Area Start -->
+<footer class="footer-area">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-12 h-100">
+                <div class="footer-content h-100 d-md-flex align-items-center justify-content-between">
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/map.png'%}" alt="">
+                        <a href="#">Blvd Libertad, 34 m05200 Arévalo</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
+                        <a href="#">0034 37483 2445 322</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
+                        <a href="#">hello@company.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->
 
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'app/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'app/js/sb-admin.min.js'%}"></script>
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
+<!-- Popper js -->
+<script src="{% static 'app/js/popper.min.js'%}"></script>
+<!-- Bootstrap js -->
+<script src="{% static 'app/js/bootstrap.min.js'%}"></script>
+<!-- Plugins js -->
+<script src="{% static 'app/js/plugins.js'%}"></script>
+<!-- Active js -->
+<script src="{% static 'app/js/active.js'%}"></script>
 
-  </body>
+</body>
   <script>
       $('#delete_btn').click(function() {
         check_ids = ''
@@ -347,24 +286,6 @@
         location = '/app/share4_2?check_id=' + check_id +'&share_user=' + share_user
         return false
       })
-
-
-jQuery(document).ready(function($) {
-  var alterClass = function() {
-    var ww = document.body.clientWidth;
-    if (ww < 768) {
-      $('.sidebar').addClass('toggled');
-    } else if (ww >= 768) {
-      $('.sidebar').removeClass('toggled');
-    };
-  };
-  $(window).resize(function(){
-    alterClass();
-  });
-  //Fire it when the page first loads:
-  alterClass();
-});
-
 
 
     </script>
