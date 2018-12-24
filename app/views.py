@@ -18,7 +18,7 @@ def about(request):
 def search(request):
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
         if len(history) == 0:
@@ -48,7 +48,7 @@ def share1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = ('http://210.107.78.158:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
+        url = ('http://222.239.231.247:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -93,7 +93,7 @@ def share2(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
+        url = 'http://222.239.231.247:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -130,7 +130,7 @@ def share2_1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_SR/' + contract + '-' + user_id + '-' + hash
+        url = 'http://222.239.231.247:8001/add_SR/' + contract + '-' + user_id + '-' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -173,7 +173,7 @@ def share3(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_LC/' + contract + '-' + user_id + '-' + hash
+        url = 'http://222.239.231.247:8001/add_LC/' + contract + '-' + user_id + '-' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -216,7 +216,7 @@ def share4_1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_BL/' + contract + '-' + user_id + '-' + hash
+        url = 'http://222.239.231.247:8001/add_BL/' + contract + '-' + user_id + '-' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -258,7 +258,7 @@ def share4_2(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_DO/' + contract + '-' + user_id + '-' + hash
+        url = 'http://222.239.231.247:8001/add_DO/' + contract + '-' + user_id + '-' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
