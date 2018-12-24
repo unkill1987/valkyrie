@@ -23,8 +23,19 @@
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
 </head>
+
 <style>
     @media (min-width:968px){.card{width:700px;}}
+    html{ height: 100%; margin: 0;}
+    body{background-image: url(../../static/app/img/register.jpg);
+    background-repeat:no-repeat; repeat;
+    background-size:cover;
+    background-position:center;}
+    label,a{color:#ff8a12; weight:500;}
+    .btn{color:#ff8a12;border-color:#ff8a12;}
+    .btn:hover{background-color:#ff8a12; border-color:#ff8a12;}
+    .card{background:#1d1d1de8; }
+
 </style>
 <body>
 <!-- Preloader -->
@@ -48,14 +59,14 @@
 <div class="gradient-background-overlay"></div>
 
 <!-- Header Area Start -->
-<header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
+<header class="header-area bg-img" >
     <div class="container-fluid h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12 h-100">
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
+                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
                                                                        alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
@@ -67,7 +78,7 @@
                             <!-- Menu Area Start  -->
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="">ABOUT</a>
+                                    <a class="nav-link" href="{% url 'about'%}">ABOUT</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'registerpage'%}">REGISTER</a>
@@ -88,37 +99,30 @@
 <!-- Header Area End -->
 
 <!-- Social Sidebar Area Start -->
-<div class="social-sidebar-area">
-    <!-- Social Area -->
-    <div class="social-info-area">
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
-                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
-                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
-                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
-                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
-    </div>
-</div>
+
 <!-- Social Sidebar Area End -->
 
 <!--Valkyrie System Area Start -->
-<section class="blog-area section_padding_100 mt-100">
+<section class="blog-area " style="padding:200px;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
                 <div class="card card-register mx-auto mt-5">
-                    <div class="card-header">Register an Account</div>
+                    <div class="card-header" style="color:#ff8a12;font-weight:700; border-bottom:solid 1px; border-color:white!important;">Register an Account</div>
                     <div class="card-body">
                         <form method="POST" >
 
                             <p>Role</p>
-                            <input type="checkbox" name="user_role" value="1">&nbsp수입자&nbsp
-                            <input type="checkbox" name="user_role" value="2">&nbsp수출자&nbsp
-                            <input type="checkbox" name="user_role" value="3">&nbsp은행&nbsp
-                            <input type="checkbox" name="user_role" value="4">&nbsp운송사&nbsp
-                            <hr>
+
+                            <input id="importer" type="checkbox" name="user_role" value="1" >
+                            <label for="importer" style="color:#ff8a12;">수입자</label>
+                            <input id="exporter" type="checkbox" name="user_role" value="2">
+                            <label for="exporter" style="color:#ff8a12;">수출자</label>
+                            <input id="bank" type="checkbox" name="user_role" value="3">
+                            <label for="bank" style="color:#ff8a12;">은행</label>
+                            <input id="shipper" type="checkbox" name="user_role" value="4">
+                            <label for="shipper" style="color:#ff8a12;">운송사</label>
+                            <hr style="border-top:solid 1px; border-color:white!important;">
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label for="user_name">user_name</label>
@@ -156,9 +160,9 @@
 
                                 </div>
                             </div>
-                            <hr>
+                            <hr style="border-top:solid 1px; border-color:white!important;">
 
-                            <button id='register' class="btn btn-dark btn-block" href="{% url 'login' %}">Register</button>
+                            <button id='register' class="btn btn-outline-dark btn-block" href="{% url 'login' %}">Register</button>
                             {% csrf_token %}
 
                         </form>

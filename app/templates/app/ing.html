@@ -25,145 +25,159 @@
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="showbox">
-            <div class="loader">
-                <svg class="circular" viewBox="25 25 50 50">
-                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-                </svg>
-            </div>
-        </div>
-        <div class="questions-area text-center">
-            <p>Please Wait...</p>
-            <ul>
-                <li>Valkyrie Blockchain Trade System</li>
-            </ul>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="showbox">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
         </div>
     </div>
+    <div class="questions-area text-center">
+        <p>Please Wait...</p>
+        <ul>
+            <li>Valkyrie Blockchain Trade System</li>
+        </ul>
+    </div>
+</div>
 
-    <!-- Gradient Background Overlay -->
-    <div class="gradient-background-overlay"></div>
+<!-- Gradient Background Overlay -->
+<div class="gradient-background-overlay"></div>
 
-    <!-- Header Area Start -->
-    <header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
-        <div class="container-fluid h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12 h-100">
-                    <div class="main-menu h-100">
-                        <nav class="navbar h-100 navbar-expand-lg">
-                            <!-- Logo Area  -->
-                            <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}" alt="Logo"></a>
+<!-- Header Area Start -->
+<header class="header-area bg-img" style="background-image: url(../../static/app/img/bg-img/14.jpg);">
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 h-100">
+                <div class="main-menu h-100">
+                    <nav class="navbar h-100 navbar-expand-lg">
+                        <!-- Logo Area  -->
+                        <a class="navbar-brand" href="{% url 'index' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}" alt="Logo"></a>
 
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu" aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i> Menu</button>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
+                                aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
+                                class="fa fa-bars"></i> Menu
+                        </button>
 
-                            <div class="collapse navbar-collapse" id="studioMenu">
-                                <!-- Menu Area Start  -->
-                                <ul class="navbar-nav ml-auto">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="{% url 'index' %}">Home </a>
-                                    </li>
-                                     <li class="nav-item active">
-                                        <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">문서 작성</a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url 'forms'%}">신용장 신청서</a>
-                                        </div>
-                                    </li>
-                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url 'ing'%}">신용장 신청서</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
-                                            <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
-                                            <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
-                                            <a class="dropdown-item" href="{% url 'doreceived'%}">인도지시서</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="contact.html">MYPAGE</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
-                                    </li>
-                                </ul>
+                        <div class="collapse navbar-collapse" id="studioMenu">
+                            <!-- Menu Area Start  -->
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'index' %}">Home </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">문서 작성</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'forms'%}">신용장 신청서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'ing'%}">신용장 신청서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
+                                        <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'doreceived'%}">인도지시서</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="contact.html">MYPAGE</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
+                                </li>
+                            </ul>
 
-                            </div>
-                        </nav>
-                    </div>
+                        </div>
+                    </nav>
                 </div>
             </div>
         </div>
-    </header>
-    <!-- Header Area End -->
-
-    <!-- Social Sidebar Area Start -->
-    <div class="social-sidebar-area">
-        <!-- Social Area -->
-        <div class="social-info-area">
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i> <span>Facebook</span></a>
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i> <span>Twitter</span></a>
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i> <span>Pinterest</span></a>
-            <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance" aria-hidden="true"></i> <span>Behance</span></a>
-        </div>
     </div>
-    <!-- Social Sidebar Area End -->
+</header>
+<!-- Header Area End -->
 
-    <!--Valkyrie System Area Start -->
+<!-- Social Sidebar Area Start -->
+<div class="social-sidebar-area">
+    <!-- Social Area -->
+    <div class="social-info-area">
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
+                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
+                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
+                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
+        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
+                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
+    </div>
+</div>
+<!-- Social Sidebar Area End -->
+
+<!--Valkyrie System Area Start -->
+<form method="post">
     <section class="blog-area section_padding_100 mt-100">
         <div class="container" style="padding-bottom:100px;">
             <div class="row justify-content-center">
-<div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-<div>{{message}}</div>
-    <h4 class="my-4">신용장 신청서 관리({{total_len}}건)</h4>
 
-    <div class="row">
-        {% for c in result_list %}
-        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
+                <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
 
-          <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><a>Check</a>
-          <div class="card h-100">
+                    <h4 class="my-4">신용장 신청서 관리({{total_len}}건)</h4>
 
-            <h5 class="card-header">
+                    <div class="row">
+                        {% for c in result_list %}
+                        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
 
-              Contract ID.{{c.contract_id}}
-              <hr>
-              {{c.contractname}}</h5>
-            <div class="card-body">
-              <p class="card-text">
+                            <input type="checkbox" id="{{c.id}}" name="check_id" value="{{ c.id }}"><a>Check</a>
+                            <div class="card h-100">
 
-              <h5>Document Hash:<br>{{c.sha256}}</h5></p>
-            </div>
-            <div class="card-footer">
-              <a href="{% url 'download' %}?id={{ c.id }}" class="btn btn-dark" target="_blank">
-                    {{c.filename}}
-              </a>
-            <hr>
-              <h5>To (은행ID):{{c.share3}}</h5>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-<hr>
-    </div>
+                                <h5 class="card-header">
 
-<hr>
-     <div class="wrapper">
+                                    Contract ID.{{c.contract_id}}
+                                    <hr>
+                                    {{c.contractname}}
+                                </h5>
+                                <div class="card-body">
+                                    <p class="card-text">
+
+                                    <h5>Document Hash:<br>{{c.sha256}}</h5></p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{% url 'download' %}?id={{ c.id }}" class="btn btn-outline-dark"
+                                       target="_blank">
+                                        {{c.filename}}
+                                    </a>
+                                    <hr>
+                                    <h5>To (은행ID):{{c.share3}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                    </div>
+
+                    <hr>
+                    <div class="wrapper">
         {% if result_list.has_other_pages %}
         <ul class="pagination" style="display: flex; justify-content: center;">
             {% if result_list.has_previous %}
             <li>
-                <a href="?page={{ result_list.previous_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-left-radius:5px;border-bottom-left-radius:5px;">&laquo;
-                    </button>
+                <a class="btn btn-outline-dark" href="?page={{ result_list.previous_page_number }}" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                    &laquo;
+                    </a>
                 </a>
             </li>
             {% else %}
@@ -172,143 +186,160 @@
             {% endif %}
 
             {% if result_list.number > 2 %}
-            <li><a href="?page={{ 1 }}">
-                <button class="btn btn-outline-dark"> 1</button>
+            <li><a href="?page={{ 1 }}" class="btn btn-outline-dark">
+                1
             </a></li>
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
+            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span></li>
             {% endif %}
             {% for i in page_range %}
             {% if result_list.number == i %}
-            <li class="btn btn-outline-dark active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+            <li class="btn btn-outline-dark active"><span  style="color:white;">{{ i }}<span class="sr-only">(current)</span></span></li>
             {% else %}
-            <li><a href="?page={{ i }}">
-                <button class="btn btn-outline-dark">{{ i }}</button>
+            <li><a class="btn btn-outline-dark" href="?page={{ i }}">
+                {{ i }}
             </a></li>
             {% endif %}
             {% endfor %}
             {% if result_list.number < max_index %}
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
-            <li><a href="?page={{ max_index|add:'2' }}">
-                <button class="btn btn-outline-dark">{{ max_index|add:"2" }}</button>
+            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span></li>
+            <li><a class="btn btn-outline-dark" href="?page={{ max_index|add:'2' }}">
+                {{ max_index|add:"2" }}
             </a>
             </li>
             {% endif %}
             {% if result_list.has_next %}
             <li>
-                <a href="?page={{ result_list.next_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;
-                    </button>
+                <a class="btn btn-outline-dark" href="?page={{ result_list.next_page_number }}" style="border-top-right-radius:5px;border-bottom-right-radius:5px;">
+                    &raquo;
                 </a>
             </li>
             {% else %}
             <li>
-                <span><button class="btn btn-outline-dark disabled"
-                              style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</button></span>
+                <span><a class="btn btn-outline-dark disabled"
+                              style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</a></span>
             </li>
             {%endif %}
         </ul>
         {%endif%}
     </div>
 
-  <div class="row">
+                    <div class="row">
 
-    <div style="text-align:center; margin:auto;" >
-      <a>은행ID:</a>
-      <input class="form-control" name="share_user" id="share_user">
-      <br>
-      <input class="btn btn-dark" type="button" value="전송하기" id="share1">
-      <input class="btn btn-dark" type="button" value="선택삭제" id="delete_btn">
+                        <div style="text-align:center; margin:auto;">
+                            <a>은행ID:</a>
+                            <input class="form-control" name="share_user" type="text" id="share_user">
+                            <br>
+                            <button class="btn btn-outline-dark"
+                                    id="share1" >전송하기</button>
+                            <button class="btn btn-outline-dark"
+                                    id="delete_btn">선택삭제</button>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--</form>-->
+            </div>
+
+            <!-- Sticky Footer -->
 
 
         </div>
-  </div>
-    </div>
+        <!-- /.content-wrapper -->
+    </section>
+    {% csrf_token %}
 
-<!--</form>-->
-</div>
+</form>
+<!--Valkyrie System Area End -->
 
-        <!-- Sticky Footer -->
-
-
-
-      </div>
-      <!-- /.content-wrapper -->
-  </section>
-    <!--Valkyrie System Area End -->
-
-    <!-- Footer Area Start -->
-    <footer class="footer-area">
-        <div class="container-fluid h-100">
-            <div class="row h-100">
-                <div class="col-12 h-100">
-                    <div class="footer-content h-100 d-md-flex align-items-center justify-content-between">
-                        <!-- Single Footer Content -->
-                        <div class="single-footer-content">
-                            <img src="{% static 'app/img/core-img/map.png'%}" alt="">
-                            <a href="#">Korea, Seoul</a>
-                        </div>
-                        <!-- Single Footer Content -->
-                        <div class="single-footer-content">
-                            <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
-                            <a href="#">0000000000</a>
-                        </div>
-                        <!-- Single Footer Content -->
-                        <div class="single-footer-content">
-                            <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
-                            <a href="#">hello@company.com</a>
-                        </div>
+<!-- Footer Area Start -->
+<footer class="footer-area">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-12 h-100">
+                <div class="footer-content h-100 d-md-flex align-items-center justify-content-between">
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/map.png'%}" alt="">
+                        <a href="#">Korea, Seoul</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
+                        <a href="#">0000000000</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
+                        <a href="#">hello@company.com</a>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
-    <!-- Footer Area End -->
+    </div>
+</footer>
+<!-- Footer Area End -->
 
 
-    <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
-    <!-- Popper js -->
-    <script src="{% static 'app/js/popper.min.js'%}"></script>
-    <!-- Bootstrap js -->
-    <script src="{% static 'app/js/bootstrap.min.js'%}"></script>
-    <!-- Plugins js -->
-    <script src="{% static 'app/js/plugins.js'%}"></script>
-    <!-- Active js -->
-    <script src="{% static 'app/js/active.js'%}"></script>
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Popper js -->
+<script src="{% static 'app/js/popper.min.js'%}"></script>
+<!-- Bootstrap js -->
+<script src="{% static 'app/js/bootstrap.min.js'%}"></script>
+<!-- Plugins js -->
+<script src="{% static 'app/js/plugins.js'%}"></script>
+<!-- Active js -->
+<script src="{% static 'app/js/active.js'%}"></script>
 
 </body>
-  <script>
-      $('#delete_btn').click(function() {
-        check_ids = ''
-        sep = ''
-        $('input:checked').each(function() {
-          check_ids += sep + $(this).val()
-          sep = ','
+<script>
+$(document).ready(function(){
+   $('#preloader').hide();
+});
+
+     $('#share1').click(function(){
+     $('.btn').attr('disabled',true);
+     $('#preloader').show();
+     $.ajax({
+        url:'/app/share1/',
+        type:'post',
+        data:$('form').serialize(),
+        success: function(res){
+            if (res.result == 'Success'){
+                alert(res.result)
+                location = '/app/LCR/'
+                }else{
+                alert(res.result)
+                location = '/app/LCR/'
+                }
+            }
         })
-
-        location = '/app/remove?check_id=' + check_ids
         return false
-      })
+     })
 
-      $('#share1').click(function(){
-        var share_user = $("#share_user").val();
+    $('#delete_btn').click(function(){
+    $('.btn').attr('disabled',true);
 
-        if($('#share_user').val().length==0){
-        alert("은행ID를 입력하세요.");
-        $('#share_user').focus();return false;}
-        $('input:checked').each(function() {
-          check_id=$(this).val()
-                })
-        location = '/app/share1?check_id=' + check_id +'&share_user=' + share_user
+     $.ajax({
+        url:'/app/remove/',
+        type:'post',
+        data:$('form').serialize(),
+        success: function(res){
+            if (res.result == 'Deleted'){
+                alert(res.result)
+                location = '/app/LCR/'
+                }else{
+                alert(res.result)
+                location = '/app/LCR/'
+                }
+            }
+        })
         return false
-      })
+     })
 
 
-
-
-
-
-    </script>
+</script>
 
 </html>

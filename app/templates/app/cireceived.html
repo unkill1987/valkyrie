@@ -53,8 +53,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -154,7 +155,8 @@
                                 <h5>Document Hash:<br>{{c.sha256}}</h5></p>
                             </div>
                             <div class="card-footer">
-                                <a href="{% url 'download2' %}?id={{ c.id }}" class="btn btn-dark" target="_blank">
+                                <a href="{% url 'download2' %}?id={{ c.id }}" class="btn btn-outline-dark"
+                                   target="_blank">
                                     {{c.filename}}
                                 </a>
                                 <hr>
@@ -168,66 +170,67 @@
 
                 <hr>
                 <div class="wrapper">
-        {% if result_list.has_other_pages %}
-        <ul class="pagination" style="display: flex; justify-content: center;">
-            {% if result_list.has_previous %}
-            <li>
-                <a href="?page={{ result_list.previous_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-left-radius:5px;border-bottom-left-radius:5px;">&laquo;
-                    </button>
-                </a>
-            </li>
-            {% else %}
-            <li class="btn btn-outline-dark disabled" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
-                <span>&laquo;</span></li>
-            {% endif %}
+                    {% if result_list.has_other_pages %}
+                    <ul class="pagination" style="display: flex; justify-content: center;">
+                        {% if result_list.has_previous %}
+                        <li>
+                            <a class="btn btn-outline-dark" href="?page={{ result_list.previous_page_number }}"
+                               style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                                &laquo;
+                            </a>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="btn btn-outline-dark disabled"
+                            style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                            <span>&laquo;</span></li>
+                        {% endif %}
 
-            {% if result_list.number > 2 %}
-            <li><a href="?page={{ 1 }}">
-                <button class="btn btn-outline-dark"> 1</button>
-            </a></li>
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
-            {% endif %}
-            {% for i in page_range %}
-            {% if result_list.number == i %}
-            <li class="btn btn-outline-dark active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
-            {% else %}
-            <li><a href="?page={{ i }}">
-                <button class="btn btn-outline-dark">{{ i }}</button>
-            </a></li>
-            {% endif %}
-            {% endfor %}
-            {% if result_list.number < max_index %}
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
-            <li><a href="?page={{ max_index|add:'2' }}">
-                <button class="btn btn-outline-dark">{{ max_index|add:"2" }}</button>
-            </a>
-            </li>
-            {% endif %}
-            {% if result_list.has_next %}
-            <li>
-                <a href="?page={{ result_list.next_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;
-                    </button>
-                </a>
-            </li>
-            {% else %}
-            <li>
-                <span><button class="btn btn-outline-dark disabled"
-                              style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</button></span>
-            </li>
-            {%endif %}
-        </ul>
-        {%endif%}
-    </div>
+                        {% if result_list.number > 2 %}
+                        <li><a href="?page={{ 1 }}" class="btn btn-outline-dark">
+                            1
+                        </a></li>
+                        <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span></li>
+                        {% endif %}
+                        {% for i in page_range %}
+                        {% if result_list.number == i %}
+                        <li class="btn btn-outline-dark active"><span style="color:white;">{{ i }}<span class="sr-only">(current)</span></span>
+                        </li>
+                        {% else %}
+                        <li><a class="btn btn-outline-dark" href="?page={{ i }}">
+                            {{ i }}
+                        </a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if result_list.number < max_index %}
+                        <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span></li>
+                        <li><a class="btn btn-outline-dark" href="?page={{ max_index|add:'2' }}">
+                            {{ max_index|add:"2" }}
+                        </a>
+                        </li>
+                        {% endif %}
+                        {% if result_list.has_next %}
+                        <li>
+                            <a class="btn btn-outline-dark" href="?page={{ result_list.next_page_number }}"
+                               style="border-top-right-radius:5px;border-bottom-right-radius:5px;">
+                                &raquo;
+                            </a>
+                        </li>
+                        {% else %}
+                        <li>
+                <span><a class="btn btn-outline-dark disabled"
+                         style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</a></span>
+                        </li>
+                        {%endif %}
+                    </ul>
+                    {%endif%}
+                </div>
 
                 <div class="row">
 
                     <div style="text-align:center; margin:auto;">
 
-                        <input class="btn btn-dark" type="button" value="선택삭제" id="delete_btn">
+                        <input class="btn btn-outline-dark" type="button" value="선택삭제" id="delete_btn">
                     </div>
 
                 </div>
@@ -309,6 +312,7 @@ jQuery(document).ready(function($) {
   //Fire it when the page first loads:
   alterClass();
 });
+
 
 
 

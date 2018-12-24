@@ -24,7 +24,7 @@
 
 </head>
 <style>
-     th,td{border: 1px solid;}
+
 </style>
 <body>
 <!-- Preloader -->
@@ -55,7 +55,7 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
+                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
                                                                        alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
@@ -74,7 +74,7 @@
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">문서 작성</a>
+                                       aria-haspopup="true" aria-expanded="false" >문서 작성</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{% url 'forms'%}">신용장 신청서</a>
                                     </div>
@@ -138,7 +138,7 @@
             <div class="container-fluid">
                 <h2>Trade History</h2>
                 <h3>Contract ID : {{cid}}</h3>
-                <table style="word-break:break-all; text-align:center;">
+                <table class ="table-bordered" style="word-break:break-all; text-align:center;">
                     <tr  style="word-break:break-all; text-align:center;">
                         <th>시간</th>
 

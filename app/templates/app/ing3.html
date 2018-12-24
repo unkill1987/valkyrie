@@ -53,8 +53,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index3' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -127,132 +128,140 @@
     </div>
 </div>
 <!-- Social Sidebar Area End -->
+<form method="post">
+    <!--Valkyrie System Area Start -->
+    <section class="blog-area section_padding_100 mt-100">
+        <div class="container" style="padding-bottom:100px;">
+            <div class="row justify-content-center">
+                <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
+                    <h4 class="my-4">신용장 관리({{total_len}}건)</h4>
 
-<!--Valkyrie System Area Start -->
-<section class="blog-area section_padding_100 mt-100">
-    <div class="container" style="padding-bottom:100px;">
-        <div class="row justify-content-center">
-<div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-    <h4 class="my-4">신용장 관리({{total_len}}건)</h4>
+                    <div class="row">
+                        {% for c in result_list %}
+                        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
 
-    <div class="row">
-        {% for c in result_list %}
-        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
+                            <input type="checkbox" id="{{c.id}}" name="check_id" value="{{ c.id }}"><a>Check</a>
+                            <div class="card h-100">
 
-          <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><a>Check</a>
-          <div class="card h-100">
-
-            <h5 class="card-header">
+                                <h5 class="card-header">
 
 
-            Contract ID.{{c.contract_id}}<hr>
+                                    Contract ID.{{c.contract_id}}
+                                    <hr>
 
-              {{c.contractname}}</h5>
-            <div class="card-body">
-              <p class="card-text">
+                                    {{c.contractname}}
+                                </h5>
+                                <div class="card-body">
+                                    <p class="card-text">
 
-              <h5>Document Hash:<br>{{c.sha256}}</h5></p>
+                                    <h5>Document Hash:<br>{{c.sha256}}</h5></p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{% url 'download3' %}?id={{ c.id }}" class="btn btn-outline-dark"
+                                       target="_blank">
+                                        {{c.filename}}
+                                    </a>
+                                    <hr>
+                                    <h5>To (수입자ID):{{c.share1}}</h5>
+                                    <h5>To (수출자ID):{{c.share2}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                    </div>
+
+                    <hr>
+                    <div class="wrapper">
+                        {% if result_list.has_other_pages %}
+                        <ul class="pagination" style="display: flex; justify-content: center;">
+                            {% if result_list.has_previous %}
+                            <li>
+                                <a class="btn btn-outline-dark" href="?page={{ result_list.previous_page_number }}"
+                                   style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                                    &laquo;
+                                </a>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="btn btn-outline-dark disabled"
+                                style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                                <span>&laquo;</span></li>
+                            {% endif %}
+
+                            {% if result_list.number > 2 %}
+                            <li><a href="?page={{ 1 }}" class="btn btn-outline-dark">
+                                1
+                            </a></li>
+                            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span>
+                            </li>
+                            {% endif %}
+                            {% for i in page_range %}
+                            {% if result_list.number == i %}
+                            <li class="btn btn-outline-dark active"><span  style="color:white;">{{ i }}<span class="sr-only">(current)</span></span>
+                            </li>
+                            {% else %}
+                            <li><a class="btn btn-outline-dark" href="?page={{ i }}">
+                                {{ i }}
+                            </a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if result_list.number < max_index %}
+                            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span>
+                            </li>
+                            <li><a class="btn btn-outline-dark" href="?page={{ max_index|add:'2' }}">
+                                {{ max_index|add:"2" }}
+                            </a>
+                            </li>
+                            {% endif %}
+                            {% if result_list.has_next %}
+                            <li>
+                                <a class="btn btn-outline-dark" href="?page={{ result_list.next_page_number }}"
+                                   style="border-top-right-radius:5px;border-bottom-right-radius:5px;">
+                                    &raquo;
+                                </a>
+                            </li>
+                            {% else %}
+                            <li>
+                <span><a class="btn btn-outline-dark disabled"
+                         style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</a></span>
+                            </li>
+                            {%endif %}
+                        </ul>
+                        {%endif%}
+                    </div>
+
+                    <div class="row">
+
+                        <div style="text-align:center; margin:auto;">
+                            <a>수입자ID:</a>
+                            <input class="form-control" name="share_user" id="share_user">
+                            <a>수출자ID:</a>
+                            <input class="form-control" name="share_user2" id="share_user2">
+                            <br>
+                            <button class="btn btn-outline-dark" type="button" id="share">전송하기</button>
+                            <button class="btn btn-outline-dark" type="button" id="delete_btn">삭제하기</button>
+
+
+                        </div>
+                    </div>
+
+                    <!--</form>-->
+                </div>
+
+                <!-- Sticky Footer -->
+
             </div>
-            <div class="card-footer">
-              <a href="{% url 'download3' %}?id={{ c.id }}" class="btn btn-dark" target="_blank">
-                    {{c.filename}}
-              </a>
-              <hr>
-              <h5>To (수입자ID):{{c.share1}}</h5>
-                <h5>To (수출자ID):{{c.share2}}</h5>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-<hr>
-    </div>
-
-<hr>
-  <div class="wrapper">
-        {% if result_list.has_other_pages %}
-        <ul class="pagination" style="display: flex; justify-content: center;">
-            {% if result_list.has_previous %}
-            <li>
-                <a href="?page={{ result_list.previous_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-left-radius:5px;border-bottom-left-radius:5px;">&laquo;
-                    </button>
-                </a>
-            </li>
-            {% else %}
-            <li class="btn btn-outline-dark disabled" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
-                <span>&laquo;</span></li>
-            {% endif %}
-
-            {% if result_list.number > 2 %}
-            <li><a href="?page={{ 1 }}">
-                <button class="btn btn-outline-dark"> 1</button>
-            </a></li>
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
-            {% endif %}
-            {% for i in page_range %}
-            {% if result_list.number == i %}
-            <li class="btn btn-outline-dark active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
-            {% else %}
-            <li><a href="?page={{ i }}">
-                <button class="btn btn-outline-dark">{{ i }}</button>
-            </a></li>
-            {% endif %}
-            {% endfor %}
-            {% if result_list.number < max_index %}
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
-            <li><a href="?page={{ max_index|add:'2' }}">
-                <button class="btn btn-outline-dark">{{ max_index|add:"2" }}</button>
-            </a>
-            </li>
-            {% endif %}
-            {% if result_list.has_next %}
-            <li>
-                <a href="?page={{ result_list.next_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;
-                    </button>
-                </a>
-            </li>
-            {% else %}
-            <li>
-                <span><button class="btn btn-outline-dark disabled"
-                              style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</button></span>
-            </li>
-            {%endif %}
-        </ul>
-        {%endif%}
-    </div>
-
-  <div class="row">
-
-    <div style="text-align:center; margin:auto;" >
-        <a>수입자ID:</a>
-        <input class="form-control" name="share_user" id="share_user">
-        <a>수출자ID:</a>
-        <input class="form-control" name="share_user2" id="share_user2">
-        <br>
-      <input class="btn btn-dark" type="button" value="전송하기" id="share3">
-      <input class="btn btn-dark" type="button" value="선택삭제" id="delete_btn">
-
 
         </div>
-  </div>
+        <!-- /.content-wrapper -->
 
-<!--</form>-->
-</div>
-
-        <!-- Sticky Footer -->
-
-         </div>
-
-      </div>
-      <!-- /.content-wrapper -->
-
-   </div>
+        </div>
         <!-- Pagination -->
-    </div>
-</section>
+        </div>
+    </section>
+    {% csrf_token %}
+</form>
 <!--Valkyrie System Area End -->
 
 <!-- Footer Area Start -->
@@ -285,7 +294,7 @@
 
 
 <!-- jQuery (Necessary for All JavaScript Plugins) -->
-<script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- Popper js -->
 <script src="{% static 'app/js/popper.min.js'%}"></script>
 <!-- Bootstrap js -->
@@ -296,38 +305,55 @@
 <script src="{% static 'app/js/active.js'%}"></script>
 
 </body>
-  <script>
-      $('#delete_btn').click(function() {
-        check_ids = ''
-        sep = ''
-        $('input:checked').each(function() {
-          check_ids += sep + $(this).val()
-          sep = ','
+<script>
+
+  $(document).ready(function(){
+  $('#preloader').hide();
+});
+
+
+ $('#share').click(function(){
+     $('.btn').attr('disabled',true);
+      $('#preloader').show();
+     $.ajax({
+        url:'/app/share3/',
+        type:'post',
+        data:$('form').serialize(),
+        success: function(res){
+            if (res.result == 'Success'){
+                alert(res.result)
+                location = '/app/LC/'
+                }else{
+                alert(res.result)
+                location = '/app/LC/'
+                }
+            }
         })
-
-        location = '/app/remove3?check_id=' + check_ids
         return false
-      })
+     })
 
-      $('#share3').click(function(){
-        var share_user = $("#share_user").val();
-        var share_user2 = $("#share_user2").val();
-
-        if($('#share_user').val().length==0){
-        alert("수입자ID를 입력하세요.");
-        $('#share_user').focus();return false;}
-        if($('#share_user2').val().length==0){
-        alert("수출자ID를 입력하세요.");
-        $('#share_user2').focus();return false;}
-        $('input:checked').each(function() {
-          check_id = $(this).val()
-
+     $('#delete_btn').click(function(){
+     $('.btn').attr('disabled',true);
+     $.ajax({
+        url:'/app/remove3/',
+        type:'post',
+        data:$('form').serialize(),
+        success: function(res){
+            if (res.result == 'Deleted'){
+                alert(res.result)
+                location = '/app/LC/'
+                }else{
+                alert(res.result)
+                location = '/app/LC/'
+                }
+            }
         })
-        location = '/app/share3?check_id=' + check_id +'&share_user=' + share_user +'&share_user2=' + share_user2
         return false
-      })
+     })
 
 
-    </script>
+
+
+</script>
 
 </html>

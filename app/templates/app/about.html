@@ -24,9 +24,16 @@
 
 </head>
 <style>
-     @media (min-width:968px){.card-login{width:500px}}
-body{background-image: url(../../static/app/img/bg-img/14.jpg);}
+@media (min-width:968px){.card-login{width:500px}}
+ html, body{ height: 100%; margin: 0;}
 label,a{color:#ff8a12; weight:500;}
+#about{background-image:url(../../static/app/img/about.jpg);
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-position:center;
+        height:100%;
+        padding-top:25%;}
+section{}
 </style>
 <body>
 <!-- Preloader -->
@@ -57,7 +64,7 @@ label,a{color:#ff8a12; weight:500;}
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="index.html"><img src="{% static 'app/img/core-img/logo.png'%}"
+                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
                                                                        alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
@@ -69,7 +76,7 @@ label,a{color:#ff8a12; weight:500;}
                             <!-- Menu Area Start  -->
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="">ABOUT</a>
+                                    <a class="nav-link" href="{% url 'about'%}">ABOUT</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'registerpage'%}">REGISTER</a>
@@ -90,84 +97,76 @@ label,a{color:#ff8a12; weight:500;}
 <!-- Header Area End -->
 
 <!-- Social Sidebar Area Start -->
-<div class="social-sidebar-area">
-    <!-- Social Area -->
-    <div class="social-info-area">
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
-                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
-                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
-                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
-                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
-    </div>
-</div>
-<!-- Social Sidebar Area End -->
-
-<!--Valkyrie System Area Start -->
-<section class="blog-area" style="margin-top:300px;" >
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="container-fluid">
-
-                    <div class="card-login mx-auto mt-5">
-                        <form>
-                            <select class="custom-select" name="user_role" style="width:200px;height:45px;">
-                                <option value="1" selected>수입자</option>
-                                <option value="2">수출자</option>
-                                <option value="3">은행</option>
-                                <option value="4">운송사</option>
-                            </select>
-                            <div class="form-group">
-                                <div class="form-label-group">
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label for="inputEmail">Email address</label>
-                                    <input name="email" type="email" id="inputEmail" class="form-control"
-                                           placeholder="Email address"
-                                           required="required" autofocus="autofocus">
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-label-group">
-                                    <label for="inputPassword">Password</label>
-                                    <input name="password" type="password" id="inputPassword" class="form-control"
-                                           placeholder="Password" required="required">
-
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" value="remember-me">
-                                        <a>Remember Password</a>
-                                    </label>
-                                </div>
-                            </div>
-                            <a id='login' class="btn btn-dark btn-block" href="{% url 'index' %}">Login</a>
-
-
-                            {% csrf_token %}
-                        </form>
-                        <div class="text-center">
-                            <a class="d-block small mt-3" href="{% url 'registerpage' %}">Register an Account</a>
-                            <a class="d-block small" href="{% url 'forgot'%}">Forgot Password?</a>
-                            <br>
-                        </div>
-                    </div>
-
-            </div>
-
+ <section id="about" class="about-section text-center" >
+      <div class="container" >
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2 class="text-white mb-4" style="color:#838383!important;">VALKRIE SYSTEM</h2>
+              <h3 class="text-white mb-4" style="color:#838383!important;">BLOCKCHAIN FOR TRADE</h3>
+            <h4 class="text-white-50" style="color:#ff7b07;">Increase Trust, Transparency and Accountability <br>for your trade</h4>
+          </div>
         </div>
-        <!-- Pagination -->
-    </div>
-</section>
-<!--Valkyrie System Area End -->
+
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section text-center">
+      <div class="container">
+
+        <!-- Featured Project Row -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7">
+            <img class="img-fluid mb-3 mb-lg-0" src="img/bg-masthead.jpg" alt="">
+          </div>
+          <div class="col-xl-4 col-lg-5">
+            <div class="featured-text text-center text-lg-left">
+              <h3></h3>
+              <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any project - even commercial projects! Download it, customize it, and publish your website!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project One Row -->
+        <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
+          <div class="col-lg-6">
+            <img class="img-fluid" src="img/demo-image-01.jpg" alt="">
+          </div>
+          <div class="col-lg-6">
+            <div class="bg-black text-center h-100 project">
+              <div class="d-flex h-100">
+                <div class="project-text w-100 my-auto text-center text-lg-left">
+                  <h4 class="text-white">Misty</h4>
+                  <p class="mb-0 text-white-50">An example of where you can put an image of a project, or anything else, along with a description.</p>
+                  <hr class="d-none d-lg-block mb-0 ml-0">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Two Row -->
+        <div class="row justify-content-center no-gutters">
+          <div class="col-lg-6">
+            <img class="img-fluid" src="img/demo-image-02.jpg" alt="">
+          </div>
+          <div class="col-lg-6 order-lg-first">
+            <div class="bg-black text-center h-100 project">
+              <div class="d-flex h-100">
+                <div class="project-text w-100 my-auto text-center text-lg-right">
+                  <h4 class="text-white">Mountains</h4>
+                  <p class="mb-0 text-white-50">Another example of a project with its respective description. These sections work well responsively as well, try this theme on a small screen!</p>
+                  <hr class="d-none d-lg-block mb-0 mr-0">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
 
 <!-- Footer Area Start -->
 <footer class="footer-area">
@@ -211,40 +210,6 @@ label,a{color:#ff8a12; weight:500;}
 
 </body>
 <script>
-    //로그인 버튼 활성화
-      $('#login').click(function() {
-        $.ajax({
-          url: '/app/',
-          type: 'post',
-          data: $('form').serialize(),
-          success: function(res) {
-            alert(res.result)
-            if(res.result == 'success') {
-              location = '/app/index'
-            }
-          }
-        })
-        return false
-      })
-
-
-//엔터로 로그인하기
-var input = document.getElementById("inputPassword");
-
-// Execute a function when the user releases a key on the keyboard
-input.addEventListener("keyup", function(event) {
-
-// Cancel the default action, if needed
-event.preventDefault();
-
-// Number 13 is the "Enter" key on the keyboard
-if (event.keyCode === 13) {
-
-// Trigger the button element with a click
-document.getElementById("login").click();
-}
-});
-
 
 
 </script>

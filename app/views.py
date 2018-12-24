@@ -18,11 +18,13 @@ from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_
 from valweb import settings
 from django.utils import timezone
 
+def about(request):
+    return render(request,'app/about.html',{})
 
 def search(request):
     try:
         cid = str(request.POST['cid'])
-        url = ("http://192.168.0.6:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.0.8:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
         if len(history) == 0:
@@ -38,376 +40,328 @@ def search(request):
 
 
 def share1(request):
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-    share_user = request.GET['share_user']
 
-    for id in check_ids:
-        try:
+    try:
+        check_id = request.POST['check_id']
+        share_user = request.POST['share_user']
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_LCR.objects.filter(owner=member)
+        getid = contract.filter(id=check_id)
+        hash = getid.values('sha256')[0]['sha256']
+        contract_id = getid.values('contract_id')[0]['contract_id']
+        contract = contract_id
+        user_id = getid.values('owner')[0]['owner']
 
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract = Contract_LCR.objects.filter(owner=member)
-            getid = contract.filter(id=id)
-            hash = getid.values('sha256')[0]['sha256']
-            contract_id = getid.values('contract_id')[0]['contract_id']
-            contract = str(contract_id)
-            user_id = getid.values('owner')[0]['owner']
 
-            url = ('http://192.168.0.6:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
-            response = requests.post(url)
-            res = response.text
+        url = ('http://192.168.0.8:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
+        response = requests.post(url)
+        res = response.text
+        result_dict = {}
 
-            root = Tk()
-            root.withdraw()
-            root.lift()
-            root.attributes("-topmost", True)
+        if (res == "The contract already exists"):
+           result_dict['result'] = 'Fail'
 
-            if (res == "The contract already exists"):
-                showerror("Error", res)
-            else:
-                share = Contract_LCR.objects.get(id=id)
-                share.share3 = share_user
-                share.save()
+        else:
+            share = Contract_LCR.objects.get(id=check_id)
+            share.share3 = share_user
+            share.save()
 
-                process = Process.objects.get(id=contract_id)
-                process.user1 = user_id
-                process.LCR_hash = hash
-                process.user3 = share_user
-                process.save()
+            process = Process.objects.get(id=contract_id)
+            process.user1 = user_id
+            process.LCR_hash = hash
+            process.user3 = share_user
+            process.save()
 
-                process_complete = Process_complete.objects.get(id=contract_id)
-                process_complete.LCR_hash = hash
-                process_complete.save()
-                showinfo("Success", 'Txid:' + res)
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.LCR_hash = hash
+            process_complete.save()
+            result_dict['result'] = 'Success'
+        return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        return redirect('ing')
 
-            root.mainloop()
-        except Exception as e:
-            print(e)
-            pass
-    return redirect('ing')
 
 def share2(request):
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-    share_user = request.GET['share_user']
 
 
-    for id in check_ids:
-        try:
+    try:
+        check_id = request.POST['check_id']
+        share_user = request.POST['share_user']
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_CI.objects.filter(owner=member)
+        getid = contract.filter(id=check_id)
+        hash = getid.values('sha256')[0]['sha256']
+        contract_id = getid.values('id')[0]['id']
+        contract = str(contract_id)
+        user_id = getid.values('owner')[0]['owner']
 
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract = Contract_CI.objects.filter(owner=member)
-            getid = contract.filter(id=id)
-            hash = getid.values('sha256')[0]['sha256']
-            contract_id = getid.values('id')[0]['id']
-            contract = str(contract_id)
-            user_id = getid.values('owner')[0]['owner']
 
+        url = 'http://192.168.0.8:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
+        response = requests.post(url)
+        res = response.text
+        result_dict = {}
 
-            url = 'http://192.168.0.6:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
-            response = requests.post(url)
-            res = response.text
-            root = Tk()
-            root.withdraw()
-            root.lift()
-            root.attributes("-topmost", True)
-            if ( res == "The contract already exists" ):
-                showerror("Error",res)
-            else:
-                share = Contract_CI.objects.get(id=id)
-                share.share1 = share_user
-                share.save()
+        if ( res == "The contract already exists" ):
+            result_dict['result'] = 'Fail'
+        else:
+            share = Contract_CI.objects.get(id=check_id)
+            share.share1 = share_user
+            share.save()
 
-                process = Process.objects.get(CI_hash=hash)
-                process.user1 = share_user
-                process.save()
-                showinfo("Success", 'Txid:' + res)
-            root.mainloop()
-
-        except Exception as e:
-            print(e)
-            pass
-    return redirect('ing2')
+            process = Process.objects.get(CI_hash=hash)
+            process.user1 = share_user
+            process.save()
+            result_dict['result'] = 'Success'
+        return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        return redirect('ing2')
 
 def share2_1(request):
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-    share_user = request.GET['share_user']
-
-    for id in check_ids:
-        try:
-
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract = Contract_SR.objects.filter(owner=member)
-            getid = contract.filter(id=id)
-            hash = getid.values('sha256')[0]['sha256']
-            contract_id = getid.values('contract_id')[0]['contract_id']
-            contract = str(contract_id)
-            user_id = getid.values('owner')[0]['owner']
 
 
-            url = 'http://192.168.0.6:8001/add_SR/' + contract + '-' + user_id + '-' + hash
-            response = requests.post(url)
-            res = response.text
-            root = Tk()
-            root.withdraw()
-            root.lift()
-            root.attributes("-topmost", True)
+    try:
+        check_id = request.POST['check_id']
+        share_user = request.POST['share_user']
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_SR.objects.filter(owner=member)
+        getid = contract.filter(id=check_id)
+        hash = getid.values('sha256')[0]['sha256']
+        contract_id = getid.values('contract_id')[0]['contract_id']
+        contract = str(contract_id)
+        user_id = getid.values('owner')[0]['owner']
 
-            if (res == "The contract already exists"):
-                showerror("Error", res)
-            else:
-                process = Process.objects.get(id=contract_id)
-                process.SR_hash = hash
-                process.user4 = share_user
-                process.save()
 
-                process_complete = Process_complete.objects.get(id=contract_id)
-                process_complete.SR_hash = hash
-                process_complete.save()
+        url = 'http://192.168.0.8:8001/add_SR/' + contract + '-' + user_id + '-' + hash
+        response = requests.post(url)
+        res = response.text
+        result_dict = {}
 
-                share = Contract_SR.objects.get(id=id)
-                share.share4 = share_user
-                share.save()
+        if (res == "The contract already exists"):
+            result_dict['result'] = 'Fail'
+        else:
+            process = Process.objects.get(id=contract_id)
+            process.SR_hash = hash
+            process.user4 = share_user
+            process.save()
 
-                showinfo("Success", 'Txid:' + res)
-            root.mainloop()
-        except Exception as e:
-            print (e)
-            pass
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.SR_hash = hash
+            process_complete.save()
+
+            share = Contract_SR.objects.get(id=check_id)
+            share.share4 = share_user
+            share.save()
+            result_dict['result'] = 'Success'
+        return JsonResponse(result_dict)
+    except Exception as e:
+        print (e)
         return redirect('ing2_1')
 
 def share3(request):
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-    share_user = request.GET['share_user']
-    share_user2 = request.GET['share_user2']
-
-    for id in check_ids:
-        try:
-
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract = Contract_LC.objects.filter(owner=member)
-            getid = contract.filter(id=id)
-            hash = getid.values('sha256')[0]['sha256']
-            contract_id = getid.values('contract_id')[0]['contract_id']
-            contract = str(contract_id)
-            user_id = getid.values('owner')[0]['owner']
 
 
-            url = 'http://192.168.0.6:8001/add_LC/' + contract + '-' + user_id + '-' + hash
-            response = requests.post(url)
-            res = response.text
-            root = Tk()
-            root.withdraw()
-            root.lift()
-            root.attributes("-topmost", True)
-            if (res == "The contract already exists"):
-                showerror("Error", res)
-            else:
-                share = Contract_LC.objects.get(id=id)
-                share.share1 = share_user
-                share.share2 = share_user2
-                share.save()
+    try:
+        check_id = request.POST['check_id']
+        share_user = request.POST['share_user']
+        share_user2 = request.POST['share_user2']
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_LC.objects.filter(owner=member)
+        getid = contract.filter(id=check_id)
+        hash = getid.values('sha256')[0]['sha256']
+        contract_id = getid.values('contract_id')[0]['contract_id']
+        contract = str(contract_id)
+        user_id = getid.values('owner')[0]['owner']
 
-                process = Process.objects.get(id=contract_id)
-                process.LC_hash = hash
-                process.save()
 
-                process_complete = Process_complete.objects.get(id=contract_id)
-                process_complete.LC_hash = hash
-                process_complete.save()
+        url = 'http://192.168.0.8:8001/add_LC/' + contract + '-' + user_id + '-' + hash
+        response = requests.post(url)
+        res = response.text
+        result_dict = {}
 
-                showinfo("Success", 'Txid:' + res)
-            root.mainloop()
-        except Exception as e:
-            print(e)
-            pass
+        if (res == "The contract already exists"):
+            result_dict['result'] = 'Fail'
+        else:
+            share = Contract_LC.objects.get(id=check_id)
+            share.share1 = share_user
+            share.share2 = share_user2
+            share.save()
+
+            process = Process.objects.get(id=contract_id)
+            process.LC_hash = hash
+            process.save()
+
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.LC_hash = hash
+            process_complete.save()
+            result_dict['result'] = 'Success'
+        return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
         return redirect('ing3')
 
 def share4_1(request):
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-    share_user = request.GET['share_user']
-    share_user2 = request.GET['share_user2']
-    for id in check_ids:
-        try:
-
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract = Contract_BL.objects.filter(owner=member)
-            getid = contract.filter(id=id)
-            hash = getid.values('sha256')[0]['sha256']
-            contract_id = getid.values('contract_id')[0]['contract_id']
-            contract = str(contract_id)
-            user_id = getid.values('owner')[0]['owner']
 
 
-            url = 'http://192.168.0.6:8001/add_BL/' + contract + '-' + user_id + '-' + hash
-            response = requests.post(url)
-            res = response.text
-            root = Tk()
-            root.withdraw()
-            root.lift()
-            root.attributes("-topmost", True)
-            if (res == "The contract already exists"):
-                showerror("Error", res)
-            else:
-                share = Contract_BL.objects.get(id=id)
-                share.share1 = share_user
-                share.share2 = share_user2
-                share.save()
+    try:
+        check_id = request.POST['check_id']
+        share_user = request.POST['share_user']
+        share_user2 = request.POST['share_user2']
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_BL.objects.filter(owner=member)
+        getid = contract.filter(id=check_id)
+        hash = getid.values('sha256')[0]['sha256']
+        contract_id = getid.values('contract_id')[0]['contract_id']
+        contract = str(contract_id)
+        user_id = getid.values('owner')[0]['owner']
 
-                process = Process.objects.get(id=contract_id)
-                process.BL_hash = hash
-                process.save()
 
-                process_complete = Process_complete.objects.get(id=contract_id)
-                process_complete.BL_hash = hash
-                process_complete.save()
+        url = 'http://192.168.0.8:8001/add_BL/' + contract + '-' + user_id + '-' + hash
+        response = requests.post(url)
+        res = response.text
+        result_dict = {}
 
-                showinfo("Success", 'Txid:' + res)
-            root.mainloop()
-        except:
-            pass
+        if (res == "The contract already exists"):
+            result_dict['result'] = 'Fail'
+        else:
+            share = Contract_BL.objects.get(id=check_id)
+            share.share1 = share_user
+            share.share2 = share_user2
+            share.save()
+
+            process = Process.objects.get(id=contract_id)
+            process.BL_hash = hash
+            process.save()
+
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.BL_hash = hash
+            process_complete.save()
+
+            result_dict['result'] = 'Success'
+        return JsonResponse(result_dict)
+    except:
         return redirect('ing4_1')
 
 def share4_2(request):
 
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-    share_user = request.GET['share_user']
 
-    for id in check_ids:
-        try:
-
-
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract = Contract_DO.objects.filter(owner=member)
-            getid = contract.filter(id=id)
-            hash = getid.values('sha256')[0]['sha256']
-            contract_id = getid.values('contract_id')[0]['contract_id']
-            contract = str(contract_id)
-            user_id = getid.values('owner')[0]['owner']
+    try:
+        check_id = request.POST['check_id']
+        share_user = request.POST['share_user']
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_DO.objects.filter(owner=member)
+        getid = contract.filter(id=check_id)
+        hash = getid.values('sha256')[0]['sha256']
+        contract_id = getid.values('contract_id')[0]['contract_id']
+        contract = str(contract_id)
+        user_id = getid.values('owner')[0]['owner']
 
 
-            url = 'http://192.168.0.6:8001/add_DO/' + contract + '-' + user_id + '-' + hash
-            response = requests.post(url)
-            res = response.text
-            root = Tk()
-            root.withdraw()
-            root.lift()
-            root.attributes("-topmost", True)
-            if (res == "The contract already exists"):
-                showerror("Error", res)
-            else:
-                share = Contract_DO.objects.get(id=id)
-                share.share1 = share_user
-                share.save()
+        url = 'http://192.168.0.8:8001/add_DO/' + contract + '-' + user_id + '-' + hash
+        response = requests.post(url)
+        res = response.text
+        result_dict = {}
 
-                process = Process.objects.get(id=contract_id)
-                process.DO_hash = hash
-                process.save()
+        if (res == "The contract already exists"):
+            result_dict['result'] = 'Fail'
+        else:
+            share = Contract_DO.objects.get(id=check_id)
+            share.share1 = share_user
+            share.save()
 
-                process_complete = Process_complete.objects.get(id=contract_id)
-                process_complete.DO_hash = hash
-                process_complete.save()
+            process = Process.objects.get(id=contract_id)
+            process.DO_hash = hash
+            process.save()
 
-                showinfo("Success", 'Txid:' + res)
-            root.mainloop()
-        except:
-            pass
+            process_complete = Process_complete.objects.get(id=contract_id)
+            process_complete.DO_hash = hash
+            process_complete.save()
+
+            result_dict['result'] = 'Success'
+        return JsonResponse(result_dict)
+    except:
         return redirect('ing4_2')
 
 
 def remove(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
 
-    for id in check_ids:
-        try:
-            Contract_LCR.objects.get(id=id).delete()
-        except:
-            pass
 
-    return redirect('ing')
+    result_dict={}
+    try:
+        check_id = request.POST['check_id']
+        Contract_LCR.objects.get(id=check_id).delete()
+        result_dict['result'] = 'Deleted'
+        return JsonResponse(result_dict)
+    except:
+        return redirect('ing')
 
 def remove2(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
+    check_id = request.POST['check_id']
+    result_dict = {}
 
-    for id in check_ids:
-        try:
-            Contract_CI.objects.get(id=id).delete()
-        except:
-            pass
-
-    return redirect('ing2')
-
-def remove3(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            Contract_LC.objects.get(id=id).delete()
-        except:
-            pass
-
-    return redirect('ing3')
+    try:
+        Contract_CI.objects.get(id=check_id).delete()
+        result_dict['result'] = 'Deleted'
+        return JsonResponse(result_dict)
+    except:
+        return redirect('ing2')
 
 def remove2_1(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
 
-    for id in check_ids:
-        try:
-            Contract_SR.objects.get(id=id).delete()
-        except:
-            pass
+    result_dict = {}
 
-    return redirect('ing2_1')
+    try:
+        check_id = request.POST['check_id']
+        Contract_SR.objects.get(id=check_id).delete()
+        result_dict['result'] = 'Deleted'
+        return JsonResponse(result_dict)
+    except:
+        return redirect('ing2_1')
+
+def remove3(request):
+
+    result_dict = {}
+
+    try:
+        check_id = request.POST['check_id']
+        Contract_LC.objects.get(id=check_id).delete()
+        result_dict['result'] = 'Deleted'
+        return JsonResponse(result_dict)
+    except:
+        return redirect('ing3')
+
+
 
 def remove4_1(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
 
-    for id in check_ids:
-        try:
-            Contract_BL.objects.get(id=id).delete()
-        except:
-            pass
+    result_dict = {}
 
-    return redirect('ing4_1')
+    try:
+        check_id = request.POST['check_id']
+        Contract_BL.objects.get(id=check_id).delete()
+        result_dict['result'] = 'Deleted'
+        return JsonResponse(result_dict)
+    except:
+        return redirect('ing4_1')
 
 def remove4_2(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
 
-    for id in check_ids:
-        try:
-            Contract_DO.objects.get(id=id).delete()
-        except:
-            pass
+    result_dict = {}
 
-    return redirect('ing4_2')
+    try:
+        check_id = request.POST['check_id']
+        Contract_DO.objects.get(id=check_id).delete()
+        result_dict['result'] = 'Deleted'
+        return JsonResponse(result_dict)
+    except:
+        return redirect('ing4_2')
 
 
 def process1_remove(request):
@@ -810,8 +764,6 @@ def submit2(request):
 
     contract.save()
     id = Contract_CI.objects.filter(sha256=hash).values('id')[0]['id']
-    print(id)
-
 
     process = Process(contract_id=id, user2=user_id, CI_hash=hash)
     process.save()
@@ -1392,7 +1344,7 @@ def ing(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index-2}
 
         return render(request, 'app/ing.html', notice)
     except Exception as e:
