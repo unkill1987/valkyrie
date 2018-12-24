@@ -34,6 +34,7 @@ label,a{color:#ff8a12; weight:500;}
         height:100%;
         padding-top:25%;}
 section{}
+
 </style>
 <body>
 <!-- Preloader -->
@@ -64,8 +65,9 @@ section{}
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -97,75 +99,74 @@ section{}
 <!-- Header Area End -->
 
 <!-- Social Sidebar Area Start -->
- <section id="about" class="about-section text-center" >
-      <div class="container" >
+<section id="about" class="about-section text-center">
+    <div class="container">
         <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h2 class="text-white mb-4" style="color:#838383!important;">VALKRIE SYSTEM</h2>
-              <h3 class="text-white mb-4" style="color:#838383!important;">BLOCKCHAIN FOR TRADE</h3>
-            <h4 class="text-white-50" style="color:#ff7b07;">Increase Trust, Transparency and Accountability <br>for your trade</h4>
-          </div>
+            <div class="col-lg-8 mx-auto">
+                <h2 class="text-white mb-4" style="color:#838383!important;">VALKRIE SYSTEM</h2>
+                <h3 class="text-white mb-4" style="color:#838383!important;">BLOCKCHAIN FOR TRADE</h3>
+                <h4 class="text-white-50" style="color:#ff7b07;">Increase Trust, Transparency and Accountability <br>for
+                    your trade</h4>
+            </div>
         </div>
 
-      </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects-section text-center">
-      <div class="container">
-
+<!-- Projects Section -->
+<section id="projects" class="projects-section text-center">
+    <div class="container">
+        <div style="margin:20px">
+            <h1 style="color:#343a40;">System Advantages</h1>
+        </div>
         <!-- Featured Project Row -->
-        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-          <div class="col-xl-8 col-lg-7">
-            <img class="img-fluid mb-3 mb-lg-0" src="img/bg-masthead.jpg" alt="">
-          </div>
-          <div class="col-xl-4 col-lg-5">
-            <div class="featured-text text-center text-lg-left">
-              <h3></h3>
-              <p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any project - even commercial projects! Download it, customize it, and publish your website!</p>
+        <div class="row align-items-center no-gutters ">
+            <div class="col-lg-6">
+                <img class="img-fluid mb-3 mb-lg-0"  src="{% static 'app/img/hyperledger.png'%}" alt="">
             </div>
-          </div>
+            <div class="col-lg-6">
+                <p class="featured-text text-center text-lg-center">Hyperledger Fabric 블록체인 기술을 적용하여 신뢰성 확보 및 보안 강화
+                    <h3></h3>
+                    <p class="text-black-50 mb-0"></p>
+                </p>
+            </div>
         </div>
 
         <!-- Project One Row -->
         <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
-          <div class="col-lg-6">
-            <img class="img-fluid" src="img/demo-image-01.jpg" alt="">
-          </div>
-          <div class="col-lg-6">
-            <div class="bg-black text-center h-100 project">
-              <div class="d-flex h-100">
-                <div class="project-text w-100 my-auto text-center text-lg-left">
-                  <h4 class="text-white">Misty</h4>
-                  <p class="mb-0 text-white-50">An example of where you can put an image of a project, or anything else, along with a description.</p>
-                  <hr class="d-none d-lg-block mb-0 ml-0">
+
+            <div class="col-lg-6">
+                <div class="bg-black text-center h-100 project">
+                    <div class="d-flex h-100">
+                        <div class="project-text w-100 my-auto text-center text-lg-center">
+                            <h4 class="text-white">Misty</h4>
+                            <p class="mb-0 text-white-50"> 스마트 계약을 통해 동일한 무역정보를 동시에 다수의 이해관계자에게 전달하여 <br>거래 절차 단순화,
+                                수수료 등 부가비용을 줄이고, 서류를 보다 안전하게 보관 및 관리</p>
+
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+            <div class="col-lg-6">
+                <img class="img-fluid" src="{% static 'app/img/blockchain.jpeg'%}" alt="">
+            </div>
         </div>
 
         <!-- Project Two Row -->
-        <div class="row justify-content-center no-gutters">
-          <div class="col-lg-6">
-            <img class="img-fluid" src="img/demo-image-02.jpg" alt="">
-          </div>
-          <div class="col-lg-6 order-lg-first">
-            <div class="bg-black text-center h-100 project">
-              <div class="d-flex h-100">
-                <div class="project-text w-100 my-auto text-center text-lg-right">
-                  <h4 class="text-white">Mountains</h4>
-                  <p class="mb-0 text-white-50">Another example of a project with its respective description. These sections work well responsively as well, try this theme on a small screen!</p>
-                  <hr class="d-none d-lg-block mb-0 mr-0">
-                </div>
-              </div>
+        <div class="row align-items-center no-gutters ">
+            <div class="col-lg-6">
+                <img class="img-fluid mb-3 mb-lg-0" src="{% static 'app/img/about1.jpg'%}" alt="">
             </div>
-          </div>
+            <div class="col-lg-6">
+                <div class="featured-text text-center text-lg-center">
+                    <h3></h3>
+                    <p class="text-black-50 mb-0">세계를 하나로 이어주는 빠르고 안전한 무역거래 시스템</p>
+                </div>
+            </div>
         </div>
 
-      </div>
-    </section>
-
+    </div>
+</section>
 
 
 <!-- Footer Area Start -->
