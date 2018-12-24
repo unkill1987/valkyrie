@@ -23,7 +23,11 @@
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
 </head>
-
+<style>
+    .card{background:#1d1d1de8;padding:10px;}
+    .card-header{ color:#ff8a12;font-size:20px;}
+    .card-body{color:white;font-size:18px;}
+</style>
 <body>
 <!-- Preloader -->
 <div id="preloader">
@@ -134,26 +138,38 @@
             <!-- Breadcrumbs-->
 
             <div class="container-fluid">
+                <div class="card">
                 <form method="post" action="{% url 'search'%}">
-                    <div class="row">
-                        <div class="col-lg-10 col-md-10 mx-auto">
-                            <h2 style="color:#464a4e!important;">블록체인 검색</h2>
+                        <div class="card-header">블록체인 검색 </div>
+                            <div class="card-body">
                             <div class="input-group">
-                                <label class="input-group-text" for="cid">Contract ID</label>
+                                <label style="background:white;" class="input-group-text" for="cid">Contract ID</label>
                                 <input class="form-control" id="cid" name="cid" type="text">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-outline-dark">search</button>
+                                    <button type="submit" class="btn btn-outline-dark" style="background-color:#ff8a12;color:white;">search</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
                     {% csrf_token %}
                 </form>
-                <div class="row">
-                    <div class="col-lg-12" style="text-align:center;">
-                        <h4 style="color:#ff0018b0"><br>{{message}}</h4>
                     </div>
-                </div>
+               <div class="card">
+                   <div class="card-header">
+                        content
+                   </div>
+                   <div class="card-body">
+                        content
+                   </div>
+               </div>
+                <div class="card">
+                   <div class="card-header">
+                        News
+                   </div>
+                   <div class="card-body">
+                        content
+                   </div>
+               </div>
 
 
             </div>
