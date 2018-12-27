@@ -1,13 +1,15 @@
-
+import urllib.request
 import requests
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 import hashlib
 from docx import Document
-from docx.shared import Cm
 import os
+import sys
 import time
+
+from pandas import json
 
 from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process, Process_complete
 from valweb import settings
@@ -669,7 +671,7 @@ def submit(request):
 
 
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].width = Cm(1.5)
+
     hdr_cells[0].text = 'No.'
     hdr_cells[1].text = 'Title'
     hdr_cells[2].text = 'Content'
@@ -751,7 +753,7 @@ def submit2(request):
     table = document.add_table(rows=1, cols=3)
 
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].width = Cm(1.5)
+
     hdr_cells[0].text = 'No.'
     hdr_cells[1].text = 'Title'
     hdr_cells[2].text = 'Content'
@@ -835,7 +837,6 @@ def submit2_1(request):
     table = document.add_table(rows=1, cols=3)
 
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].width = Cm(1.5)
     hdr_cells[0].text = 'No.'
     hdr_cells[1].text = 'Title'
     hdr_cells[2].text = 'Content'
@@ -949,7 +950,7 @@ def submit3(request):
     table = document.add_table(rows=1, cols=3)
 
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].width = Cm(1.5)
+
     hdr_cells[0].text = 'No.'
     hdr_cells[1].text = 'Title'
     hdr_cells[2].text = 'Content'
@@ -1017,7 +1018,7 @@ def submit4_1(request):
     table = document.add_table(rows=1, cols=3)
 
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].width = Cm(1.5)
+
     hdr_cells[0].text = 'No.'
     hdr_cells[1].text = 'Title'
     hdr_cells[2].text = 'Content'
@@ -1079,7 +1080,7 @@ def submit4_2(request):
     table = document.add_table(rows=1, cols=3)
 
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].width = Cm(1.5)
+
     hdr_cells[0].text = 'No.'
     hdr_cells[1].text = 'Title'
     hdr_cells[2].text = 'Content'
@@ -1930,9 +1931,18 @@ def logout(request):
 
 
 def index(request):
-
+    client_id = 'fpYuQKVX8str1aSVFrkc'
+    client_secret = 'rLcccdn5R4'
+    encText = urllib.parse.quote("무역")
+    url = "https://openapi.naver.com/v1/search/news?query=" + encText
+    res = urllib.request.Request(url)
+    res.add_header("X-Naver-Client-Id", client_id)
+    res.add_header("X-Naver-Client-Secret", client_secret)
+    response = urllib.request.urlopen(res)
+    result = response.read().decode('utf-8')
+    news = json.loads(result)['items']
+    time = json.loads(result)['lastBuildDate']
     try:
-
 
         user_id = request.session['user_id']
         user_role = request.session['user_role']
@@ -1950,7 +1960,7 @@ def index(request):
         else:
             templates = 'app/login.html'
 
-        return render(request, templates, {'user_id':user_id})
+        return render(request, templates, {'user_id':user_id, 'result':news, 'date':time})
     except Exception as e:
         print(e)
         return redirect('login')

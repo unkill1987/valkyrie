@@ -70,6 +70,7 @@
   from {top: 20%; opacity: 1;}
   to {top: 0; opacity: 0;}
 }
+
 </style>
 <body>
 <!-- Preloader -->
@@ -100,8 +101,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -182,37 +184,46 @@
 
             <div class="container-fluid">
                 <div class="card">
-                <form method="post" action="{% url 'search'%}">
-                        <div class="card-header">블록체인 검색 </div>
-                            <div class="card-body">
+                    <form method="post" action="{% url 'search'%}">
+                        <div class="card-header">블록체인 검색</div>
+                        <div class="card-body">
                             <div class="input-group">
-                                <label style="background:white;" class="input-group-text" for="cid">Contract ID</label>
+                                <label style="background:white; border:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;"
+                                       class="input-group-text" for="cid">Contract ID</label>
                                 <input class="form-control" id="cid" name="cid" type="text">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-outline-dark" style="background-color:#ff8a12;color:white;">search</button>
+                                    <button type="submit" class="btn btn-outline-dark"
+                                            style="background-color:#ff8a12;color:white;border-color: #ff8a12;border-top-left-radius:0px;border-bottom-left-radius:0px;">
+                                        search
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                    {% csrf_token %}
-                </form>
-                    </div>
-               <div class="card">
-                   <div class="card-header">
-                        content
-                   </div>
-                   <div class="card-body">
-                        content
-                   </div>
-               </div>
+                        {% csrf_token %}
+                    </form>
+                </div>
+                &nbsp
                 <div class="card">
-                   <div class="card-header">
-                        News
-                   </div>
-                   <div class="card-body">
+                    <div class="card-header">
+                        Notice
+                    </div>
+                    <div class="card-body">
                         content
-                   </div>
-               </div>
+                    </div>
+                </div>
+                &nbsp
+                <div class="card">
+                    <div class="card-header">
+                        News(무역)&nbsp/&nbsp {{date}}
+                    </div>
+                    {% for news in result %}
+                    <div class="card-body">
+                        <a style="color:white; font-size:20px; font-weight:500" href="{{news.link}}" target="_blank">
+                            {{news.title}}</a>
+                    </div>
+                    {% endfor %}}
+                </div>
 
 
             </div>
@@ -275,6 +286,7 @@ $(document).ready(function(){
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
 })
+
 </script>
 
 

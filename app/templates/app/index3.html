@@ -23,7 +23,55 @@
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
 </head>
+<style>
+        .card{background:#1d1d1de8;padding:10px;}
+    .card-header{ color:#ff8a12;font-size:20px;}
+    .card-body{color:white;font-size:18px;}
 
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #ff3b00;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 20%;
+}
+
+#snackbar.show {
+  visibility: visible;
+ -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+ animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 20%; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 20%; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 20%; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {top: 20%; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+</style>
 <body>
 <!-- Preloader -->
 <div id="preloader">
@@ -53,8 +101,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index3' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index3' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -127,12 +176,53 @@
     </div>
 </div>
 <!-- Social Sidebar Area End -->
-
+<div id="snackbar">{{message}}</div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
+                <div class="card">
+                    <form method="post" action="{% url 'search'%}">
+                        <div class="card-header">블록체인 검색</div>
+                        <div class="card-body">
+                            <div class="input-group">
+                                <label style="background:white; border:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;"
+                                       class="input-group-text" for="cid">Contract ID</label>
+                                <input class="form-control" id="cid" name="cid" type="text">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-outline-dark"
+                                            style="background-color:#ff8a12;color:white;border-color: #ff8a12;border-top-left-radius:0px;border-bottom-left-radius:0px;">
+                                        search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% csrf_token %}
+                    </form>
+                </div>
+                &nbsp
+                <div class="card">
+                    <div class="card-header">
+                        Notice
+                    </div>
+                    <div class="card-body">
+                        content
+                    </div>
+                </div>
+                &nbsp
+                <div class="card">
+                    <div class="card-header">
+                        News(무역)&nbsp/&nbsp {{date}}
+                    </div>
+                    {% for news in result %}
+                    <div class="card-body">
+                        <a style="color:white; font-size:20px; font-weight:500" href="{{news.link}}" target="_blank">
+                            {{news.title}}</a>
+                    </div>
+                    {% endfor %}}
+                </div>
 
 
             </div>
@@ -185,6 +275,15 @@
 
 </body>
 <script>
+$(document).ready(function(){
+
+  var x = document.getElementById("snackbar");
+  var y = $('#snackbar').text();
+    if (y.length != 0){
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+})
 
 </script>
 
