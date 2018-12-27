@@ -110,7 +110,7 @@ urlpatterns = [
     path('download2_1/', views.download2_1, name='download2_1'),
     path('download3/', views.download3, name='download3'),
     path('download4_1/', views.download4_1, name='download4_1'),
-    path('download4_2/', views.download4_1, name='download4_2'),
+    path('download4_2/', views.download4_2, name='download4_2'),
 
 
     path('', views.login, name='login'),

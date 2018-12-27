@@ -4,11 +4,12 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 import hashlib
-
+from docx import Document
+from docx.shared import Cm
 import os
 import time
 
-from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process, Process_complete, Contact
+from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process, Process_complete
 from valweb import settings
 from django.utils import timezone
 
@@ -27,7 +28,6 @@ def search(request):
             return render(request, 'app/index.html', {'message': message})
         else:
             history.reverse()
-
             return render(request, 'app/search.html', {'cid': cid, 'history': history})
     except Exception as e:
         print(e)
@@ -641,53 +641,62 @@ def submit(request):
     m = request.POST['m']
     n = request.POST['n']
     o = request.POST['o']
-
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    file = open('LCR_' + time_format + '.txt', 'wt')
-    file.write('Letter of Credit Request' + '\n'
-'requestname' + contractname+ '\n'
-'1.Advising bank:' + a + '\n'
-'2.Credit No.:' + b + '\n'
-'3.Beneficiary:' + c + '\n'
-'4.Applicant:' + d + '\n'
-'5.L/C Amount and Tolerance:' + e + '\n'
-'6.Type:' + f + '\n'
-'7.Partial shipment:' + g + '\n'
-'8.Transshipment:' + h + '\n'
-'9.Trnasport mode:' + i + '\n'
-'10.Loading(shipment from):' + j + '\n'
-'11.Discharging(shipment to):' + k + '\n'
-'12.Latest shipment date:' + l + '\n'
-'13.All banking charges:' + m + '\n'
-'14.Confirmation:' + n + '\n'
-'15.T/T reimbursement:' + o + '\n'
-'time'+ time_format)
-    file.close()
 
-    file = open('LCR_' + time_format + '.txt', 'rb')
+    records = (
+        (1, 'Advising bank:', a),
+        (2, 'Credit No.:', b),
+        (3, 'Beneficiary:', c),
+        (4, 'Applicant:', d),
+        (5, 'L/C Amount and Tolerance:', e),
+        (6, 'Type:', f),
+        (7, 'Partial shipment:', g),
+        (8, 'Transshipment:', h),
+        (9, 'Trnasport mode:', i),
+        (10, 'Loading(shipment from):', j),
+        (11, 'Discharging(shipment to):', k),
+        (12, 'Latest shipment date:', l),
+        (13, 'All banking charges:', m),
+        (14, 'Confirmation:', n),
+        (15, 'T/T reimbursement:', o),
+    )
+
+    document = Document()
+    document.add_heading(contractname + '/' +time_format, 0)
+
+    table = document.add_table(rows = 1, cols =3)
+
+
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].width = Cm(1.5)
+    hdr_cells[0].text = 'No.'
+    hdr_cells[1].text = 'Title'
+    hdr_cells[2].text = 'Content'
+
+    for num, title, content in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(num)
+        row_cells[1].text = title
+        row_cells[2].text = content
+
+    document.save('document/LCR_'+ time_format + '.docx')
+
+    file = open('document/LCR_' + time_format + '.docx', 'rb')
     data = file.read()
 
-    # hasher = hashlib.md5()
-    # with open('myfile.jpg', 'rb') as afile:
-    #     buf = afile.read()
-    #     hasher.update(buf)
-    # print(hasher.hexdigest())
-
-    # a = 'MD5 : ' + hashlib.md5(data).hexdigest()
-    # b = 'SHA-1 : ' + hashlib.sha1(data).hexdigest()
     hash = hashlib.sha256(data).hexdigest()
     file.close()
 
+
     # 데이터 저장
-    contract = Contract_LCR(contractname=contractname, contract_id = contract_id, sha256=hash, filename='LCR_' + time_format + '.txt')
+    contract = Contract_LCR(contractname=contractname, contract_id = contract_id, sha256=hash, filename='document/LCR_' + time_format + '.docx')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
     member = Member.objects.get(user_id=user_id)
     contract.owner = member
     contract.save()
-
     return redirect('ing')
 
 
@@ -713,44 +722,56 @@ def submit2(request):
     q = request.POST['q']
     r = request.POST['r']
 
-
-
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    file = open('CI_' + time_format + '.txt', 'wt')
-    file.write('COMMECIAL INVOICE' + '\n'
-                'Invoice name:' + invoicename + '\n'
-'1.Shipper/Seller:' + a + '\n'
-'2.Consignee:' + b + '\n'
-'3.Departure date:' + c + '\n'
-'4.Vessel/Flight:' + d + '\n'
-'5.From:' + e + '\n'
-'6.To:' + f + '\n'
-'7.Invoice No.and Date:' + g + '\n'
-'8.L/C No.and Date:' + h + '\n'
-'9.Buyer(if other than consignee):' + i + '\n'
-'10.Other reference:' + j + '\n'
-'11.Terms of delivery and payment:' + k + '\n'
-'12.Shipping Mark:' + l + '\n'
-'13.No.and kind of packages:' + m + '\n'
-'14.Goods description:' + n + '\n'
-'15.Quantity:' + o + '\n'
-'16.Unit price:' + p + '\n'
-'17. Amount:' + q + '\n'
-'18.Singed by:' + r + '\n'
-'time' + time_format
-               )
+    records = (
+        (1, 'Shipper/Seller:', a),
+        (2, 'Consignee:', b),
+        (3, 'Departure Date:', c),
+        (4, 'Vessel/Flight:', d),
+        (5, 'From:', e),
+        (6, 'To:', f),
+        (7, 'Invoice No.and Date:', g),
+        (8, 'L/C No.and Date:', h),
+        (9, 'Buyer(if other than consignee):', i),
+        (10, 'Other reference:', j),
+        (11, 'Terms of delivery and payment:', k),
+        (12, 'Shipping Mark:', l),
+        (13, 'No.and kind of packages:', m),
+        (14, 'Goods description:', n),
+        (15, 'Quantity:', o),
+        (16, 'Unit price:', p),
+        (17, 'Amount:', q),
+        (18, 'Singed by:', r),
+    )
 
-    file.close()
+    document = Document()
+    document.add_heading(invoicename + '/' + time_format, 0)
 
-    file = open('CI_' + time_format + '.txt', 'rb')
+    table = document.add_table(rows=1, cols=3)
+
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].width = Cm(1.5)
+    hdr_cells[0].text = 'No.'
+    hdr_cells[1].text = 'Title'
+    hdr_cells[2].text = 'Content'
+
+    for num, title, content in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(num)
+        row_cells[1].text = title
+        row_cells[2].text = content
+
+    document.save('document/CI_' + time_format + '.docx')
+
+    file = open('document/CI_' + time_format + '.docx', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
-    contract = Contract_CI(contractname=invoicename, sha256=hash, filename='CI_' + time_format + '.txt')
+    contract = Contract_CI(contractname=invoicename, sha256=hash, filename='document/CI_' + time_format + '.docx')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -786,42 +807,55 @@ def submit2_1(request):
     m = request.POST['m']
     n = request.POST['n']
     o = request.POST['o']
-
-
-
-
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    file = open('SR_' + time_format + '.txt', 'wt')
-    file.write('SHIPPING REQUEST' + '\n'
-                'Request name:' + srname + '\n'
-'1.Shipper:' + a + '\n'
-'2.Consignee:' + b + '\n'
-'3.Notify Party:' + c + '\n'
-'4.Vessel:' + d + '\n'
-'5.Voyage No.:' + e + '\n'
-'6.Port of Loading:' + f + '\n'
-'7.Port of Discharge:' + g + '\n'
-'8.Final Destination:' + h + '\n'
-'9.Marking:' + i + '\n'
-'10.Packages:' + j + '\n'
-'11.Description of Goods:' + k + '\n'
-'12.Gross Weight:' + l + '\n'
-'13.Measurement:' + m + '\n'
-'14.Freight Term:' + n + '\n'
-'15.Original B/L:' + o + '\n'
- 'time' + time_format)
 
-    file.close()
+    records = (
+        (1, 'Shipper:', a),
+        (2, 'Consignee:', b),
+        (3, 'Notify Party:', c),
+        (4, 'Vessel:', d),
+        (5, 'Voyage No.:', e),
+        (6, 'Port of Loading:', f),
+        (7, 'Port of Discharge:', g),
+        (8, 'Final Destination:', h),
+        (9, 'Marking:', i),
+        (10, 'Packages:', j),
+        (11, 'Description of Goods:', k),
+        (12, 'Gross Weight:', l),
+        (13, 'Measurement:', m),
+        (14, 'Freight Term:', n),
+        (15, 'Original B/L:', o),
 
-    file = open('SR_' + time_format + '.txt', 'rb')
+    )
+
+    document = Document()
+    document.add_heading(srname + '/' + time_format, 0)
+
+    table = document.add_table(rows=1, cols=3)
+
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].width = Cm(1.5)
+    hdr_cells[0].text = 'No.'
+    hdr_cells[1].text = 'Title'
+    hdr_cells[2].text = 'Content'
+
+    for num, title, content in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(num)
+        row_cells[1].text = title
+        row_cells[2].text = content
+
+    document.save('document/SR_' + time_format + '.docx')
+
+    file = open('document/SR_' + time_format + '.docx', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
-    contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, filename='SR_' + time_format + '.txt')
+    contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, filename='document/SR_' + time_format + '.docx')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -872,64 +906,69 @@ def submit3(request):
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    file = open('LC_' + time_format + '.txt', 'wt')
-    file.write('Letter of Credit' + '\n'
-'(APPLICATION FOR IRREVOCABLE DOCUMENTARY CREDIT)' +'\n'+
-letteroflc + '\n'
-'1.Transfer:' + a + '\n'
-'2.Credit Number: ' + b + '\n'
-'3.Advising Bank:' + c + '\n'
-'4.Expiry Date:' + d + '\n'
-'5.Applicant:' + e + '\n'
-'6.Beneficiary:' + f + '\n'
-'7.Amount:' + g + '\n'
-'8.Partial Shipment:' + h + '\n'
-'9.Latest Shipment Date:' + i + '\n'
-'10.Additional Conditions:' + j + '\n'
-'11.All banking charges:' + k + '\n'
-'12.Documents delivered by:' + l + '\n'
-'13.Confirmation:' + m + '\n'
-'14.Reissue:' + n + '\n'
-'15.Import L/C Transfer:' + o + '\n'
-'16.Draft at:' + p + '\n'
-'17.Usance:' + q + '\n'
-'18.SettlingBank:' + r + '\n'
-'19.Credit:' + s + '\n'
-'20.Transshipment mode:' + t + '\n'
-'21.Authorization:' + u + '\n'
-'22.Port of Loading/Airport of Departure' + v + '\n'
-'23.Place of Taking in Charge:' + w + '\n'
-'24.SIgned/Original/Commercial Invoice :' + x + '\n'
-'25.FULL SET of B/L:' + y + '\n'
-'26.Certificate of Origin in :' + z + '\n'
-'27.Certificate of Analysis in :' + aa + '\n'
-'28.Other Documents Required:' + bb + '\n'
-'29.Description of Goods/Services:' + cc + '\n'
-'30.Price Terms:' + dd + '\n'
-'31.Country of Origin:' + ee + '\n'
-'32.HS CODE:' + ff + '\n'
-'33.CommodityDescription:' + gg + '\n'
-'time' + time_format)
+    records = (
+        (1, 'Transfer:', a),
+        (2, 'Credit Number:', b),
+        (3, 'Advising Bank:', c),
+        (4, 'Expiry Date:', d),
+        (5, 'Applicant:', e),
+        (6, 'Beneficiary:', f),
+        (7, 'Amount:', g),
+        (8, 'Partial Shipment:', h),
+        (9, 'Latest Shipment Date:', i),
+        (10, 'Additional Conditions:', j),
+        (11, 'All banking charges:', k),
+        (12, 'Documents delivered by:', l),
+        (13, 'Confirmation:', m),
+        (14, 'Reissue:', n),
+        (15, 'Import L/C Transfer:', o),
+        (16, 'Draft at:', p),
+        (17, 'Usance:', q),
+        (18, 'SettlingBank:', r),
+        (19, 'Credit:', s),
+        (20, 'Transshipment mode:', t),
+        (21, 'Authorization:', u),
+        (22, 'Port of Loading/Airport of Departure:', v),
+        (23, 'Place of Taking in Charge:', w),
+        (24, 'Signed/Original/Commercial Invoice:', x),
+        (25, 'Full Set of B/L', y),
+        (26, 'Certificate of Origin in:', z),
+        (27, 'Certificate of Analysis in:', aa),
+        (28, 'Other Documents Required:', bb),
+        (29, 'Description of Goods/Services:', cc),
+        (30, 'Price Terms:', dd),
+        (31, 'Country of Origin:', ee),
+        (32, 'HS CODE:', ff),
+        (33, 'CommodityDescription:', gg),
 
+    )
 
-    file.close()
+    document = Document()
+    document.add_heading(letteroflc + '/' + time_format, 0)
 
-    file = open('LC_' + time_format + '.txt', 'rb')
+    table = document.add_table(rows=1, cols=3)
+
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].width = Cm(1.5)
+    hdr_cells[0].text = 'No.'
+    hdr_cells[1].text = 'Title'
+    hdr_cells[2].text = 'Content'
+
+    for num, title, content in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(num)
+        row_cells[1].text = title
+        row_cells[2].text = content
+
+    document.save('document/LC_' + time_format + '.docx')
+
+    file = open('document/LC_' + time_format + '.docx', 'rb')
     data = file.read()
 
-    # hasher = hashlib.md5()
-    # with open('myfile.jpg', 'rb') as afile:
-    #     buf = afile.read()
-    #     hasher.update(buf)
-    # print(hasher.hexdigest())
-    #
-    # a = 'MD5 : ' + hashlib.md5(data).hexdigest()
-    # b = 'SHA-1 : ' + hashlib.sha1(data).hexdigest()
     hash = hashlib.sha256(data).hexdigest()
     file.close()
-
     # 데이터 저장
-    contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, filename='LC_' + time_format + '.txt')
+    contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, filename='document/LC_' + time_format + '.docx')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -956,38 +995,49 @@ def submit4_1(request):
     i = request.POST['i']
     j = request.POST['j']
 
-
-
-
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    file = open('BL_' + time_format + '.txt', 'wt')
-    file.write('BILL OF LADING' + '\n'
-                'B/L:' + contractname + '\n'
-'1.Bank:' + a + '\n'
-'2.Nodify party:' + b + '\n'
-'3.Lessel:' + c + '\n'
-'4.Voyage No.:' + d + '\n'
-'5.Part of loading:' + e + '\n'
-'6.Place of receipt:' + f + '\n'
-'7.Place of delivery:' + g + '\n'
-'8.Description of goods:' + h + '\n'
-'9.Weight:' + i + '\n'
-'10.Measurement:' + j + '\n'
- 'time' + time_format)
+    records = (
+        (1, 'Bank:', a),
+        (2, 'Nodify party:', b),
+        (3, 'Vessel:', c),
+        (4, 'Voyage No.:', d),
+        (5, 'Part of loading:', e),
+        (6, 'Place of receipt:', f),
+        (7, 'Place of delivery:', g),
+        (8, 'Description of goods:', h),
+        (9, 'Weight:', i),
+        (10, 'Measurement:', j),
 
+    )
 
-    file.close()
+    document = Document()
+    document.add_heading(contractname + '/' + time_format, 0)
 
-    file = open('BL_' + time_format + '.txt', 'rb')
+    table = document.add_table(rows=1, cols=3)
+
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].width = Cm(1.5)
+    hdr_cells[0].text = 'No.'
+    hdr_cells[1].text = 'Title'
+    hdr_cells[2].text = 'Content'
+
+    for num, title, content in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(num)
+        row_cells[1].text = title
+        row_cells[2].text = content
+
+    document.save('document/BL_' + time_format + '.docx')
+
+    file = open('document/BL_' + time_format + '.docx', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
 
-
     # 데이터 저장
-    contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, filename='BL_' + time_format + '.txt')
+    contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/BL_' + time_format + '.docx')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -1010,35 +1060,45 @@ def submit4_2(request):
     f = request.POST['f']
     g = request.POST['g']
 
-
-
-
-
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    file = open('DO_' + time_format + '.txt', 'wt')
-    file.write('DO' + '\n'
-                'B/L:' + contractname + '\n'
-'1.Agent name:' + a + '\n'
-'2.Restricted delivery(Yes or no):' + b + '\n'
-'3.Adult signature restriced delivery(Yes or no):' + c + '\n'
-'4.Agent Signture:' + d + '\n'
-'5.ID verified (yes or no):' + e + '\n'
-'6.USPS initals:' + f + '\n'
-'7.Date:' + g + '\n'
-'time' + time_format)
+    records = (
+        (1, 'Agent name:', a),
+        (2, 'Restricted delivery(Yes or no):', b),
+        (3, 'Adult signature restriced delivery(Yes or no):', c),
+        (4, 'Agent Signture:', d),
+        (5, 'ID verified (yes or no):', e),
+        (6, 'USPS initals:', f),
+        (7, 'Date:', g),
 
+    )
 
-    file.close()
+    document = Document()
+    document.add_heading(contractname + '/' + time_format, 0)
 
-    file = open('DO_' + time_format + '.txt', 'rb')
+    table = document.add_table(rows=1, cols=3)
+
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].width = Cm(1.5)
+    hdr_cells[0].text = 'No.'
+    hdr_cells[1].text = 'Title'
+    hdr_cells[2].text = 'Content'
+
+    for num, title, content in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(num)
+        row_cells[1].text = title
+        row_cells[2].text = content
+
+    document.save('document/DO_' + time_format + '.docx')
+
+    file = open('document/DO_' + time_format + '.docx', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
-
     # 데이터 저장
-    contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, filename='DO_' + time_format + '.txt')
+    contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/DO_' + time_format + '.docx')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -1112,6 +1172,7 @@ def download4_1(request):
 def download4_2(request):
     id = request.GET['id']
     c = Contract_DO.objects.get(id=id)
+    print(c.filename)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
