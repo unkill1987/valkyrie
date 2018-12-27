@@ -11,7 +11,8 @@ import time
 
 from pandas import json
 
-from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC,Process, Process_complete
+from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
+    Process_complete, Notice
 from valweb import settings
 from django.utils import timezone
 
@@ -1942,6 +1943,8 @@ def index(request):
     result = response.read().decode('utf-8')
     news = json.loads(result)['items']
     time = json.loads(result)['lastBuildDate']
+
+    notice = Notice.objects.all()
     try:
 
         user_id = request.session['user_id']
@@ -1960,7 +1963,7 @@ def index(request):
         else:
             templates = 'app/login.html'
 
-        return render(request, templates, {'user_id':user_id, 'result':news, 'date':time})
+        return render(request, templates, {'user_id':user_id, 'result':news, 'date':time, 'notice':notice})
     except Exception as e:
         print(e)
         return redirect('login')

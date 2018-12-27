@@ -24,6 +24,8 @@
 
 </head>
 <style>
+
+td{padding:0px!important;}
         .card{background:#1d1d1de8;padding:10px;}
     .card-header{ color:#ff8a12;font-size:20px;}
     .card-body{color:white;font-size:18px;}
@@ -203,13 +205,43 @@
                     </form>
                 </div>
                 &nbsp
-                <div class="card">
-                    <div class="card-header">
+                  <div class="card">
+                    <div class="card-header" >
                         Notice
                     </div>
-                    <div class="card-body">
-                        content
+
+                    <div class="card-body" style="padding:0px;">
+                        <table class="table" style="text-align:center;">
+                <tr>
+                    <th>No.</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+                {% for n in notice%}
+
+                <tr>
+
+                    <td>{{n.id}}</td>
+                    <td>{{n.title}}</td>
+                    <td>{{n.c_date}}</td>
+                    <td>
+                        <button class="btn btn-outline-dark" id="{{n.id}}" style="border:0px; border-radius:0px; color:white;"
+                                onclick="toggleContent(this)">View
+                        </button>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="4" ><div name="{{n.id}}" style="display:none; padding:20px!important;">
+                        {{n.content}}</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
                     </div>
+
                 </div>
                 &nbsp
                 <div class="card">
@@ -284,6 +316,20 @@ $(document).ready(function(){
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
 })
+
+
+function toggleContent(obj) {
+    var id = obj.id;
+
+    var contentBox = document.getElementsByName(id)[0];
+
+    if(contentBox.style.display == "inline-block") {
+    contentBox.style.display = "none";
+    }
+    else {
+    contentBox.style.display = "inline-block";
+    }
+}
 
 </script>
 
