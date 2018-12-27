@@ -23,6 +23,7 @@ def search(request):
         history = res.json()
         if len(history) == 0:
             message = "Invalid Contract ID"
+            print(message)
             return render(request, 'app/index.html', {'message': message})
         else:
             history.reverse()
