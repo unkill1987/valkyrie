@@ -239,7 +239,7 @@
                             <input class="form-control" name="share_user2" id="share_user2">
                             <br>
                             <button class="btn btn-outline-dark" type="button" id="share">전송하기</button>
-                            <button class="btn btn-outline-dark" type="button" id="delete_btn">삭제하기</button>
+                            <button class="btn btn-outline-dark" type="button" id="delete_btn">선택삭제</button>
 
 
                         </div>
@@ -329,24 +329,17 @@
         return false
      })
 
-     $('#delete_btn').click(function(){
-     $('.btn').attr('disabled',true);
-     $.ajax({
-        url:'/app/remove4_1/',
-        type:'post',
-        data:$('form').serialize(),
-        success: function(res){
-            if (res.result == 'Deleted'){
-                alert(res.result)
-                location = '/app/BL/'
-                }else{
-                alert(res.result)
-                location = '/app/BL/'
-                }
-            }
+      $('#delete_btn').click(function() {
+    $('.btn').attr('disabled',true);
+        check_ids = ''
+        sep = ''
+        $('input:checked').each(function() {
+          check_ids += sep + $(this).val()
+          sep = ','
         })
+        location = '/app/remove4_1?check_id=' + check_ids
         return false
-     })
+      })
 
 
 

@@ -5,12 +5,14 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 import hashlib
 from docx import Document
+from docx.shared import Inches,Cm
+from fpdf import FPDF, HTMLMixin
 import os
 import sys
 import time
 
 
-from pandas import json
+from pandas.io import json
 
 
 from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
@@ -46,26 +48,12 @@ def search1(request):
     news = json.loads(result)['items']
     time = json.loads(result)['lastBuildDate']
 
-    notice = Notice.objects.all()
+    notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
-        # for i in range(0, len(history)):
-        #     importer = history[i]['Value']['importer']
-        #     exporter = history[i]['Value']['exporter']
-        #     bank = history[i]['Value']['bank']
-        #     shipper = history[i]['Value']['shipper']
-        #     ci_hash = history[i]['Value']['ci_hash']
-        #     lcr_hash = history[i]['Value']['lcr_hash']
-        #     lc_hash = history[i]['Value']['lc_hash']
-        #     sr_hash = history[i]['Value']['sr_hash']
-        #     bl_hash = history[i]['Value']['bl_hash']
-        #     do_hash = history[i]['Value']['do_hash']
-        #     txid = history[i]['TxId']
-        #     timestamp = history[i]['Timestamp']
-
 
         if len(history) == 0:
             message = "Invalid Contract ID"
@@ -94,7 +82,7 @@ def search2(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -125,7 +113,7 @@ def search3(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -156,7 +144,7 @@ def search4(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -181,23 +169,20 @@ def share1(request):
         contract = Contract_LCR.objects.filter(owner=member)
         getid = contract.filter(id=check_id)
         hash = getid.values('sha256')[0]['sha256']
-        contract_id = getid.values('contract_id')[0]['contract_id']
-        contract = contract_id
+        contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = ('http://222.239.231.247:8001/add_LCR/' + contract + '-' + user_id + '-' + hash)
+        url = ('http://210.107.78.158:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- letter of credit request: ' + hash)
         response = requests.post(url)
         res = response.text
         result_dict = {}
 
-        if (res == "The contract already exists"):
+        if (res == "Could not found contract_id"):
            result_dict['result'] = 'Fail'
 
         else:
-            share = Contract_LCR.objects.get(id=check_id)
-            share.share3 = share_user
-            share.save()
+
 
             process = Process.objects.get(id=contract_id)
             process.user1 = user_id
@@ -208,6 +193,10 @@ def share1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.LCR_hash = hash
             process_complete.save()
+
+            share = Contract_LCR.objects.get(id=check_id)
+            share.share3 = share_user
+            share.save()
             result_dict['result'] = 'Success'
         return JsonResponse(result_dict)
     except Exception as e:
@@ -226,12 +215,11 @@ def share2(request):
         contract = Contract_CI.objects.filter(owner=member)
         getid = contract.filter(id=check_id)
         hash = getid.values('sha256')[0]['sha256']
-        contract_id = getid.values('id')[0]['id']
-        contract = str(contract_id)
+        contract_id = str(getid.values('id')[0]['id'])
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_CI/'+ contract +'-'+user_id+'-'+hash
+        url = 'http://210.107.78.158:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- commercial invoice: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -239,13 +227,13 @@ def share2(request):
         if ( res == "The contract already exists" ):
             result_dict['result'] = 'Fail'
         else:
-            share = Contract_CI.objects.get(id=check_id)
-            share.share1 = share_user
-            share.save()
-
             process = Process.objects.get(CI_hash=hash)
             process.user1 = share_user
             process.save()
+
+            share = Contract_CI.objects.get(id=check_id)
+            share.share1 = share_user
+            share.save()
             result_dict['result'] = 'Success'
         return JsonResponse(result_dict)
     except Exception as e:
@@ -263,23 +251,19 @@ def share2_1(request):
         contract = Contract_SR.objects.filter(owner=member)
         getid = contract.filter(id=check_id)
         hash = getid.values('sha256')[0]['sha256']
-        contract_id = getid.values('contract_id')[0]['contract_id']
-        contract = str(contract_id)
+        contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_SR/' + contract + '-' + user_id + '-' + hash
+        url = 'http://210.107.78.158:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipping request: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
 
-        if (res == "The contract already exists"):
+        if (res == "Could not found contract_id"):
             result_dict['result'] = 'Fail'
         else:
-            process = Process.objects.get(id=contract_id)
-            process.SR_hash = hash
-            process.user4 = share_user
-            process.save()
+
 
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.SR_hash = hash
@@ -288,6 +272,11 @@ def share2_1(request):
             share = Contract_SR.objects.get(id=check_id)
             share.share4 = share_user
             share.save()
+
+            process = Process.objects.get(id=contract_id)
+            process.SR_hash = hash
+            process.user4 = share_user
+            process.save()
             result_dict['result'] = 'Success'
         return JsonResponse(result_dict)
     except Exception as e:
@@ -306,23 +295,18 @@ def share3(request):
         contract = Contract_LC.objects.filter(owner=member)
         getid = contract.filter(id=check_id)
         hash = getid.values('sha256')[0]['sha256']
-        contract_id = getid.values('contract_id')[0]['contract_id']
-        contract = str(contract_id)
+        contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_LC/' + contract + '-' + user_id + '-' + hash
+        url = 'http://210.107.78.158:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- letter of credit: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
 
-        if (res == "The contract already exists"):
+        if (res == "Could not found contract_id"):
             result_dict['result'] = 'Fail'
         else:
-            share = Contract_LC.objects.get(id=check_id)
-            share.share1 = share_user
-            share.share2 = share_user2
-            share.save()
 
             process = Process.objects.get(id=contract_id)
             process.LC_hash = hash
@@ -331,6 +315,11 @@ def share3(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.LC_hash = hash
             process_complete.save()
+
+            share = Contract_LC.objects.get(id=check_id)
+            share.share1 = share_user
+            share.share2 = share_user2
+            share.save()
             result_dict['result'] = 'Success'
         return JsonResponse(result_dict)
     except Exception as e:
@@ -349,23 +338,18 @@ def share4_1(request):
         contract = Contract_BL.objects.filter(owner=member)
         getid = contract.filter(id=check_id)
         hash = getid.values('sha256')[0]['sha256']
-        contract_id = getid.values('contract_id')[0]['contract_id']
-        contract = str(contract_id)
+        contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_BL/' + contract + '-' + user_id + '-' + hash
+        url = 'http://210.107.78.158:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- bill of landing: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
 
-        if (res == "The contract already exists"):
+        if (res == "Could not found contract_id"):
             result_dict['result'] = 'Fail'
         else:
-            share = Contract_BL.objects.get(id=check_id)
-            share.share1 = share_user
-            share.share2 = share_user2
-            share.save()
 
             process = Process.objects.get(id=contract_id)
             process.BL_hash = hash
@@ -374,6 +358,11 @@ def share4_1(request):
             process_complete = Process_complete.objects.get(id=contract_id)
             process_complete.BL_hash = hash
             process_complete.save()
+
+            share = Contract_BL.objects.get(id=check_id)
+            share.share1 = share_user
+            share.share2 = share_user2
+            share.save()
 
             result_dict['result'] = 'Success'
         return JsonResponse(result_dict)
@@ -391,22 +380,18 @@ def share4_2(request):
         contract = Contract_DO.objects.filter(owner=member)
         getid = contract.filter(id=check_id)
         hash = getid.values('sha256')[0]['sha256']
-        contract_id = getid.values('contract_id')[0]['contract_id']
-        contract = str(contract_id)
+        contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_DO/' + contract + '-' + user_id + '-' + hash
+        url = 'http://210.107.78.158:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- delivery order: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
 
-        if (res == "The contract already exists"):
+        if (res == "Could not found contract_id"):
             result_dict['result'] = 'Fail'
         else:
-            share = Contract_DO.objects.get(id=check_id)
-            share.share1 = share_user
-            share.save()
 
             process = Process.objects.get(id=contract_id)
             process.DO_hash = hash
@@ -416,6 +401,10 @@ def share4_2(request):
             process_complete.DO_hash = hash
             process_complete.save()
 
+            share = Contract_DO.objects.get(id=check_id)
+            share.share1 = share_user
+            share.save()
+
             result_dict['result'] = 'Success'
         return JsonResponse(result_dict)
     except:
@@ -423,76 +412,77 @@ def share4_2(request):
 
 
 def remove(request):
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
 
-
-    result_dict={}
     try:
-        check_id = request.POST['check_id']
-        Contract_LCR.objects.get(id=check_id).delete()
-        result_dict['result'] = 'Deleted'
-        return JsonResponse(result_dict)
-    except:
+        for check_id in check_ids:
+            Contract_LCR.objects.get(id=check_id).delete()
+        return redirect('ing')
+    except Exception as e:
+        print(e)
         return redirect('ing')
 
 def remove2(request):
-    check_id = request.POST['check_id']
-    result_dict = {}
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
 
     try:
-        Contract_CI.objects.get(id=check_id).delete()
-        result_dict['result'] = 'Deleted'
-        return JsonResponse(result_dict)
-    except:
+        for check_id in check_ids:
+            Contract_CI.objects.get(id=check_id).delete()
+        return redirect('ing2')
+    except Exception as e:
+        print(e)
         return redirect('ing2')
 
 def remove2_1(request):
-
-    result_dict = {}
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
 
     try:
-        check_id = request.POST['check_id']
-        Contract_SR.objects.get(id=check_id).delete()
-        result_dict['result'] = 'Deleted'
-        return JsonResponse(result_dict)
-    except:
+        for check_id in check_ids:
+            Contract_SR.objects.get(id=check_id).delete()
+        return redirect('ing2_1')
+    except Exception as e:
+        print(e)
         return redirect('ing2_1')
 
 def remove3(request):
-
-    result_dict = {}
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
 
     try:
-        check_id = request.POST['check_id']
-        Contract_LC.objects.get(id=check_id).delete()
-        result_dict['result'] = 'Deleted'
-        return JsonResponse(result_dict)
-    except:
+        for check_id in check_ids:
+            Contract_LC.objects.get(id=check_id).delete()
+        return redirect('ing3')
+    except Exception as e:
+        print(e)
         return redirect('ing3')
 
 
 
 def remove4_1(request):
-
-    result_dict = {}
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
 
     try:
-        check_id = request.POST['check_id']
-        Contract_BL.objects.get(id=check_id).delete()
-        result_dict['result'] = 'Deleted'
-        return JsonResponse(result_dict)
-    except:
+        for check_id in check_ids:
+            Contract_BL.objects.get(id=check_id).delete()
+        return redirect('ing4_1')
+    except Exception as e:
+        print(e)
         return redirect('ing4_1')
 
 def remove4_2(request):
-
-    result_dict = {}
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
 
     try:
-        check_id = request.POST['check_id']
-        Contract_DO.objects.get(id=check_id).delete()
-        result_dict['result'] = 'Deleted'
-        return JsonResponse(result_dict)
-    except:
+        for check_id in check_ids:
+            Contract_DO.objects.get(id=check_id).delete()
+        return redirect('ing4_2')
+    except Exception as e:
+        print(e)
         return redirect('ing4_2')
 
 
@@ -761,6 +751,7 @@ def process4_complete(request):
 
 
 def submit(request):
+    user_id = request.session['user_id']
     contractname = request.POST['contractname']
     contract_id = request.POST['contract_id']
     a = request.POST['a']
@@ -781,45 +772,47 @@ def submit(request):
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
 
-    records = (
-        (1, 'Advising bank:', a),
-        (2, 'Credit No.:', b),
-        (3, 'Beneficiary:', c),
-        (4, 'Applicant:', d),
-        (5, 'L/C Amount and Tolerance:', e),
-        (6, 'Type:', f),
-        (7, 'Partial shipment:', g),
-        (8, 'Transshipment:', h),
-        (9, 'Trnasport mode:', i),
-        (10, 'Loading(shipment from):', j),
-        (11, 'Discharging(shipment to):', k),
-        (12, 'Latest shipment date:', l),
-        (13, 'All banking charges:', m),
-        (14, 'Confirmation:', n),
-        (15, 'T/T reimbursement:', o),
-    )
+    pdf = FPDF(unit='in', format='A4')
+    pdf.add_page()
+    pdf.set_font('Times', '', 10.0)
+    epw = pdf.w - 2 * pdf.l_margin
+    col_width = epw / 3
+    data = [['No.','title','content'],
+            [1, 'Advising bank:', a],
+            [2, 'Credit No.:', b],
+            [3, 'Beneficiary:',c],
+            [4, 'Applicant:', d],
+            [5, 'L/C Amount and Tolerance:', e],
+            [6, 'Type:', f],
+            [7, 'Partial shipment:', g],
+            [8, 'Transshipment:', h],
+            [9, 'Trnasport mode:', i],
+            [10, 'Loading(shipment from):', j],
+            [11, 'Discharging(shipment to):', k],
+            [12, 'Latest shipment date:', l],
+            [13, 'All banking charges:', m],
+            [14, 'Confirmation:', n],
+            [15, 'T/T reimbursement:', o],
+            ]
 
-    document = Document()
-    document.add_heading(contractname + '/' +time_format, 0)
+    pdf.set_font('Times', 'B', 14.0)
+    pdf.cell(epw, 0.0, 'Contract ID:'+ contract_id +'/'+ time_format, align='C')
+    pdf.ln(0.25)
+    pdf.set_font('Times', '', 12.0)
+    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.set_font('Times', '', 10.0)
+    pdf.ln(0.5)
 
-    table = document.add_table(rows = 1, cols =3)
+    th = pdf.font_size
+    for row in data:
+        for datum in row:
+            # Enter data in colums
+            pdf.cell(col_width, 2 * th, str(datum), border=1)
 
+        pdf.ln(2 * th)
 
-    hdr_cells = table.rows[0].cells
-
-    hdr_cells[0].text = 'No.'
-    hdr_cells[1].text = 'Title'
-    hdr_cells[2].text = 'Content'
-
-    for num, title, content in records:
-        row_cells = table.add_row().cells
-        row_cells[0].text = str(num)
-        row_cells[1].text = title
-        row_cells[2].text = content
-
-    document.save('document/LCR_'+ time_format + '.docx')
-
-    file = open('document/LCR_' + time_format + '.docx', 'rb')
+    pdf.output('document/LCR_' + time_format + '.pdf')
+    file = open('document/LCR_' + time_format + '.pdf', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
@@ -827,7 +820,7 @@ def submit(request):
 
 
     # 데이터 저장
-    contract = Contract_LCR(contractname=contractname, contract_id = contract_id, sha256=hash, filename='document/LCR_' + time_format + '.docx')
+    contract = Contract_LCR(contractname=contractname, contract_id = contract_id, sha256=hash, filename='document/LCR_' + time_format + '.pdf')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -839,6 +832,7 @@ def submit(request):
 
 
 def submit2(request):
+    user_id = request.session['user_id']
     invoicename = request.POST['invoicename']
     a = request.POST['a']
     b = request.POST['b']
@@ -861,54 +855,53 @@ def submit2(request):
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    records = (
-        (1, 'Shipper/Seller:', a),
-        (2, 'Consignee:', b),
-        (3, 'Departure Date:', c),
-        (4, 'Vessel/Flight:', d),
-        (5, 'From:', e),
-        (6, 'To:', f),
-        (7, 'Invoice No.and Date:', g),
-        (8, 'L/C No.and Date:', h),
-        (9, 'Buyer(if other than consignee):', i),
-        (10, 'Other reference:', j),
-        (11, 'Terms of delivery and payment:', k),
-        (12, 'Shipping Mark:', l),
-        (13, 'No.and kind of packages:', m),
-        (14, 'Goods description:', n),
-        (15, 'Quantity:', o),
-        (16, 'Unit price:', p),
-        (17, 'Amount:', q),
-        (18, 'Singed by:', r),
-    )
+    pdf = FPDF(unit='in', format='A4')
+    pdf.add_page()
+    pdf.set_font('Times', '', 10.0)
+    epw = pdf.w - 2 * pdf.l_margin
+    col_width = epw / 3
+    data = [[1, 'Shipper/Seller:', a],
+            [2, 'Consignee:', b],
+            [3, 'Departure Date:', c],
+            [4, 'Vessel/Flight:', d],
+            [5, 'To:', e],
+            [6, 'Type:', f],
+            [7, 'Invoice No.and Date:', g],
+            [8, 'L/C No.and Date:', h],
+            [9, 'Buyer(if other than consignee):', i],
+            [10, 'Other reference:', j],
+            [11, 'Terms of delivery and payment:', k],
+            [12, 'Shipping Mark:', l],
+            [13, 'No.and kind of packages:', m],
+            [14, 'Goods description:', n],
+            [15, 'Quantity:', o],
+            [16, 'Unit price:', p],
+            [17, 'Amount:', q],
+            [18, 'Singed by:', r],
+            ]
 
-    document = Document()
-    document.add_heading(invoicename + '/' + time_format, 0)
+    pdf.set_font('Times', 'B', 14.0)
+    pdf.cell(epw, 0.0, 'Contract ID:' + '/' + time_format, align='C')
+    pdf.set_font('Times', '', 10.0)
+    pdf.ln(0.5)
 
-    table = document.add_table(rows=1, cols=3)
+    th = pdf.font_size
+    for row in data:
+        for datum in row:
+            # Enter data in colums
+            pdf.cell(col_width, 2 * th, str(datum), border=1)
 
-    hdr_cells = table.rows[0].cells
+        pdf.ln(2 * th)
 
-    hdr_cells[0].text = 'No.'
-    hdr_cells[1].text = 'Title'
-    hdr_cells[2].text = 'Content'
-
-    for num, title, content in records:
-        row_cells = table.add_row().cells
-        row_cells[0].text = str(num)
-        row_cells[1].text = title
-        row_cells[2].text = content
-
-    document.save('document/CI_' + time_format + '.docx')
-
-    file = open('document/CI_' + time_format + '.docx', 'rb')
+    pdf.output('document/CI_' + time_format + '.pdf')
+    file = open('document/CI_' + time_format + '.pdf', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
-    contract = Contract_CI(contractname=invoicename, sha256=hash, filename='document/CI_' + time_format + '.docx')
+    contract = Contract_CI(contractname=invoicename, sha256=hash, filename='document/CI_' + time_format + '.pdf')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -927,6 +920,7 @@ def submit2(request):
 
 
 def submit2_1(request):
+    user_id = request.session['user_id']
     srname = request.POST['srequestname']
     contract_id = request.POST['contract_id']
     a = request.POST['a']
@@ -946,52 +940,54 @@ def submit2_1(request):
     o = request.POST['o']
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
+    pdf = FPDF(unit='in', format='A4')
+    pdf.add_page()
+    pdf.set_font('Times', '', 10.0)
+    epw = pdf.w - 2 * pdf.l_margin
+    col_width = epw / 3
+    data = [['No.', 'title', 'content'],
+            [1, 'Shipper:', a],
+            [2, 'Consignee:', b],
+            [3, 'Notify Party:', c],
+            [4, 'Vessel:', d],
+            [5, 'Voyage No.:', e],
+            [6, 'Port of Loading:', f],
+            [7, 'Port of Discharge:', g],
+            [8, 'Final Destination:', h],
+            [9, 'Marking:', i],
+            [10, 'Packages:', j],
+            [11, 'Description of Goods:', k],
+            [12, 'Gross Weight:', l],
+            [13, 'Measurement:', m],
+            [14, 'Freight Term:', n],
+            [15, 'Original B/L:', o],
+            ]
 
-    records = (
-        (1, 'Shipper:', a),
-        (2, 'Consignee:', b),
-        (3, 'Notify Party:', c),
-        (4, 'Vessel:', d),
-        (5, 'Voyage No.:', e),
-        (6, 'Port of Loading:', f),
-        (7, 'Port of Discharge:', g),
-        (8, 'Final Destination:', h),
-        (9, 'Marking:', i),
-        (10, 'Packages:', j),
-        (11, 'Description of Goods:', k),
-        (12, 'Gross Weight:', l),
-        (13, 'Measurement:', m),
-        (14, 'Freight Term:', n),
-        (15, 'Original B/L:', o),
+    pdf.set_font('Times', 'B', 14.0)
+    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+    pdf.ln(0.25)
+    pdf.set_font('Times', '', 12.0)
+    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.set_font('Times', '', 10.0)
+    pdf.ln(0.5)
 
-    )
+    th = pdf.font_size
+    for row in data:
+        for datum in row:
+            # Enter data in colums
+            pdf.cell(col_width, 2 * th, str(datum), border=1)
 
-    document = Document()
-    document.add_heading(srname + '/' + time_format, 0)
+        pdf.ln(2 * th)
 
-    table = document.add_table(rows=1, cols=3)
-
-    hdr_cells = table.rows[0].cells
-    hdr_cells[0].text = 'No.'
-    hdr_cells[1].text = 'Title'
-    hdr_cells[2].text = 'Content'
-
-    for num, title, content in records:
-        row_cells = table.add_row().cells
-        row_cells[0].text = str(num)
-        row_cells[1].text = title
-        row_cells[2].text = content
-
-    document.save('document/SR_' + time_format + '.docx')
-
-    file = open('document/SR_' + time_format + '.docx', 'rb')
+    pdf.output('document/SR_' + time_format + '.pdf')
+    file = open('document/SR_' + time_format + '.pdf', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
-    contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, filename='document/SR_' + time_format + '.docx')
+    contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, filename='document/SR_' + time_format + '.pdf')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -1004,6 +1000,7 @@ def submit2_1(request):
 
 
 def submit3(request):
+    user_id = request.session['user_id']
     letteroflc = request.POST['letteroflc']
     contract_id = request.POST['contract_id']
     a = request.POST['a']
@@ -1042,69 +1039,71 @@ def submit3(request):
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    records = (
-        (1, 'Transfer:', a),
-        (2, 'Credit Number:', b),
-        (3, 'Advising Bank:', c),
-        (4, 'Expiry Date:', d),
-        (5, 'Applicant:', e),
-        (6, 'Beneficiary:', f),
-        (7, 'Amount:', g),
-        (8, 'Partial Shipment:', h),
-        (9, 'Latest Shipment Date:', i),
-        (10, 'Additional Conditions:', j),
-        (11, 'All banking charges:', k),
-        (12, 'Documents delivered by:', l),
-        (13, 'Confirmation:', m),
-        (14, 'Reissue:', n),
-        (15, 'Import L/C Transfer:', o),
-        (16, 'Draft at:', p),
-        (17, 'Usance:', q),
-        (18, 'SettlingBank:', r),
-        (19, 'Credit:', s),
-        (20, 'Transshipment mode:', t),
-        (21, 'Authorization:', u),
-        (22, 'Port of Loading/Airport of Departure:', v),
-        (23, 'Place of Taking in Charge:', w),
-        (24, 'Signed/Original/Commercial Invoice:', x),
-        (25, 'Full Set of B/L', y),
-        (26, 'Certificate of Origin in:', z),
-        (27, 'Certificate of Analysis in:', aa),
-        (28, 'Other Documents Required:', bb),
-        (29, 'Description of Goods/Services:', cc),
-        (30, 'Price Terms:', dd),
-        (31, 'Country of Origin:', ee),
-        (32, 'HS CODE:', ff),
-        (33, 'CommodityDescription:', gg),
+    pdf = FPDF(unit='in', format='A4')
+    pdf.add_page()
+    pdf.set_font('Times', '', 10.0)
+    epw = pdf.w - 2 * pdf.l_margin
+    col_width = epw / 3
+    data = [['No.', 'title', 'content'],
+            [1, 'Transfer:', a],
+            [2, 'Credit Number:', b],
+            [3, 'Advising Bank:', c],
+            [4, 'Expiry Date:', d],
+            [5, 'Applicant:', e],
+            [6, 'Beneficiary:', f],
+            [7, 'Amount:', g],
+            [8, 'Partial Shipment:', h],
+            [9, 'Latest Shipment Date:', i],
+            [10, 'Additional Conditions:', j],
+            [11, 'All banking charges:', k],
+            [12, 'Documents delivered by:', l],
+            [13, 'Confirmation:', m],
+            [14, 'Reissue:', n],
+            [15, 'Import L/C Transfer:', o],
+            [16, 'Draft at:', p],
+            [17, 'Usance:', q],
+            [18, 'SettlingBank:', r],
+            [19, 'Credit:', s],
+            [20, 'Transshipment mode:', t],
+            [21, 'Authorization:', u],
+            [22, 'Port of Loading/Airport of Departure:', v],
+            [23, 'Place of Taking in Charge:', w],
+            [24, 'Signed/Original/Commercial Invoice:', x],
+            [25, 'Full Set of B/L:', y],
+            [26, 'Port of Loading:', z],
+            [27, 'Certificate of Origin in:', aa],
+            [28, 'Other Documents Required:', bb],
+            [29, 'Description of Goods/Services:', cc],
+            [30, 'Price Terms:', dd],
+            [31, 'Country of Origin:', ee],
+            [32, 'HS CODE:', ff],
+            [33, 'CommodityDescription:', gg],
+            ]
 
-    )
+    pdf.set_font('Times', 'B', 14.0)
+    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+    pdf.ln(0.25)
+    pdf.set_font('Times', '', 12.0)
+    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.set_font('Times', '', 10.0)
+    pdf.ln(0.5)
 
-    document = Document()
-    document.add_heading(letteroflc + '/' + time_format, 0)
+    th = pdf.font_size
+    for row in data:
+        for datum in row:
+            # Enter data in colums
+            pdf.cell(col_width, 2 * th, str(datum), border=1)
 
-    table = document.add_table(rows=1, cols=3)
+        pdf.ln(2 * th)
 
-    hdr_cells = table.rows[0].cells
-
-    hdr_cells[0].text = 'No.'
-    hdr_cells[1].text = 'Title'
-    hdr_cells[2].text = 'Content'
-
-    for num, title, content in records:
-        row_cells = table.add_row().cells
-        row_cells[0].text = str(num)
-        row_cells[1].text = title
-        row_cells[2].text = content
-
-    document.save('document/LC_' + time_format + '.docx')
-
-    file = open('document/LC_' + time_format + '.docx', 'rb')
+    pdf.output('document/LC_' + time_format + '.pdf')
+    file = open('document/LC_' + time_format + '.pdf', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
     # 데이터 저장
-    contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, filename='document/LC_' + time_format + '.docx')
+    contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, filename='document/LC_' + time_format + '.pdf')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -1118,6 +1117,7 @@ def submit3(request):
 
 
 def submit4_1(request):
+    user_id = request.session['user_id']
     contractname = request.POST['contractname']
     contract_id = request.POST['contract_id']
     a = request.POST['a']
@@ -1133,47 +1133,49 @@ def submit4_1(request):
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    records = (
-        (1, 'Bank:', a),
-        (2, 'Nodify party:', b),
-        (3, 'Vessel:', c),
-        (4, 'Voyage No.:', d),
-        (5, 'Part of loading:', e),
-        (6, 'Place of receipt:', f),
-        (7, 'Place of delivery:', g),
-        (8, 'Description of goods:', h),
-        (9, 'Weight:', i),
-        (10, 'Measurement:', j),
+    pdf = FPDF(unit='in', format='A4')
+    pdf.add_page()
+    pdf.set_font('Times', '', 10.0)
+    epw = pdf.w - 2 * pdf.l_margin
+    col_width = epw / 3
+    data = [['No.', 'title', 'content'],
+            [1, 'Bank:', a],
+            [2, 'Nodify party:', b],
+            [3, 'Vessel:', c],
+            [4, 'Voyage No.:', d],
+            [5, 'Place of receipt:', e],
+            [6, 'Port of Loading:', f],
+            [7, 'Place of delivery:', g],
+            [8, 'Description of goods:', h],
+            [9, 'Weight:', i],
+            [10, 'Measurement:', j],
+            ]
 
-    )
+    pdf.set_font('Times', 'B', 14.0)
+    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+    pdf.ln(0.25)
+    pdf.set_font('Times', '', 12.0)
+    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.set_font('Times', '', 10.0)
+    pdf.ln(0.5)
 
-    document = Document()
-    document.add_heading(contractname + '/' + time_format, 0)
+    th = pdf.font_size
+    for row in data:
+        for datum in row:
+            # Enter data in colums
+            pdf.cell(col_width, 2 * th, str(datum), border=1)
 
-    table = document.add_table(rows=1, cols=3)
+        pdf.ln(2 * th)
 
-    hdr_cells = table.rows[0].cells
-
-    hdr_cells[0].text = 'No.'
-    hdr_cells[1].text = 'Title'
-    hdr_cells[2].text = 'Content'
-
-    for num, title, content in records:
-        row_cells = table.add_row().cells
-        row_cells[0].text = str(num)
-        row_cells[1].text = title
-        row_cells[2].text = content
-
-    document.save('document/BL_' + time_format + '.docx')
-
-    file = open('document/BL_' + time_format + '.docx', 'rb')
+    pdf.output('document/BL_' + time_format + '.pdf')
+    file = open('document/BL_' + time_format + '.pdf', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
 
     # 데이터 저장
-    contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/BL_' + time_format + '.docx')
+    contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/BL_' + time_format + '.pdf')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -1186,6 +1188,7 @@ def submit4_1(request):
 
 
 def submit4_2(request):
+    user_id = request.session['user_id']
     contractname = request.POST['contractname']
     contract_id = request.POST['contract_id']
     a = request.POST['a']
@@ -1198,43 +1201,46 @@ def submit4_2(request):
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    records = (
-        (1, 'Agent name:', a),
-        (2, 'Restricted delivery(Yes or no):', b),
-        (3, 'Adult signature restriced delivery(Yes or no):', c),
-        (4, 'Agent Signture:', d),
-        (5, 'ID verified (yes or no):', e),
-        (6, 'USPS initals:', f),
-        (7, 'Date:', g),
 
-    )
+    pdf = FPDF(unit='in', format='A4')
+    pdf.add_page()
+    pdf.set_font('Times', '', 10.0)
+    epw = pdf.w - 2 * pdf.l_margin
+    col_width = epw / 3
+    data = [['No.', 'title', 'content'],
+            [1, 'Agent name:', a],
+            [2, 'Restricted delivery(Yes or no):', b],
+            [3, 'Adult signature restriced delivery(Yes or no):', c],
+            [4, 'Agent Signture:', d],
+            [5, 'ID verified (yes or no):', e],
+            [6, 'USPS initals:', f],
+            [7, 'Date:', g],
+            ]
 
-    document = Document()
-    document.add_heading(contractname + '/' + time_format, 0)
+    pdf.set_font('Times', 'B', 14.0)
+    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+    pdf.ln(0.25)
+    pdf.set_font('Times', '', 12.0)
+    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.set_font('Times', '', 10.0)
+    pdf.ln(0.5)
 
-    table = document.add_table(rows=1, cols=3)
+    th = pdf.font_size
+    for row in data:
+        for datum in row:
+            # Enter data in colums
+            pdf.cell(col_width, 2 * th, str(datum), border=1)
 
-    hdr_cells = table.rows[0].cells
+        pdf.ln(2 * th)
 
-    hdr_cells[0].text = 'No.'
-    hdr_cells[1].text = 'Title'
-    hdr_cells[2].text = 'Content'
-
-    for num, title, content in records:
-        row_cells = table.add_row().cells
-        row_cells[0].text = str(num)
-        row_cells[1].text = title
-        row_cells[2].text = content
-
-    document.save('document/DO_' + time_format + '.docx')
-
-    file = open('document/DO_' + time_format + '.docx', 'rb')
+    pdf.output('document/DO_' + time_format + '.pdf')
+    file = open('document/DO_' + time_format + '.pdf', 'rb')
     data = file.read()
 
     hash = hashlib.sha256(data).hexdigest()
     file.close()
     # 데이터 저장
-    contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/DO_' + time_format + '.docx')
+    contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/DO_' + time_format + '.pdf')
 
     # 로그인한 사용자 정보를 Contract에 같이 저장
     user_id = request.session['user_id']
@@ -2078,7 +2084,7 @@ def index(request):
     news = json.loads(result)['items']
     time = json.loads(result)['lastBuildDate']
 
-    notice = Notice.objects.all()
+    notice = Notice.objects.all().order_by('-id')
     try:
 
         user_id = request.session['user_id']

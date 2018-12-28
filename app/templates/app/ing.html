@@ -128,7 +128,7 @@
 <!-- Social Sidebar Area End -->
 
 <!--Valkyrie System Area Start -->
-<form method="post">
+<form>
     <section class="blog-area section_padding_100 mt-100">
         <div class="container" style="padding-bottom:100px;">
             <div class="row justify-content-center">
@@ -319,26 +319,18 @@ $(document).ready(function(){
         return false
      })
 
-    $('#delete_btn').click(function(){
-    $('.btn').attr('disabled',true);
 
-     $.ajax({
-        url:'/app/remove/',
-        type:'post',
-        data:$('form').serialize(),
-        success: function(res){
-            if (res.result == 'Deleted'){
-                alert(res.result)
-                location = '/app/LCR/'
-                }else{
-                alert(res.result)
-                location = '/app/LCR/'
-                }
-            }
+$('#delete_btn').click(function() {
+$('.btn').attr('disabled',true);
+        check_ids = ''
+        sep = ''
+        $('input:checked').each(function() {
+          check_ids += sep + $(this).val()
+          sep = ','
         })
+        location = '/app/remove?check_id=' + check_ids
         return false
-     })
-
+      })
 
 </script>
 

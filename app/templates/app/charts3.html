@@ -54,6 +54,7 @@
         background-size:cover;
         background-position: center;}
 
+
 </style>
 
 <body>
@@ -85,8 +86,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index3' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index3' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -166,15 +168,15 @@
         <div class="row justify-content-center">
 
             <div class="container-fluid">
-               <h3>환율정보 /
-                            {{date1}}, {{time1}}기준</h3>
+                <h3>환율정보 /
+                    {{date1}}, {{time1}}기준</h3>
                 <!-- Area Chart Example-->
                 <div>
                     <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                        <h4 class="my-4"></h4>
+                        <h1 class="my-4"></h1>
 
                         <div class="row">
-                            <div class="col-lg-4 mb-4">
+                            <div class="col-lg-6 mb-4">
 
                                 <div id="usa" class="card h-100">
 
@@ -201,23 +203,27 @@
                                     <div class="card-footer">
                                         <table>
                                             <tr>
-                                                <td style="text-align:center">$</td>
-                                                <td><input class="form-control" id="usnum"></td>
+                                                <div class="input-group">
+                                                    <label class="input-group-text" for="usnum">달러</label>
+                                                    <input class="form-control" id="usnum">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-dark" type="button"
+                                                                onclick="mul1()">환전
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td><input class="btn btn-outline-dark" style="width:205px; height:38px;"
-                                                           type="button" value="결과보기" onclick="mul1()"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>￦</td>
-                                                <td><input class="form-control" id="result1"></td>
+                                                <td>￦&nbsp</td>
+                                                <td><input style="border: none; background: #ffffff00;" id="result1">
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 mb-4">
+
+                            <div class="col-lg-6 mb-4">
 
                                 <div id="jpn" class="card h-100">
 
@@ -244,25 +250,29 @@
                                     <div class="card-footer">
                                         <table>
                                             <tr>
-                                                <td style="text-align:center">¥</td>
-                                                <td><input class="form-control" id="jpnum"></td>
+                                                <div class="input-group">
+                                                    <label class="input-group-text" for="jpnum">엔</label>
+                                                    <input class="form-control" id="jpnum">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-dark" type="button"
+                                                                onclick="mul2()">환전
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td><input class="btn btn-outline-dark" style="width:205px; height:38px;"
-                                                           type="button" value="결과보기" onclick="mul2()"></td>
+                                                <td>￦&nbsp</td>
+                                                <td><input style="border: none; background: #ffffff00;" id="result2">
+                                                </td>
                                             </tr>
-                                            <tr>
-                                                <td>￦</td>
-                                                <td><input class="form-control" id="result2"></td>
-                                            </tr>
+
                                         </table>
                                     </div>
                                 </div>
                             </div>
 
 
-                            <div class="col-lg-4 mb-4">
+                            <div class="col-lg-6 mb-4">
 
                                 <div id="chn" class="card h-100">
 
@@ -289,24 +299,28 @@
                                     <div class="card-footer">
                                         <table>
                                             <tr>
-                                                <td style="text-align:center">Y</td>
-                                                <td><input class="form-control" id="chnum"></td>
+                                                <div class="input-group">
+                                                    <label class="input-group-text" for="chnum">위안</label>
+                                                    <input class="form-control" id="chnum">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-dark" type="button"
+                                                                onclick="mul3()">환전
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td><input class="btn btn-outline-dark" style="width:205px; height:38px;"
-                                                           type="button" value="결과보기" onclick="mul3()"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>￦</td>
-                                                <td><input class="form-control" id="result3"></td>
+                                                <td>￦&nbsp</td>
+                                                <td><input style="border: none; background: #ffffff00;" id="result3">
+                                                </td>
                                             </tr>
                                         </table>
 
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 mb-4">
+
+                            <div class="col-lg-6 mb-4">
 
                                 <div id="eur" class="card h-100">
 
@@ -332,18 +346,20 @@
                                     </div>
                                     <div class="card-footer">
                                         <table>
-                                            <tr>
-                                                <td style="text-align:center">€</td>
-                                                <td><input class="form-control" id="eunum"></td>
+                                            <div class="input-group">
+                                                <label class="input-group-text" for="eunum">위안</label>
+                                                <input class="form-control" id="eunum">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-dark" type="button"
+                                                            onclick="mul4()">환전
+                                                    </button>
+                                                </div>
+                                            </div>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td><input class="btn btn-outline-dark" style="width:205px; height:38px;"
-                                                           type="button" value="결과보기" onclick="mul4()"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>￦</td>
-                                                <td><input class="form-control" id="result4"></td>
+                                                <td>￦&nbsp</td>
+                                                <td><input style="border: none; background: #ffffff00;" id="result4">
+                                                </td>
                                             </tr>
                                         </table>
 
@@ -351,6 +367,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -373,6 +390,7 @@
             var eunum = document.getElementById('eunum');
             var result4 = eval(eunum.value)*{{ basePrice4 }}
             document.getElementById('result4').value = result4;}
+
 
 
 
@@ -443,6 +461,7 @@ jQuery(document).ready(function($) {
   //Fire it when the page first loads:
   alterClass();
 });
+
 
 
 </script>

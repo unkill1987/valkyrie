@@ -145,54 +145,54 @@
                         Trade History
                         &nbsp/&nbspContract ID : {{cid}}
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" style="border-radius:5px;text-align:center;">
-                                <tr style="text-align:center;">
-                                    <th>시간</th>
-                                    <th>수입자</th>
-                                    <th>수출자</th>
-                                    <th>은행</th>
-                                    <th>운송사</th>
+                    <!--<div class="card-body">-->
+                        <!--<div class="table-responsive">-->
+                            <!--<table class="table table-bordered" style="border-radius:5px;text-align:center;">-->
+                                <!--<tr style="text-align:center;">-->
+                                    <!--<th>시간</th>-->
+                                    <!--<th>수입자</th>-->
+                                    <!--<th>수출자</th>-->
+                                    <!--<th>은행</th>-->
+                                    <!--<th>운송사</th>-->
 
-                                    <th>상업송장</th>
-                                    <th>신용장신청서</th>
-                                    <th>신용장</th>
+                                    <!--<th>상업송장</th>-->
+                                    <!--<th>신용장신청서</th>-->
+                                    <!--<th>신용장</th>-->
 
-                                    <th>선적요청서</th>
-                                    <th>선하증권</th>
-                                    <th>인도지시서</th>
+                                    <!--<th>선적요청서</th>-->
+                                    <!--<th>선하증권</th>-->
+                                    <!--<th>인도지시서</th>-->
 
-                                    <th>TxID</th>
-
-
-                                </tr>
-                                {% for c in history %}
-                                <tr>
-                                    <td>{{c.Timestamp}}</td>
+                                    <!--<th>TxID</th>-->
 
 
-                                    <td>{{c.Value.importer}}</td>
-                                    <td>{{c.Value.exporter}}</td>
-                                    <td>{{c.Value.bank}}</td>
-                                    <td>{{c.Value.shipper}}</td>
+                                <!--</tr>-->
+                                <!--{% for c in history %}-->
+                                <!--<tr>-->
+                                    <!--<td>{{c.Timestamp}}</td>-->
 
-                                    <td>{{c.Value.ci_hash}}</td>
-                                    <td>{{c.Value.lcr_hash}}</td>
-                                    <td>{{c.Value.lc_hash}}</td>
-                                    <td>{{c.Value.sr_hash}}</td>
-                                    <td>{{c.Value.bl_hash}}</td>
-                                    <td>{{c.Value.do_hash}}</td>
 
-                                    <td>{{c.TxId}}</td>
+                                    <!--<td>{{c.Value.importer}}</td>-->
+                                    <!--<td>{{c.Value.exporter}}</td>-->
+                                    <!--<td>{{c.Value.bank}}</td>-->
+                                    <!--<td>{{c.Value.shipper}}</td>-->
 
-                                </tr>
+                                    <!--<td>{{c.Value.ci_hash}}</td>-->
+                                    <!--<td>{{c.Value.lcr_hash}}</td>-->
+                                    <!--<td>{{c.Value.lc_hash}}</td>-->
+                                    <!--<td>{{c.Value.sr_hash}}</td>-->
+                                    <!--<td>{{c.Value.bl_hash}}</td>-->
+                                    <!--<td>{{c.Value.do_hash}}</td>-->
 
-                                {%endfor%}
-                            </table>
+                                    <!--<td>{{c.TxId}}</td>-->
 
-                        </div>
-                    </div>
+                                <!--</tr>-->
+
+                                <!--{%endfor%}-->
+                            <!--</table>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
                      <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" style="border-radius:5px;text-align:center;">
