@@ -9,29 +9,71 @@ import os
 import sys
 import time
 
+
 from pandas import json
+
 
 from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
     Process_complete, Notice
 from valweb import settings
 from django.utils import timezone
 
+def mypage1(request):
+    return render(request,'app/mypage1.html',{})
+
+def mypage2(request):
+    return render(request,'app/mypage2.html',{})
+
+def mypage3(request):
+    return render(request,'app/mypage3.html',{})
+
+def mypage4(request):
+    return render(request,'app/mypage4.html',{})
+
 def about(request):
     return render(request,'app/about.html',{})
 
 def search(request):
+    client_id = 'fpYuQKVX8str1aSVFrkc'
+    client_secret = 'rLcccdn5R4'
+    encText = urllib.parse.quote("국제무역")
+    url = "https://openapi.naver.com/v1/search/news?query=" + encText
+    res = urllib.request.Request(url)
+    res.add_header("X-Naver-Client-Id", client_id)
+    res.add_header("X-Naver-Client-Secret", client_secret)
+    response = urllib.request.urlopen(res)
+    result = response.read().decode('utf-8')
+    news = json.loads(result)['items']
+    time = json.loads(result)['lastBuildDate']
+
+    notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
         url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
+        # for i in range(0, len(history)):
+        #     importer = history[i]['Value']['importer']
+        #     exporter = history[i]['Value']['exporter']
+        #     bank = history[i]['Value']['bank']
+        #     shipper = history[i]['Value']['shipper']
+        #     ci_hash = history[i]['Value']['ci_hash']
+        #     lcr_hash = history[i]['Value']['lcr_hash']
+        #     lc_hash = history[i]['Value']['lc_hash']
+        #     sr_hash = history[i]['Value']['sr_hash']
+        #     bl_hash = history[i]['Value']['bl_hash']
+        #     do_hash = history[i]['Value']['do_hash']
+        #     txid = history[i]['TxId']
+        #     timestamp = history[i]['Timestamp']
+
+
         if len(history) == 0:
             message = "Invalid Contract ID"
             print(message)
-            return render(request, 'app/index.html', {'message': message})
+            return render(request, 'app/index.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
         else:
             history.reverse()
-            return render(request, 'app/search.html', {'cid': cid, 'history': history})
+            return render(request, 'app/search.html', {'cid': cid, 'history': history,})
     except Exception as e:
         print(e)
         return redirect('index')
@@ -1934,7 +1976,7 @@ def logout(request):
 def index(request):
     client_id = 'fpYuQKVX8str1aSVFrkc'
     client_secret = 'rLcccdn5R4'
-    encText = urllib.parse.quote("무역")
+    encText = urllib.parse.quote("국제무역")
     url = "https://openapi.naver.com/v1/search/news?query=" + encText
     res = urllib.request.Request(url)
     res.add_header("X-Naver-Client-Id", client_id)

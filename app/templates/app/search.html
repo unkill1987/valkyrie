@@ -24,7 +24,9 @@
 
 </head>
 <style>
-
+.card{background:#1d1d1de8;padding:10px;}
+    .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
+    .card-body{color:white;font-size:18px;}
 </style>
 <body>
 <!-- Preloader -->
@@ -55,8 +57,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -74,7 +77,7 @@
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false" >문서 작성</a>
+                                       aria-haspopup="true" aria-expanded="false">문서 작성</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{% url 'forms'%}">신용장 신청서</a>
                                     </div>
@@ -136,55 +139,62 @@
             <!-- Breadcrumbs-->
 
             <div class="container-fluid">
-                <h2>Trade History</h2>
-                <h3>Contract ID : {{cid}}</h3>
-                <table class ="table-bordered" style="word-break:break-all; text-align:center;">
-                    <tr  style="word-break:break-all; text-align:center;">
-                        <th>시간</th>
+                <div class="card">
+                    <div class="card-header">
+                        Trade History
+                        &nbsp/&nbspContract ID : {{cid}}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" style="text-align:center;">
+                                <tr style="text-align:center;">
+                                    <th>시간</th>
+                                    <th>수입자</th>
+                                    <th>수출자</th>
+                                    <th>은행</th>
+                                    <th>운송사</th>
 
-                        <th>수입자</th>
-                        <th>수출자</th>
-                        <th>은행</th>
-                        <th>운송사</th>
+                                    <th>상업송장</th>
+                                    <th>신용장신청서</th>
+                                    <th>신용장</th>
 
-                        <th>상업송장</th>
-                        <th>신용장신청서</th>
-                        <th>신용장</th>
+                                    <th>선적요청서</th>
+                                    <th>선하증권</th>
+                                    <th>인도지시서</th>
 
-                        <th>선적요청서</th>
-                        <th>선하증권</th>
-                        <th>인도지시서</th>
-
-                        <th>TxID</th>
-
-
-                    </tr>
-                    {% for c in history %}
-                    <tr style="word-break:break-all">
-                        <td>{{c.Timestamp}}</td>
-
-                        <td>{{c.Value.importer}}</td>
-                        <td>{{c.Value.exporter}}</td>
-                        <td>{{c.Value.bank}}</td>
-                        <td>{{c.Value.shipper}}</td>
-
-                        <td>{{c.Value.ci_hash}}</td>
-                        <td>{{c.Value.lcr_hash}}</td>
-                        <td>{{c.Value.lc_hash}}</td>
-                        <td>{{c.Value.sr_hash}}</td>
-                        <td>{{c.Value.bl_hash}}</td>
-                        <td>{{c.Value.do_hash}}</td>
-
-                        <td>{{c.TxId}}</td>
-
-                    </tr>
-                    {%endfor%}
-                </table>
+                                    <th>TxID</th>
 
 
+                                </tr>
+                                {% for c in history %}
+                                <tr>
+                                    <td>{{c.Timestamp}}</td>
+
+
+                                    <td>{{c.Value.importer}}</td>
+                                    <td>{{c.Value.exporter}}</td>
+                                    <td>{{c.Value.bank}}</td>
+                                    <td>{{c.Value.shipper}}</td>
+
+                                    <td>{{c.Value.ci_hash}}</td>
+                                    <td>{{c.Value.lcr_hash}}</td>
+                                    <td>{{c.Value.lc_hash}}</td>
+                                    <td>{{c.Value.sr_hash}}</td>
+                                    <td>{{c.Value.bl_hash}}</td>
+                                    <td>{{c.Value.do_hash}}</td>
+
+                                    <td>{{c.TxId}}</td>
+
+                                </tr>
+
+                                {%endfor%}
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
 
 
     </div>

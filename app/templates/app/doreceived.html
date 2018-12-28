@@ -96,7 +96,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">MYPAGE</a>
+                                    <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
@@ -134,8 +134,7 @@
         <div class="row justify-content-center">
             <!--진행중인 계약-->
             <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                <h4 class="my-4">인도지시서 확인({{total_len}}건)</h4>
-
+                <h4>인도지시서 확인({{total_len}}건)</h4>
                 <div class="row">
                     {% for c in result_list %}
                     <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
@@ -169,7 +168,6 @@
                     {% endfor %}
                     <hr>
                 </div>
-
                 <hr>
                 <div class="wrapper">
                     {% if result_list.has_other_pages %}
@@ -227,14 +225,9 @@
                     </ul>
                     {%endif%}
                 </div>
-
                 <div class="row">
-
                     <div style="text-align:center; margin:auto;">
-
                         <input class="btn btn-outline-dark" type="button" value="선택삭제" id="delete_btn">
-
-
                     </div>
                 </div>
 

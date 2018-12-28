@@ -46,7 +46,6 @@ urlpatterns = [
     path('remove4_1/', views.remove4_1, name='remove4_1'),
     path('remove4_2/', views.remove4_2, name='remove4_2'),
 
-
     path('process1_remove', views.process1_remove, name='process1_remove'),
     path('process2_remove', views.process2_remove, name='process2_remove'),
     path('process3_remove', views.process3_remove, name='process3_remove'),
@@ -61,8 +60,6 @@ urlpatterns = [
     path('process2_done', views.process2_done, name='process2_done'),
     path('process3_done', views.process3_done, name='process3_done'),
     path('process4_done', views.process4_done, name='process4_done'),
-
-
 
     path('LCR_form/', views.forms, name='forms'),
     path('CI_form/', views.forms2, name='forms2'),
@@ -85,7 +82,6 @@ urlpatterns = [
     path('share4_1/', views.share4_1, name='share4_1'),
     path('share4_2/', views.share4_2, name='share4_2'),
 
-
     path('CI_received/', views.cireceived, name='cireceived'),
     path('BL_received_I/', views.blreceived1, name='blreceived1'),
     path('BL_received_E/', views.blreceived2, name='blreceived2'),
@@ -94,7 +90,6 @@ urlpatterns = [
     path('LC_received_I/', views.lcreceived1, name='lcreceived1'),
     path('LC_received_E/', views.lcreceived2, name='lcreceived2'),
     path('LCR_received/', views.lcrreceived, name='lcrreceived'),
-
 
     path('blremove1/', views.blremove1, name='blremove1'),
     path('blremove2/', views.blremove2, name='blremove2'),
@@ -112,7 +107,6 @@ urlpatterns = [
     path('download4_1/', views.download4_1, name='download4_1'),
     path('download4_2/', views.download4_2, name='download4_2'),
 
-
     path('', views.login, name='login'),
     path('registerpage', views.registerpage, name='registerpage'),
     path('register/', views.register, name='register'),
@@ -125,5 +119,8 @@ urlpatterns = [
     path('F_process/', views.process4, name='process4'),
 
     path('search/', views.search, name='search'),
-
+    path('mypage1/', views.mypage1, name='mypage1'),
+    path('mypage2/', views.mypage2, name='mypage2'),
+    path('mypage3/', views.mypage3, name='mypage3'),
+    path('mypage4/', views.mypage4, name='mypage4'),
 ]
