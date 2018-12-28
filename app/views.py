@@ -33,7 +33,7 @@ def mypage4(request):
 def about(request):
     return render(request,'app/about.html',{})
 
-def search(request):
+def search1(request):
     client_id = 'fpYuQKVX8str1aSVFrkc'
     client_secret = 'rLcccdn5R4'
     encText = urllib.parse.quote("국제무역")
@@ -73,11 +73,103 @@ def search(request):
             return render(request, 'app/index.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
         else:
             history.reverse()
-            return render(request, 'app/search.html', {'cid': cid, 'history': history,})
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history,})
     except Exception as e:
         print(e)
         return redirect('index')
 
+def search2(request):
+    client_id = 'fpYuQKVX8str1aSVFrkc'
+    client_secret = 'rLcccdn5R4'
+    encText = urllib.parse.quote("국제무역")
+    url = "https://openapi.naver.com/v1/search/news?query=" + encText
+    res = urllib.request.Request(url)
+    res.add_header("X-Naver-Client-Id", client_id)
+    res.add_header("X-Naver-Client-Secret", client_secret)
+    response = urllib.request.urlopen(res)
+    result = response.read().decode('utf-8')
+    news = json.loads(result)['items']
+    time = json.loads(result)['lastBuildDate']
+
+    notice = Notice.objects.all()
+    try:
+        cid = str(request.POST['cid'])
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            message = "Invalid Contract ID"
+            print(message)
+            return render(request, 'app/index2.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
+        else:
+            history.reverse()
+            return render(request, 'app/search2.html', {'cid': cid, 'history': history,})
+    except Exception as e:
+        print(e)
+        return redirect('index')
+
+def search3(request):
+    client_id = 'fpYuQKVX8str1aSVFrkc'
+    client_secret = 'rLcccdn5R4'
+    encText = urllib.parse.quote("국제무역")
+    url = "https://openapi.naver.com/v1/search/news?query=" + encText
+    res = urllib.request.Request(url)
+    res.add_header("X-Naver-Client-Id", client_id)
+    res.add_header("X-Naver-Client-Secret", client_secret)
+    response = urllib.request.urlopen(res)
+    result = response.read().decode('utf-8')
+    news = json.loads(result)['items']
+    time = json.loads(result)['lastBuildDate']
+
+    notice = Notice.objects.all()
+    try:
+        cid = str(request.POST['cid'])
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            message = "Invalid Contract ID"
+            print(message)
+            return render(request, 'app/index3.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
+        else:
+            history.reverse()
+            return render(request, 'app/search3.html', {'cid': cid, 'history': history,})
+    except Exception as e:
+        print(e)
+        return redirect('index')
+
+def search4(request):
+    client_id = 'fpYuQKVX8str1aSVFrkc'
+    client_secret = 'rLcccdn5R4'
+    encText = urllib.parse.quote("국제무역")
+    url = "https://openapi.naver.com/v1/search/news?query=" + encText
+    res = urllib.request.Request(url)
+    res.add_header("X-Naver-Client-Id", client_id)
+    res.add_header("X-Naver-Client-Secret", client_secret)
+    response = urllib.request.urlopen(res)
+    result = response.read().decode('utf-8')
+    news = json.loads(result)['items']
+    time = json.loads(result)['lastBuildDate']
+
+    notice = Notice.objects.all()
+    try:
+        cid = str(request.POST['cid'])
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            message = "Invalid Contract ID"
+            print(message)
+            return render(request, 'app/index4.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
+        else:
+            history.reverse()
+            return render(request, 'app/search4.html', {'cid': cid, 'history': history,})
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def share1(request):
 
