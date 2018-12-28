@@ -799,7 +799,7 @@ def submit(request):
     pdf.cell(epw, 0.0, 'Contract ID:'+ contract_id +'/'+ time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, 'LCR From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
@@ -882,6 +882,9 @@ def submit2(request):
 
     pdf.set_font('Times', 'B', 14.0)
     pdf.cell(epw, 0.0, 'Contract ID:' + '/' + time_format, align='C')
+    pdf.ln(0.25)
+    pdf.set_font('Times', '', 12.0)
+    pdf.cell(epw, 0.0, 'CI From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
@@ -967,7 +970,7 @@ def submit2_1(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, 'SR From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
@@ -1084,7 +1087,7 @@ def submit3(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, 'LC From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
@@ -1155,7 +1158,7 @@ def submit4_1(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, 'BL From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
@@ -1221,7 +1224,7 @@ def submit4_2(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, 'DO From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
@@ -1258,8 +1261,8 @@ def download(request):
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
     with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='text/plain')
-        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
+        response = HttpResponse(f, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
 
 
@@ -1271,8 +1274,8 @@ def download2(request):
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
     with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='text/plain')
-        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
+        response = HttpResponse(f, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
 
 def download2_1(request):
@@ -1283,8 +1286,8 @@ def download2_1(request):
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
     with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='text/plain')
-        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
+        response = HttpResponse(f, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
 
 def download3(request):
@@ -1295,8 +1298,8 @@ def download3(request):
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
     with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='text/plain')
-        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
+        response = HttpResponse(f, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
 
 def download4_1(request):
@@ -1307,8 +1310,8 @@ def download4_1(request):
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
     with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='text/plain')
-        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
+        response = HttpResponse(f, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
 
 def download4_2(request):
@@ -1320,8 +1323,8 @@ def download4_2(request):
     # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
     with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='text/plain')
-        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
+        response = HttpResponse(f, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
 
 def process1(request):
