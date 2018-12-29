@@ -53,8 +53,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index4' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index4' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -132,75 +133,80 @@
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
-       <div class="container-fluid" style="padding-bottom:100px;">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="page-header">인도지시서(D/O) 작성</h4>
+            <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="page-header">인도지시서(D/O) 작성</h4>
+                        <h5 style="color:orange;">English Only</h5>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <form role="form" action="{% url 'submit4_2' %}" method="post">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h4 class="panel-heading">
-                                            Contract ID.<input class="form-control" name="contract_id"><hr>
-                                            DELIVERY ORDER NAME</h4>
-
-                                        <input class="form-control" name="contractname">
-                                        <div class="form-group">
-                                            <label>1.Agent name:</label>
-                                            <input class="form-control" name="a">
-                                            <p class="help-block"></p>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>2.Restricted delivery(Yes or no):</label>
-                                            <input class="form-control" name="b">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>3.Adult signature restriced delivery(Yes or no):</label>
-                                            <input class="form-control" name="c">
-                                            <p class="help-block"></p>
-                                        </div>
-                                    </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form role="form" action="{% url 'submit4_2' %}" method="post">
+                                    <div class="row">
                                         <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>4.Agent Signture:</label>
-                                            <input class="form-control" name="d">
-                                            <p class="help-block"></p>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>5.ID verified (yes or no):</label>
-                                            <input class="form-control" name="e">
-                                            <p class="help-block"></p>
-                                        </div>
+                                            <h4 class="panel-heading">
+                                                Contract ID.<input class="form-control" name="contract_id">
+                                                <hr>
+                                                DELIVERY ORDER NAME
+                                            </h4>
 
-                                         <!--/.col-lg-6 (nested) -->
-                                        <!--<p style="font-size:25px"> Bank Form </p>-->
-                                        <div class="form-group">
-                                            <label>6.USPS initals:</label>
-                                            <input class="form-control" name="f">
-                                            <p class="help-block"></p>
+                                            <input class="form-control" name="contractname">
+                                            <div class="form-group">
+                                                <label>1.Agent name:</label>
+                                                <input class="form-control" name="a">
+                                                <p class="help-block"></p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>2.Restricted delivery(Yes or no):</label>
+                                                <input class="form-control" name="b">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>3.Adult signature restriced delivery(Yes or no):</label>
+                                                <input class="form-control" name="c">
+                                                <p class="help-block"></p>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>7.Date:</label>
-                                            <input class="form-control" name="g">
-                                            <p class="help-block"></p>
-                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>4.Agent Signture:</label>
+                                                <input class="form-control" name="d">
+                                                <p class="help-block"></p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>5.ID verified (yes or no):</label>
+                                                <input class="form-control" name="e">
+                                                <p class="help-block"></p>
+                                            </div>
+
+                                            <!--/.col-lg-6 (nested) -->
+                                            <!--<p style="font-size:25px"> Bank Form </p>-->
+                                            <div class="form-group">
+                                                <label>6.USPS initals:</label>
+                                                <input class="form-control" name="f">
+                                                <p class="help-block"></p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>7.Date:</label>
+                                                <input class="form-control" name="g">
+                                                <p class="help-block"></p>
+                                            </div>
                                         </div>
                                         <!-- /.col-lg-6 (nested) -->
-                                    </div><hr>
+                                    </div>
+                                    <hr>
                                     <!-- /.row (nested) -->
                                     <div style="text-align:center">
                                         <button type="submit" class="btn btn-outline-dark">작성 완료</button>
                                         <button type="reset" class="btn btn-outline-dark">다시 작성하기</button>
                                     </div>
                                     {% csrf_token %}
-                            </form></div>
+                                </form>
+                            </div>
 
                         </div>
                         <!-- /.panel-body -->
@@ -212,19 +218,18 @@
             <!-- /.row -->
         </div>
     </div>
-</div>
+    </div>
 
-<!-- Sticky Footer -->
-
-
-
-<!-- /.content-wrapper -->
+    <!-- Sticky Footer -->
 
 
-<!-- /#wrapper -->
+    <!-- /.content-wrapper -->
 
-  </div>
-        <!-- Pagination -->
+
+    <!-- /#wrapper -->
+
+    </div>
+    <!-- Pagination -->
     </div>
 </section>
 <!--Valkyrie System Area End -->
@@ -272,7 +277,7 @@
 </body>
 <script>
 
-  </script>
+</script>
 
 
 </html>

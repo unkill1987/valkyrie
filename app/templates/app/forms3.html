@@ -53,8 +53,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index3' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index3' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -133,234 +134,234 @@
     <div class="container">
         <div class="row justify-content-center">
 
-       <div class="container-fluid" style="padding-bottom:100px;">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="page-header">신용장(L/C) 개설</h4>
+            <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="page-header">신용장(L/C) 개설</h4>
+                        <h5 style="color:orange;">English Only</h5>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
 
 
-                        <div class="panel-body">
-                            <form role="form" action="{% url 'submit3' %}" method="post">
+                            <div class="panel-body">
+                                <form role="form" action="{% url 'submit3' %}" method="post">
 
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <h4 class="panel-heading">
-                                        Contract ID.<input class="form-control" name="contract_id"><hr>
-                                        Letter of Credit NAME</h4>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <h4 class="panel-heading">
+                                                Contract ID.<input class="form-control" name="contract_id">
+                                                <hr>
+                                                Letter of Credit NAME
+                                            </h4>
 
-                                    <input class="form-control" name="letteroflc"><br>
+                                            <input class="form-control" name="letteroflc"><br>
 
 
-                                    <p style="font-size:25px"> L/C Form </p>
+                                            <p style="font-size:25px"> L/C Form </p>
                                             <div class="form-group">
-                                            <label>1.Transfer:</label>
-                                            <input class="form-control" name="a">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>2.Credit Number:</label>
-                                            <input class="form-control" name="b">
+                                                <label>1.Transfer:</label>
+                                                <input class="form-control" name="a">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>3.Advising Bank:</label>
-                                            <input class="form-control" name="c">
+                                                <label>2.Credit Number:</label>
+                                                <input class="form-control" name="b">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>4.Expiry Date:</label>
-                                            <input class="form-control" name="d">
+                                                <label>3.Advising Bank:</label>
+                                                <input class="form-control" name="c">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>5.Applicant:</label>
-                                            <input class="form-control" name="e">
+                                                <label>4.Expiry Date:</label>
+                                                <input class="form-control" name="d">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>6.Beneficiary:</label>
-                                            <input class="form-control" name="f">
+                                                <label>5.Applicant:</label>
+                                                <input class="form-control" name="e">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>7.Amount:</label>
-                                            <input class="form-control" name="g">
+                                                <label>6.Beneficiary:</label>
+                                                <input class="form-control" name="f">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>8.Partial Shipment:</label>
-                                            <input class="form-control" name="h">
+                                                <label>7.Amount:</label>
+                                                <input class="form-control" name="g">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>9.Latest Shipment Date:</label>
-                                            <input type="date" name="i">
+                                                <label>8.Partial Shipment:</label>
+                                                <input class="form-control" name="h">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>10.Additional Conditions:</label>
-                                            <input class="form-control" name="j">
+                                                <label>9.Latest Shipment Date:</label>
+                                                <input type="date" name="i">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>11.All banking charges:</label>
-                                            <input class="form-control" name="k">
-                                            </div>
-
-                                            <div class="form-group">                                                                                                                                                       <p class="help-block"></p>
-                                            <label>12.Documents delivered by:</label>
-                                            <input class="form-control" name="l">
+                                                <label>10.Additional Conditions:</label>
+                                                <input class="form-control" name="j">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>13.Confirmation:</label>
-                                            <input class="form-control" name="m">
+                                                <label>11.All banking charges:</label>
+                                                <input class="form-control" name="k">
+                                            </div>
+
+                                            <div class="form-group"><p class="help-block"></p>
+                                                <label>12.Documents delivered by:</label>
+                                                <input class="form-control" name="l">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>14.Reissue:</label>
-                                            <input class="form-control" name="n">
+                                                <label>13.Confirmation:</label>
+                                                <input class="form-control" name="m">
                                             </div>
 
                                             <div class="form-group">
-                                            <label>15.Import L/C Transfer:</label>
-                                            <input class="form-control" name="o">
+                                                <label>14.Reissue:</label>
+                                                <input class="form-control" name="n">
                                             </div>
+
+                                            <div class="form-group">
+                                                <label>15.Import L/C Transfer:</label>
+                                                <input class="form-control" name="o">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <p style="font-size:25px">Draft </p>
+
+                                            <div class="form-group">
+                                                <label>16.Draft at:</label>
+                                                <input class="form-control" name="p">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>17.Usance:</label>
+                                                <input class="form-control" name="q">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>18.Settling Bank:</label>
+                                                <input class="form-control" name="r">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>19.Credit:</label>
+                                                <input class="form-control" name="s">
+                                            </div>
+
+                                            <p style="font-size:25px"> Transshippment </p>
+                                            <div class="form-group">
+                                                <label>20.Transshipment mode:</label>
+                                                <input class="form-control" name="t">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>21.Authorization:</label>
+                                                <input class="form-control" name="u">
+                                            </div>
+
+                                            <p style="font-size:25px"> Loading(Shipment from) </p>
+                                            <div class="form-group">
+                                                <label>22.Port of Loading/Airport of Departure:</label>
+                                                <input class="form-control" name="v">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>23.Place of Taking in Charge:</label>
+                                                <input class="form-control" name="w">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <p style="font-size:25px">Documents Required </p>
+                                            <div class="form-group">
+                                                <label>24.SIgned/Original/Commercial Invoice :</label>
+                                                <input class="form-control" name="x">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>25.FULL SET of B/L:</label>
+                                                <input class="form-control" name="y">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>26.Certificate of Origin in :</label>
+                                                <input class="form-control" name="z">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>27.Certificate of Analysis in :</label>
+                                                <input class="form-control" name="aa">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>28.Other Documents Required:</label>
+                                                <input class="form-control" name="bb">
+                                            </div>
+
+                                            <p style="font-size:25px">Description of Goods/Services </p>
+                                            <div class="form-group">
+                                                <label>29. Description of Goods/Services:</label>
+                                                <input class="form-control" name="cc">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>30.Price Terms:</label>
+                                                <input class="form-control" name="dd">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>31.Country of Origin:</label>
+                                                <input class="form-control" name="ee">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>32.HS CODE:</label>
+                                                <input class="form-control" name="ff">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>33.Commodity Description:</label>
+                                                <input class="form-control" name="gg">
+                                            </div>
+
+                                        </div>
+
 
                                     </div>
 
-                                    <div class="col-lg-4">
-                                        <p style="font-size:25px">Draft </p>
 
-                                            <div class="form-group">
-                                            <label>16.Draft at:</label>
-                                            <input class="form-control" name="p">
-                                            </div>
+                                    <!-- /.col-lg-6 (nested) -->
 
-                                            <div class="form-group">
-                                            <label>17.Usance:</label>
-                                            <input class="form-control" name="q">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>18.Settling Bank:</label>
-                                            <input class="form-control" name="r">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>19.Credit:</label>
-                                            <input class="form-control" name="s">
-                                            </div>
-
-                                    <p style="font-size:25px"> Transshippment </p>
-                                            <div class="form-group">
-                                            <label>20.Transshipment mode:</label>
-                                            <input class="form-control" name="t">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>21.Authorization:</label>
-                                            <input class="form-control" name="u">
-                                            </div>
-
-                                    <p style="font-size:25px"> Loading(Shipment from) </p>
-                                            <div class="form-group">
-                                            <label>22.Port of Loading/Airport of Departure:</label>
-                                            <input class="form-control" name="v">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>23.Place of Taking in Charge:</label>
-                                            <input class="form-control" name="w">
-                                            </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                    <p style="font-size:25px">Documents Required </p>
-                                            <div class="form-group">
-                                            <label>24.SIgned/Original/Commercial Invoice :</label>
-                                            <input class="form-control" name="x">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>25.FULL SET of B/L:</label>
-                                            <input class="form-control" name="y">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>26.Certificate of Origin in :</label>
-                                            <input class="form-control" name="z">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>27.Certificate of Analysis in :</label>
-                                            <input class="form-control" name="aa">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>28.Other Documents Required:</label>
-                                            <input class="form-control" name="bb">
-                                            </div>
-
-                                    <p style="font-size:25px">Description of Goods/Services </p>
-                                            <div class="form-group">
-                                            <label>29. Description of Goods/Services:</label>
-                                            <input class="form-control" name="cc">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>30.Price Terms:</label>
-                                            <input class="form-control" name="dd">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>31.Country of Origin:</label>
-                                            <input class="form-control" name="ee">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>32.HS CODE:</label>
-                                            <input class="form-control" name="ff">
-                                            </div>
-
-                                            <div class="form-group">
-                                            <label>33.Commodity Description:</label>
-                                            <input class="form-control" name="gg">
-                                            </div>
-
-                                    </div>
-
-
-
-                                </div>
-
-
-
-
-                                <!-- /.col-lg-6 (nested) -->
-
-                            <!-- /.row (nested) -->
+                                    <!-- /.row (nested) -->
                                     <div style="text-align:center">
                                         <hr>
                                         <button type="submit" class="btn btn-outline-dark">작성 완료</button>
                                         <button type="reset" class="btn btn-outline-dark">다시 작성하기</button>
                                     </div>
-                                                                        {% csrf_token %}
-                            </form>
+                                    {% csrf_token %}
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-          </div>
-      <!-- /.content-wrapper -->
-   </div>
+            <!-- /.content-wrapper -->
+        </div>
         <!-- Pagination -->
     </div>
 </section>
@@ -407,9 +408,9 @@
 <script src="{% static 'app/js/active.js'%}"></script>
 
 </body>
-  <script>
+<script>
 
-  </script>
+</script>
 
 
 </html>

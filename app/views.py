@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 import urllib.request
 import requests
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -771,69 +773,74 @@ def submit(request):
     o = request.POST['o']
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
+    try:
+        pdf = FPDF(unit='in', format='A4')
+        pdf.add_page()
+        pdf.set_font('Times', '', 10.0)
+        epw = pdf.w - 2 * pdf.l_margin
+        col_width = epw / 3
+        data = [['No.','title','content'],
+                [1, 'Advising bank:', a],
+                [2, 'Credit No.:', b],
+                [3, 'Beneficiary:',c],
+                [4, 'Applicant:', d],
+                [5, 'L/C Amount and Tolerance:', e],
+                [6, 'Type:', f],
+                [7, 'Partial shipment:', g],
+                [8, 'Transshipment:', h],
+                [9, 'Trnasport mode:', i],
+                [10, 'Loading(shipment from):', j],
+                [11, 'Discharging(shipment to):', k],
+                [12, 'Latest shipment date:', l],
+                [13, 'All banking charges:', m],
+                [14, 'Confirmation:', n],
+                [15, 'T/T reimbursement:', o],
+                ]
 
-    pdf = FPDF(unit='in', format='A4')
-    pdf.add_page()
-    pdf.set_font('Times', '', 10.0)
-    epw = pdf.w - 2 * pdf.l_margin
-    col_width = epw / 3
-    data = [['No.','title','content'],
-            [1, 'Advising bank:', a],
-            [2, 'Credit No.:', b],
-            [3, 'Beneficiary:',c],
-            [4, 'Applicant:', d],
-            [5, 'L/C Amount and Tolerance:', e],
-            [6, 'Type:', f],
-            [7, 'Partial shipment:', g],
-            [8, 'Transshipment:', h],
-            [9, 'Trnasport mode:', i],
-            [10, 'Loading(shipment from):', j],
-            [11, 'Discharging(shipment to):', k],
-            [12, 'Latest shipment date:', l],
-            [13, 'All banking charges:', m],
-            [14, 'Confirmation:', n],
-            [15, 'T/T reimbursement:', o],
-            ]
+        pdf.set_font('Times', 'B', 14.0)
+        pdf.cell(epw, 0.0, 'Contract ID:'+ contract_id +'/'+ time_format, align='C')
+        pdf.ln(0.25)
+        pdf.set_font('Times', '', 12.0)
+        pdf.cell(epw, 0.0, contractname +' From:' + user_id, align='C')
+        pdf.set_font('Times', '', 10.0)
+        pdf.ln(0.5)
 
-    pdf.set_font('Times', 'B', 14.0)
-    pdf.cell(epw, 0.0, 'Contract ID:'+ contract_id +'/'+ time_format, align='C')
-    pdf.ln(0.25)
-    pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, contractname +' From:' + user_id, align='C')
-    pdf.set_font('Times', '', 10.0)
-    pdf.ln(0.5)
+        th = pdf.font_size
+        for row in data:
+            for datum in row:
+                # Enter data in colums
+                pdf.cell(col_width, 2 * th, str(datum), border=1)
 
-    th = pdf.font_size
-    for row in data:
-        for datum in row:
-            # Enter data in colums
-            pdf.cell(col_width, 2 * th, str(datum), border=1)
+            pdf.ln(2 * th)
 
-        pdf.ln(2 * th)
+        pdf.output('document/LCR_' + time_format + '.pdf', 'F')
+        file = open('document/LCR_' + time_format + '.pdf', 'rb')
+        data = file.read()
 
-    pdf.output('document/LCR_' + time_format + '.pdf')
-    file = open('document/LCR_' + time_format + '.pdf', 'rb')
-    data = file.read()
-
-    hash = hashlib.sha256(data).hexdigest()
-    file.close()
+        hash = hashlib.sha256(data).hexdigest()
+        file.close()
 
 
-    # 데이터 저장
-    contract = Contract_LCR(contractname=contractname, contract_id = contract_id, sha256=hash, filename='document/LCR_' + time_format + '.pdf')
+        # 데이터 저장
+        contract = Contract_LCR(contractname=contractname, contract_id = contract_id, sha256=hash, filename='document/LCR_' + time_format + '.pdf')
 
-    # 로그인한 사용자 정보를 Contract에 같이 저장
-    user_id = request.session['user_id']
-    member = Member.objects.get(user_id=user_id)
-    contract.owner = member
-    contract.save()
-    return redirect('ing')
+        # 로그인한 사용자 정보를 Contract에 같이 저장
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract.owner = member
+        contract.save()
+        return redirect('ing')
+    except Exception as e:
+        print(e)
+        return redirect('forms')
+
 
 
 
 def submit2(request):
     user_id = request.session['user_id']
     invoicename = request.POST['invoicename']
+
     a = request.POST['a']
     b = request.POST['b']
     c = request.POST['c']
@@ -854,71 +861,76 @@ def submit2(request):
     r = request.POST['r']
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+    try:
+        pdf = FPDF(unit='in', format='A4')
+        pdf.add_page()
 
-    pdf = FPDF(unit='in', format='A4')
-    pdf.add_page()
-    pdf.set_font('Times', '', 10.0)
-    epw = pdf.w - 2 * pdf.l_margin
-    col_width = epw / 3
-    records = [[1, 'Shipper/Seller:', a],
-            [2, 'Consignee:', b],
-            [3, 'Departure Date:', c],
-            [4, 'Vessel/Flight:', d],
-            [5, 'To:', e],
-            [6, 'Type:', f],
-            [7, 'Invoice No.and Date:', g],
-            [8, 'L/C No.and Date:', h],
-            [9, 'Buyer(if other than consignee):', i],
-            [10, 'Other reference:', j],
-            [11, 'Terms of delivery and payment:', k],
-            [12, 'Shipping Mark:', l],
-            [13, 'No.and kind of packages:', m],
-            [14, 'Goods description:', n],
-            [15, 'Quantity:', o],
-            [16, 'Unit price:', p],
-            [17, 'Amount:', q],
-            [18, 'Singed by:', r],
-            ]
+        pdf.set_font('Arial', '', 10.0)
+        epw = pdf.w - 2 * pdf.l_margin
+        col_width = epw / 3
+        records = [[1, 'Shipper/Seller:', a],
+                [2, 'Consignee:', b],
+                [3, 'Departure Date:', c],
+                [4, 'Vessel/Flight:', d],
+                [5, 'To:', e],
+                [6, 'Type:', f],
+                [7, 'Invoice No.and Date:', g],
+                [8, 'L/C No.and Date:', h],
+                [9, 'Buyer(if other than consignee):', i],
+                [10, 'Other reference:', j],
+                [11, 'Terms of delivery and payment:', k],
+                [12, 'Shipping Mark:', l],
+                [13, 'No.and kind of packages:', m],
+                [14, 'Goods description:', n],
+                [15, 'Quantity:', o],
+                [16, 'Unit price:', p],
+                [17, 'Amount:', q],
+                [18, 'Singed by:', r],
+                ]
+        tag = invoicename  + '/' + time_format
 
-    pdf.set_font('Times', 'B', 14.0)
-    pdf.cell(epw, 0.0, invoicename + '/' + time_format, align='C')
-    pdf.ln(0.25)
-    pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'CI From:' + user_id, align='C')
-    pdf.set_font('Times', '', 10.0)
-    pdf.ln(0.5)
+        pdf.set_font('Arial', 'B', 14.0)
+        pdf.cell(epw, 0.0, u'%s' % tag, align='C')
+        pdf.ln(0.25)
+        pdf.set_font('Arial', '', 12.0)
+        pdf.cell(epw, 0.0, 'CI From:' + user_id, align='C')
+        pdf.set_font('Arial', '', 10.0)
+        pdf.ln(0.5)
 
-    th = pdf.font_size
-    for row in records:
+        th = pdf.font_size
+        for row in records:
 
-        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-        pdf.ln(2 * th)
+            pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+            pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+            pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+            pdf.ln(2 * th)
 
-    pdf.output('document/CI_' + time_format + '.pdf')
-    file = open('document/CI_' + time_format + '.pdf', 'rb')
-    data = file.read()
+        pdf.output('document/CI_' + time_format + '.pdf', 'F')
+        file = open('document/CI_' + time_format + '.pdf', 'rb')
+        data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest()
-    file.close()
+        hash = hashlib.sha256(data).hexdigest()
+        file.close()
 
-    # 데이터 저장
-    contract = Contract_CI(contractname=invoicename, sha256=hash, filename='document/CI_' + time_format + '.pdf')
+        # 데이터 저장
+        contract = Contract_CI(contractname=invoicename, sha256=hash, filename='document/CI_' + time_format + '.pdf')
 
-    # 로그인한 사용자 정보를 Contract에 같이 저장
-    user_id = request.session['user_id']
-    member = Member.objects.get(user_id=user_id)
-    contract.owner = member
-    contract.save()
-    id = Contract_CI.objects.filter(sha256=hash).values('id')[0]['id']
+        # 로그인한 사용자 정보를 Contract에 같이 저장
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract.owner = member
+        contract.save()
+        id = Contract_CI.objects.filter(sha256=hash).values('id')[0]['id']
 
-    process = Process(contract_id=id, user2=user_id, CI_hash=hash)
-    process.save()
-    process_complete = Process_complete(contract_id=id, CI_hash=hash)
-    process_complete.save()
+        process = Process(contract_id=id, user2=user_id, CI_hash=hash)
+        process.save()
+        process_complete = Process_complete(contract_id=id, CI_hash=hash)
+        process_complete.save()
 
-    return redirect('ing2')
+        return redirect('ing2')
+    except Exception as e:
+        print(e)
+        return redirect('forms2')
 
 
 def submit2_1(request):
@@ -942,63 +954,67 @@ def submit2_1(request):
     o = request.POST['o']
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    pdf = FPDF(unit='in', format='A4')
-    pdf.add_page()
-    pdf.set_font('Times', '', 10.0)
-    epw = pdf.w - 2 * pdf.l_margin
-    col_width = epw / 3
-    records = [['No.', 'title', 'content'],
-            [1, 'Shipper:', a],
-            [2, 'Consignee:', b],
-            [3, 'Notify Party:', c],
-            [4, 'Vessel:', d],
-            [5, 'Voyage No.:', e],
-            [6, 'Port of Loading:', f],
-            [7, 'Port of Discharge:', g],
-            [8, 'Final Destination:', h],
-            [9, 'Marking:', i],
-            [10, 'Packages:', j],
-            [11, 'Description of Goods:', k],
-            [12, 'Gross Weight:', l],
-            [13, 'Measurement:', m],
-            [14, 'Freight Term:', n],
-            [15, 'Original B/L:', o],
-            ]
+    try:
+        pdf = FPDF(unit='in', format='A4')
+        pdf.add_page()
+        pdf.set_font('Times', '', 10.0)
+        epw = pdf.w - 2 * pdf.l_margin
+        col_width = epw / 3
+        records = [['No.', 'title', 'content'],
+                [1, 'Shipper:', a],
+                [2, 'Consignee:', b],
+                [3, 'Notify Party:', c],
+                [4, 'Vessel:', d],
+                [5, 'Voyage No.:', e],
+                [6, 'Port of Loading:', f],
+                [7, 'Port of Discharge:', g],
+                [8, 'Final Destination:', h],
+                [9, 'Marking:', i],
+                [10, 'Packages:', j],
+                [11, 'Description of Goods:', k],
+                [12, 'Gross Weight:', l],
+                [13, 'Measurement:', m],
+                [14, 'Freight Term:', n],
+                [15, 'Original B/L:', o],
+                ]
 
-    pdf.set_font('Times', 'B', 14.0)
-    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-    pdf.ln(0.25)
-    pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, srname+' From:' + user_id, align='C')
-    pdf.set_font('Times', '', 10.0)
-    pdf.ln(0.5)
+        pdf.set_font('Times', 'B', 14.0)
+        pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+        pdf.ln(0.25)
+        pdf.set_font('Times', '', 12.0)
+        pdf.cell(epw, 0.0, srname+' From:' + user_id, align='C')
+        pdf.set_font('Times', '', 10.0)
+        pdf.ln(0.5)
 
-    th = pdf.font_size
-    for row in records:
+        th = pdf.font_size
+        for row in records:
 
-        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-        pdf.ln(2 * th)
+            pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+            pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+            pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+            pdf.ln(2 * th)
 
-    pdf.output('document/SR_' + time_format + '.pdf')
-    file = open('document/SR_' + time_format + '.pdf', 'rb')
-    data = file.read()
+        pdf.output('document/SR_' + time_format + '.pdf', 'F')
+        file = open('document/SR_' + time_format + '.pdf', 'rb')
+        data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest()
-    file.close()
+        hash = hashlib.sha256(data).hexdigest()
+        file.close()
 
-    # 데이터 저장
-    contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, filename='document/SR_' + time_format + '.pdf')
+        # 데이터 저장
+        contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, filename='document/SR_' + time_format + '.pdf')
 
-    # 로그인한 사용자 정보를 Contract에 같이 저장
-    user_id = request.session['user_id']
-    member = Member.objects.get(user_id=user_id)
-    contract.owner = member
+        # 로그인한 사용자 정보를 Contract에 같이 저장
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract.owner = member
 
-    contract.save()
+        contract.save()
 
-    return redirect('ing2_1')
+        return redirect('ing2_1')
+    except Exception as e:
+        print(e)
+        return redirect('forms2_1')
 
 
 def submit3(request):
@@ -1041,81 +1057,85 @@ def submit3(request):
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
-    pdf = FPDF(unit='in', format='A4')
-    pdf.add_page()
-    pdf.set_font('Times', '', 10.0)
-    epw = pdf.w - 2 * pdf.l_margin
-    col_width = epw / 3
-    records = [['No.', 'title', 'content'],
-            [1, 'Transfer:', a],
-            [2, 'Credit Number:', b],
-            [3, 'Advising Bank:', c],
-            [4, 'Expiry Date:', d],
-            [5, 'Applicant:', e],
-            [6, 'Beneficiary:', f],
-            [7, 'Amount:', g],
-            [8, 'Partial Shipment:', h],
-            [9, 'Latest Shipment Date:', i],
-            [10, 'Additional Conditions:', j],
-            [11, 'All banking charges:', k],
-            [12, 'Documents delivered by:', l],
-            [13, 'Confirmation:', m],
-            [14, 'Reissue:', n],
-            [15, 'Import L/C Transfer:', o],
-            [16, 'Draft at:', p],
-            [17, 'Usance:', q],
-            [18, 'SettlingBank:', r],
-            [19, 'Credit:', s],
-            [20, 'Transshipment mode:', t],
-            [21, 'Authorization:', u],
-            [22, 'Port of Loading/Airport of Departure:', v],
-            [23, 'Place of Taking in Charge:', w],
-            [24, 'Signed/Original/Commercial Invoice:', x],
-            [25, 'Full Set of B/L:', y],
-            [26, 'Port of Loading:', z],
-            [27, 'Certificate of Origin in:', aa],
-            [28, 'Other Documents Required:', bb],
-            [29, 'Description of Goods/Services:', cc],
-            [30, 'Price Terms:', dd],
-            [31, 'Country of Origin:', ee],
-            [32, 'HS CODE:', ff],
-            [33, 'CommodityDescription:', gg],
-            ]
+    try:
+        pdf = FPDF(unit='in', format='A4')
+        pdf.add_page()
+        pdf.set_font('Times', '', 10.0)
+        epw = pdf.w - 2 * pdf.l_margin
+        col_width = epw / 3
+        records = [['No.', 'title', 'content'],
+                [1, 'Transfer:', a],
+                [2, 'Credit Number:', b],
+                [3, 'Advising Bank:', c],
+                [4, 'Expiry Date:', d],
+                [5, 'Applicant:', e],
+                [6, 'Beneficiary:', f],
+                [7, 'Amount:', g],
+                [8, 'Partial Shipment:', h],
+                [9, 'Latest Shipment Date:', i],
+                [10, 'Additional Conditions:', j],
+                [11, 'All banking charges:', k],
+                [12, 'Documents delivered by:', l],
+                [13, 'Confirmation:', m],
+                [14, 'Reissue:', n],
+                [15, 'Import L/C Transfer:', o],
+                [16, 'Draft at:', p],
+                [17, 'Usance:', q],
+                [18, 'SettlingBank:', r],
+                [19, 'Credit:', s],
+                [20, 'Transshipment mode:', t],
+                [21, 'Authorization:', u],
+                [22, 'Port of Loading/Airport of Departure:', v],
+                [23, 'Place of Taking in Charge:', w],
+                [24, 'Signed/Original/Commercial Invoice:', x],
+                [25, 'Full Set of B/L:', y],
+                [26, 'Port of Loading:', z],
+                [27, 'Certificate of Origin in:', aa],
+                [28, 'Other Documents Required:', bb],
+                [29, 'Description of Goods/Services:', cc],
+                [30, 'Price Terms:', dd],
+                [31, 'Country of Origin:', ee],
+                [32, 'HS CODE:', ff],
+                [33, 'CommodityDescription:', gg],
+                ]
 
-    pdf.set_font('Times', 'B', 14.0)
-    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-    pdf.ln(0.25)
-    pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, letteroflc + ' From:' + user_id, align='C')
-    pdf.set_font('Times', '', 10.0)
-    pdf.ln(0.5)
+        pdf.set_font('Times', 'B', 14.0)
+        pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+        pdf.ln(0.25)
+        pdf.set_font('Times', '', 12.0)
+        pdf.cell(epw, 0.0, letteroflc + ' From:' + user_id, align='C')
+        pdf.set_font('Times', '', 10.0)
+        pdf.ln(0.5)
 
-    th = pdf.font_size
-    for row in records:
+        th = pdf.font_size
+        for row in records:
 
-        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-        pdf.ln(2 * th)
+            pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+            pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+            pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+            pdf.ln(2 * th)
 
-    pdf.output('document/LC_' + time_format + '.pdf')
-    file = open('document/LC_' + time_format + '.pdf', 'rb')
-    data = file.read()
+        pdf.output('document/LC_' + time_format + '.pdf', 'F')
+        file = open('document/LC_' + time_format + '.pdf', 'rb')
+        data = file.read()
 
-    hash = hashlib.sha256(data).hexdigest()
-    file.close()
-    # 데이터 저장
-    contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, filename='document/LC_' + time_format + '.pdf')
+        hash = hashlib.sha256(data).hexdigest()
+        file.close()
+        # 데이터 저장
+        contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, filename='document/LC_' + time_format + '.pdf')
 
-    # 로그인한 사용자 정보를 Contract에 같이 저장
-    user_id = request.session['user_id']
-    member = Member.objects.get(user_id=user_id)
-    contract.owner = member
+        # 로그인한 사용자 정보를 Contract에 같이 저장
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract.owner = member
 
-    contract.save()
+        contract.save()
 
 
-    return redirect('ing3')
+        return redirect('ing3')
+    except Exception as e:
+        print(e)
+        return redirect('forms3')
 
 
 def submit4_1(request):
@@ -1134,60 +1154,62 @@ def submit4_1(request):
     j = request.POST['j']
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+    try:
+        pdf = FPDF(unit='in', format='A4')
+        pdf.add_page()
+        pdf.set_font('Times', '', 10.0)
+        epw = pdf.w - 2 * pdf.l_margin
+        col_width = epw / 3
+        records = [['No.', 'title', 'content'],
+                [1, 'Bank:', a],
+                [2, 'Nodify party:', b],
+                [3, 'Vessel:', c],
+                [4, 'Voyage No.:', d],
+                [5, 'Place of receipt:', e],
+                [6, 'Port of Loading:', f],
+                [7, 'Place of delivery:', g],
+                [8, 'Description of goods:', h],
+                [9, 'Weight:', i],
+                [10, 'Measurement:', j],
+                ]
 
-    pdf = FPDF(unit='in', format='A4')
-    pdf.add_page()
-    pdf.set_font('Times', '', 10.0)
-    epw = pdf.w - 2 * pdf.l_margin
-    col_width = epw / 3
-    records = [['No.', 'title', 'content'],
-            [1, 'Bank:', a],
-            [2, 'Nodify party:', b],
-            [3, 'Vessel:', c],
-            [4, 'Voyage No.:', d],
-            [5, 'Place of receipt:', e],
-            [6, 'Port of Loading:', f],
-            [7, 'Place of delivery:', g],
-            [8, 'Description of goods:', h],
-            [9, 'Weight:', i],
-            [10, 'Measurement:', j],
-            ]
+        pdf.set_font('Times', 'B', 14.0)
+        pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+        pdf.ln(0.25)
+        pdf.set_font('Times', '', 12.0)
+        pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
+        pdf.set_font('Times', '', 10.0)
+        pdf.ln(0.5)
 
-    pdf.set_font('Times', 'B', 14.0)
-    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-    pdf.ln(0.25)
-    pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-    pdf.set_font('Times', '', 10.0)
-    pdf.ln(0.5)
+        th = pdf.font_size
+        for row in records:
 
-    th = pdf.font_size
-    for row in records:
+            pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+            pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+            pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+            pdf.ln(2 * th)
 
-        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-        pdf.ln(2 * th)
+        pdf.output('document/BL_' + time_format + '.pdf', 'F')
+        file = open('document/BL_' + time_format + '.pdf', 'rb')
+        data = file.read()
 
-    pdf.output('document/BL_' + time_format + '.pdf')
-    file = open('document/BL_' + time_format + '.pdf', 'rb')
-    data = file.read()
+        hash = hashlib.sha256(data).hexdigest()
+        file.close()
 
-    hash = hashlib.sha256(data).hexdigest()
-    file.close()
+        # 데이터 저장
+        contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/BL_' + time_format + '.pdf')
 
-    # 데이터 저장
-    contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/BL_' + time_format + '.pdf')
+        # 로그인한 사용자 정보를 Contract에 같이 저장
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract.owner = member
 
-    # 로그인한 사용자 정보를 Contract에 같이 저장
-    user_id = request.session['user_id']
-    member = Member.objects.get(user_id=user_id)
-    contract.owner = member
+        contract.save()
 
-    contract.save()
-
-    return redirect('ing4_1')
-
+        return redirect('ing4_1')
+    except Exception as e:
+        print(e)
+        return redirect('forms4_1')
 
 def submit4_2(request):
     user_id = request.session['user_id']
@@ -1203,54 +1225,57 @@ def submit4_2(request):
 
     time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
+    try:
+        pdf = FPDF(unit='in', format='A4')
+        pdf.add_page()
+        pdf.set_font('Times', '', 10.0)
+        epw = pdf.w - 2 * pdf.l_margin
+        col_width = epw / 3
+        records = [['No.', 'title', 'content'],
+                [1, 'Agent name:', a],
+                [2, 'Restricted delivery(Yes or no):', b],
+                [3, 'Adult signature restriced delivery(Yes or no):', c],
+                [4, 'Agent Signture:', d],
+                [5, 'ID verified (yes or no):', e],
+                [6, 'USPS initals:', f],
+                [7, 'Date:', g],
+                ]
 
-    pdf = FPDF(unit='in', format='A4')
-    pdf.add_page()
-    pdf.set_font('Times', '', 10.0)
-    epw = pdf.w - 2 * pdf.l_margin
-    col_width = epw / 3
-    records = [['No.', 'title', 'content'],
-            [1, 'Agent name:', a],
-            [2, 'Restricted delivery(Yes or no):', b],
-            [3, 'Adult signature restriced delivery(Yes or no):', c],
-            [4, 'Agent Signture:', d],
-            [5, 'ID verified (yes or no):', e],
-            [6, 'USPS initals:', f],
-            [7, 'Date:', g],
-            ]
+        pdf.set_font('Times', 'B', 14.0)
+        pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+        pdf.ln(0.25)
+        pdf.set_font('Times', '', 12.0)
+        pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
+        pdf.set_font('Times', '', 10.0)
+        pdf.ln(0.5)
 
-    pdf.set_font('Times', 'B', 14.0)
-    pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-    pdf.ln(0.25)
-    pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-    pdf.set_font('Times', '', 10.0)
-    pdf.ln(0.5)
+        th = pdf.font_size
+        for row in records:
 
-    th = pdf.font_size
-    for row in records:
+            pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+            pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+            pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+            pdf.ln(2 * th)
 
-        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-        pdf.ln(2 * th)
+        pdf.output('document/DO_' + time_format + '.pdf', 'F')
+        file = open('document/DO_' + time_format + '.pdf', 'rb')
+        data = file.read()
 
-    pdf.output('document/DO_' + time_format + '.pdf')
-    file = open('document/DO_' + time_format + '.pdf', 'rb')
-    data = file.read()
+        hash = hashlib.sha256(data).hexdigest()
+        file.close()
+        # 데이터 저장
+        contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/DO_' + time_format + '.pdf')
 
-    hash = hashlib.sha256(data).hexdigest()
-    file.close()
-    # 데이터 저장
-    contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, filename='document/DO_' + time_format + '.pdf')
+        # 로그인한 사용자 정보를 Contract에 같이 저장
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract.owner = member
+        contract.save()
 
-    # 로그인한 사용자 정보를 Contract에 같이 저장
-    user_id = request.session['user_id']
-    member = Member.objects.get(user_id=user_id)
-    contract.owner = member
-    contract.save()
-
-    return redirect('ing4_2')
+        return redirect('ing4_2')
+    except Exception as e:
+        print(e)
+        return redirect('forms4_2')
 
 def download(request):
     id = request.GET['id']
@@ -2076,8 +2101,8 @@ def logout(request):
 def index(request):
     client_id = 'fpYuQKVX8str1aSVFrkc'
     client_secret = 'rLcccdn5R4'
-    encText = urllib.parse.quote("국제무역")
-    url = "https://openapi.naver.com/v1/search/news?query=" + encText
+    encText = urllib.parse.quote("국제무역,무역거래")
+    url = "https://openapi.naver.com/v1/search/news?query=" + encText+'&sort=date'
     res = urllib.request.Request(url)
     res.add_header("X-Naver-Client-Id", client_id)
     res.add_header("X-Naver-Client-Secret", client_secret)
