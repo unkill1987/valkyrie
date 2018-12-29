@@ -51,7 +51,7 @@ def search1(request):
     notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -82,7 +82,7 @@ def search2(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -113,7 +113,7 @@ def search3(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -144,7 +144,7 @@ def search4(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -173,7 +173,7 @@ def share1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = ('http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- letter of credit request: ' + hash)
+        url = ('http://210.107.78.158:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- letter of credit request: ' + hash)
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -219,7 +219,7 @@ def share2(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- commercial invoice: ' + hash
+        url = 'http://210.107.78.158:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- commercial invoice: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -255,7 +255,7 @@ def share2_1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipping request: ' + hash
+        url = 'http://210.107.78.158:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipping request: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -299,7 +299,7 @@ def share3(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- letter of credit: ' + hash
+        url = 'http://210.107.78.158:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- letter of credit: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -342,7 +342,7 @@ def share4_1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- bill of landing: ' + hash
+        url = 'http://210.107.78.158:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- bill of landing: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -384,7 +384,7 @@ def share4_2(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- delivery order: ' + hash
+        url = 'http://210.107.78.158:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- delivery order: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -799,7 +799,7 @@ def submit(request):
     pdf.cell(epw, 0.0, 'Contract ID:'+ contract_id +'/'+ time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'LCR From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, contractname +' From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
@@ -860,7 +860,7 @@ def submit2(request):
     pdf.set_font('Times', '', 10.0)
     epw = pdf.w - 2 * pdf.l_margin
     col_width = epw / 3
-    data = [[1, 'Shipper/Seller:', a],
+    records = [[1, 'Shipper/Seller:', a],
             [2, 'Consignee:', b],
             [3, 'Departure Date:', c],
             [4, 'Vessel/Flight:', d],
@@ -881,7 +881,7 @@ def submit2(request):
             ]
 
     pdf.set_font('Times', 'B', 14.0)
-    pdf.cell(epw, 0.0, 'Contract ID:' + '/' + time_format, align='C')
+    pdf.cell(epw, 0.0, invoicename + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
     pdf.cell(epw, 0.0, 'CI From:' + user_id, align='C')
@@ -889,11 +889,11 @@ def submit2(request):
     pdf.ln(0.5)
 
     th = pdf.font_size
-    for row in data:
-        for datum in row:
-            # Enter data in colums
-            pdf.cell(col_width, 2 * th, str(datum), border=1)
+    for row in records:
 
+        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
         pdf.ln(2 * th)
 
     pdf.output('document/CI_' + time_format + '.pdf')
@@ -910,7 +910,6 @@ def submit2(request):
     user_id = request.session['user_id']
     member = Member.objects.get(user_id=user_id)
     contract.owner = member
-
     contract.save()
     id = Contract_CI.objects.filter(sha256=hash).values('id')[0]['id']
 
@@ -948,7 +947,7 @@ def submit2_1(request):
     pdf.set_font('Times', '', 10.0)
     epw = pdf.w - 2 * pdf.l_margin
     col_width = epw / 3
-    data = [['No.', 'title', 'content'],
+    records = [['No.', 'title', 'content'],
             [1, 'Shipper:', a],
             [2, 'Consignee:', b],
             [3, 'Notify Party:', c],
@@ -970,16 +969,16 @@ def submit2_1(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'SR From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, srname+' From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
     th = pdf.font_size
-    for row in data:
-        for datum in row:
-            # Enter data in colums
-            pdf.cell(col_width, 2 * th, str(datum), border=1)
+    for row in records:
 
+        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
         pdf.ln(2 * th)
 
     pdf.output('document/SR_' + time_format + '.pdf')
@@ -1047,7 +1046,7 @@ def submit3(request):
     pdf.set_font('Times', '', 10.0)
     epw = pdf.w - 2 * pdf.l_margin
     col_width = epw / 3
-    data = [['No.', 'title', 'content'],
+    records = [['No.', 'title', 'content'],
             [1, 'Transfer:', a],
             [2, 'Credit Number:', b],
             [3, 'Advising Bank:', c],
@@ -1087,16 +1086,16 @@ def submit3(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'LC From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, letteroflc + ' From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
     th = pdf.font_size
-    for row in data:
-        for datum in row:
-            # Enter data in colums
-            pdf.cell(col_width, 2 * th, str(datum), border=1)
+    for row in records:
 
+        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
         pdf.ln(2 * th)
 
     pdf.output('document/LC_' + time_format + '.pdf')
@@ -1141,7 +1140,7 @@ def submit4_1(request):
     pdf.set_font('Times', '', 10.0)
     epw = pdf.w - 2 * pdf.l_margin
     col_width = epw / 3
-    data = [['No.', 'title', 'content'],
+    records = [['No.', 'title', 'content'],
             [1, 'Bank:', a],
             [2, 'Nodify party:', b],
             [3, 'Vessel:', c],
@@ -1158,16 +1157,16 @@ def submit4_1(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'BL From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
     th = pdf.font_size
-    for row in data:
-        for datum in row:
-            # Enter data in colums
-            pdf.cell(col_width, 2 * th, str(datum), border=1)
+    for row in records:
 
+        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
         pdf.ln(2 * th)
 
     pdf.output('document/BL_' + time_format + '.pdf')
@@ -1210,7 +1209,7 @@ def submit4_2(request):
     pdf.set_font('Times', '', 10.0)
     epw = pdf.w - 2 * pdf.l_margin
     col_width = epw / 3
-    data = [['No.', 'title', 'content'],
+    records = [['No.', 'title', 'content'],
             [1, 'Agent name:', a],
             [2, 'Restricted delivery(Yes or no):', b],
             [3, 'Adult signature restriced delivery(Yes or no):', c],
@@ -1224,16 +1223,16 @@ def submit4_2(request):
     pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
     pdf.ln(0.25)
     pdf.set_font('Times', '', 12.0)
-    pdf.cell(epw, 0.0, 'DO From:' + user_id, align='C')
+    pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
     pdf.set_font('Times', '', 10.0)
     pdf.ln(0.5)
 
     th = pdf.font_size
-    for row in data:
-        for datum in row:
-            # Enter data in colums
-            pdf.cell(col_width, 2 * th, str(datum), border=1)
+    for row in records:
 
+        pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+        pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+        pdf.cell(3.5, 2 * th, str(row[2]), border=1)
         pdf.ln(2 * th)
 
     pdf.output('document/DO_' + time_format + '.pdf')
