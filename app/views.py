@@ -51,7 +51,7 @@ def search1(request):
     notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -82,7 +82,7 @@ def search2(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -113,7 +113,7 @@ def search3(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -144,7 +144,7 @@ def search4(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -173,7 +173,7 @@ def share1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = ('http://210.107.78.158:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- letter of credit request: ' + hash)
+        url = ('http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- letter of credit request: ' + hash)
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -219,7 +219,7 @@ def share2(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- commercial invoice: ' + hash
+        url = 'http://222.239.231.247:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- commercial invoice: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -255,7 +255,7 @@ def share2_1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipping request: ' + hash
+        url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipping request: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -299,7 +299,7 @@ def share3(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- letter of credit: ' + hash
+        url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- letter of credit: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -342,7 +342,7 @@ def share4_1(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- bill of landing: ' + hash
+        url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- bill of landing: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
@@ -384,7 +384,7 @@ def share4_2(request):
         user_id = getid.values('owner')[0]['owner']
 
 
-        url = 'http://210.107.78.158:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- delivery order: ' + hash
+        url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- delivery order: ' + hash
         response = requests.post(url)
         res = response.text
         result_dict = {}
