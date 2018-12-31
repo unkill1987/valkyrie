@@ -796,14 +796,14 @@ img {
 /* :: 9.0 Footer Area CSS */
 
 .footer-area {
-
-    z-index: 100;
-    background-color: #1d1d1d;
-    height: 80px;
-    width: 100%;
-    padding: 0 35px;
-    bottom: 0;
-    left: 0;
+    position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  height:50px;
+  text-align: center;
 }
 
 .single-footer-content {
