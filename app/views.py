@@ -49,7 +49,7 @@ def search1(request):
     notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -80,7 +80,7 @@ def search2(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -111,7 +111,7 @@ def search3(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -142,7 +142,7 @@ def search4(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -170,14 +170,14 @@ def share1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
         try:
             if Member.objects.get(user_id=share_user):
                 if history[0]['Value']['ci']['To'][11:] == user_id:
-                    url = ('http://192.168.0.7:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
+                    url = ('http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
                     response = requests.post(url)
                     res = response.text
 
@@ -230,7 +230,7 @@ def share2(request):
         result_dict = {}
         try:
             if Member.objects.get(user_id=share_user):
-                url = 'http://192.168.0.7:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
+                url = 'http://222.239.231.247:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
                 response = requests.post(url)
                 res = response.text
 
@@ -268,14 +268,14 @@ def share2_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
         try:
             if Member.objects.get(user_id=share_user):
                 if history[2]['Value']['lc']['To'][11:] == user_id:
-                    url = 'http://192.168.0.7:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
+                    url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -324,14 +324,14 @@ def share3(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
         try:
             if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[1]['Value']['lcr']['To'][7:] == user_id:
-                    url = 'http://192.168.0.7:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
+                    url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}
@@ -379,7 +379,7 @@ def share4_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -387,7 +387,7 @@ def share4_1(request):
         try:
             if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[3]['Value']['sr']['To'][10:] == user_id:
-                    url = 'http://192.168.0.7:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
+                    url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -435,7 +435,7 @@ def share4_2(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -443,7 +443,7 @@ def share4_2(request):
         try:
             if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[4]['Value']['bl']['from'][10:] == user_id:
-                    url = 'http://192.168.0.7:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
+                    url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}
