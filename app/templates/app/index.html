@@ -75,6 +75,7 @@
 
 
 
+
 </style>
 <body>
 <!-- Preloader -->
@@ -151,7 +152,7 @@
                                     <a class="nav-link" href="{% url 'mypage1'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
 
@@ -256,7 +257,7 @@
                     <div class="card-header">
                         News(무역)&nbsp/&nbsp {{date}}
                         <!--<button id="news" onclick="newstoggle()" class="btn btn-outline-dark"-->
-                                            <!--style="border:0px; border-radius:0px; color:white;">open/close</button>-->
+                        <!--style="border:0px; border-radius:0px; color:white;">open/close</button>-->
                     </div>
                     <div id="news-body" style="display:inline-block">
                         {% for news in result %}
@@ -266,15 +267,15 @@
                                 {{news.title}}</a>
                         </div>
                         {% endfor %}
-                    <!--</div>-->
+                        <!--</div>-->
+                    </div>
+
+
                 </div>
-
-
+                <!-- /#wrapper -->
             </div>
-            <!-- /#wrapper -->
+            <!-- Pagination -->
         </div>
-        <!-- Pagination -->
-    </div>
     </div>
 </section>
 <!--Valkyrie System Area End -->
@@ -307,7 +308,24 @@
 </footer>
 <!-- Footer Area End -->
 
-
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+                <a class="btn" style="color:white;background:#ff8a12;" href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- jQuery (Necessary for All JavaScript Plugins) -->
 <script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
 <!-- Popper js -->
@@ -352,6 +370,7 @@ function newstoggle(){
         news.style.display = "inline-block";
     }
 }
+
 
 
 </script>

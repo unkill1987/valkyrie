@@ -53,6 +53,8 @@ h6 {
     font-weight: 500;
 }
 
+li:hover{cursor:pointer}
+
 p {
     color: #838383;
     font-size: 15px;
