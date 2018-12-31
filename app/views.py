@@ -1,13 +1,9 @@
-#-*- coding:utf-8 -*-
-
 import urllib.request
 import requests
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 import hashlib
-from docx import Document
-from docx.shared import Inches,Cm
 from fpdf import FPDF, HTMLMixin
 import os
 import sys
@@ -53,7 +49,7 @@ def search1(request):
     notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -84,7 +80,7 @@ def search2(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -115,7 +111,7 @@ def search3(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -146,7 +142,7 @@ def search4(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.0.7:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -174,33 +170,45 @@ def share1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-
-        url = ('http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- letter of credit request: ' + hash)
-        response = requests.post(url)
-        res = response.text
+        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlto = requests.post(urlhistory)
+        history = urlto.json()
         result_dict = {}
+        try:
+            if Member.objects.get(user_id=share_user):
+                if history[0]['Value']['ci']['To'][11:] == user_id:
+                    url = ('http://192.168.0.7:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
+                    response = requests.post(url)
+                    res = response.text
 
-        if (res == "Could not found contract_id"):
-           result_dict['result'] = 'Fail'
 
-        else:
+                    if (res == "Fail"):
+                       result_dict['result'] = 'Fail'
+
+                    else:
 
 
-            process = Process.objects.get(id=contract_id)
-            process.user1 = user_id
-            process.LCR_hash = hash
-            process.user3 = share_user
-            process.save()
+                        process = Process.objects.get(id=contract_id)
+                        process.user1 = user_id
+                        process.LCR_hash = hash
+                        process.user3 = share_user
+                        process.save()
 
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.LCR_hash = hash
-            process_complete.save()
+                        process_complete = Process_complete.objects.get(id=contract_id)
+                        process_complete.LCR_hash = hash
+                        process_complete.save()
 
-            share = Contract_LCR.objects.get(id=check_id)
-            share.share3 = share_user
-            share.save()
-            result_dict['result'] = 'Success'
-        return JsonResponse(result_dict)
+                        share = Contract_LCR.objects.get(id=check_id)
+                        share.share3 = share_user
+                        share.save()
+                        result_dict['result'] = 'Success'
+                    return JsonResponse(result_dict)
+                else:
+                    result_dict['result'] = "You don't have  the authority"
+                    return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found User'
+            return JsonResponse(result_dict)
     except Exception as e:
         print(e)
         return redirect('ing')
@@ -219,25 +227,29 @@ def share2(request):
         hash = getid.values('sha256')[0]['sha256']
         contract_id = str(getid.values('id')[0]['id'])
         user_id = getid.values('owner')[0]['owner']
-
-
-        url = 'http://222.239.231.247:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- commercial invoice: ' + hash
-        response = requests.post(url)
-        res = response.text
         result_dict = {}
+        try:
+            if Member.objects.get(user_id=share_user):
+                url = 'http://192.168.0.7:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
+                response = requests.post(url)
+                res = response.text
 
-        if ( res == "The contract already exists" ):
-            result_dict['result'] = 'Fail'
-        else:
-            process = Process.objects.get(CI_hash=hash)
-            process.user1 = share_user
-            process.save()
 
-            share = Contract_CI.objects.get(id=check_id)
-            share.share1 = share_user
-            share.save()
-            result_dict['result'] = 'Success'
-        return JsonResponse(result_dict)
+                if ( res == "The contract already exists" ):
+                    result_dict['result'] = 'Fail'
+                else:
+                    process = Process.objects.get(CI_hash=hash)
+                    process.user1 = share_user
+                    process.save()
+
+                    share = Contract_CI.objects.get(id=check_id)
+                    share.share1 = share_user
+                    share.save()
+                    result_dict['result'] = 'Success'
+                return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found User'
+            return JsonResponse(result_dict)
     except Exception as e:
         print(e)
         return redirect('ing2')
@@ -256,34 +268,46 @@ def share2_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-
-        url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipping request: ' + hash
-        response = requests.post(url)
-        res = response.text
+        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlto = requests.post(urlhistory)
+        history = urlto.json()
         result_dict = {}
+        try:
+            if Member.objects.get(user_id=share_user):
+                if history[2]['Value']['lc']['To'][11:] == user_id:
+                    url = 'http://192.168.0.7:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
+                    response = requests.post(url)
+                    res = response.text
 
-        if (res == "Could not found contract_id"):
-            result_dict['result'] = 'Fail'
-        else:
+                    if (res == "Fail"):
+                        result_dict['result'] = 'Fail'
+                    else:
 
 
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.SR_hash = hash
-            process_complete.save()
+                        process_complete = Process_complete.objects.get(id=contract_id)
+                        process_complete.SR_hash = hash
+                        process_complete.save()
 
-            share = Contract_SR.objects.get(id=check_id)
-            share.share4 = share_user
-            share.save()
+                        share = Contract_SR.objects.get(id=check_id)
+                        share.share4 = share_user
+                        share.save()
 
-            process = Process.objects.get(id=contract_id)
-            process.SR_hash = hash
-            process.user4 = share_user
-            process.save()
-            result_dict['result'] = 'Success'
-        return JsonResponse(result_dict)
+                        process = Process.objects.get(id=contract_id)
+                        process.SR_hash = hash
+                        process.user4 = share_user
+                        process.save()
+                        result_dict['result'] = 'Success'
+                    return JsonResponse(result_dict)
+                else:
+                    result_dict['result'] = "You don't have  the authority"
+                    return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found User'
+            return JsonResponse(result_dict)
     except Exception as e:
         print (e)
         return redirect('ing2_1')
+
 
 def share3(request):
 
@@ -300,30 +324,42 @@ def share3(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-
-        url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- letter of credit: ' + hash
-        response = requests.post(url)
-        res = response.text
+        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlto = requests.post(urlhistory)
+        history = urlto.json()
         result_dict = {}
+        try:
+            if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+                if history[1]['Value']['lcr']['To'][7:] == user_id:
+                    url = 'http://192.168.0.7:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
+                    response = requests.post(url)
+                    res = response.text
+                    result_dict = {}
 
-        if (res == "Could not found contract_id"):
-            result_dict['result'] = 'Fail'
-        else:
+                    if (res == "Fail"):
+                        result_dict['result'] = 'Fail'
+                    else:
 
-            process = Process.objects.get(id=contract_id)
-            process.LC_hash = hash
-            process.save()
+                        process = Process.objects.get(id=contract_id)
+                        process.LC_hash = hash
+                        process.save()
 
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.LC_hash = hash
-            process_complete.save()
+                        process_complete = Process_complete.objects.get(id=contract_id)
+                        process_complete.LC_hash = hash
+                        process_complete.save()
 
-            share = Contract_LC.objects.get(id=check_id)
-            share.share1 = share_user
-            share.share2 = share_user2
-            share.save()
-            result_dict['result'] = 'Success'
-        return JsonResponse(result_dict)
+                        share = Contract_LC.objects.get(id=check_id)
+                        share.share1 = share_user
+                        share.share2 = share_user2
+                        share.save()
+                        result_dict['result'] = 'Success'
+                    return JsonResponse(result_dict)
+                else:
+                    result_dict['result'] = "You don't have  the authority"
+                    return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found User'
+            return JsonResponse(result_dict)
     except Exception as e:
         print(e)
         return redirect('ing3')
@@ -343,31 +379,44 @@ def share4_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-
-        url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- bill of landing: ' + hash
-        response = requests.post(url)
-        res = response.text
+        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlto = requests.post(urlhistory)
+        history = urlto.json()
         result_dict = {}
 
-        if (res == "Could not found contract_id"):
-            result_dict['result'] = 'Fail'
-        else:
+        try:
+            if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+                if history[3]['Value']['sr']['To'][10:] == user_id:
+                    url = 'http://192.168.0.7:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
+                    response = requests.post(url)
+                    res = response.text
 
-            process = Process.objects.get(id=contract_id)
-            process.BL_hash = hash
-            process.save()
 
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.BL_hash = hash
-            process_complete.save()
+                    if (res == "Fail"):
+                        result_dict['result'] = 'Fail'
+                    else:
 
-            share = Contract_BL.objects.get(id=check_id)
-            share.share1 = share_user
-            share.share2 = share_user2
-            share.save()
+                        process = Process.objects.get(id=contract_id)
+                        process.BL_hash = hash
+                        process.save()
 
-            result_dict['result'] = 'Success'
-        return JsonResponse(result_dict)
+                        process_complete = Process_complete.objects.get(id=contract_id)
+                        process_complete.BL_hash = hash
+                        process_complete.save()
+
+                        share = Contract_BL.objects.get(id=check_id)
+                        share.share1 = share_user
+                        share.share2 = share_user2
+                        share.save()
+
+                        result_dict['result'] = 'Success'
+                    return JsonResponse(result_dict)
+                else:
+                    result_dict['result'] = "You don't have  the authority"
+                    return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found User'
+            return JsonResponse(result_dict)
     except:
         return redirect('ing4_1')
 
@@ -377,6 +426,7 @@ def share4_2(request):
     try:
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
+        share_user2 = request.POST['share_user2']
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_DO.objects.filter(owner=member)
@@ -385,30 +435,44 @@ def share4_2(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-
-        url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- delivery order: ' + hash
-        response = requests.post(url)
-        res = response.text
+        urlhistory = ("http://192.168.0.7:8001/keyHistory/%s" % contract_id)
+        urlto = requests.post(urlhistory)
+        history = urlto.json()
         result_dict = {}
 
-        if (res == "Could not found contract_id"):
-            result_dict['result'] = 'Fail'
-        else:
+        try:
+            if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+                if history[4]['Value']['bl']['from'][10:] == user_id:
+                    url = 'http://192.168.0.7:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
+                    response = requests.post(url)
+                    res = response.text
+                    result_dict = {}
 
-            process = Process.objects.get(id=contract_id)
-            process.DO_hash = hash
-            process.save()
+                    if (res == "Fail"):
+                        result_dict['result'] = 'Fail'
+                    else:
 
-            process_complete = Process_complete.objects.get(id=contract_id)
-            process_complete.DO_hash = hash
-            process_complete.save()
+                        process = Process.objects.get(id=contract_id)
+                        process.DO_hash = hash
+                        process.save()
 
-            share = Contract_DO.objects.get(id=check_id)
-            share.share1 = share_user
-            share.save()
+                        process_complete = Process_complete.objects.get(id=contract_id)
+                        process_complete.DO_hash = hash
+                        process_complete.save()
 
-            result_dict['result'] = 'Success'
-        return JsonResponse(result_dict)
+                        share = Contract_DO.objects.get(id=check_id)
+                        share.share1 = share_user
+                        share.share3 = share_user2
+                        share.save()
+
+                        result_dict['result'] = 'Success'
+                    return JsonResponse(result_dict)
+                else:
+                    result_dict['result'] = "You don't have  the authority"
+                    return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found User'
+            return JsonResponse(result_dict)
     except:
         return redirect('ing4_2')
 
@@ -643,11 +707,26 @@ def doremove(request):
     for id in check_ids:
         try:
             share = Contract_DO.objects.get(id=id)
-            share.share2 = ' '
+            share.share1 = ' '
             share.save()
         except:
             pass
     return redirect('doreceived')
+
+def doremove2(request):
+    # deletes all objects from Car database table
+    # Contract.objects.get('id').delete()
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            share = Contract_DO.objects.get(id=id)
+            share.share3 = ' '
+            share.save()
+        except:
+            pass
+    return redirect('doreceived2')
 
 def lcrremove(request):
     # deletes all objects from Car database table
@@ -2044,6 +2123,44 @@ def doreceived(request):
                   'max_index': max_index - 2}
 
         return render(request, 'app/doreceived.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
+
+def doreceived2(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_DO.objects.filter(share3=member).order_by('-id')
+        try:
+            hash = contract.values('sha256')[0]['sha256']
+            process = Process.objects.filter(DO_hash=hash)
+        except:
+            hash = None
+            process = None
+        total_len = len(contract)
+        page = request.GET.get('page')
+        paginator = Paginator(contract, 6)
+
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 3 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
+
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/doreceived2.html', notice)
     except Exception as e:
         print(e)
         return redirect('index')

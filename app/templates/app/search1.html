@@ -144,61 +144,14 @@
                         Trade History
                         &nbsp/&nbspContract ID : {{cid}}
                     </div>
-                    <!--<div class="card-body">-->
-                        <!--<div class="table-responsive">-->
-                            <!--<table class="table table-bordered" style="border-radius:5px;text-align:center;">-->
-                                <!--<tr style="text-align:center;">-->
-                                    <!--<th>시간</th>-->
-                                    <!--<th>수입자</th>-->
-                                    <!--<th>수출자</th>-->
-                                    <!--<th>은행</th>-->
-                                    <!--<th>운송사</th>-->
 
-                                    <!--<th>상업송장</th>-->
-                                    <!--<th>신용장신청서</th>-->
-                                    <!--<th>신용장</th>-->
-
-                                    <!--<th>선적요청서</th>-->
-                                    <!--<th>선하증권</th>-->
-                                    <!--<th>인도지시서</th>-->
-
-                                    <!--<th>TxID</th>-->
-
-
-                                <!--</tr>-->
-                                <!--{% for c in history %}-->
-                                <!--<tr>-->
-                                    <!--<td>{{c.Timestamp}}</td>-->
-
-
-                                    <!--<td>{{c.Value.importer}}</td>-->
-                                    <!--<td>{{c.Value.exporter}}</td>-->
-                                    <!--<td>{{c.Value.bank}}</td>-->
-                                    <!--<td>{{c.Value.shipper}}</td>-->
-
-                                    <!--<td>{{c.Value.ci_hash}}</td>-->
-                                    <!--<td>{{c.Value.lcr_hash}}</td>-->
-                                    <!--<td>{{c.Value.lc_hash}}</td>-->
-                                    <!--<td>{{c.Value.sr_hash}}</td>-->
-                                    <!--<td>{{c.Value.bl_hash}}</td>-->
-                                    <!--<td>{{c.Value.do_hash}}</td>-->
-
-                                    <!--<td>{{c.TxId}}</td>-->
-
-                                <!--</tr>-->
-
-                                <!--{%endfor%}-->
-                            <!--</table>-->
-
-                        <!--</div>-->
-                    <!--</div>-->
                      <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" style="border-radius:5px;text-align:center;">
+                           <table class="table table-bordered" style="border-radius:5px;text-align:center;">
                                 <tr style="text-align:center;">
                                     <th>시간</th>
-                                    <th>User</th>
-
+                                    <th>From</th>
+                                    <th>To</th>
 
                                     <th>Document Hash</th>
 
@@ -212,17 +165,30 @@
                                     <td>{{c.Timestamp}}</td>
 
 
-                                    <td>{{c.Value.importer}}
-                                    {{c.Value.exporter}}
-                                    {{c.Value.bank}}
-                                    {{c.Value.shipper}}</td>
+                                    <td>
+                                        {{c.Value.ci.from}}
+                                        {{c.Value.lcr.from}}
+                                        {{c.Value.lc.from}}
+                                        {{c.Value.sr.from}}
+                                        {{c.Value.bl.from}}
+                                        {{c.Value.do.from}}
+                                    </td>
 
-                                    <td>{{c.Value.ci_hash}}
-                                    {{c.Value.lcr_hash}}
-                                    {{c.Value.lc_hash}}
-                                    {{c.Value.sr_hash}}
-                                    {{c.Value.bl_hash}}
-                                    {{c.Value.do_hash}}</td>
+                                     <td>
+                                        {{c.Value.ci.To}}
+                                        {{c.Value.lcr.To}}
+                                        {{c.Value.lc.To}}
+                                        {{c.Value.sr.To}}
+                                        {{c.Value.bl.To}}
+                                        {{c.Value.do.To}}
+                                    </td>
+
+                                    <td>{{c.Value.ci.doc_hash}}
+                                        {{c.Value.lcr.doc_hash}}
+                                        {{c.Value.lc.doc_hash}}
+                                        {{c.Value.sr.doc_hash}}
+                                        {{c.Value.bl.doc_hash}}
+                                        {{c.Value.do.doc_hash}}</td>
 
                                     <td>{{c.TxId}}</td>
 
