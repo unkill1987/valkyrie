@@ -47,6 +47,8 @@ class Member(models.Model):
     user_role = models.CharField(max_length=20)
     user_id = models.CharField(max_length=20, primary_key=True)
     user_name = models.CharField(max_length=20)
+    address = models.CharField(max_length=100)
+    otpkey = models.CharField(max_length=20)
     user_pw = models.CharField(max_length=20)
     c_date = models.DateTimeField(null=True)
 

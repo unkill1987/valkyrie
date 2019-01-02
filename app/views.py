@@ -1,10 +1,12 @@
 import urllib.request
 import requests
+from datashape import JSON
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 import hashlib
 from fpdf import FPDF, HTMLMixin
+import pyotp
 import os
 import sys
 import time
@@ -17,6 +19,93 @@ from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_
     Process_complete, Notice
 from valweb import settings
 from django.utils import timezone
+
+
+def addressmodify(request):
+    if request.method == 'GET':
+        user_id = request.session['user_id']
+        if user_id == '1':
+            return render(request, 'app/mypage1.html', {})
+        elif user_id == '2':
+            return render(request, 'app/mypage2.html', {})
+        elif user_id == '3':
+            return render(request, 'app/mypage3.html', {})
+        elif user_id == '4':
+            return render(request, 'app/mypage4.html', {})
+    else:
+        try:
+            result_dict ={}
+            user_id = request.session['user_id']
+            address = request.POST['address']
+            member = Member.objects.get(user_id=user_id)
+            member.address = address
+            member.save()
+            result_dict['result'] = 'success'
+            return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'fail'
+            return JsonResponse(result_dict)
+
+
+def pwmodify(request):
+    if request.method == 'GET':
+        user_id = request.session['user_id']
+        if user_id == '1':
+            return render(request, 'app/mypage1.html', {})
+        elif user_id == '2':
+            return render(request, 'app/mypage2.html', {})
+        elif user_id == '3':
+            return render(request, 'app/mypage3.html', {})
+        elif user_id == '4':
+            return render(request, 'app/mypage4.html', {})
+    else:
+        result_dict = {}
+        user_id = request.session['user_id']
+        user_pw = request.POST['user_pw']
+        user_npw = request.POST['user_npw']
+        user_cpw = request.POST['user_cpw']
+        member = Member.objects.get(user_id=user_id)
+
+        if member.user_pw == user_pw and user_npw == user_cpw:
+            member.user_pw = user_npw
+            member.save()
+            result_dict['result'] = 'success'
+            return JsonResponse(result_dict)
+
+        else:
+            result_dict['result'] = 'fail'
+            return JsonResponse(result_dict)
+
+
+def makeotp(request):
+    if request.method == 'GET':
+        user_id = request.session['user_id']
+        if user_id == '1':
+            return render(request, 'app/mypage1.html', {})
+        elif user_id == '2':
+            return render(request, 'app/mypage2.html', {})
+        elif user_id == '3':
+            return render(request, 'app/mypage3.html', {})
+        elif user_id == '4':
+            return render(request, 'app/mypage4.html', {})
+    else:
+        try:
+            user_id = request.session['user_id']
+            otpkey = pyotp.random_base32()
+            otpsave = Member.objects.get(user_id=user_id)
+            result_dict={}
+            if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == '':
+                otpsave.otpkey = otpkey
+                otpsave.save()
+                data = pyotp.totp.TOTP(otpkey).provisioning_uri(user_id, issuer_name="Valkyrie App")
+                output = {"otpkey":otpkey,'data': data}
+                return JsonResponse(output)
+            else:
+                result_dict['result']='Already Issued'
+                return JsonResponse(result_dict)
+        except Exception as e:
+            print(e)
+            return redirect('mypage1')
 
 def mypage1(request):
     return render(request,'app/mypage1.html',{})
@@ -49,7 +138,7 @@ def search1(request):
     notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -80,7 +169,7 @@ def search2(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -111,7 +200,7 @@ def search3(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -142,7 +231,7 @@ def search4(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -160,6 +249,7 @@ def search4(request):
 def share1(request):
 
     try:
+        otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
@@ -170,14 +260,18 @@ def share1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
+
+        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        totp = pyotp.TOTP(otpkey)
+        nowotp = totp.now()
         try:
-            if Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user):
                 if history[0]['Value']['ci']['To'][11:] == user_id:
-                    url = ('http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
+                    url = ('http://210.107.78.158:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
                     response = requests.post(url)
                     res = response.text
 
@@ -207,7 +301,7 @@ def share1(request):
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Not found User'
+            result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except Exception as e:
         print(e)
@@ -218,6 +312,7 @@ def share2(request):
 
 
     try:
+        otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
@@ -228,9 +323,13 @@ def share2(request):
         contract_id = str(getid.values('id')[0]['id'])
         user_id = getid.values('owner')[0]['owner']
         result_dict = {}
+
+        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        totp = pyotp.TOTP(otpkey)
+        nowotp = totp.now()
         try:
-            if Member.objects.get(user_id=share_user):
-                url = 'http://222.239.231.247:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
+            if otp == nowotp and Member.objects.get(user_id=share_user):
+                url = 'http://210.107.78.158:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
                 response = requests.post(url)
                 res = response.text
 
@@ -248,7 +347,7 @@ def share2(request):
                     result_dict['result'] = 'Success'
                 return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Not found User'
+            result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except Exception as e:
         print(e)
@@ -258,6 +357,7 @@ def share2_1(request):
 
 
     try:
+        otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
@@ -268,14 +368,18 @@ def share2_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
+
+        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        totp = pyotp.TOTP(otpkey)
+        nowotp = totp.now()
         try:
-            if Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user):
                 if history[2]['Value']['lc']['To'][11:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
+                    url = 'http://210.107.78.158:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -302,7 +406,7 @@ def share2_1(request):
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Not found User'
+            result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except Exception as e:
         print (e)
@@ -313,6 +417,7 @@ def share3(request):
 
 
     try:
+        otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         share_user2 = request.POST['share_user2']
@@ -324,14 +429,18 @@ def share3(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
+
+        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        totp = pyotp.TOTP(otpkey)
+        nowotp = totp.now()
         try:
-            if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[1]['Value']['lcr']['To'][7:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
+                    url = 'http://210.107.78.158:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}
@@ -358,7 +467,7 @@ def share3(request):
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Not found User'
+            result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except Exception as e:
         print(e)
@@ -368,6 +477,7 @@ def share4_1(request):
 
 
     try:
+        otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         share_user2 = request.POST['share_user2']
@@ -379,15 +489,18 @@ def share4_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
 
+        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        totp = pyotp.TOTP(otpkey)
+        nowotp = totp.now()
         try:
-            if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[3]['Value']['sr']['To'][10:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
+                    url = 'http://210.107.78.158:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -415,7 +528,7 @@ def share4_1(request):
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Not found User'
+            result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except:
         return redirect('ing4_1')
@@ -424,6 +537,7 @@ def share4_2(request):
 
 
     try:
+        otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         share_user2 = request.POST['share_user2']
@@ -435,15 +549,18 @@ def share4_2(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
 
+        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        totp = pyotp.TOTP(otpkey)
+        nowotp = totp.now()
         try:
-            if Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[4]['Value']['bl']['from'][10:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
+                    url = 'http://210.107.78.158:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}
@@ -471,7 +588,7 @@ def share4_2(request):
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Not found User'
+            result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except:
         return redirect('ing4_2')
@@ -2225,6 +2342,7 @@ def index(request):
     res.add_header("X-Naver-Client-Secret", client_secret)
     response = urllib.request.urlopen(res)
     result = response.read().decode('utf-8')
+
     news = json.loads(result)['items']
     time = json.loads(result)['lastBuildDate']
 

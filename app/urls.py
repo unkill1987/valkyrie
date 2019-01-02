@@ -129,4 +129,10 @@ urlpatterns = [
     path('mypage2/', views.mypage2, name='mypage2'),
     path('mypage3/', views.mypage3, name='mypage3'),
     path('mypage4/', views.mypage4, name='mypage4'),
+
+    path('makeotp/', views.makeotp, name='makeotp'),
+
+    path('pwmodify/', views.pwmodify, name='pwmodify'),
+
+    path('addressmodify/', views.addressmodify, name='addressmodify'),
 ]

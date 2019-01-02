@@ -185,12 +185,12 @@
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
-                        <a href="#">0000000000</a>
+                        <a href="#">000-0000-0000</a>
                     </div>
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
-                        <a href="#">hello@company.com</a>
+                        <a href="#">valkyrie@valkyriesystem.online</a>
                     </div>
                 </div>
             </div>
@@ -216,13 +216,13 @@
     //로그인 버튼 활성화
       $('#login').click(function() {
         $.ajax({
-          url: '/app/',
+          url: '',
           type: 'post',
           data: $('form').serialize(),
           success: function(res) {
             alert(res.result)
             if(res.result == 'success') {
-              location = '/app/index'
+              location = '/index'
             }
           }
         })

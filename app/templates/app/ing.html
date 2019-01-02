@@ -98,7 +98,8 @@
                                     <a class="nav-link" href="{% url 'mypage1'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal"
+                                       data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
 
@@ -111,26 +112,11 @@
 </header>
 <!-- Header Area End -->
 
-<!-- Social Sidebar Area Start -->
-<div class="social-sidebar-area">
-    <!-- Social Area -->
-    <div class="social-info-area">
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
-                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
-                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
-                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
-                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
-    </div>
-</div>
-<!-- Social Sidebar Area End -->
 
 <!--Valkyrie System Area Start -->
-<form>
+<form method="post">
     <section class="blog-area section_padding_100 mt-100">
-        <div class="container" >
+        <div class="container">
             <div class="row justify-content-center">
 
                 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
@@ -171,57 +157,63 @@
 
                     <hr>
                     <div class="wrapper">
-        {% if result_list.has_other_pages %}
-        <ul class="pagination" style="display: flex; justify-content: center;">
-            {% if result_list.has_previous %}
-            <li>
-                <a class="btn btn-outline-dark" href="?page={{ result_list.previous_page_number }}" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
-                    &laquo;
-                    </a>
-                </a>
-            </li>
-            {% else %}
-            <li class="btn btn-outline-dark disabled" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
-                <span>&laquo;</span></li>
-            {% endif %}
+                        {% if result_list.has_other_pages %}
+                        <ul class="pagination" style="display: flex; justify-content: center;">
+                            {% if result_list.has_previous %}
+                            <li>
+                                <a class="btn btn-outline-dark" href="?page={{ result_list.previous_page_number }}"
+                                   style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                                    &laquo;
+                                </a>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="btn btn-outline-dark disabled"
+                                style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                                <span>&laquo;</span></li>
+                            {% endif %}
 
-            {% if result_list.number > 2 %}
-            <li><a href="?page={{ 1 }}" class="btn btn-outline-dark">
-                1
-            </a></li>
-            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span></li>
-            {% endif %}
-            {% for i in page_range %}
-            {% if result_list.number == i %}
-            <li class="btn btn-outline-dark active"><span  style="color:white;">{{ i }}<span class="sr-only">(current)</span></span></li>
-            {% else %}
-            <li><a class="btn btn-outline-dark" href="?page={{ i }}">
-                {{ i }}
-            </a></li>
-            {% endif %}
-            {% endfor %}
-            {% if result_list.number < max_index %}
-            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span></li>
-            <li><a class="btn btn-outline-dark" href="?page={{ max_index|add:'2' }}">
-                {{ max_index|add:"2" }}
-            </a>
-            </li>
-            {% endif %}
-            {% if result_list.has_next %}
-            <li>
-                <a class="btn btn-outline-dark" href="?page={{ result_list.next_page_number }}" style="border-top-right-radius:5px;border-bottom-right-radius:5px;">
-                    &raquo;
-                </a>
-            </li>
-            {% else %}
-            <li>
+                            {% if result_list.number > 2 %}
+                            <li><a href="?page={{ 1 }}" class="btn btn-outline-dark">
+                                1
+                            </a></li>
+                            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span>
+                            </li>
+                            {% endif %}
+                            {% for i in page_range %}
+                            {% if result_list.number == i %}
+                            <li class="btn btn-outline-dark active"><span style="color:white;">{{ i }}<span
+                                    class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a class="btn btn-outline-dark" href="?page={{ i }}">
+                                {{ i }}
+                            </a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if result_list.number < max_index %}
+                            <li><span><a class="btn btn-outline-dark">...<span class="sr-only">...</span></a></span>
+                            </li>
+                            <li><a class="btn btn-outline-dark" href="?page={{ max_index|add:'2' }}">
+                                {{ max_index|add:"2" }}
+                            </a>
+                            </li>
+                            {% endif %}
+                            {% if result_list.has_next %}
+                            <li>
+                                <a class="btn btn-outline-dark" href="?page={{ result_list.next_page_number }}"
+                                   style="border-top-right-radius:5px;border-bottom-right-radius:5px;">
+                                    &raquo;
+                                </a>
+                            </li>
+                            {% else %}
+                            <li>
                 <span><a class="btn btn-outline-dark disabled"
-                              style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</a></span>
-            </li>
-            {%endif %}
-        </ul>
-        {%endif%}
-    </div>
+                         style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</a></span>
+                            </li>
+                            {%endif %}
+                        </ul>
+                        {%endif%}
+                    </div>
 
                     <div class="row">
 
@@ -229,10 +221,13 @@
                             <a>은행ID:</a>
                             <input class="form-control" name="share_user" type="text" id="share_user">
                             <br>
+                            <a class="btn btn-outline-dark" id="submit"
+                                    data-toggle="modal"
+                                       data-target="#otpmodal">전송하기
+                            </a>
                             <button class="btn btn-outline-dark"
-                                    id="share1" >전송하기</button>
-                            <button class="btn btn-outline-dark"
-                                    id="delete_btn">선택삭제</button>
+                                    id="delete_btn">선택삭제
+                            </button>
 
 
                         </div>
@@ -241,7 +236,26 @@
 
                 <!--</form>-->
             </div>
-
+            <div class="modal fade" id="otpmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Enter otp</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Input your OTP Number:
+                            <input name = "otp" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn" style="color:white;background:#ff8a12;" id="share1">Send</a>
+                            <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Sticky Footer -->
 
 
@@ -267,12 +281,12 @@
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
-                        <a href="#">0000000000</a>
+                        <a href="#">000-0000-0000</a>
                     </div>
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
-                        <a href="#">hello@company.com</a>
+                        <a href="#">valkyrie@valkyriesystem.online</a>
                     </div>
                 </div>
             </div>
@@ -280,6 +294,7 @@
     </div>
 </footer>
 <!-- Footer Area End -->
+
 
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -312,24 +327,39 @@
 
 </body>
 <script>
-$(document).ready(function(){
-   $('#preloader').hide();
-});
+    $(document).ready(function(){
+       $('#preloader').hide();
+    });
+
+    $('#submit').click(function() {
+    var share_user = $('#share_user').val();
+    var check_id = $('input:checked').val();
+    console.log(check_id)
+    if (share_user.length == 0) {
+        alert("전송대상을 입력하세요");
+        return false;
+     }else if  (check_id == null) {
+        alert("전송할 문서를 선택하세요");
+        return false;
+     }else{
+     pass
+     }
+    });
 
      $('#share1').click(function(){
      $('.btn').attr('disabled',true);
      $('#preloader').show();
      $.ajax({
-        url:'/app/share1/',
+        url:'/share1/',
         type:'post',
         data:$('form').serialize(),
         success: function(res){
             if (res.result == 'Success'){
                 alert(res.result)
-                location = '/app/LCR/'
+                location = '/LCR/'
                 }else{
                 alert(res.result)
-                location = '/app/LCR/'
+                location = '/LCR/'
                 }
             }
         })
@@ -345,9 +375,10 @@ $('.btn').attr('disabled',true);
           check_ids += sep + $(this).val()
           sep = ','
         })
-        location = '/app/remove?check_id=' + check_ids
+        location = '/remove?check_id=' + check_ids
         return false
       })
+
 
 </script>
 

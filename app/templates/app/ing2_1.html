@@ -53,8 +53,9 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index2' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index2' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -98,7 +99,8 @@
                                     <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal"
+                                       data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
                             <!-- Search Form -->
@@ -112,142 +114,155 @@
 </header>
 <!-- Header Area End -->
 
-<!-- Social Sidebar Area Start -->
-<div class="social-sidebar-area">
-    <!-- Social Area -->
-    <div class="social-info-area">
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Facebook"><i class="fa fa-facebook"
-                                                                                     aria-hidden="true"></i> <span>Facebook</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Twitter"><i class="fa fa-twitter"
-                                                                                    aria-hidden="true"></i> <span>Twitter</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Pinterest"><i class="fa fa-pinterest"
-                                                                                      aria-hidden="true"></i> <span>Pinterest</span></a>
-        <a href="#" data-toggle="tooltip" data-placement="right" title="Behance"><i class="fa fa-behance"
-                                                                                    aria-hidden="true"></i> <span>Behance</span></a>
-    </div>
-</div>
-<!-- Social Sidebar Area End -->
 
 <!--Valkyrie System Area Start -->
 <form method="post">
-<section class="blog-area section_padding_100 mt-100">
-    <div class="container" >
-        <div class="row justify-content-center">
-<div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-    <h4 class="my-4">선적요청서 관리({{total_len}}건)</h4>
+    <section class="blog-area section_padding_100 mt-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
+                    <h4 class="my-4">선적요청서 관리({{total_len}}건)</h4>
 
-    <div class="row">
-        {% for c in result_list %}
-        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
+                    <div class="row">
+                        {% for c in result_list %}
+                        <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
 
-          <input type="checkbox" id="{{c.id}}" name = "check_id" value="{{ c.id }}"><a>Check</a>
-          <div class="card h-100">
+                            <input type="checkbox" id="{{c.id}}" name="check_id" value="{{ c.id }}"><a>Check</a>
+                            <div class="card h-100">
 
-            <h5 class="card-header">
+                                <h5 class="card-header">
 
 
-            Contract ID.{{c.contract_id}}<hr>
+                                    Contract ID.{{c.contract_id}}
+                                    <hr>
 
-              {{c.contractname}}</h5>
-            <div class="card-body">
-              <p class="card-text">
+                                    {{c.contractname}}
+                                </h5>
+                                <div class="card-body">
+                                    <p class="card-text">
 
-              <h5>Document Hash:<br>{{c.sha256}}</h5></p>
-            </div>
-            <div class="card-footer">
-              <a href="{% url 'download2_1' %}?id={{ c.id }}" class="btn btn-outline-dark" target="_blank">
-                    Download File
-              </a>
-              <hr>
-              <h5>To (운송사ID):{{c.share4}}</h5>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-<hr>
-    </div>
+                                    <h5>Document Hash:<br>{{c.sha256}}</h5></p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{% url 'download2_1' %}?id={{ c.id }}" class="btn btn-outline-dark"
+                                       target="_blank">
+                                        Download File
+                                    </a>
+                                    <hr>
+                                    <h5>To (운송사ID):{{c.share4}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                    </div>
 
-<hr>
-  <div class="wrapper">
-        {% if result_list.has_other_pages %}
-        <ul class="pagination" style="display: flex; justify-content: center;">
-            {% if result_list.has_previous %}
-            <li>
-                <a href="?page={{ result_list.previous_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-left-radius:5px;border-bottom-left-radius:5px;">&laquo;
-                    </button>
-                </a>
-            </li>
-            {% else %}
-            <li class="btn btn-outline-dark disabled" style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
-                <span>&laquo;</span></li>
-            {% endif %}
+                    <hr>
+                    <div class="wrapper">
+                        {% if result_list.has_other_pages %}
+                        <ul class="pagination" style="display: flex; justify-content: center;">
+                            {% if result_list.has_previous %}
+                            <li>
+                                <a href="?page={{ result_list.previous_page_number }}">
+                                    <button class="btn btn-outline-dark"
+                                            style="border-top-left-radius:5px;border-bottom-left-radius:5px;">&laquo;
+                                    </button>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="btn btn-outline-dark disabled"
+                                style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
+                                <span>&laquo;</span></li>
+                            {% endif %}
 
-            {% if result_list.number > 2 %}
-            <li><a href="?page={{ 1 }}">
-                <button class="btn btn-outline-dark"> 1</button>
-            </a></li>
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
-            {% endif %}
-            {% for i in page_range %}
-            {% if result_list.number == i %}
-            <li class="btn btn-outline-dark active"><span  style="color:white;">{{ i }}<span class="sr-only">(current)</span></span></li>
-            {% else %}
-            <li><a href="?page={{ i }}">
-                <button class="btn btn-outline-dark">{{ i }}</button>
-            </a></li>
-            {% endif %}
-            {% endfor %}
-            {% if result_list.number < max_index %}
-            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span></li>
-            <li><a href="?page={{ max_index|add:'2' }}">
-                <button class="btn btn-outline-dark">{{ max_index|add:"2" }}</button>
-            </a>
-            </li>
-            {% endif %}
-            {% if result_list.has_next %}
-            <li>
-                <a href="?page={{ result_list.next_page_number }}">
-                    <button class="btn btn-outline-dark"
-                            style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;
-                    </button>
-                </a>
-            </li>
-            {% else %}
-            <li>
+                            {% if result_list.number > 2 %}
+                            <li><a href="?page={{ 1 }}">
+                                <button class="btn btn-outline-dark"> 1</button>
+                            </a></li>
+                            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span>
+                            </li>
+                            {% endif %}
+                            {% for i in page_range %}
+                            {% if result_list.number == i %}
+                            <li class="btn btn-outline-dark active"><span style="color:white;">{{ i }}<span
+                                    class="sr-only">(current)</span></span></li>
+                            {% else %}
+                            <li><a href="?page={{ i }}">
+                                <button class="btn btn-outline-dark">{{ i }}</button>
+                            </a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if result_list.number < max_index %}
+                            <li><span><button class="btn btn-outline-dark">...<span class="sr-only">...</span></button></span>
+                            </li>
+                            <li><a href="?page={{ max_index|add:'2' }}">
+                                <button class="btn btn-outline-dark">{{ max_index|add:"2" }}</button>
+                            </a>
+                            </li>
+                            {% endif %}
+                            {% if result_list.has_next %}
+                            <li>
+                                <a href="?page={{ result_list.next_page_number }}">
+                                    <button class="btn btn-outline-dark"
+                                            style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;
+                                    </button>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li>
                 <span><button class="btn btn-outline-dark disabled"
                               style="border-top-right-radius:5px;border-bottom-right-radius:5px;">&raquo;</button></span>
-            </li>
-            {%endif %}
-        </ul>
-        {%endif%}
-    </div>
+                            </li>
+                            {%endif %}
+                        </ul>
+                        {%endif%}
+                    </div>
 
-  <div class="row">
+                    <div class="row">
 
-    <div style="text-align:center; margin:auto;" >
-      <a>운송사ID:</a>
-      <input class="form-control" name="share_user" id="share_user">
-      <br>
-        <button class="btn btn-outline-dark" type="button" id="share">전송하기</button>
-        <button class="btn btn-outline-dark" type="button" id="delete_btn">선택삭제</button>
+                        <div style="text-align:center; margin:auto;">
+                            <a>운송사ID:</a>
+                            <input class="form-control" name="share_user" id="share_user">
+                            <br>
+                            <a class="btn btn-outline-dark" data-toggle="modal" id="submit"
+                               data-target="#otpmodal">전송하기</a>
+                            <button class="btn btn-outline-dark" type="button" id="delete_btn">선택삭제</button>
+
+
+                        </div>
+                    </div>
+                    <div class="modal fade" id="otpmodal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Enter otp</h5>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">Input your OTP Number:
+                                    <input name="otp" class="form-control">
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
+                                    <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--</form>-->
+                </div>
+            </div>
+
+            <!-- Sticky Footer -->
 
 
         </div>
-  </div>
-
-<!--</form>-->
-</div>
-       </div>
-
-        <!-- Sticky Footer -->
-
-
- </div>
         <!-- Pagination -->
-</section>
-{% csrf_token %}
+    </section>
+    {% csrf_token %}
 </form>
 <!--Valkyrie System Area End -->
 
@@ -265,12 +280,12 @@
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
-                        <a href="#">0000000000</a>
+                        <a href="#">000-0000-0000</a>
                     </div>
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
-                        <a href="#">hello@company.com</a>
+                        <a href="#">valkyrie@valkyriesystem.online</a>
                     </div>
                 </div>
             </div>
@@ -309,26 +324,41 @@
 <script src="{% static 'app/js/active.js'%}"></script>
 
 </body>
-  <script>
+<script>
 
   $(document).ready(function(){
   $('#preloader').hide();
 });
 
+$('#submit').click(function() {
+    var share_user = $('#share_user').val();
+    var check_id = $('input:checked').val();
+    console.log(check_id)
+    if (share_user.length == 0) {
+        alert("전송대상을 입력하세요");
+        return false;
+     }else if  (check_id == null) {
+        alert("전송할 문서를 선택하세요");
+        return false;
+     }else{
+     pass
+     }
+    });
+
      $('#share').click(function(){
      $('.btn').attr('disabled',true);
      $('#preloader').show();
      $.ajax({
-        url:'/app/share2_1/',
+        url:'/share2_1/',
         type:'post',
         data:$('form').serialize(),
         success: function(res){
             if (res.result == 'Success'){
                 alert(res.result)
-                location = '/app/SR/'
+                location = '/SR/'
                 }else{
                 alert(res.result)
-                location = '/app/SR/'
+                location = '/SR/'
                 }
             }
         })
@@ -343,7 +373,7 @@
           check_ids += sep + $(this).val()
           sep = ','
         })
-        location = '/app/remove2_1?check_id=' + check_ids
+        location = '/remove2_1?check_id=' + check_ids
         return false
       })
 
@@ -352,6 +382,7 @@
 
 
 
-    </script>
+
+</script>
 
 </html>

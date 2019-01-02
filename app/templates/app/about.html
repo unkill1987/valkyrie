@@ -24,8 +24,9 @@
 
 </head>
 <style>
-@media (max-width:768px){section{padding:250px 0px 0px 0px!important}}
-@media (min-width:968px){.card-login{width:500px}}
+@media (max-width:768px){section{padding:100px 0px 0px 0px!important}}
+@media (max-width:992px){#min{display:none;}}
+@media (min-width:993px){.card-login{width:500px}  #max{display:none;}}
  html, body{ height: 100%; margin: 0;}
 label,a{color:#ff8a12; weight:500;}
 #about{background-image:url(../../static/app/img/about.jpg);
@@ -134,7 +135,9 @@ label,a{color:#ff8a12; weight:500;}
 
         <!-- Project One Row -->
         <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
-
+            <div id = "max" class="col-lg-6">
+                <img class="img-fluid" src="{% static 'app/img/blockchain.jpeg'%}" alt="">
+            </div>
             <div class="col-lg-6">
                 <div class="bg-black text-center h-100 project">
                     <div class="d-flex h-100">
@@ -147,7 +150,7 @@ label,a{color:#ff8a12; weight:500;}
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div id = "min" class="col-lg-6">
                 <img class="img-fluid" src="{% static 'app/img/blockchain.jpeg'%}" alt="">
             </div>
         </div>
@@ -183,12 +186,12 @@ label,a{color:#ff8a12; weight:500;}
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
-                        <a href="#">0000000000</a>
+                        <a href="#">000-0000-0000</a>
                     </div>
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
-                        <a href="#">hello@company.com</a>
+                        <a href="#">valkyrie@valkyriesystem.online</a>
                     </div>
                 </div>
             </div>
