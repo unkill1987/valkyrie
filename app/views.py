@@ -89,6 +89,7 @@ def makeotp(request):
         elif user_id == '4':
             return render(request, 'app/mypage4.html', {})
     else:
+
         user_id = request.session['user_id']
         otpkey = pyotp.random_base32()
         otpsave = Member.objects.get(user_id=user_id)

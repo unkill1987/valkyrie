@@ -24,7 +24,8 @@
 
 </head>
 <style>
-    .card-header{height:80px;font-size:20px;}
+    .card-header{height:80px;font-size:20px;border:1px solid;}
+    .card-body{border:1px solid;}
 </style>
 <body>
 <!-- Preloader -->
@@ -126,7 +127,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card" style="margin:20px;">
-                        <button class="card-header btn btn-dark" onclick="personaltoggle()">개인정보 수정
+                        <button class="card-header btn btn-outline-dark" onclick="personaltoggle()">개인정보 수정
                         </button>
                         <div class="card-body" id="personal" style="display:none;">
 
@@ -167,7 +168,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card" style="margin:20px;">
-                        <button class="card-header btn btn-dark" onclick="otptoggle()">OTP 등록하기</button>
+                        <button class="card-header btn btn-outline-dark" onclick="otptoggle()">OTP 등록하기</button>
                         <div class="card-body" id="otp" style="display:none; text-align:center;">
                             <div class="col-12">
                                 <h2>Issue a OTP</h2>
@@ -198,7 +199,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card" style="margin:20px;">
-                        <button class="card-header btn btn-dark" onclick="mytrade()">나의 거래 보기
+                        <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
                         </button>
                         <div class="card-body" id="trade" style="display:none;">
                             <form>
@@ -213,7 +214,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card" style="margin:20px;">
-                        <button class="card-header btn btn-dark" onclick="myqna()">나의 문의사항
+                        <button class="card-header btn btn-outline-dark" onclick="myqna()">나의 문의사항
                         </button>
                         <div class="card-body" id="qna" style="display:none;">
                             <form>
