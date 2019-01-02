@@ -341,10 +341,10 @@ function myqna(){
         success: function(res){
             if (res.result == 'Success'){
                 alert(res.result)
-                location = '/mypage1/'
+                location = '/mypage2/'
                 }else{
                 alert(res.result)
-                location = '/mypage1/'
+                location = '/mypage2/'
                 }
             }
         })
@@ -361,10 +361,10 @@ function myqna(){
         success: function(res){
             if (res.result == 'Success'){
                 alert(res.result)
-                location = '/mypage1/'
+                location = '/mypage2/'
                 }else{
                 alert(res.result)
-                location = '/mypage1/'
+                location = '/mypage2/'
                 }
             }
         })
@@ -385,7 +385,6 @@ function myqna(){
             success: function(res){
                 if (res.result == 'Already Issued'){
                     alert(res.result)
-                    location = '/mypage1/'
                     }else{
                     var qrcodetext =  res.data
 

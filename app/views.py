@@ -89,23 +89,20 @@ def makeotp(request):
         elif user_id == '4':
             return render(request, 'app/mypage4.html', {})
     else:
-        try:
-            user_id = request.session['user_id']
-            otpkey = pyotp.random_base32()
-            otpsave = Member.objects.get(user_id=user_id)
-            result_dict={}
-            if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == '':
-                otpsave.otpkey = otpkey
-                otpsave.save()
-                data = pyotp.totp.TOTP(otpkey).provisioning_uri(user_id, issuer_name="Valkyrie App")
-                output = {"otpkey":otpkey,'data': data}
-                return JsonResponse(output)
-            else:
-                result_dict['result']='Already Issued'
-                return JsonResponse(result_dict)
-        except Exception as e:
-            print(e)
-            return redirect('mypage1')
+        user_id = request.session['user_id']
+        otpkey = pyotp.random_base32()
+        otpsave = Member.objects.get(user_id=user_id)
+        result_dict={}
+        if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == '':
+            otpsave.otpkey = otpkey
+            otpsave.save()
+            data = pyotp.totp.TOTP(otpkey).provisioning_uri(user_id, issuer_name="Valkyrie App")
+            output = {"otpkey":otpkey,'data': data}
+            return JsonResponse(output)
+        else:
+            result_dict['result']='Already Issued'
+            return JsonResponse(result_dict)
+
 
 def mypage1(request):
     return render(request,'app/mypage1.html',{})
