@@ -1,6 +1,7 @@
 import urllib.request
 import requests
 from datashape import JSON
+from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -10,15 +11,37 @@ import pyotp
 import os
 import sys
 import time
-
-
 from pandas.io import json
-
-
 from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
     Process_complete, Notice
 from valweb import settings
 from django.utils import timezone
+
+
+
+def mytrade(request):
+    if request.method == 'GET':
+        user_id = request.session['user_id']
+        if user_id == '1':
+            return render(request, 'app/mypage1.html', {})
+        elif user_id == '2':
+            return render(request, 'app/mypage2.html', {})
+        elif user_id == '3':
+            return render(request, 'app/mypage3.html', {})
+        elif user_id == '4':
+            return render(request, 'app/mypage4.html', {})
+    else:
+        try:
+            result_dict = {}
+            mytrade = request.POST['mytrade']
+            trade = Process.objects.filter(id = mytrade).values('CI_hash','LCR_hash','LC_hash','SR_hash','BL_hash','DO_hash')
+            return JsonResponse({'trade':list(trade)})
+        except Exception as e:
+
+            result_dict['result'] = "fail"
+            return JsonResponse(result_dict)
+
+
 
 
 def addressmodify(request):
@@ -106,16 +129,37 @@ def makeotp(request):
 
 
 def mypage1(request):
-    return render(request,'app/mypage1.html',{})
+    user_id = request.session['user_id']
+    try:
+        mytrade = Process.objects.filter(user1=user_id)
+        return render(request, 'app/mypage1.html', {'mytrade': mytrade})
+    except:
+        return render(request, 'app/mypage1.html', {})
+
 
 def mypage2(request):
-    return render(request,'app/mypage2.html',{})
+    user_id = request.session['user_id']
+    try:
+        mytrade = Process.objects.filter(user2=user_id)
+        return render(request, 'app/mypage2.html', {'mytrade': mytrade})
+    except:
+        return render(request, 'app/mypage2.html', {})
 
 def mypage3(request):
-    return render(request,'app/mypage3.html',{})
+    user_id = request.session['user_id']
+    try:
+        mytrade = Process.objects.filter(user3=user_id)
+        return render(request, 'app/mypage3.html', {'mytrade': mytrade})
+    except:
+        return render(request, 'app/mypage3.html', {})
 
 def mypage4(request):
-    return render(request,'app/mypage4.html',{})
+    user_id = request.session['user_id']
+    try:
+        mytrade = Process.objects.filter(user4=user_id)
+        return render(request, 'app/mypage4.html', {'mytrade': mytrade})
+    except:
+        return render(request, 'app/mypage4.html', {})
 
 def about(request):
     return render(request,'app/about.html',{})
@@ -136,7 +180,7 @@ def search1(request):
     notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -148,7 +192,19 @@ def search1(request):
             history.reverse()
             return render(request, 'app/search1.html', {'cid': cid, 'history': history,})
     except Exception as e:
-        print(e)
+       pass
+    try:
+        cid = str(request.POST['mytrade'])
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            return render(request, 'app/mypage1.html',{})
+        else:
+            history.reverse()
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+    except Exception as e:
         return redirect('index')
 
 def search2(request):
@@ -167,7 +223,7 @@ def search2(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -179,7 +235,19 @@ def search2(request):
             history.reverse()
             return render(request, 'app/search2.html', {'cid': cid, 'history': history,})
     except Exception as e:
-        print(e)
+        pass
+    try:
+        cid = str(request.POST['mytrade'])
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            return render(request, 'app/mypage1.html', {})
+        else:
+            history.reverse()
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+    except Exception as e:
         return redirect('index')
 
 def search3(request):
@@ -198,7 +266,7 @@ def search3(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -210,7 +278,19 @@ def search3(request):
             history.reverse()
             return render(request, 'app/search3.html', {'cid': cid, 'history': history,})
     except Exception as e:
-        print(e)
+        pass
+    try:
+        cid = str(request.POST['mytrade'])
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            return render(request, 'app/mypage1.html', {})
+        else:
+            history.reverse()
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+    except Exception as e:
         return redirect('index')
 
 def search4(request):
@@ -229,7 +309,7 @@ def search4(request):
     notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -241,7 +321,19 @@ def search4(request):
             history.reverse()
             return render(request, 'app/search4.html', {'cid': cid, 'history': history,})
     except Exception as e:
-        print(e)
+        pass
+    try:
+        cid = str(request.POST['mytrade'])
+        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            return render(request, 'app/mypage1.html', {})
+        else:
+            history.reverse()
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+    except Exception as e:
         return redirect('index')
 
 def share1(request):
@@ -258,7 +350,7 @@ def share1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -269,7 +361,7 @@ def share1(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
                 if history[0]['Value']['ci']['To'][11:] == user_id:
-                    url = ('http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
+                    url = ('http://210.107.78.158:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
                     response = requests.post(url)
                     res = response.text
 
@@ -327,7 +419,7 @@ def share2(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                url = 'http://222.239.231.247:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
+                url = 'http://210.107.78.158:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
                 response = requests.post(url)
                 res = response.text
 
@@ -366,7 +458,7 @@ def share2_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -377,7 +469,7 @@ def share2_1(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
                 if history[2]['Value']['lc']['To'][11:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
+                    url = 'http://210.107.78.158:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -427,7 +519,7 @@ def share3(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -438,7 +530,7 @@ def share3(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[1]['Value']['lcr']['To'][7:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
+                    url = 'http://210.107.78.158:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}
@@ -487,7 +579,7 @@ def share4_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -498,7 +590,7 @@ def share4_1(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[3]['Value']['sr']['To'][10:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
+                    url = 'http://210.107.78.158:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -547,7 +639,7 @@ def share4_2(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -558,7 +650,7 @@ def share4_2(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[4]['Value']['bl']['from'][10:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
+                    url = 'http://210.107.78.158:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}

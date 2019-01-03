@@ -483,6 +483,7 @@ img {
 
 .header-area .main-menu .nav-link {
     font-size: 14px;
+    text-shadow: 1px 1px #ff8a12;;
     text-transform: uppercase;
     color: #ffffff;
     padding: 0 25px;

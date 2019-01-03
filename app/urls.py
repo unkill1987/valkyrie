@@ -135,4 +135,6 @@ urlpatterns = [
     path('pwmodify/', views.pwmodify, name='pwmodify'),
 
     path('addressmodify/', views.addressmodify, name='addressmodify'),
+
+    path('mytrade/', views.mytrade, name='mytrade'),
 ]

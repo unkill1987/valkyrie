@@ -26,6 +26,7 @@
 <style>
     .card-header{height:80px;font-size:20px;border:1px solid;}
     .card-body{border:1px solid;}
+      th{font-size:10px;width:70px;}
 </style>
 <body>
 <!-- Preloader -->
@@ -171,7 +172,7 @@
                         <button class="card-header btn btn-outline-dark" onclick="otptoggle()">OTP 등록하기</button>
                         <div class="card-body" id="otp" style="display:none; text-align:center;">
                             <div class="col-12">
-                                <h2>Issue a OTP</h2>
+                                <h4 style="color:#ff8a12;">OTP 발급</h4>
                                 <div id="qrcode">
 
                                 </div>
@@ -189,22 +190,55 @@
                                 </form>
 
 
-                                <h4 style="color:#ff8a12;"><br>You can only get one time.<br>
-                                    Please contact us if you are lost.</h4>
+                                <h5 style="color:#ff8a12;"><br>You can only get one time.<br>
+                                    Please contact us if you are lost.</h5>
                             </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="col-8 mx-auto">
+                    <div class="col-8 mx-auto">
                     <div class="card" style="margin:20px;">
                         <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
                         </button>
-                        <div class="card-body" id="trade" style="display:none;">
-                            <form>
-                                <div class="form-group">
-                                    나의 거래 목록
+                        <div class="card-body" id="trade" style="display:block;text-align;center;display:none;">
+                            <form method="post">
+                                <div class="form-group" >
+                                    <h5 style="color:#ff8a12;">진행 사항</h5>
+                                    <table class="mx-auto">
+                                        <tr>
+                                            <th>거래 시작</th>
+                                            <th style="text-align:center">상업송장<br>발급</th>
+                                            <th style="text-align:center">신용장 신청서<br>전송</th>
+                                            <th style="text-align:center">신용장<br> 발급</th>
+                                            <th style="text-align:center">선적요청서<br>발급</th>
+                                            <th style="text-align:center">선하증권<br> 발급</th>
+                                            <th style="text-align:center">인도지시서<br>발급</th>
+                                            <th style="text-align:right;">거래완료</th>
+                                        </tr>
+                                        <tr>
+                                        <td colspan="10">
+                                            <div class="progress" id="progress">
+
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </table>
+
+
+                                    <div style="text-align:center; margin-top:20px">
+                                        <label>Contract ID :</label><br>
+                                        <select style=" width:200px; " class="custom-select" name="mytrade">
+                                            {% for i in mytrade %}
+                                            <option value="{{i.id}}">{{i.id}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div style="text-align:center; margin-top:20px">
+                                        <button id="form3" class="btn btn-outline-dark ">진행 사항 보기</button>
+                                        <button class="btn btn-outline-dark" formaction="{% url 'search2'%}">내역 보기</button>
+                                    </div>
                                 </div>
                                 {% csrf_token %}
                             </form>
@@ -372,7 +406,44 @@ function myqna(){
         return false
      })
 
+ $('#form3').click(function(){
+         $.ajax({
+            url:'/mytrade/',
+            type:'post',
+            data:$('form').serialize(),
+            success: function(res){
+                if (res.result == 'fail'){
+                    alert(res.result)
+                }else if (res.trade[0].CI_hash.length == 0 ){
+                     $('#progress').empty();
+                    $('#progress').append(`<div class="progress-bar" style="width:0%"></div>`);
+                }else if (res.trade[0].LCR_hash.length == 0){
+                $('#progress').empty();
+                    $('#progress').append(`<div class="progress-bar" style="width:19%"></div>`)
+                }else if (res.trade[0].LC_hash.length == 0){
+                    $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:32%"></div>`)
+                }else if (res.trade[0].SR_hash.length == 0){
+                    $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:44%"></div>`)
+                }else if (res.trade[0].BL_hash.length == 0){
+                    $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:57%"></div>`)
+                }else if (res.trade[0].DO_hash.length == 0){
+                    $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:69%"></div>`)
+                }else if (res.trade[0].DO_hash.length != 0){
+                        $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:82%"></div>`)
+                }else{
+                         $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:90%"></div>`)
+                }
 
+        }
+    })
+    return false
+ })
 
 
 </script>
