@@ -247,14 +247,25 @@
                     </div>
                 </div>
 
-                <div class="col-8 mx-auto">
+                 <div class="col-8 mx-auto">
                     <div class="card" style="margin:20px;">
-                        <button class="card-header btn btn-outline-dark" onclick="myqna()">나의 문의사항
+                        <button class="card-header btn btn-outline-dark" onclick="myqna()">문의 하기
                         </button>
                         <div class="card-body" id="qna" style="display:none;">
                             <form>
                                 <div class="form-group">
-                                    나의 문의사항
+                                    <h5 style="color:#ff8a12;">문의 사항</h5>
+                                    <form method="post">
+                                        <textarea class="form-control" rows="5" id="email" name="email"></textarea>
+                                         <p style="color:#ff8a12;">*답장은 ID(e-mail)로 전송됩니다.</p>
+                                        <div style="margin-top:20px;text-align:center;">
+
+                                            <button id="form4" class="btn btn-outline-dark">이메일 보내기</button>
+                                        </div>
+
+                                        {% csrf_token %}
+                                    </form>
+
                                 </div>
                                 {% csrf_token %}
                             </form>
@@ -446,6 +457,27 @@ function myqna(){
     return false
  })
 
+
+
+ $('#form4').click(function(){
+     $('.btn').attr('disabled',true);
+     $('#preloader').show();
+     $.ajax({
+        url:'/email/',
+        type:'post',
+        data:$('form').serialize(),
+        success: function(res){
+            if (res.result == 'Success'){
+                alert(res.result)
+                location = '/mypage3/'
+                }else{
+                alert(res.result)
+                location = '/mypage3/'
+                }
+            }
+        })
+        return false
+     })
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>
 <script type="text/javascript">

@@ -1,7 +1,9 @@
+import smtplib
 import urllib.request
 import requests
 from datashape import JSON
 from django.core import serializers
+from email.message import EmailMessage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -17,18 +19,57 @@ from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_
 from valweb import settings
 from django.utils import timezone
 
+def email(request):
+    if request.method == 'GET':
+        user_role = request.session['user_role']
+        if user_role == '1':
+            return render(request, 'app/mypage1.html', {})
+        elif user_role == '2':
+            return render(request, 'app/mypage2.html', {})
+        elif user_role == '3':
+            return render(request, 'app/mypage3.html', {})
+        elif user_role == '4':
+            return render(request, 'app/mypage4.html', {})
+
+    else:
+        result_dict ={}
+        smtp_gmail = smtplib.SMTP('smtp.gmail.com', 587)
+        smtp_gmail.ehlo()
+        # 연결을 암호화
+        smtp_gmail.starttls()
+        smtp_gmail.login('saidtherapy23@gmail.com', 'erff8653!')
+        msg = EmailMessage()
+
+        try:
+            user_id = request.session['user_id']
+            email = request.POST['email']
+
+            msg['Subject'] = "%s님의 문의글입니다" % (user_id)
+            # 내용 입력
+            msg.set_content("%s" % (email))
+            # 보내는 사람
+            msg['From'] = 'Valkyrie Trade System'
+            # 관리자 메일
+            msg['To'] = 'therapy23@naver.com'
+            smtp_gmail.send_message(msg)
+            result_dict['result'] = 'Success'
+            return JsonResponse(result_dict)
+        except Exception as e:
+            print(e)
+            result_dict['result'] = 'Fail'
+            return JsonResponse(result_dict)
 
 
 def mytrade(request):
     if request.method == 'GET':
-        user_id = request.session['user_id']
-        if user_id == '1':
+        user_role = request.session['user_role']
+        if user_role == '1':
             return render(request, 'app/mypage1.html', {})
-        elif user_id == '2':
+        elif user_role == '2':
             return render(request, 'app/mypage2.html', {})
-        elif user_id == '3':
+        elif user_role == '3':
             return render(request, 'app/mypage3.html', {})
-        elif user_id == '4':
+        elif user_role == '4':
             return render(request, 'app/mypage4.html', {})
     else:
         try:
@@ -46,14 +87,14 @@ def mytrade(request):
 
 def addressmodify(request):
     if request.method == 'GET':
-        user_id = request.session['user_id']
-        if user_id == '1':
+        user_role = request.session['user_role']
+        if user_role == '1':
             return render(request, 'app/mypage1.html', {})
-        elif user_id == '2':
+        elif user_role == '2':
             return render(request, 'app/mypage2.html', {})
-        elif user_id == '3':
+        elif user_role == '3':
             return render(request, 'app/mypage3.html', {})
-        elif user_id == '4':
+        elif user_role == '4':
             return render(request, 'app/mypage4.html', {})
     else:
         try:
@@ -72,14 +113,14 @@ def addressmodify(request):
 
 def pwmodify(request):
     if request.method == 'GET':
-        user_id = request.session['user_id']
-        if user_id == '1':
+        user_role = request.session['user_role']
+        if user_role == '1':
             return render(request, 'app/mypage1.html', {})
-        elif user_id == '2':
+        elif user_role == '2':
             return render(request, 'app/mypage2.html', {})
-        elif user_id == '3':
+        elif user_role == '3':
             return render(request, 'app/mypage3.html', {})
-        elif user_id == '4':
+        elif user_role == '4':
             return render(request, 'app/mypage4.html', {})
     else:
         result_dict = {}
@@ -102,14 +143,14 @@ def pwmodify(request):
 
 def makeotp(request):
     if request.method == 'GET':
-        user_id = request.session['user_id']
-        if user_id == '1':
+        user_role = request.session['user_role']
+        if user_role == '1':
             return render(request, 'app/mypage1.html', {})
-        elif user_id == '2':
+        elif user_role == '2':
             return render(request, 'app/mypage2.html', {})
-        elif user_id == '3':
+        elif user_role == '3':
             return render(request, 'app/mypage3.html', {})
-        elif user_id == '4':
+        elif user_role == '4':
             return render(request, 'app/mypage4.html', {})
     else:
 
@@ -131,7 +172,7 @@ def makeotp(request):
 def mypage1(request):
     user_id = request.session['user_id']
     try:
-        mytrade = Process.objects.filter(user1=user_id)
+        mytrade = Process.objects.filter(user1=user_id).order_by('-id')
         return render(request, 'app/mypage1.html', {'mytrade': mytrade})
     except:
         return render(request, 'app/mypage1.html', {})
@@ -140,7 +181,7 @@ def mypage1(request):
 def mypage2(request):
     user_id = request.session['user_id']
     try:
-        mytrade = Process.objects.filter(user2=user_id)
+        mytrade = Process.objects.filter(user2=user_id).order_by('-id')
         return render(request, 'app/mypage2.html', {'mytrade': mytrade})
     except:
         return render(request, 'app/mypage2.html', {})
@@ -148,7 +189,7 @@ def mypage2(request):
 def mypage3(request):
     user_id = request.session['user_id']
     try:
-        mytrade = Process.objects.filter(user3=user_id)
+        mytrade = Process.objects.filter(user3=user_id).order_by('-id')
         return render(request, 'app/mypage3.html', {'mytrade': mytrade})
     except:
         return render(request, 'app/mypage3.html', {})
@@ -156,7 +197,7 @@ def mypage3(request):
 def mypage4(request):
     user_id = request.session['user_id']
     try:
-        mytrade = Process.objects.filter(user4=user_id)
+        mytrade = Process.objects.filter(user4=user_id).order_by('-id')
         return render(request, 'app/mypage4.html', {'mytrade': mytrade})
     except:
         return render(request, 'app/mypage4.html', {})
@@ -211,7 +252,7 @@ def search2(request):
     client_id = 'fpYuQKVX8str1aSVFrkc'
     client_secret = 'rLcccdn5R4'
     encText = urllib.parse.quote("국제무역")
-    url = "https://openapi.naver.com/v1/search/news?query=" + encText
+    url = ("https://openapi.naver.com/v1/search/news?query=" + encText)
     res = urllib.request.Request(url)
     res.add_header("X-Naver-Client-Id", client_id)
     res.add_header("X-Naver-Client-Secret", client_secret)
@@ -2522,22 +2563,33 @@ def charts(request):
 
 
 def forms(request):
-    return render(request, 'app/forms.html', {})
+    user_id = request.session['user_id']
+    contract = Contract_CI.objects.filter(share1=user_id)
+    return render(request, 'app/forms.html', {'contract':contract})
 
 def forms2(request):
     return render(request, 'app/forms2.html', {})
 
 def forms2_1(request):
-    return render(request, 'app/forms2_1.html', {})
+    user_id = request.session['user_id']
+    contract = Contract_LC.objects.filter(share3=user_id)
+    return render(request, 'app/forms2.html', {'contract': contract})
+
 
 def forms3(request):
-    return render(request, 'app/forms3.html', {})
+    user_id = request.session['user_id']
+    contract = Contract_LCR.objects.filter(share3=user_id)
+    return render(request, 'app/forms3.html', {'contract': contract})
 
 def forms4_1(request):
-    return render(request, 'app/forms4_1.html', {})
+    user_id = request.session['user_id']
+    contract = Contract_SR.objects.filter(share3=user_id)
+    return render(request, 'app/forms4.html', {'contract': contract})
 
 def forms4_2(request):
-    return render(request, 'app/forms4_2.html', {})
+    user_id = request.session['user_id']
+    contract = Contract_BL.objects.filter(owner=user_id)
+    return render(request, 'app/forms4.html', {'contract': contract})
 
 def login(request):
     if request.method == 'GET':

@@ -137,7 +137,12 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <h4 class="panel-heading">
-                                                Contract ID.<input class="form-control" name="contract_id">
+                                                <label>Contract ID.</label>
+                                                <select class="custom-select" name="contract_id">
+                                                    {% for c in contract %}
+                                                    <option value="{{c.id}}">{{c.id}}</option>
+                                                    {% endfor %}
+                                                </select>
                                                 <hr>
                                                 LETTER OF CREDIT REQUEST NAME
                                             </h4>
