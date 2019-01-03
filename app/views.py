@@ -493,13 +493,11 @@ def share2_1(request):
             result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except Exception as e:
-        print (e)
+        print(e)
         return redirect('ing2_1')
 
 
 def share3(request):
-
-
     try:
         otp = request.POST['otp']
         check_id = request.POST['check_id']
@@ -550,7 +548,8 @@ def share3(request):
                 else:
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
     except Exception as e:
@@ -674,7 +673,8 @@ def share4_2(request):
         except:
             result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
-    except:
+    except Exception as e:
+        print(e)
         return redirect('ing4_2')
 
 
