@@ -247,11 +247,11 @@
                         <!--style="border:0px; border-radius:0px; color:white;">open/close</button>-->
                     </div>
                     <div id="news-body" style="display:inline-block">
-                        {% for news in result %}
+                        {% for i in result %}
                         <div id ="news" class="card-body">
-                            <a  id ="news" style="color:white; font-size:20px; font-weight:500" href="{{news.link}}"
+                            <a  id ="news" style="color:white; font-size:20px; font-weight:500" href="{{i.link}}"
                                target="_blank">
-                                {{news.title}}</a>
+                                {{i.title}}</a>
                         </div>
                         {% endfor %}
                         <!--</div>-->

@@ -206,29 +206,17 @@ def about(request):
     return render(request,'app/about.html',{})
 
 def search1(request):
-    client_id = 'fpYuQKVX8str1aSVFrkc'
-    client_secret = 'rLcccdn5R4'
-    encText = urllib.parse.quote("국제무역")
-    url = "https://openapi.naver.com/v1/search/news?query=" + encText
-    res = urllib.request.Request(url)
-    res.add_header("X-Naver-Client-Id", client_id)
-    res.add_header("X-Naver-Client-Secret", client_secret)
-    response = urllib.request.urlopen(res)
-    result = response.read().decode('utf-8')
-    news = json.loads(result)['items']
-    time = json.loads(result)['lastBuildDate']
 
-    notice = Notice.objects.all().order_by('-id')
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
             message = "Invalid Contract ID"
             print(message)
-            return render(request, 'app/index.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
+            return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search1.html', {'cid': cid, 'history': history,})
@@ -236,7 +224,7 @@ def search1(request):
        pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -246,32 +234,20 @@ def search1(request):
             history.reverse()
             return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
     except Exception as e:
-        return redirect('index')
+        return render(request,'app/index.html',{})
 
 def search2(request):
-    client_id = 'fpYuQKVX8str1aSVFrkc'
-    client_secret = 'rLcccdn5R4'
-    encText = urllib.parse.quote("국제무역")
-    url = ("https://openapi.naver.com/v1/search/news?query=" + encText)
-    res = urllib.request.Request(url)
-    res.add_header("X-Naver-Client-Id", client_id)
-    res.add_header("X-Naver-Client-Secret", client_secret)
-    response = urllib.request.urlopen(res)
-    result = response.read().decode('utf-8')
-    news = json.loads(result)['items']
-    time = json.loads(result)['lastBuildDate']
 
-    notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
             message = "Invalid Contract ID"
             print(message)
-            return render(request, 'app/index2.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
+            return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search2.html', {'cid': cid, 'history': history,})
@@ -279,7 +255,7 @@ def search2(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -292,29 +268,17 @@ def search2(request):
         return redirect('index')
 
 def search3(request):
-    client_id = 'fpYuQKVX8str1aSVFrkc'
-    client_secret = 'rLcccdn5R4'
-    encText = urllib.parse.quote("국제무역")
-    url = "https://openapi.naver.com/v1/search/news?query=" + encText
-    res = urllib.request.Request(url)
-    res.add_header("X-Naver-Client-Id", client_id)
-    res.add_header("X-Naver-Client-Secret", client_secret)
-    response = urllib.request.urlopen(res)
-    result = response.read().decode('utf-8')
-    news = json.loads(result)['items']
-    time = json.loads(result)['lastBuildDate']
 
-    notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
             message = "Invalid Contract ID"
             print(message)
-            return render(request, 'app/index3.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
+            return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search3.html', {'cid': cid, 'history': history,})
@@ -322,7 +286,7 @@ def search3(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -335,29 +299,17 @@ def search3(request):
         return redirect('index')
 
 def search4(request):
-    client_id = 'fpYuQKVX8str1aSVFrkc'
-    client_secret = 'rLcccdn5R4'
-    encText = urllib.parse.quote("국제무역")
-    url = "https://openapi.naver.com/v1/search/news?query=" + encText
-    res = urllib.request.Request(url)
-    res.add_header("X-Naver-Client-Id", client_id)
-    res.add_header("X-Naver-Client-Secret", client_secret)
-    response = urllib.request.urlopen(res)
-    result = response.read().decode('utf-8')
-    news = json.loads(result)['items']
-    time = json.loads(result)['lastBuildDate']
 
-    notice = Notice.objects.all()
     try:
         cid = str(request.POST['cid'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
             message = "Invalid Contract ID"
             print(message)
-            return render(request, 'app/index4.html', {'message': message, 'notice':notice, 'date':time, 'result':news})
+            return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search4.html', {'cid': cid, 'history': history,})
@@ -365,7 +317,7 @@ def search4(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://210.107.78.158:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -376,6 +328,7 @@ def search4(request):
             return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
     except Exception as e:
         return redirect('index')
+
 
 def share1(request):
 
@@ -391,7 +344,7 @@ def share1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -402,7 +355,7 @@ def share1(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
                 if history[0]['Value']['ci']['To'][11:] == user_id:
-                    url = ('http://210.107.78.158:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
+                    url = ('http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user +'- letter of credit request: ' + hash)
                     response = requests.post(url)
                     res = response.text
 
@@ -460,7 +413,7 @@ def share2(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                url = 'http://210.107.78.158:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
+                url = 'http://222.239.231.247:8001/add_CI/'+ contract_id +'- Exporter: '+ user_id+'- importer: '+ share_user +'- commercial invoice: ' + hash
                 response = requests.post(url)
                 res = response.text
 
@@ -499,7 +452,7 @@ def share2_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -510,7 +463,7 @@ def share2_1(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
                 if history[2]['Value']['lc']['To'][11:] == user_id:
-                    url = 'http://210.107.78.158:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
+                    url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -560,7 +513,7 @@ def share3(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -571,7 +524,7 @@ def share3(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[1]['Value']['lcr']['To'][7:] == user_id:
-                    url = 'http://210.107.78.158:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
+                    url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 +'- letter of credit: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}
@@ -620,7 +573,7 @@ def share4_1(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -631,7 +584,7 @@ def share4_1(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[3]['Value']['sr']['To'][10:] == user_id:
-                    url = 'http://210.107.78.158:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
+                    url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user +'- bill of landing: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -680,7 +633,7 @@ def share4_2(request):
         contract_id = str(getid.values('contract_id')[0]['contract_id'])
         user_id = getid.values('owner')[0]['owner']
 
-        urlhistory = ("http://210.107.78.158:8001/keyHistory/%s" % contract_id)
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
         urlto = requests.post(urlhistory)
         history = urlto.json()
         result_dict = {}
@@ -691,7 +644,7 @@ def share4_2(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[4]['Value']['bl']['from'][10:] == user_id:
-                    url = 'http://210.107.78.158:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
+                    url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
                     response = requests.post(url)
                     res = response.text
                     result_dict = {}
@@ -2477,6 +2430,18 @@ def index(request):
     news = json.loads(result)['items']
     time = json.loads(result)['lastBuildDate']
 
+    title_list=[]
+    link_list =[]
+    for n in news:
+        title = n['title'].replace('&quot;', '"').replace('&lt;','<').replace('&gt;','>').replace('<b>','').replace('</b>','')
+        title_list.append(title)
+    for n in news:
+        link = n['link']
+        link_list.append(link)
+
+    result = [{'title':title,'link':link} for title, link in zip(title_list, link_list)]
+
+
     notice = Notice.objects.all().order_by('-id')
     try:
 
@@ -2496,7 +2461,7 @@ def index(request):
         else:
             templates = 'app/login.html'
 
-        return render(request, templates, {'user_id':user_id, 'result':news, 'date':time, 'notice':notice})
+        return render(request, templates, {'user_id':user_id, 'date':time, 'notice':notice, 'result':result})
     except Exception as e:
         print(e)
         return redirect('login')
