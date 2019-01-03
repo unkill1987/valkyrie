@@ -226,7 +226,7 @@
                                        data-target="#otpmodal">전송하기
                             </a>
                             <button class="btn btn-outline-dark"
-                                    id="delete_btn">선택삭제
+                                    type="button" id="delete_btn">선택삭제
                             </button>
 
 
@@ -250,7 +250,7 @@
                             <input name = "otp" class="form-control">
                         </div>
                         <div class="modal-footer">
-                            <a class="btn" style="color:white;background:#ff8a12;" id="share1">Send</a>
+                            <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
                             <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
                         </div>
                     </div>
@@ -320,10 +320,7 @@
 <script src="{% static 'app/js/popper.min.js'%}"></script>
 <!-- Bootstrap js -->
 <script src="{% static 'app/js/bootstrap.min.js'%}"></script>
-<!-- Plugins js -->
-<script src="{% static 'app/js/plugins.js'%}"></script>
-<!-- Active js -->
-<script src="{% static 'app/js/active.js'%}"></script>
+
 
 </body>
 <script>
@@ -342,11 +339,10 @@
         alert("전송할 문서를 선택하세요");
         return false;
      }else{
-     pass
      }
     });
 
-     $('#share1').click(function(){
+     $('#share').click(function(){
      $('.btn').attr('disabled',true);
      $('#preloader').show();
      $.ajax({
@@ -367,8 +363,8 @@
      })
 
 
-$('#delete_btn').click(function() {
-$('.btn').attr('disabled',true);
+    $('#delete_btn').click(function() {
+    $('.btn').attr('disabled',true);
         check_ids = ''
         sep = ''
         $('input:checked').each(function() {

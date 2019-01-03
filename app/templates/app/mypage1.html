@@ -435,28 +435,28 @@ function myqna(){
                     alert(res.result)
                 }else if (res.trade[0].CI_hash.length == 0 ){
                      $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:0%"></div>`);
+                    $('#progress').append(`<div class="progress-bar" style="width:19%"></div>`);
                 }else if (res.trade[0].LCR_hash.length == 0){
                 $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:19%"></div>`)
+                    $('#progress').append(`<div class="progress-bar" style="width:32%"></div>`)
                 }else if (res.trade[0].LC_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:32%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:44%"></div>`)
                 }else if (res.trade[0].SR_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:44%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:57%"></div>`)
                 }else if (res.trade[0].BL_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:57%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:69%"></div>`)
                 }else if (res.trade[0].DO_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:69%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:82%"></div>`)
                 }else if (res.trade[0].DO_hash.length != 0){
                         $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:82%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:100%"></div>`)
                 }else{
                          $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:90%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:0%"></div>`)
                 }
 
         }

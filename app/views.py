@@ -384,8 +384,11 @@ def share1(request):
                 else:
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Fail'
+            result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
     except Exception as e:
         print(e)
@@ -430,9 +433,13 @@ def share2(request):
                     share.save()
                     result_dict['result'] = 'Success'
                 return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Fail'
+            result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
+
     except Exception as e:
         print(e)
         return redirect('ing2')
@@ -489,9 +496,13 @@ def share2_1(request):
                 else:
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Fail'
+            result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
+
     except Exception as e:
         print(e)
         return redirect('ing2_1')
@@ -548,9 +559,11 @@ def share3(request):
                 else:
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
-        except Exception as e:
-            print(e)
-            result_dict['result'] = 'Fail'
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
     except Exception as e:
         print(e)
@@ -610,8 +623,11 @@ def share4_1(request):
                 else:
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Fail'
+            result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
     except:
         return redirect('ing4_1')
@@ -670,8 +686,11 @@ def share4_2(request):
                 else:
                     result_dict['result'] = "You don't have  the authority"
                     return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
         except:
-            result_dict['result'] = 'Fail'
+            result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
     except Exception as e:
         print(e)
@@ -2529,7 +2548,7 @@ def charts(request):
 
 def forms(request):
     user_id = request.session['user_id']
-    contract = Contract_CI.objects.filter(share1=user_id)
+    contract = Contract_CI.objects.filter(share1=user_id).order_by('-id')
     return render(request, 'app/forms.html', {'contract':contract})
 
 def forms2(request):
@@ -2537,24 +2556,24 @@ def forms2(request):
 
 def forms2_1(request):
     user_id = request.session['user_id']
-    contract = Contract_LC.objects.filter(share3=user_id)
-    return render(request, 'app/forms2.html', {'contract': contract})
+    contract = Contract_LC.objects.filter(share2=user_id).order_by('-id')
+    return render(request, 'app/forms2_1.html', {'contract': contract})
 
 
 def forms3(request):
     user_id = request.session['user_id']
-    contract = Contract_LCR.objects.filter(share3=user_id)
+    contract = Contract_LCR.objects.filter(share3=user_id).order_by('-id')
     return render(request, 'app/forms3.html', {'contract': contract})
 
 def forms4_1(request):
     user_id = request.session['user_id']
-    contract = Contract_SR.objects.filter(share3=user_id)
-    return render(request, 'app/forms4.html', {'contract': contract})
+    contract = Contract_SR.objects.filter(share4=user_id).order_by('-id')
+    return render(request, 'app/forms4_1.html', {'contract': contract})
 
 def forms4_2(request):
     user_id = request.session['user_id']
-    contract = Contract_BL.objects.filter(owner=user_id)
-    return render(request, 'app/forms4.html', {'contract': contract})
+    contract = Contract_BL.objects.filter(owner=user_id).order_by('-id')
+    return render(request, 'app/forms4_2.html', {'contract': contract})
 
 def login(request):
     if request.method == 'GET':
