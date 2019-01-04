@@ -120,6 +120,7 @@ urlpatterns = [
     path('B_process/', views.process3, name='process3'),
     path('F_process/', views.process4, name='process4'),
 
+
     path('search1/', views.search1, name='search1'),
     path('search2/', views.search2, name='search2'),
     path('search3/', views.search3, name='search3'),

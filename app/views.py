@@ -239,7 +239,6 @@ def search1(request):
 
         if len(history) == 0:
             message = "Invalid Contract ID"
-            print(message)
             return redirect('index')
         else:
             history.reverse()
@@ -270,7 +269,6 @@ def search2(request):
 
         if len(history) == 0:
             message = "Invalid Contract ID"
-            print(message)
             return redirect('index')
         else:
             history.reverse()
@@ -301,7 +299,6 @@ def search3(request):
 
         if len(history) == 0:
             message = "Invalid Contract ID"
-            print(message)
             return redirect('index')
         else:
             history.reverse()
@@ -332,7 +329,6 @@ def search4(request):
 
         if len(history) == 0:
             message = "Invalid Contract ID"
-            print(message)
             return redirect('index')
         else:
             history.reverse()

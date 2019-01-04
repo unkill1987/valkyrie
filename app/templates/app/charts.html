@@ -68,6 +68,7 @@
 
 
 
+
 </style>
 
 
@@ -146,7 +147,8 @@
                                     <a class="nav-link" href="{% url 'mypage1'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal"
+                                       data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
 
@@ -158,7 +160,6 @@
     </div>
 </header>
 <!-- Header Area End -->
-
 
 
 <!--Valkyrie System Area Start -->
@@ -346,15 +347,16 @@
                                     </div>
                                     <div class="card-footer">
                                         <table>
-                                            <div class="input-group">
-                                                <label class="input-group-text" for="eunum">위안</label>
-                                                <input class="form-control" id="eunum">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-dark" type="button"
-                                                            onclick="mul4()">환전
-                                                    </button>
+                                            <tr>
+                                                <div class="input-group">
+                                                    <label class="input-group-text" for="eunum">위안</label>
+                                                    <input class="form-control" id="eunum">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-dark" type="button"
+                                                                onclick="mul4()">환전
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             </tr>
                                             <tr>
                                                 <td>￦&nbsp</td>
@@ -393,6 +395,7 @@
             var eunum = document.getElementById('eunum');
             var result4 = eval(eunum.value)*{{ basePrice4 }}
             document.getElementById('result4').value = result4;}
+
 
 
 
@@ -479,6 +482,7 @@ jQuery(document).ready(function($) {
   //Fire it when the page first loads:
   alterClass();
 });
+
 
 
 
