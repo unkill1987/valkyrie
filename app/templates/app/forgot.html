@@ -2,61 +2,232 @@
 {% load static %}
 <html lang="en">
 
-  <head>
-
-    <meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>SB Admin - Forgot Password</title>
+    <!-- Title  -->
+    <title>Valkyrie System</title>
 
-    <!-- Bootstrap core CSS-->
-    <link href="{% static 'app/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <!-- Favicon  -->
+    <link rel="icon" href="{% static 'app/img/core-img/favicon.ico'%}">
 
-    <!-- Custom fonts for this template-->
-    <link href="{% static 'app/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="{% static 'app/css/core-style.css'%}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css'%}">
 
-    <!-- Custom styles for this template-->
-    <link href="{% static 'app/css/sb-admin.css'%}" rel="stylesheet">
+    <!-- Responsive CSS -->
+    <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
-  </head>
+</head>
+<style>
 
-  <body class="bg-dark">
+    @media (max-width:768px){section{padding:50px 0px 0px 0px!important}}
+    @media (min-width:968px){.card-login{width:500px}}
+    body{background-image: url(../../static/app/img/bg-img/login.jpg);
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+    }
+    label,a{color:#ff8a12; weight:500;}
+    .btn{color:#ff8a12;border-color:#ff8a12;}
+    .btn:hover{background-color:#ff8a12; border-color:#ff8a12;}
+    .card{background:#1d1d1de8;  vertical-align: middle;
+  }
 
-    <div class="container">
-      <div class="card card-login mx-auto mt-5">
-        <div class="card-header">Reset Password</div>
-        <div class="card-body">
-          <div class="text-center mb-4">
-            <h4>Forgot your password?</h4>
-            <p>Enter your email address and we will send you instructions on how to reset your password.</p>
-          </div>
-          <form>
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Enter email address" required="required" autofocus="autofocus">
-                <label for="inputEmail">Enter email address</label>
-              </div>
-            </div>
-            <a class="btn btn-outline-dark btn-block" href="{% url 'login' %}">Reset Password</a>
-          </form>
-          <div class="text-center">
-            <a class="d-block small mt-3" href="{% url 'register' %}">Register an Account</a>
-            <a class="d-block small" href="{% url 'login'%}">Login Page</a>
-          </div>
+
+
+
+
+
+
+
+
+
+</style>
+<body>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="showbox">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
         </div>
-      </div>
     </div>
+    <div class="questions-area text-center">
+        <p>Please Wait...</p>
+        <ul>
+            <li>Valkyrie Blockchain Trade System</li>
+        </ul>
+    </div>
+</div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'app/vendor/jquery/jquery.min.js'%}"></script>
-    <script src="{% static 'app/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Gradient Background Overlay -->
+<div class="gradient-background-overlay"></div>
 
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'app/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+<!-- Header Area Start -->
+<header class="header-area bg-img" style="">
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 h-100">
+                <div class="main-menu h-100">
+                    <nav class="navbar h-100 navbar-expand-lg">
+                        <!-- Logo Area  -->
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <img src="{% static 'app/img/core-img/logo.png'%}" alt="Logo">
+                        </a>
 
-  </body>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
+                                aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
+                                class="fa fa-bars"></i> Menu
+                        </button>
 
+                        <div class="collapse navbar-collapse" id="studioMenu">
+                            <!-- Menu Area Start  -->
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'about'%}">ABOUT</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'registerpage'%}">REGISTER</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login'%}">LOGIN</a>
+                                </li>
+                            </ul>
+                            <!-- Search Form -->
+
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Header Area End -->
+
+
+<!-- Social Sidebar Area End -->
+
+<!--Valkyrie System Area Start -->
+<section style="height:100%; vertical-align:middle; padding:200px;" class="blog-area">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <form method="post">
+                <div class="container">
+                    <div class="card card-login mx-auto mt-5">
+                        <div class="card-header">
+                            <h4 style="color:#ff8a12;">Reset Password</h4></div>
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <h4 style="color:white;">Forgot your password?</h4>
+                                <p style="color:white;">Enter your email address and we will send you instructions on
+                                    how to
+                                    reset your password.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <input type="email" id="email" name="email" class="form-control"
+                                           placeholder="Enter email address" required="required"
+                                           autofocus="autofocus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <input type="text" id="name" name="name" class="form-control"
+                                           placeholder="Enter name" required="required"
+                                           autofocus="autofocus">
+                                </div>
+                            </div>
+
+                            <a id="forgot">
+                                <button  style="margin-bottom:20px;" class="btn btn-outline-dark btn-block">Reset Password</button>
+                            </a>
+
+                            <a href="{% url 'registerpage' %}">
+                                <button style="margin-bottom:20px;"  class="btn btn-outline-dark btn-block">Register an Account
+                                </button>
+                            </a>
+                            <a href="{% url 'login'%}">
+                                <button class="btn btn-outline-dark btn-block">Login Page</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</section>
+<!--Valkyrie System Area End -->
+
+<!-- Footer Area Start -->
+<footer class="footer-area">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-12 h-100">
+                <div class="footer-content h-100 d-md-flex align-items-center justify-content-between">
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/map.png'%}" alt="">
+                        <a href="#">Korea, Seoul</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/smartphone.png'%}" alt="">
+                        <a href="#">000-0000-0000</a>
+                    </div>
+                    <!-- Single Footer Content -->
+                    <div class="single-footer-content">
+                        <img src="{% static 'app/img/core-img/envelope-2.png'%}" alt="">
+                        <a href="#">valkyrie@valkyriesystem.online</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->
+
+
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
+<!-- Popper js -->
+<script src="{% static 'app/js/popper.min.js'%}"></script>
+<!-- Bootstrap js -->
+<script src="{% static 'app/js/bootstrap.min.js'%}"></script>
+<!-- Plugins js -->
+<script src="{% static 'app/js/plugins.js'%}"></script>
+<!-- Active js -->
+<script src="{% static 'app/js/active.js'%}"></script>
+
+</body>
+<script>
+$('#forgot').click(function(){
+    $.ajax({
+        url: '/forgot/',
+        type: 'post',
+        data: $('form').serialize(),
+        success: function(res){
+            if(res.result == 'Success'){
+                alert(res.result)
+
+            }else{
+                alert(res.result)
+            }
+        }
+    });
+    return false
+});
+
+
+
+</script>
 </html>

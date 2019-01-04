@@ -2686,4 +2686,62 @@ def register(request):
 
 
 def forgot(request):
-    return render(request, 'app/forgot.html', {})
+    if request.method == 'GET':
+        return render(request, 'app/forgot.html', {})
+    else:
+        try:
+            result_dict = {}
+            user_email = request.POST['email']
+            user_name = request.POST['name']
+            new_pw = pyotp.random_base32()
+
+            member_name = Member.objects.filter(user_id=user_email).values('user_name')[0]['user_name']
+            menber_id = Member.objects.filter(user_id=user_email).values('user_id')[0]['user_id']
+
+            if user_email == '' or user_name == '':
+                result_dict['result'] = '공백은 사용 할 수 없습니다.'
+                return JsonResponse(result_dict)
+
+            elif user_name != member_name:
+                result_dict['result'] = '이름이 일치하지 않습니다.'
+                return JsonResponse(result_dict)
+
+            elif user_email != menber_id:
+                result_dict['result'] = '이메일이 일치하지 않습니다.'
+                return JsonResponse(result_dict)
+
+            else:
+                try:
+                    member = Member.objects.get(user_id=user_email)
+                    member.user_pw = new_pw
+                    member.save()
+
+                    smtp_gmail = smtplib.SMTP('smtp.gmail.com', 587)
+                    smtp_gmail.ehlo()
+
+                    # 연결을 암호화
+                    smtp_gmail.starttls()
+                    smtp_gmail.login('saidtherapy23@gmail.com', 'erff8653!')
+                    msg = EmailMessage()
+                    msg['Subject'] = "새로운 비밀번호입니다"
+                    # 내용 입력
+                    msg.set_content("새로운 비밀번호는 %s 입니다." % (new_pw))
+
+                    # 보내는 사람
+                    msg['From'] = 'Valkyrie Trade System'
+
+                    # 밥는 사람
+                    msg['To'] = '%s' % (user_email)
+
+                    smtp_gmail.send_message(msg)
+                    result_dict['result'] = 'Success'
+                    return JsonResponse(result_dict)
+                except Exception as e:
+                    print(e)
+                    result_dict['result'] = 'Fail'
+                    return JsonResponse(result_dict)
+        except Exception as e:
+            print(e)
+            result_dict['result'] = 'Fail'
+            return JsonResponse(result_dict)
+
