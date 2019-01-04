@@ -2667,23 +2667,10 @@ def register(request):
     result_dict = {}
     try:
         user_role = request.POST.get('user_role', False)
-    except:
-        user_role = ''
+        user_name = request.POST.get('user_name', False)
+        user_id = request.POST.get('user_id', False)
+        user_pw = request.POST.get('user_pw', False)
 
-    user_name = request.POST.get('user_name', False)
-    user_id = request.POST.get('user_id', False)
-    user_pw = request.POST.get('user_pw', False)
-    user_confirm_pw = request.POST.get('user_confirm_pw', False)
-
-    if user_role == '' or user_name == '' or user_id == '' or user_pw == '' or user_confirm_pw == '':
-        result_dict['result'] = '공백은 사용할 수 없습니다.'
-        return JsonResponse(result_dict)
-
-    elif user_pw != user_confirm_pw:
-        result_dict['result'] = '비밀번호 매치 실패'
-        return JsonResponse(result_dict)
-
-    else:
         try:
             Member.objects.get(user_id=user_id)
             result_dict['result'] = '이미 가입된 아이디가 있습니다.'
@@ -2692,8 +2679,10 @@ def register(request):
             member.c_date = timezone.now()
             member.save()
             result_dict['result'] = '가입완료'
-
         return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        return redirect('registerpage')
 
 
 def forgot(request):
