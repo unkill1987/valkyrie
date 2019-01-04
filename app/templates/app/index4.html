@@ -24,11 +24,12 @@
 
 </head>
 <style>
-@media (max-width:768px){label{display:none;}}
-td{padding:0px!important;}
-        .card{background:#1d1d1de8;padding:10px;}
-    .card-header{ color:#ff8a12;font-size:20px;}
+ td{padding:0px!important;}
+    .card{background:#1d1d1de8;padding:10px;}
+    .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:18px;}
+    a{font-size:20px}
+    @media (max-width:768px){label{display:none;} a{font-size:15px} .card-header{font-size:18px}.card-body{padding:10px}}
 
 
 #snackbar {
@@ -236,7 +237,7 @@ td{padding:0px!important;}
                     </div>
                     {% for news in result %}
                     <div class="card-body">
-                        <a style="color:white; font-size:20px; font-weight:500" href="{{news.link}}" target="_blank">
+                        <a style="color:white; font-weight:500" href="{{news.link}}" target="_blank">
                             {{news.title}}</a>
                     </div>
                     {% endfor %}

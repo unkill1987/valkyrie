@@ -146,44 +146,50 @@
                                                 DELIVERY ORDER NAME
                                             </h4>
 
-                                            <input class="form-control" name="contractname">
+                                            <input class="form-control" name="contractname" required="required">
                                             <div class="form-group">
                                                 <label>1.Agent name:</label>
-                                                <input class="form-control" name="a">
+                                                <input class="form-control" name="a" required="required">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>2.Restricted delivery(Yes or no):</label>
-                                                <input class="form-control" name="b">
+                                                <label>2.Restricted delivery(Yes or no):</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="b">
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>3.Adult signature restriced delivery(Yes or no):</label>
-                                                <input class="form-control" name="c">
-                                                <p class="help-block"></p>
+                                                <label>3.Adult signature restriced delivery(Yes or no):</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="c">
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>4.Agent Signture:</label>
-                                                <input class="form-control" name="d">
+                                                <input class="form-control" name="d" required="required">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>5.ID verified (yes or no):</label>
-                                                <input class="form-control" name="e">
-                                                <p class="help-block"></p>
+                                                <label>5.ID verified (yes or no):</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="e">
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
                                             </div>
-
                                             <!--/.col-lg-6 (nested) -->
                                             <!--<p style="font-size:25px"> Bank Form </p>-->
                                             <div class="form-group">
                                                 <label>6.USPS initals:</label>
-                                                <input class="form-control" name="f">
+                                                <input class="form-control" name="f" required="required">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>7.Date:</label>
-                                                <input class="form-control" name="g">
+                                                <input class="form-control" name="g" required="required">
                                                 <p class="help-block"></p>
                                             </div>
                                         </div>

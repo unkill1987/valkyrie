@@ -24,9 +24,11 @@
 
 </head>
 <style>
-        .card-header{height:80px;font-size:20px;border:1px solid;}
+    .card-header{height:80px;font-size:20px;border:1px solid;}
     .card-body{border:1px solid;}
-      th{font-size:10px;width:70px;}
+    th{font-size:10px;width:70px;}
+    .card{margin-top:30px;}
+    @media (max-width:768px){h5{font-size:14px!important;}}
 </style>
 <body>
 <!-- Preloader -->
@@ -128,14 +130,14 @@
                 <!-- /here -->
 
                 <div class="col-8 mx-auto">
-                    <div class="card" style="margin:20px;">
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="personaltoggle()">개인정보 수정
                         </button>
                         <div class="card-body" id="personal" style="display:none;">
 
                             <div class="form-group">
                                 <form  method="post" style="margin-bottom:40px;">
-                                    <h5 style="color:#ff8a12;">주소 변경</h5>
+                                    <h4 style="color:#ff8a12;">주소 변경</h4>
                                     <label class="form-group-text" for="address">address</label>
                                     <input class="form-control" id="address" name="address" required="required">
                                     <div class="form-group-append" style="text-align:center;padding-top:20px;">
@@ -147,7 +149,7 @@
 
 
                                 <form method="post">
-                                    <h5 style="color:#ff8a12;">비밀번호 변경</h5>
+                                    <h4 style="color:#ff8a12;">비밀번호 변경</h4>
                                     <label class="form-group-text" for="pw">password</label>
                                     <input class="form-control" id="pw" name="user_pw" required="required">
                                     <label class="form-group-text" for="npw">new password</label>
@@ -169,7 +171,7 @@
 
 
                 <div class="col-8 mx-auto">
-                    <div class="card" style="margin:20px;">
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="otptoggle()">OTP 등록하기</button>
                         <div class="card-body" id="otp" style="display:none; text-align:center;">
                             <div class="col-12">
@@ -200,23 +202,23 @@
 
 
                    <div class="col-8 mx-auto">
-                    <div class="card" style="margin:20px;">
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
                         </button>
                         <div class="card-body" id="trade" style="display:block;text-align;center;display:none;">
                             <form method="post">
                                 <div class="form-group" >
-                                    <h5 style="color:#ff8a12;">진행 사항</h5>
+                                    <h4 style="color:#ff8a12;">진행 사항</h4>
                                     <table class="mx-auto">
                                         <tr>
-                                            <th>거래 시작</th>
-                                            <th style="text-align:center">상업송장<br>발급</th>
-                                            <th style="text-align:center">신용장 신청서<br>전송</th>
-                                            <th style="text-align:center">신용장<br> 발급</th>
-                                            <th style="text-align:center">선적요청서<br>발급</th>
-                                            <th style="text-align:center">선하증권<br> 발급</th>
-                                            <th style="text-align:center">인도지시서<br>발급</th>
-                                            <th style="text-align:right;">거래완료</th>
+                                          <th>Start</th>
+                                            <th style="text-align:center">CI</th>
+                                            <th style="text-align:center">LCR<br>전송</th>
+                                            <th style="text-align:center">LC<br> 발급</th>
+                                            <th style="text-align:center">SR<br>발급</th>
+                                            <th style="text-align:center">BL<br> 발급</th>
+                                            <th style="text-align:center">DO<br>발급</th>
+                                            <th style="text-align:right;">End</th>
                                         </tr>
                                         <tr>
                                         <td colspan="10">
@@ -248,13 +250,13 @@
                 </div>
 
                  <div class="col-8 mx-auto">
-                    <div class="card" style="margin:20px;">
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="myqna()">문의 하기
                         </button>
                         <div class="card-body" id="qna" style="display:none;">
                             <form>
                                 <div class="form-group">
-                                    <h5 style="color:#ff8a12;">문의 사항</h5>
+                                    <h4 style="color:#ff8a12;">문의 사항</h4>
                                     <form method="post">
                                         <textarea class="form-control" rows="5" id="email" name="email"></textarea>
                                          <p style="color:#ff8a12;">*답장은 ID(e-mail)로 전송됩니다.</p>
@@ -424,7 +426,7 @@ function myqna(){
             type:'post',
             data:$('form').serialize(),
             success: function(res){
-                if (res.result == 'fail'){
+                if (res.result == 'Invalid Contract'){
                     alert(res.result)
                 }else if (res.trade[0].CI_hash.length == 0 ){
                      $('#progress').empty();

@@ -165,7 +165,6 @@
                                    style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
                                     &laquo;
                                 </a>
-                                </a>
                             </li>
                             {% else %}
                             <li class="btn btn-outline-dark disabled"
@@ -222,8 +221,8 @@
                             <input class="form-control" name="share_user" type="text" id="share_user">
                             <br>
                             <a class="btn btn-outline-dark" id="submit"
-                                    data-toggle="modal"
-                                       data-target="#otpmodal">전송하기
+                               data-toggle="modal"
+                               data-target="#otpmodal">전송하기
                             </a>
                             <button class="btn btn-outline-dark"
                                     type="button" id="delete_btn">선택삭제
@@ -247,7 +246,7 @@
                             </button>
                         </div>
                         <div class="modal-body">Input your OTP Number:
-                            <input name = "otp" class="form-control">
+                            <input name="otp" class="form-control">
                         </div>
                         <div class="modal-footer">
                             <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
@@ -331,7 +330,7 @@
     $('#submit').click(function() {
     var share_user = $('#share_user').val();
     var check_id = $('input:checked').val();
-    console.log(check_id)
+
     if (share_user.length == 0) {
         alert("전송대상을 입력하세요");
         return false;
@@ -374,6 +373,7 @@
         location = '/remove?check_id=' + check_ids
         return false
       })
+
 
 
 </script>

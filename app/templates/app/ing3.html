@@ -168,7 +168,6 @@
                                    style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
                                     &laquo;
                                 </a>
-                                </a>
                             </li>
                             {% else %}
                             <li class="btn btn-outline-dark disabled"
@@ -228,34 +227,35 @@
                             <input class="form-control" name="share_user2" id="share_user2">
                             <br>
                             <a class="btn btn-outline-dark" id="submit"
-                                    data-toggle="modal"
-                                       data-target="#otpmodal">전송하기
+                               data-toggle="modal"
+                               data-target="#otpmodal">전송하기
                             </a>
                             <button class="btn btn-outline-dark" type="button" id="delete_btn">선택삭제</button>
 
 
                         </div>
                     </div>
-                     <div class="modal fade" id="otpmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Enter otp</h5>
-                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">Input your OTP Number:
-                            <input name = "otp" class="form-control">
-                        </div>
-                        <div class="modal-footer">
-                            <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
-                            <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+                    <div class="modal fade" id="otpmodal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Enter otp</h5>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">Input your OTP Number:
+                                    <input name="otp" class="form-control">
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
+                                    <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
                     <!--</form>-->
                 </div>
 
@@ -341,7 +341,7 @@
     $('#submit').click(function() {
     var share_user = $('#share_user').val();
     var check_id = $('input:checked').val();
-    console.log(check_id)
+
     if (share_user.length == 0) {
         alert("전송대상을 입력하세요");
         return false;
@@ -384,6 +384,7 @@
         location = '/remove3?check_id=' + check_ids
         return false
       })
+
 
 
 
