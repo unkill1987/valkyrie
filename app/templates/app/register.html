@@ -162,7 +162,7 @@
                             </div>
                             <hr style="border-top:solid 1px; border-color:white!important;">
 
-                            <button  class="btn btn-outline-dark btn-block" onclick="validate()">Register</button>
+                            <button  class="btn btn-outline-dark btn-block" id="register">Register</button>
                             {% csrf_token %}
 
                         </form>
@@ -225,10 +225,9 @@
 
 
 
-<script type="text/javascript">
+<script>
 
-
-function validate() {
+$('#register').click(function(){
 
     var check_id = $('input:checked').val();
     var name = $('#user_name').val();
@@ -256,11 +255,9 @@ function validate() {
         return false;
 
     }else if(user_pass != user_confirm_pw){
-        alert("비밀번호 매칭 실패")
+        alert("비밀번호 매칭 실패");
         return false;
-
     }else{
-
         $.ajax({
           url: '/register/',
           type: 'post',
@@ -269,20 +266,21 @@ function validate() {
             if(res.result == '가입완료') {
                 alert(res.result)
                 location = '/'
+            }else{
+                alert(res.result)
             }
+            return false;
           }
-        })
+        });
         return false;
     }
-}
+});
 
     function chk(re, e, msg) {
         if (re.test(e.value)) {
            return true;
         }
-
         alert(msg);
-        e.value = "";
         e.focus();
         return false;
     }

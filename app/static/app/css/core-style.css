@@ -74,7 +74,6 @@ a:focus {
     transition: all 500ms ease 0s;
     text-decoration: none;
     outline: none;
-    font-size: 14px;
     color: #000;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
