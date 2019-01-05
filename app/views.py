@@ -5,9 +5,11 @@ from datashape import JSON
 from django.core import serializers
 from email.message import EmailMessage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 import hashlib
+
+from django.urls import reverse
 from fpdf import FPDF, HTMLMixin
 import pyotp
 import os
@@ -19,6 +21,20 @@ from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_
 from valweb import settings
 from django.utils import timezone
 
+def checkcontract(request):
+    try:
+        result_dict ={}
+        cid = str(request.POST['cid'])
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+        if len(history) == 0:
+            result_dict['result'] = "not exist"
+        else:
+            result_dict['result'] = "exist"
+        return JsonResponse(result_dict)
+    except:
+        pass
 
 def email(request):
     if request.method == 'GET':
@@ -238,12 +254,13 @@ def search1(request):
         history = res.json()
 
         if len(history) == 0:
-            message = "Invalid Contract ID"
+            message = 'Invalid Contract ID'
             return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])

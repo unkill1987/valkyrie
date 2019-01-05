@@ -34,49 +34,6 @@
 
 
 
-#snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #ff3b00;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 3;
-  left: 50%;
-  top: 20%;
-}
-
-#snackbar.show {
-  visibility: visible;
- -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
- animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-
-@-webkit-keyframes fadein {
-  from {top: 0; opacity: 0;}
-  to {top: 20%; opacity: 1;}
-}
-
-@keyframes fadein {
-  from {top: 0; opacity: 0;}
-  to {top: 20%; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-  from {top: 20%; opacity: 1;}
-  to {top: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-  from {top: 20%; opacity: 1;}
-  to {top: 0; opacity: 0;}
-}
-
-
 
 
 </style>
@@ -166,10 +123,7 @@
         </div>
     </div>
 </header>
-<!-- Header Area End -->
 
-
-<div id="snackbar">{{message}}</div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -330,18 +284,21 @@
 
 <script>
 
-$(document).ready(function(){
+$("#cid").keyup(function(){
+        $.ajax({
+            url:'/checkcontract/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                if(res.result == 'exist'){
+                    $('#cid').css("background-color", "#dafdc5");
+                }else{
+                    $('#cid').css("background-color", "#ffcece");
+                }
+            }
+        });
+    });
 
-
-  var x = document.getElementById("snackbar");
-  var y = $('#snackbar').text();
-    if (y.length != 0){
-      x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-    }
-
-
-})
 
 function toggleContent(obj) {
     var id = obj.id;
@@ -355,14 +312,6 @@ function toggleContent(obj) {
     }
 }
 
-function newstoggle(){
-    var news = document.getElementById("news-body");
-    if (news.style.display === "inline-block"){
-        news.style.display = "none";
-    } else {
-        news.style.display = "inline-block";
-    }
-}
 
 
 

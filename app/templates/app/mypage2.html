@@ -380,44 +380,31 @@ function myqna(){
 
 
   $('#form1').click(function(){
-     $('.btn').attr('disabled',true);
-     $('#preloader').show();
-     $.ajax({
-        url:'/addressmodify/',
-        type:'post',
-        data:$('form').serialize(),
-        success: function(res){
-            if (res.result == 'Success'){
-                alert(res.result)
-                location = '/mypage2/'
-                }else{
-                alert(res.result)
-                location = '/mypage2/'
-                }
-            }
-        })
-        return false
-     })
+     var address = $('#address').val();
+     if (address.length ==0){
+        alert('주소를 입력하세요.')
+     }else{
 
-     $('#form2').click(function(){
-     $('.btn').attr('disabled',true);
-     $('#preloader').show();
-     $.ajax({
-        url:'/pwmodify/',
-        type:'post',
-        data:$('form').serialize(),
-        success: function(res){
-            if (res.result == 'Success'){
-                alert(res.result)
-                location = '/mypage2/'
-                }else{
-                alert(res.result)
-                location = '/mypage2/'
+         $.ajax({
+            url:'/addressmodify/',
+            type:'post',
+            data:$('form').serialize(),
+            success: function(res){
+                if (res.result == 'success'){
+                    alert(res.result)
+                    location = '/mypage2/'
+                    }else{
+                    alert(res.result)
+                    location = '/mypage2/'
                 }
             }
+
         })
-        return false
-     })
+     }
+    return false
+ })
+
+
 
  $('#form3').click(function(){
          $.ajax({
@@ -479,6 +466,55 @@ function myqna(){
         })
         return false
      })
+
+     $('#form2').click(function(){
+
+
+    var n_pw = document.getElementById('npw');
+    var pass = $('#pw').val();
+    var n_pass = $('#npw').val();
+    var c_pass = $('#cpw').val();
+
+
+    if (pass.length == 0){
+        alert("비밀번호를 입력하세요");
+        return false;
+
+    }else if (!chk(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])$/, n_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 6~16자까지, 영문은 대소문자를 구분합니다.")){
+        return false;
+    }else if (c_pass.length == 0){
+        alert("비밀번호 확인란을 입력하세요.");
+        return false;
+
+    }else if(n_pass != c_pass){
+        alert("새로운 비밀번호가 일치하지 않습니다.");
+        return false;
+    }else{
+      $.ajax({
+        url:'/pwmodify/',
+        type:'post',
+        data:$('form').serialize(),
+        success: function(res){
+            if (res.result == 'success'){
+                alert(res.result)
+                location = '/mypage2/'
+                }else{
+                location = '/mypage2/'
+                }
+            }
+        });
+        return false;
+    }
+});
+
+ function chk(re, e, msg) {
+        if (re.test(e.value)) {
+           return true;
+        }
+        alert(msg);
+        e.focus();
+        return false;
+    }
 
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>

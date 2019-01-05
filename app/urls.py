@@ -137,6 +137,8 @@ urlpatterns = [
 
     path('addressmodify/', views.addressmodify, name='addressmodify'),
 
+    path('checkcontract/', views.checkcontract, name='checkcontract'),
+
     path('mytrade/', views.mytrade, name='mytrade'),
     path('email/', views.email, name='email'),
 ]
