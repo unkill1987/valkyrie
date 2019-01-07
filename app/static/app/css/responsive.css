@@ -263,9 +263,6 @@
     .gallery_menu {
         margin-bottom: 30px;
     }
-    #scrollUp {
-        display: none !important;
-    }
     .page-item.active .page-link:after {
         width: 40px;
     }

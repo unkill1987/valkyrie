@@ -11,8 +11,7 @@ import pyotp
 import os
 import time
 from pandas.io import json
-from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
-    Process_complete, Notice
+from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, Notice
 from valweb import settings
 from django.utils import timezone
 
@@ -408,10 +407,6 @@ def share1(request):
                         process.user3 = share_user
                         process.save()
 
-                        process_complete = Process_complete.objects.get(id=contract_id)
-                        process_complete.LCR_hash = hash
-                        process_complete.save()
-
                         share = Contract_LCR.objects.get(id=check_id)
                         share.share3 = share_user
                         share.save()
@@ -510,10 +505,6 @@ def share2_1(request):
                         result_dict['result'] = 'Fail'
                     else:
 
-                        process_complete = Process_complete.objects.get(id=contract_id)
-                        process_complete.SR_hash = hash
-                        process_complete.save()
-
                         share = Contract_SR.objects.get(id=check_id)
                         share.share4 = share_user
                         share.save()
@@ -576,10 +567,6 @@ def share3(request):
                         process = Process.objects.get(id=contract_id)
                         process.LC_hash = hash
                         process.save()
-
-                        process_complete = Process_complete.objects.get(id=contract_id)
-                        process_complete.LC_hash = hash
-                        process_complete.save()
 
                         share = Contract_LC.objects.get(id=check_id)
                         share.share1 = share_user
@@ -699,10 +686,6 @@ def share4_2(request):
                         process = Process.objects.get(id=contract_id)
                         process.DO_hash = hash
                         process.save()
-
-                        process_complete = Process_complete.objects.get(id=contract_id)
-                        process_complete.DO_hash = hash
-                        process_complete.save()
 
                         share = Contract_DO.objects.get(id=check_id)
                         share.share1 = share_user
@@ -1119,8 +1102,6 @@ def submit2(request):
 
             process = Process(contract_id=id, user2=user_id, CI_hash=hash)
             process.save()
-            process_complete = Process_complete(contract_id=id, CI_hash=hash)
-            process_complete.save()
 
             return redirect('ing2')
         except Exception as e:
