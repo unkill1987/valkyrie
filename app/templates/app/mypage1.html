@@ -31,6 +31,11 @@
     @media (max-width:768px){h5{font-size:14px!important;}}
 
 
+
+
+
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -135,31 +140,61 @@
                         <div class="card-body" id="personal" style="display:none;">
 
                             <div class="form-group">
+
+
                                 <form method="post" style="margin-bottom:40px;">
+
                                     <h4 style="color:#ff8a12;">주소 변경</h4>
-                                    <label class="form-group-text" for="address">address</label>
-                                    <input class="form-control" id="address" name="address" required="required">
-                                    <div class="form-group-append" style="text-align:center;padding-top:20px;">
-                                        <button id="form1" class="btn btn-outline-dark">수정하기</button>
-                                        <button class="btn btn-outline-dark" type="reset">다시작성</button>
-                                    </div>
-                                    {% csrf_token %}
+                                    <ui class="list-group">
+                                        <li class="list-group-item">
+                                            <h5>Your Address</h5>
+                                            {{myaddress.address}}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <h5>주소 검색</h5>
+                                            <div style="" id="postcodify"></div>
+                                            <label class="form-group-text" for="postcode">Postcode</label>
+                                            <input class="form-control" type="text" name="postcode" id="postcode"
+                                                   value=""/><br/>
+                                            <label class="form-group-text" for="address">Address</label>
+                                            <input class="form-control" type="text" name="address" id="address"
+                                                   value=""/><br/>
+                                            <label class="form-group-text" for="details">Details</label>
+                                            <input class="form-control" type="text" name="details" id="details"
+                                                   value=""/><br/>
+                                            <label class="form-group-text" for="extra_info">Extra Info</label>
+                                            <input class="form-control" type="text" name="extra_info" id="extra_info"
+                                                   value=""/><br/>
+                                            <div class="form-group-append" style="text-align:center;padding-top:20px;">
+                                                <button id="form1" class="btn btn-outline-dark">수정하기</button>
+                                                <button class="btn btn-outline-dark" type="reset">다시작성</button>
+                                            </div>
+                                        </li>
+                                        {% csrf_token %}
+                                    </ui>
                                 </form>
 
 
                                 <form method="post">
                                     <h4 style="color:#ff8a12;">비밀번호 변경</h4>
-                                    <label class="form-group-text" for="pw">password</label>
-                                    <input class="form-control" id="pw" name="user_pw" type="password" required="required">
-                                    <label class="form-group-text" for="npw">new password</label>
-                                    <input class="form-control" id="npw" name="user_npw" type="password" required="required">
-                                    <label class="form-group-text" for="cpw">confirm new password</label>
-                                    <input class="form-control" id="cpw" name="user_cpw" type="password" required="required">
-                                    <div class="form-group-append" style="text-align:center;padding-top:20px;">
-                                        <button id="form2" class="btn btn-outline-dark">수정하기</button>
-                                        <button class="btn btn-outline-dark" type="reset">다시작성</button>
-                                    </div>
-                                    {% csrf_token %}
+                                    <ui class="list-group">
+                                        <li class="list-group-item">
+                                            <label class="form-group-text" for="pw">password</label>
+                                            <input class="form-control" id="pw" name="user_pw" type="password"
+                                                   required="required">
+                                            <label class="form-group-text" for="npw">new password</label>
+                                            <input class="form-control" id="npw" name="user_npw" type="password"
+                                                   required="required">
+                                            <label class="form-group-text" for="cpw">confirm new password</label>
+                                            <input class="form-control" id="cpw" name="user_cpw" type="password"
+                                                   required="required">
+                                            <div class="form-group-append" style="text-align:center;padding-top:20px;">
+                                                <button id="form2" class="btn btn-outline-dark">수정하기</button>
+                                                <button class="btn btn-outline-dark" type="reset">다시작성</button>
+                                            </div>
+                                            {% csrf_token %}
+                                        </li>
+                                    </ui>
                                 </form>
                             </div>
                         </div>
@@ -251,7 +286,7 @@
                 </div>
 
                 <div class="col-8 mx-auto">
-                    <div class="card" >
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="myqna()">문의 하기
                         </button>
                         <div class="card-body" id="qna" style="display:none;">
@@ -342,8 +377,18 @@
 <!-- Active js -->
 <script src="{% static 'app/js/active.js'%}"></script>
 
+<script src="https://d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+
 </body>
 <script>
+ $(function() { $("#postcodify").postcodify({
+        insertPostcode5 : "#postcode",
+        insertAddress : "#address",
+        insertDetails : "#details",
+        insertExtraInfo : "#extra_info",
+        hideOldAddresses : false
+    }); });
+
 function personaltoggle(){
     var personal = document.getElementById("personal");
     if (personal.style.display === "inline-block"){
@@ -519,6 +564,11 @@ function myqna(){
 
 
 
+
+
+
+
+
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>
 <script type="text/javascript">
@@ -550,6 +600,11 @@ function myqna(){
             })
             return false
          })
+
+
+
+
+
 
 
 

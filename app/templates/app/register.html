@@ -36,6 +36,21 @@
     .btn:hover{background-color:#ff8a12; border-color:#ff8a12;}
     .card{background:#1d1d1de8; }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -59,15 +74,16 @@
 <div class="gradient-background-overlay"></div>
 
 <!-- Header Area Start -->
-<header class="header-area bg-img" >
+<header class="header-area bg-img">
     <div class="container-fluid h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12 h-100">
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'app/img/core-img/logo.png'%}"
-                                                                       alt="Logo"></a>
+                        <a class="navbar-brand" href="{% url 'index' %}"><img
+                                src="{% static 'app/img/core-img/logo.png'%}"
+                                alt="Logo"></a>
 
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studioMenu"
                                 aria-controls="studioMenu" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -108,13 +124,16 @@
         <div class="row justify-content-center">
             <div class="container-fluid">
                 <div class="card card-register mx-auto mt-5">
-                    <div class="card-header" style="color:#ff8a12;font-weight:700; border-bottom:solid 1px; border-color:white!important;">Register an Account</div>
+                    <div class="card-header"
+                         style="color:#ff8a12;font-weight:700; border-bottom:solid 1px; border-color:white!important;">
+                        Register an Account
+                    </div>
                     <div class="card-body">
-                        <form method="POST" >
+                        <form method="POST">
 
                             <p>Role</p>
 
-                            <input id="importer" type="checkbox" name="user_role" value="1" >
+                            <input id="importer" type="checkbox" name="user_role" value="1">
                             <label for="importer" style="color:#ff8a12;">수입자</label>
                             <input id="exporter" type="checkbox" name="user_role" value="2">
                             <label for="exporter" style="color:#ff8a12;">수출자</label>
@@ -141,6 +160,33 @@
 
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label>Address</label>
+                                    <a class="btn btn-outline-dark" style="padding:0px 10px 0px 10px; color:white;" id="postcodify_search_button">Search</a>
+                                    <ul class="list-group" >
+                                        <li class="list-group-item" style="background:#ffffff12;">
+                                            <br>
+                                            <label class="form-group-text" for="postcode">Postcode</label>
+                                            <input type="text" id="postcode" name="postcode"
+                                                   class="form-control postcodify_postcode5" value=""/><br/>
+                                            <label class="form-group-text" for="address">Address</label>
+                                            <input type="text" id="address" name="address"
+                                                   class="form-control postcodify_address" value=""/><br/>
+                                            <label class="form-group-text" for="details">Details</label>
+                                            <input type="text" id="details" name="details"
+                                                   class="form-control postcodify_details" value=""/><br/>
+                                            <label class="form-group-text" for="extra">Extra Info</label>
+                                            <input type="text" id="extra" name="extra"
+                                                   class="form-control postcodify_extra_info" value=""/><br/>
+                                            <span style="text-align:center;">
+
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <!--user_password-->
                             <div class="form-group">
                                 <div class="form-label-group">
@@ -153,7 +199,7 @@
                             <!--user_confrim_password-->
                             <div class="form-group">
                                 <div class="form-label-group">
-                                     <label for="user_confirm_pw">Comfirm Password</label>
+                                    <label for="user_confirm_pw">Comfirm Password</label>
                                     <input type="password" name='user_confirm_pw' id="user_confirm_pw"
                                            class="form-control"
                                            placeholder="Password" required="required">
@@ -162,7 +208,7 @@
                             </div>
                             <hr style="border-top:solid 1px; border-color:white!important;">
 
-                            <button  class="btn btn-outline-dark btn-block" id="register">Register</button>
+                            <button class="btn btn-outline-dark btn-block" id="register">Register</button>
                             {% csrf_token %}
 
                         </form>
@@ -220,11 +266,12 @@
 <!-- Active js -->
 <script src="{% static 'app/js/active.js'%}"></script>
 
+<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+
 </body>
 
-
-
 <script>
+$(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
 $('#register').click(function(){
 
@@ -283,6 +330,21 @@ $('#register').click(function(){
         e.focus();
         return false;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

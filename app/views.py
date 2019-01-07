@@ -1,19 +1,14 @@
 import smtplib
 import urllib.request
 import requests
-from datashape import JSON
-from django.core import serializers
 from email.message import EmailMessage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 import hashlib
-
-from django.urls import reverse
 from fpdf import FPDF, HTMLMixin
 import pyotp
 import os
-import sys
 import time
 from pandas.io import json
 from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
@@ -121,13 +116,18 @@ def addressmodify(request):
         try:
             result_dict = {}
             user_id = request.session['user_id']
+            postcode = request.POST['postcode']
             address = request.POST['address']
+            details = request.POST['details']
+            extra = request.POST['extra_info']
             member = Member.objects.get(user_id=user_id)
-            member.address = address
+            user_address = '('+ postcode + ')' + address + extra + ' ' + details
+            member.address = user_address
             member.save()
             result_dict['result'] = 'success'
             return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'fail'
             return JsonResponse(result_dict)
 
@@ -199,7 +199,8 @@ def mypage1(request):
         user_id = request.session['user_id']
         try:
             mytrade = Process.objects.filter(user1=user_id).order_by('-id')
-            return render(request, 'app/mypage1.html', {'mytrade': mytrade})
+            myaddress = Member.objects.get(user_id=user_id)
+            return render(request, 'app/mypage1.html', {'mytrade': mytrade,'myaddress':myaddress})
         except:
             return render(request, 'app/mypage1.html', {})
     except:
@@ -801,79 +802,6 @@ def remove4_2(request):
         print(e)
         return redirect('ing4_2')
 
-
-def process1_remove(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            remove = Process.objects.get(id=id)
-            remove.user1 = ' '
-            remove.save()
-        except Exception as e:
-            print(e)
-            pass
-
-    return redirect('process1')
-
-
-def process2_remove(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            remove = Process.objects.get(id=id)
-            remove.user2 = ' '
-            remove.save()
-        except Exception as e:
-            print(e)
-            pass
-
-    return redirect('process2')
-
-
-def process3_remove(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            remove = Process.objects.get(id=id)
-            remove.user3 = ' '
-            remove.save()
-        except Exception as e:
-            print(e)
-            pass
-
-    return redirect('process3')
-
-
-def process4_remove(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            remove = Process.objects.get(id=id)
-            remove.user4 = ' '
-            remove.save()
-        except Exception as e:
-            print(e)
-            pass
-
-    return redirect('process4')
-
-
 def ciremove(request):
     # deletes all objects from Car database table
     # Contract.objects.get('id').delete()
@@ -1016,80 +944,6 @@ def srremove(request):
         except:
             pass
     return redirect('cireceived')
-
-
-def process1_complete(request):
-    user_id = request.session['user_id']
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            process = Process.objects.get(id=id)
-            process.user1 = ' '
-            process.save()
-            process_complete = Process_complete.objects.get(id=id)
-            process_complete.user1 = user_id
-            process_complete.save()
-        except:
-            pass
-    return redirect('process1')
-
-
-def process2_complete(request):
-    user_id = request.session['user_id']
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            process = Process.objects.get(id=id)
-            process.user2 = ' '
-            process.save()
-            process_complete = Process_complete.objects.get(id=id)
-            process_complete.user2 = user_id
-            process_complete.save()
-        except Exception as e:
-            print(e)
-            pass
-    return redirect('process2')
-
-
-def process3_complete(request):
-    user_id = request.session['user_id']
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            process = Process.objects.get(id=id)
-            process.user3 = ' '
-            process.save()
-            process_complete = Process_complete.objects.get(id=id)
-            process_complete.user3 = user_id
-            process_complete.save()
-        except:
-            pass
-    return redirect('process3')
-
-
-def process4_complete(request):
-    user_id = request.session['user_id']
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    for id in check_ids:
-        try:
-            process = Process.objects.get(id=id)
-            process.user4 = ' '
-            process.save()
-            process_complete = Process_complete.objects.get(id=id)
-            process_complete.user4 = user_id
-            process_complete.save()
-        except Exception as e:
-            print(e)
-            pass
-    return redirect('process4')
 
 
 def submit(request):
@@ -1710,198 +1564,6 @@ def download4_2(request):
         response = HttpResponse(f, content_type='application/octet-stream')
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
-
-
-def process1(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        try:
-            contract = Process.objects.filter(user1=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process1.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
-
-def process2(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-
-        try:
-            contract = Process.objects.filter(user2=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process2.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
-
-def process3(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-
-        try:
-            contract = Process.objects.filter(user3=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process3.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
-
-def process4(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-
-        try:
-            contract = Process.objects.filter(user4=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process4.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
-
-def process1_done(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-
-        try:
-            contract = Process_complete.objects.filter(user1=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process1_done.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
-
-def process2_done(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-
-        try:
-            contract = Process_complete.objects.filter(user2=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process2_done.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
-
-def process3_done(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-
-        try:
-            contract = Process_complete.objects.filter(user3=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process3_done.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
-
-def process4_done(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-
-        try:
-            contract = Process_complete.objects.filter(user4=member).order_by('-id')
-            n = len(contract)
-            paginator = Paginator(contract, 3)
-            page = request.GET.get('page')
-            contracts = paginator.get_page(page)
-
-        except:
-            contract = None
-            n = 0
-
-        return render(request, 'app/process4_done.html', {'contract': contracts, 'n': n})
-    except Exception as e:
-        print(e)
-
-        pass
-    return redirect('index')
-
 
 def ing(request):
     try:
@@ -2683,12 +2345,16 @@ def register(request):
         user_name = request.POST.get('user_name', False)
         user_id = request.POST.get('user_id', False)
         user_pw = request.POST.get('user_pw', False)
-
+        postcode = request.POST['postcode']
+        address = request.POST['address']
+        details = request.POST['details']
+        extra = request.POST['extra']
+        user_address = '(' + postcode + ')' + address + extra + ' ' + details
         try:
             Member.objects.get(user_id=user_id)
             result_dict['result'] = '이미 가입된 아이디가 있습니다.'
         except Member.DoesNotExist:
-            member = Member(user_role=user_role, user_id=user_id, user_pw=user_pw, user_name=user_name)
+            member = Member(user_role=user_role, user_id=user_id, user_pw=user_pw, user_name=user_name, address=user_address)
             member.c_date = timezone.now()
             member.save()
             result_dict['result'] = '가입완료'

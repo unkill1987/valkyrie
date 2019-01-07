@@ -13,11 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
 
 from app import views
-from app.views import srreceived
 
 urlpatterns = [
     path('about/', views.about, name='about'),
@@ -46,20 +44,6 @@ urlpatterns = [
     path('remove4_1/', views.remove4_1, name='remove4_1'),
     path('remove4_2/', views.remove4_2, name='remove4_2'),
 
-    path('process1_remove', views.process1_remove, name='process1_remove'),
-    path('process2_remove', views.process2_remove, name='process2_remove'),
-    path('process3_remove', views.process3_remove, name='process3_remove'),
-    path('process4_remove', views.process4_remove, name='process4_remove'),
-
-    path('process1_complete', views.process1_complete, name='process1_complete'),
-    path('process2_complete', views.process2_complete, name='process2_complete'),
-    path('process3_complete', views.process3_complete, name='process3_complete'),
-    path('process4_complete', views.process4_complete, name='process4_complete'),
-
-    path('process1_done', views.process1_done, name='process1_done'),
-    path('process2_done', views.process2_done, name='process2_done'),
-    path('process3_done', views.process3_done, name='process3_done'),
-    path('process4_done', views.process4_done, name='process4_done'),
 
     path('LCR_form/', views.forms, name='forms'),
     path('CI_form/', views.forms2, name='forms2'),
@@ -114,11 +98,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('forgot/', views.forgot, name='forgot'),
     path('logout/', views.logout, name='logout'),
-
-    path('I_process/', views.process1, name='process1'),
-    path('E_process/', views.process2, name='process2'),
-    path('B_process/', views.process3, name='process3'),
-    path('F_process/', views.process4, name='process4'),
 
 
     path('search1/', views.search1, name='search1'),
