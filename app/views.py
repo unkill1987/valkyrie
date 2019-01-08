@@ -15,6 +15,7 @@ from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_
 from valweb import settings
 from django.utils import timezone
 
+
 def checkcontract(request):
     try:
         result_dict ={}
@@ -624,10 +625,6 @@ def share4_1(request):
                         process = Process.objects.get(id=contract_id)
                         process.BL_hash = hash
                         process.save()
-
-                        process_complete = Process_complete.objects.get(id=contract_id)
-                        process_complete.BL_hash = hash
-                        process_complete.save()
 
                         share = Contract_BL.objects.get(id=check_id)
                         share.share1 = share_user
@@ -2314,7 +2311,6 @@ def login(request):
             result_dict['result'] = 'fail'
         return JsonResponse(result_dict)
 
-
 def registerpage(request):
     return render(request, 'app/register.html', {})
 
@@ -2344,6 +2340,19 @@ def register(request):
         print(e)
         return redirect('registerpage')
 
+def checkid(request):
+    try:
+        result_dict ={}
+        user_id = request.POST['user_id']
+        try:
+            Member.objects.get(user_id=user_id)
+            result_dict['result'] = "exist"
+            return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = "not exist"
+            return JsonResponse(result_dict)
+    except:
+        pass
 
 def forgot(request):
     if request.method == 'GET':

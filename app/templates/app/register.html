@@ -273,6 +273,22 @@
 <script>
 $(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
+$("#user_id").keyup(function(){
+        var email = document.getElementById('user_id');
+        $.ajax({
+            url:'/checkid/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                if(res.result == 'exist' | !check(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/, email)){
+                    $('#user_id').css("background-color", "#ffcece");
+                }else{
+                    $('#user_id').css("background-color", "#dafdc5");
+                }
+            }
+        });
+    });
+
 $('#register').click(function(){
 
     var check_id = $('input:checked').val();
@@ -332,6 +348,13 @@ $('#register').click(function(){
     }
 
 
+    function check(re, e) {
+        if (re.test(e.value)) {
+           return true;
+        }
+        e.focus();
+        return false;
+    }
 
 
 

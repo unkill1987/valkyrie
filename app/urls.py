@@ -118,6 +118,8 @@ urlpatterns = [
 
     path('checkcontract/', views.checkcontract, name='checkcontract'),
 
+    path('checkid/', views.checkid, name='checkid'),
+
     path('mytrade/', views.mytrade, name='mytrade'),
     path('email/', views.email, name='email'),
 ]
