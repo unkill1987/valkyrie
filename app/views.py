@@ -185,7 +185,7 @@ def makeotp(request):
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
         ciphered_text = cipher_suite.encrypt(b"%s" % bytes(otpkey.encode('utf-8')))
-        with open('otpkey\%s.bin' % user_id , 'wb') as file_object:
+        with open('otpkey/%s.bin' % user_id , 'wb') as file_object:
             file_object.write(ciphered_text)
         otpsave = Member.objects.get(user_id=user_id)
         result_dict = {}
@@ -395,7 +395,7 @@ def share1(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+        with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
             for line in file_object:
                 encryptedpwd = line
         uncipher_text = cipher_suite.decrypt(encryptedpwd)
@@ -457,7 +457,7 @@ def share2(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+        with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
             for line in file_object:
                 encryptedpwd = line
         uncipher_text = cipher_suite.decrypt(encryptedpwd)
@@ -515,7 +515,7 @@ def share2_1(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+        with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
             for line in file_object:
                 encryptedpwd = line
         uncipher_text = cipher_suite.decrypt(encryptedpwd)
@@ -579,7 +579,7 @@ def share3(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+        with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
             for line in file_object:
                 encryptedpwd = line
         uncipher_text = cipher_suite.decrypt(encryptedpwd)
@@ -643,7 +643,7 @@ def share4_1(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+        with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
             for line in file_object:
                 encryptedpwd = line
         uncipher_text = cipher_suite.decrypt(encryptedpwd)
@@ -706,7 +706,7 @@ def share4_2(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+        with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
             for line in file_object:
                 encryptedpwd = line
         uncipher_text = cipher_suite.decrypt(encryptedpwd)
