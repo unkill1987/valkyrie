@@ -274,20 +274,31 @@
 $(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
 $("#user_id").keyup(function(){
-        var email = document.getElementById('user_id');
-        $.ajax({
-            url:'/checkid/',
-            type:'post',
-            data:$('form').serialize(),
-            success:function(res){
-                if(res.result == 'exist' | !check(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/, email)){
-                    $('#user_id').css("background-color", "#ffcece");
-                }else{
-                    $('#user_id').css("background-color", "#dafdc5");
-                }
+    var email = document.getElementById('user_id');
+    $.ajax({
+        url:'/checkid/',
+        type:'post',
+        data:$('form').serialize(),
+        success:function(res){
+            if(res.result == 'exist' | !check(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/, email)){
+                $('#user_id').css("background-color", "#ffcece");
+            }else{
+                $('#user_id').css("background-color", "#dafdc5");
             }
-        });
+        }
     });
+});
+
+
+$("#user_pw").keyup(function(){
+    var email = document.getElementById('user_pw');
+    if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, user_pw)){
+        $('#user_pw').css("background-color", "#ffcece");
+    }else{
+        $('#user_pw').css("background-color", "#dafdc5");
+    }
+});
+
 
 $('#register').click(function(){
 
@@ -309,7 +320,7 @@ $('#register').click(function(){
     }else if(!chk(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/, email, "이메일 형식에 어긋납니다.")){
         return false;
 
-    }else if(!chk(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])$/, user_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 6~16자까지, 영문은 대소문자를 구분합니다.")){
+    }else if(!chk(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, user_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 6~16자까지, 영문은 대소문자를 구분합니다.")){
         return false;
 
     }else if (user_confirm_pw.length == 0){
