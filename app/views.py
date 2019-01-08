@@ -185,11 +185,13 @@ def makeotp(request):
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
         ciphered_text = cipher_suite.encrypt(b"%s" % bytes(otpkey.encode('utf-8')))
+        with open('otpkey\%s.bin' % user_id , 'wb') as file_object:
+            file_object.write(ciphered_text)
         otpsave = Member.objects.get(user_id=user_id)
         result_dict = {}
 
         if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == '':
-            otpsave.otpkey = ciphered_text
+            otpsave.otpkey = "Issued"
             otpsave.save()
             data = pyotp.totp.TOTP(otpkey).provisioning_uri(user_id, issuer_name="Valkyrie App")
             output = {"otpkey": otpkey, 'data': data}
@@ -393,9 +395,11 @@ def share1(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
-        unciphered_text = (cipher_suite.decrypt(ciphered_text))
-        otpkey = bytes(unciphered_text).decode('utf-8')
+        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+            for line in file_object:
+                encryptedpwd = line
+        uncipher_text = cipher_suite.decrypt(encryptedpwd)
+        otpkey = bytes(uncipher_text).decode("utf-8")
 
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
@@ -453,9 +457,11 @@ def share2(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
-        unciphered_text = (cipher_suite.decrypt(ciphered_text))
-        otpkey = bytes(unciphered_text).decode('utf-8')
+        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+            for line in file_object:
+                encryptedpwd = line
+        uncipher_text = cipher_suite.decrypt(encryptedpwd)
+        otpkey = bytes(uncipher_text).decode("utf-8")
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -479,7 +485,8 @@ def share2(request):
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
 
@@ -508,9 +515,11 @@ def share2_1(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
-        unciphered_text = (cipher_suite.decrypt(ciphered_text))
-        otpkey = bytes(unciphered_text).decode('utf-8')
+        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+            for line in file_object:
+                encryptedpwd = line
+        uncipher_text = cipher_suite.decrypt(encryptedpwd)
+        otpkey = bytes(uncipher_text).decode("utf-8")
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -570,9 +579,11 @@ def share3(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
-        unciphered_text = (cipher_suite.decrypt(ciphered_text))
-        otpkey = bytes(unciphered_text).decode('utf-8')
+        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+            for line in file_object:
+                encryptedpwd = line
+        uncipher_text = cipher_suite.decrypt(encryptedpwd)
+        otpkey = bytes(uncipher_text).decode("utf-8")
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -632,9 +643,11 @@ def share4_1(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
-        unciphered_text = (cipher_suite.decrypt(ciphered_text))
-        otpkey = bytes(unciphered_text).decode('utf-8')
+        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+            for line in file_object:
+                encryptedpwd = line
+        uncipher_text = cipher_suite.decrypt(encryptedpwd)
+        otpkey = bytes(uncipher_text).decode("utf-8")
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -693,9 +706,11 @@ def share4_2(request):
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
-        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
-        unciphered_text = (cipher_suite.decrypt(ciphered_text))
-        otpkey = bytes(unciphered_text).decode('utf-8')
+        with open('otpkey\%s.bin' % user_id, 'rb') as file_object:
+            for line in file_object:
+                encryptedpwd = line
+        uncipher_text = cipher_suite.decrypt(encryptedpwd)
+        otpkey = bytes(uncipher_text).decode("utf-8")
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
