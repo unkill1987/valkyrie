@@ -806,6 +806,7 @@ img {
   color: white;
   height:50px;
   text-align: center;
+  z-index:3;
 }
 
 .single-footer-content {
