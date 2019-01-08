@@ -458,7 +458,7 @@ img {
 
 .header-area {
     width: 100%;
-    height: 110px;
+    height: 80px;
     position: fixed;
     z-index: 1000;
     top: 0;

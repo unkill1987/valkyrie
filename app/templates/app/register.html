@@ -28,8 +28,8 @@
     @media (min-width:968px){.card{width:700px;}}
     @media (max-width:768px){section{padding:50px 0px 0px 0px!important}}
     body{background-image: url(../../static/app/img/register.jpg);
-    background-repeat:no-repeat; repeat;
-    background-size:cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-position:center;}
     label,a{color:#ff8a12; weight:500;}
     .btn{color:#ff8a12;border-color:#ff8a12;}
@@ -119,7 +119,7 @@
 <!-- Social Sidebar Area End -->
 
 <!--Valkyrie System Area Start -->
-<section class="blog-area " style="padding:160px;">
+<section class="blog-area " style="padding-top:5%;padding-bottom:50px">
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
@@ -190,7 +190,8 @@
                             <!--user_password-->
                             <div class="form-group">
                                 <div class="form-label-group">
-                                    <label for="user_pw">Password(숫자,영문,특수문자 포함 6자리 이상)</label>
+                                    <label for="user_pw">Password</label>
+                                    <h6 style="color:#ff8a12;">(숫자,영문,특수문자 포함 6자리 이상)</h6>
                                     <input type="password" name='user_pw' id="user_pw" class="form-control"
                                            placeholder="Password" required="required">
 
