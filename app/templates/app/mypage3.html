@@ -141,7 +141,7 @@
                                 <form method="post" style="margin-bottom:40px;">
 
                                     <h4 style="color:#ff8a12;">주소 변경</h4>
-                                    <ui class="list-group">
+                                    <ul class="list-group">
                                         <li class="list-group-item">
                                             <h5>Your Address</h5>
                                             {{myaddress.address}}
@@ -167,13 +167,13 @@
                                             </div>
                                         </li>
                                         {% csrf_token %}
-                                    </ui>
+                                    </ul>
                                 </form>
 
 
                                 <form method="post">
                                     <h4 style="color:#ff8a12;">비밀번호 변경</h4>
-                                    <ui class="list-group">
+                                    <ul class="list-group">
                                         <li class="list-group-item">
                                             <label class="form-group-text" for="pw">password</label>
                                             <input class="form-control" id="pw" name="user_pw" type="password"
@@ -190,7 +190,7 @@
                                             </div>
                                             {% csrf_token %}
                                         </li>
-                                    </ui>
+                                    </ul>
                                 </form>
                             </div>
                         </div>
