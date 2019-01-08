@@ -14,7 +14,7 @@ from pandas.io import json
 from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, Notice
 from valweb import settings
 from django.utils import timezone
-
+import random
 
 def checkcontract(request):
     try:
@@ -153,8 +153,10 @@ def pwmodify(request):
         user_cpw = request.POST['user_cpw']
         member = Member.objects.get(user_id=user_id)
 
-        if member.user_pw == user_pw and user_npw == user_cpw:
-            member.user_pw = user_npw
+        password = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
+        new_password = hashlib.sha256(user_npw.encode('utf-8')).hexdigest()
+        if member.user_pw == password and user_npw == user_cpw:
+            member.user_pw = new_password
             member.save()
             result_dict['result'] = 'success'
             return JsonResponse(result_dict)
@@ -178,13 +180,12 @@ def makeotp(request):
         else:
             return redirect('index')
     else:
-
         user_id = request.session['user_id']
         otpkey = pyotp.random_base32()
         otpsave = Member.objects.get(user_id=user_id)
         result_dict = {}
         if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == '':
-            otpsave.otpkey = otpkey
+            otpsave.otpkey =otpkey
             otpsave.save()
             data = pyotp.totp.TOTP(otpkey).provisioning_uri(user_id, issuer_name="Valkyrie App")
             output = {"otpkey": otpkey, 'data': data}
@@ -2298,9 +2299,9 @@ def login(request):
         return render(request, 'app/login.html', {})
     else:
         email = request.POST['email']
-        password = request.POST['password']
+        user_pw = request.POST['password']
         user_role = request.POST['user_role']
-
+        password = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
         result_dict = {}
         try:
             Member.objects.get(user_role=user_role, user_id=email, user_pw=password)
@@ -2327,11 +2328,13 @@ def register(request):
         details = request.POST['details']
         extra = request.POST['extra']
         user_address = '(' + postcode + ')' + address + extra + ' ' + details
+
+        password = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
         try:
             Member.objects.get(user_id=user_id)
             result_dict['result'] = '이미 가입된 아이디가 있습니다.'
         except Member.DoesNotExist:
-            member = Member(user_role=user_role, user_id=user_id, user_pw=user_pw, user_name=user_name, address=user_address)
+            member = Member(user_role=user_role, user_id=user_id, user_pw=password, user_name=user_name, address=user_address)
             member.c_date = timezone.now()
             member.save()
             result_dict['result'] = '가입완료'
