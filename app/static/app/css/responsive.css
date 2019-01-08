@@ -121,7 +121,7 @@
         margin-top:0px!important;
         padding:10px!important;
     }
-    .card-header{
+    .card-header .card-body{
         padding:10px!important;
     }
     .col-8 {
