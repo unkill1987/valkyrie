@@ -711,8 +711,10 @@ def share4_2(request):
                 encryptedpwd = line
         uncipher_text = cipher_suite.decrypt(encryptedpwd)
         otpkey = bytes(uncipher_text).decode("utf-8")
+        print(otpkey)
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
+        print(nowotp)
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[4]['Value']['bl']['from'][10:] == user_id:

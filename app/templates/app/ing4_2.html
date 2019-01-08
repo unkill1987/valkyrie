@@ -121,7 +121,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                    <h4 >인도지시서 관리({{total_len}}건)</h4>
+                    <h4>인도지시서 관리({{total_len}}건)</h4>
 
                     <div class="row">
                         {% for c in result_list %}
@@ -150,6 +150,7 @@
                                     </a>
                                     <hr>
                                     <h6>To (수입자ID):<br>{{c.share1}}</h6>
+                                    <h6>To (은행ID):<br>{{c.share3}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -375,6 +376,7 @@
         location = '/remove4_2?check_id=' + check_ids
         return false
       })
+
 
 
 
