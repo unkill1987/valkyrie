@@ -14,7 +14,7 @@ from pandas.io import json
 from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, Notice
 from valweb import settings
 from django.utils import timezone
-import random
+from cryptography.fernet import Fernet
 
 def checkcontract(request):
     try:
@@ -182,10 +182,14 @@ def makeotp(request):
     else:
         user_id = request.session['user_id']
         otpkey = pyotp.random_base32()
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        ciphered_text = cipher_suite.encrypt(b"%s" % bytes(otpkey.encode('utf-8')))
         otpsave = Member.objects.get(user_id=user_id)
         result_dict = {}
+
         if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == '':
-            otpsave.otpkey =otpkey
+            otpsave.otpkey = ciphered_text
             otpsave.save()
             data = pyotp.totp.TOTP(otpkey).provisioning_uri(user_id, issuer_name="Valkyrie App")
             output = {"otpkey": otpkey, 'data': data}
@@ -387,7 +391,12 @@ def share1(request):
         history = urlto.json()
         result_dict = {}
 
-        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        unciphered_text = (cipher_suite.decrypt(ciphered_text))
+        otpkey = bytes(unciphered_text).decode('utf-8')
+
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -442,7 +451,11 @@ def share2(request):
         user_id = getid.values('owner')[0]['owner']
         result_dict = {}
 
-        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        unciphered_text = (cipher_suite.decrypt(ciphered_text))
+        otpkey = bytes(unciphered_text).decode('utf-8')
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -493,7 +506,11 @@ def share2_1(request):
         history = urlto.json()
         result_dict = {}
 
-        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        unciphered_text = (cipher_suite.decrypt(ciphered_text))
+        otpkey = bytes(unciphered_text).decode('utf-8')
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -551,7 +568,11 @@ def share3(request):
         history = urlto.json()
         result_dict = {}
 
-        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        unciphered_text = (cipher_suite.decrypt(ciphered_text))
+        otpkey = bytes(unciphered_text).decode('utf-8')
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -609,7 +630,11 @@ def share4_1(request):
         history = urlto.json()
         result_dict = {}
 
-        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        unciphered_text = (cipher_suite.decrypt(ciphered_text))
+        otpkey = bytes(unciphered_text).decode('utf-8')
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
@@ -666,7 +691,11 @@ def share4_2(request):
         history = urlto.json()
         result_dict = {}
 
-        otpkey = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        ciphered_text = Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey']
+        unciphered_text = (cipher_suite.decrypt(ciphered_text))
+        otpkey = bytes(unciphered_text).decode('utf-8')
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
