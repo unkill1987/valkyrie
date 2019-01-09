@@ -213,13 +213,33 @@
                     {%endif%}
                 </div>
 
-                <div class="row">
-
+               <div class="row">
                     <div style="text-align:center; margin:auto;">
+                        <a id="delete" class="btn btn-outline-dark" data-toggle="modal"
+                           data-target="#deleteModal">선택삭제</a>
 
-                        <input class="btn btn-outline-dark" type="button" value="선택삭제" id="delete_btn">
 
-
+                    </div>
+                </div>
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Select "Delete" below if you are ready to delete your
+                                documents.
+                            </div>
+                            <div class="modal-footer">
+                                <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+                                <a class="btn" style="color:white;background:#ff8a12;" id="delete_btn">Delete</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -306,7 +326,15 @@
         return false
       })
 
+$('#delete').click(function() {
+    var check_id = $('input:checked').val();
 
+   if  (check_id == null) {
+        alert("삭제할 문서를 선택하세요");
+        return false;
+     }else{
+     }
+    });
 
 </script>
 
