@@ -29,6 +29,7 @@
     th{font-size:10px;width:70px;}
     .card{margin-top:30px;}
     @media (max-width:768px){h5{font-size:14px!important;}}
+    #postcodify_search_button:hover{color:white;}
 
 </style>
 <body>
@@ -148,7 +149,7 @@
                                         </li>
                                         <li class="list-group-item">
                                             <h5>주소 검색</h5>
-                                            <div style="" id="postcodify"></div>
+                                            <a style="" id="postcodify_search_button">검색</a>
                                             <label class="form-group-text" for="postcode">Postcode</label>
                                             <input class="form-control" type="text" name="postcode" id="postcode"
                                                    value=""/><br/>
@@ -178,7 +179,8 @@
                                             <label class="form-group-text" for="pw">password</label>
                                             <input class="form-control" id="pw" name="user_pw" type="password"
                                                    required="required">
-                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리 이상)</label>
+                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리
+                                                이상)</label>
                                             <input class="form-control" id="npw" name="user_npw" type="password"
                                                    required="required">
                                             <label class="form-group-text" for="cpw">confirm new password</label>
@@ -280,7 +282,7 @@
                     </div>
                 </div>
 
-                 <div class="col-8 mx-auto">
+                <div class="col-8 mx-auto">
                     <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="myqna()">문의 하기
                         </button>
@@ -290,7 +292,7 @@
                                     <h4 style="color:#ff8a12;">문의 사항</h4>
                                     <form method="post">
                                         <textarea class="form-control" rows="5" id="email" name="email"></textarea>
-                                         <p style="color:#ff8a12;">*답장은 ID(e-mail)로 전송됩니다.</p>
+                                        <p style="color:#ff8a12;">*답장은 ID(e-mail)로 전송됩니다.</p>
                                         <div style="margin-top:20px;text-align:center;">
 
                                             <button id="form4" class="btn btn-outline-dark">이메일 보내기</button>
@@ -379,13 +381,7 @@
 
 </body>
 <script>
- $(function() { $("#postcodify").postcodify({
-        insertPostcode5 : "#postcode",
-        insertAddress : "#address",
-        insertDetails : "#details",
-        insertExtraInfo : "#extra_info",
-        hideOldAddresses : false
-    }); });
+$(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
 function personaltoggle(){
     var personal = document.getElementById("personal");
@@ -576,6 +572,7 @@ function myqna(){
         e.focus();
         return false;
     }
+
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>
 <script type="text/javascript">
@@ -607,6 +604,7 @@ function myqna(){
             })
             return false
          })
+
 
 
 

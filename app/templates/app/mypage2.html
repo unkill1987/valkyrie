@@ -29,6 +29,7 @@
     th{font-size:10px;width:70px;}
     .card{margin-top:30px;}
     @media (max-width:768px){h5{font-size:14px!important;}}
+    #postcodify_search_button:hover{color:white;}
 </style>
 <body>
 <!-- Preloader -->
@@ -105,7 +106,8 @@
                                     <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal"
+                                       data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
                             <!-- Search Form -->
@@ -120,7 +122,6 @@
 <!-- Header Area End -->
 
 
-
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -129,7 +130,7 @@
                 <!-- /here -->
 
                 <div class="col-8 mx-auto">
-                    <div class="card" >
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="personaltoggle()">개인정보 수정
                         </button>
                         <div class="card-body" id="personal" style="display:none;">
@@ -146,19 +147,25 @@
                                             {{myaddress.address}}
                                         </li>
                                         <li class="list-group-item">
-                                            <h5>주소 검색</h5>
-                                            <div style="" id="postcodify"></div>
+                                            <div>
+                                                <a style="" class="btn btn-outline-dark" id="postcodify_search_button">주소
+                                                    찾기</a>
+                                            </div>
                                             <label class="form-group-text" for="postcode">Postcode</label>
-                                            <input class="form-control" type="text" name="postcode" id="postcode"
+                                            <input class="form-control postcodify_postcode5" type="text" name="postcode"
+                                                   id="postcode"
                                                    value=""/><br/>
                                             <label class="form-group-text" for="address">Address</label>
-                                            <input class="form-control" type="text" name="address" id="address"
+                                            <input class="form-control postcodify_address" type="text" name="address"
+                                                   id="address"
                                                    value=""/><br/>
                                             <label class="form-group-text" for="details">Details</label>
-                                            <input class="form-control" type="text" name="details" id="details"
+                                            <input class="form-control postcodify_details" type="text" name="details"
+                                                   id="details"
                                                    value=""/><br/>
                                             <label class="form-group-text" for="extra_info">Extra Info</label>
-                                            <input class="form-control" type="text" name="extra_info" id="extra_info"
+                                            <input class="form-control postcodify_extra_info" type="text"
+                                                   name="extra_info" id="extra_info"
                                                    value=""/><br/>
                                             <div class="form-group-append" style="text-align:center;padding-top:20px;">
                                                 <button id="form1" class="btn btn-outline-dark">수정하기</button>
@@ -177,7 +184,8 @@
                                             <label class="form-group-text" for="pw">password</label>
                                             <input class="form-control" id="pw" name="user_pw" type="password"
                                                    required="required">
-                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리 이상)</label>
+                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리
+                                                이상)</label>
                                             <input class="form-control" id="npw" name="user_npw" type="password"
                                                    required="required">
                                             <label class="form-group-text" for="cpw">confirm new password</label>
@@ -200,7 +208,7 @@
 
 
                 <div class="col-8 mx-auto">
-                    <div class="card" >
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="otptoggle()">OTP 등록하기</button>
                         <div class="card-body" id="otp" style="display:none; text-align:center;">
                             <div class="col-12">
@@ -230,13 +238,13 @@
                 </div>
 
 
-                    <div class="col-8 mx-auto">
+                <div class="col-8 mx-auto">
                     <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
                         </button>
                         <div class="card-body" id="trade" style="display:block;text-align;center;display:none;">
                             <form method="post">
-                                <div class="form-group" >
+                                <div class="form-group">
                                     <h4 style="color:#ff8a12;">진행 사항</h4>
                                     <table class="mx-auto">
                                         <tr>
@@ -250,11 +258,11 @@
                                             <th style="text-align:right;">End</th>
                                         </tr>
                                         <tr>
-                                        <td colspan="10">
-                                            <div class="progress" id="progress">
+                                            <td colspan="10">
+                                                <div class="progress" id="progress">
 
-                                            </div>
-                                        </td>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </table>
 
@@ -269,7 +277,8 @@
                                     </div>
                                     <div style="text-align:center; margin-top:20px">
                                         <button id="form3" class="btn btn-outline-dark ">진행 사항 보기</button>
-                                        <button class="btn btn-outline-dark" formaction="{% url 'search2'%}">내역 보기</button>
+                                        <button class="btn btn-outline-dark" formaction="{% url 'search2'%}">내역 보기
+                                        </button>
                                     </div>
                                 </div>
                                 {% csrf_token %}
@@ -278,8 +287,8 @@
                     </div>
                 </div>
 
-                 <div class="col-8 mx-auto">
-                    <div class="card" >
+                <div class="col-8 mx-auto">
+                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="myqna()">문의 하기
                         </button>
                         <div class="card-body" id="qna" style="display:none;">
@@ -288,7 +297,7 @@
                                     <h4 style="color:#ff8a12;">문의 사항</h4>
                                     <form method="post">
                                         <textarea class="form-control" rows="5" id="email" name="email"></textarea>
-                                         <p style="color:#ff8a12;">*답장은 ID(e-mail)로 전송됩니다.</p>
+                                        <p style="color:#ff8a12;">*답장은 ID(e-mail)로 전송됩니다.</p>
                                         <div style="margin-top:20px;text-align:center;">
 
                                             <button id="form4" class="btn btn-outline-dark">이메일 보내기</button>
@@ -374,13 +383,7 @@
 
 </body>
 <script>
- $(function() { $("#postcodify").postcodify({
-        insertPostcode5 : "#postcode",
-        insertAddress : "#address",
-        insertDetails : "#details",
-        insertExtraInfo : "#extra_info",
-        hideOldAddresses : false
-    }); });
+$(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
 function personaltoggle(){
     var personal = document.getElementById("personal");
@@ -573,6 +576,7 @@ function myqna(){
         return false;
     }
 
+
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>
 <script type="text/javascript">
@@ -603,6 +607,7 @@ function myqna(){
             })
             return false
          })
+
 
 
 

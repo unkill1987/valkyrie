@@ -219,7 +219,8 @@ def mypage2(request):
         user_id = request.session['user_id']
         try:
             mytrade = Process.objects.filter(user2=user_id).order_by('-id')
-            return render(request, 'app/mypage2.html', {'mytrade': mytrade})
+            myaddress = Member.objects.get(user_id=user_id)
+            return render(request, 'app/mypage2.html', {'mytrade': mytrade,'myaddress':myaddress})
         except:
             return render(request, 'app/mypage2.html', {})
     except:
@@ -231,7 +232,8 @@ def mypage3(request):
         user_id = request.session['user_id']
         try:
             mytrade = Process.objects.filter(user3=user_id).order_by('-id')
-            return render(request, 'app/mypage3.html', {'mytrade': mytrade})
+            myaddress = Member.objects.get(user_id=user_id)
+            return render(request, 'app/mypage3.html', {'mytrade': mytrade,'myaddress':myaddress})
         except:
             return render(request, 'app/mypage3.html', {})
     except:
@@ -243,7 +245,8 @@ def mypage4(request):
         user_id = request.session['user_id']
         try:
             mytrade = Process.objects.filter(user4=user_id).order_by('-id')
-            return render(request, 'app/mypage4.html', {'mytrade': mytrade})
+            myaddress = Member.objects.get(user_id=user_id)
+            return render(request, 'app/mypage4.html', {'mytrade': mytrade,'myaddress':myaddress})
         except:
             return render(request, 'app/mypage4.html', {})
     except:

@@ -29,6 +29,7 @@
     th{font-size:10px;width:70px;}
     .card{margin-top:30px;}
     @media (max-width:768px){h5{font-size:14px!important;}}
+    #postcodify_search_button:hover{color:white;}
 
 
 
@@ -150,7 +151,7 @@
                                         </li>
                                         <li class="list-group-item">
                                             <h5>주소 검색</h5>
-                                            <div style="" id="postcodify"></div>
+                                            <a style="" id="postcodify_search_button">검색</a>
                                             <label class="form-group-text" for="postcode">Postcode</label>
                                             <input class="form-control" type="text" name="postcode" id="postcode"
                                                    value=""/><br/>
@@ -180,7 +181,8 @@
                                             <label class="form-group-text" for="pw">password</label>
                                             <input class="form-control" id="pw" name="user_pw" type="password"
                                                    required="required">
-                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리 이상)</label>
+                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리
+                                                이상)</label>
                                             <input class="form-control" id="npw" name="user_npw" type="password"
                                                    required="required">
                                             <label class="form-group-text" for="cpw">confirm new password</label>
@@ -379,13 +381,7 @@
 
 </body>
 <script>
- $(function() { $("#postcodify").postcodify({
-        insertPostcode5 : "#postcode",
-        insertAddress : "#address",
-        insertDetails : "#details",
-        insertExtraInfo : "#extra_info",
-        hideOldAddresses : false
-    }); });
+$(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
 function personaltoggle(){
     var personal = document.getElementById("personal");
@@ -584,6 +580,7 @@ $("#npw").keyup(function(){
 
 
 
+
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>
 <script type="text/javascript">
@@ -615,6 +612,7 @@ $("#npw").keyup(function(){
             })
             return false
          })
+
 
 
 
