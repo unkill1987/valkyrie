@@ -402,9 +402,9 @@ $(document).ready(function(){
                 location = '/CI/'
                 }
             }
-        })
+        });
         return false
-     })
+     });
 
      $('#delete_btn').click(function() {
     $('.btn').attr('disabled',true);
@@ -413,7 +413,7 @@ $(document).ready(function(){
         $('input:checked').each(function() {
           check_ids += sep + $(this).val()
           sep = ','
-        })
+        });
         location = '/remove2?check_id=' + check_ids
         return false
       });
