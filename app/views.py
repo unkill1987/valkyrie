@@ -206,8 +206,8 @@ def mypage1(request):
         user_id = request.session['user_id']
         try:
             mytrade = Process.objects.filter(user1=user_id).order_by('-id')
-            myaddress = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage1.html', {'mytrade': mytrade,'myaddress':myaddress})
+            user_info = Member.objects.get(user_id=user_id)
+            return render(request, 'app/mypage1.html', {'mytrade': mytrade,'user_info':user_info})
         except:
             return render(request, 'app/mypage1.html', {})
     except:
@@ -2370,6 +2370,8 @@ def register(request):
         user_name = request.POST.get('user_name', False)
         user_id = request.POST.get('user_id', False)
         user_pw = request.POST.get('user_pw', False)
+        businessnum = request.POST['businessnum']
+        tbc = request.POST['tbc']
         postcode = request.POST['postcode']
         address = request.POST['address']
         details = request.POST['details']
@@ -2381,7 +2383,7 @@ def register(request):
             Member.objects.get(user_id=user_id)
             result_dict['result'] = '이미 가입된 아이디가 있습니다.'
         except Member.DoesNotExist:
-            member = Member(user_role=user_role, user_id=user_id, user_pw=password, user_name=user_name, address=user_address)
+            member = Member(user_role=user_role, user_id=user_id, user_pw=password, user_name=user_name, address=user_address, tbc=tbc, businessnum=businessnum)
             member.c_date = timezone.now()
             member.save()
             result_dict['result'] = '가입완료'

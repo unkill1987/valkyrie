@@ -30,6 +30,8 @@
     .card{margin-top:30px;}
     @media (max-width:768px){h5{font-size:14px!important;}}
     #postcodify_search_button:hover{color:white;}
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -130,6 +132,40 @@
                 <!-- /here -->
 
                 <div class="col-8 mx-auto">
+
+                    <div class="card">
+                        <button class="card-header btn btn-outline-dark" onclick="userinfotoggle()">나의 정보
+                        </button>
+                        <div class="card-body" id="userinfo" style="display:none;">
+                            <ul class="list-group">
+                                <h4 style="color:#ff8a12;"> {{user_info.user_id}}</h4>
+
+                                <li class="list-group-item">
+                                    <h5>Name</h5>
+                                    {{user_info.user_name}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>Address</h5>
+                                    {{user_info.address}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>Business Number</h5>
+                                    {{user_info.businessnum}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>Trade Business Code</h5>
+                                    {{user_info.tbc}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>OTP</h5>
+                                    {{user_info.otpkey}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-8 mx-auto">
                     <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="personaltoggle()">개인정보 수정
                         </button>
@@ -142,10 +178,7 @@
 
                                     <h4 style="color:#ff8a12;">주소 변경</h4>
                                     <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <h5>Your Address</h5>
-                                            {{myaddress.address}}
-                                        </li>
+
                                         <li class="list-group-item">
                                             <div>
                                                 <a style="" class="btn btn-outline-dark" id="postcodify_search_button">주소
@@ -385,6 +418,15 @@
 <script>
 $(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
+function userinfotoggle(){
+    var userinfo = document.getElementById("userinfo");
+    if (userinfo.style.display === "inline-block"){
+        userinfo.style.display = "none";
+    } else {
+        userinfo.style.display = "inline-block";
+    }
+}
+
 function personaltoggle(){
     var personal = document.getElementById("personal");
     if (personal.style.display === "inline-block"){
@@ -562,9 +604,9 @@ function myqna(){
     $("#npw").keyup(function(){
     var email = document.getElementById('npw');
     if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, npw)){
-        $('#npw').css("background-color", "#ffcece");
+         $('#npw').css("border", "#ff0000 solid 2px");
     }else{
-        $('#npw').css("background-color", "#dafdc5");
+        $('#npw').css("border", "#00ff3b solid 2px");
     }
 });
 
@@ -575,6 +617,8 @@ function myqna(){
         e.focus();
         return false;
     }
+
+
 
 
 </script>
@@ -607,6 +651,8 @@ function myqna(){
             })
             return false
          })
+
+
 
 
 

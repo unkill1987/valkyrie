@@ -30,11 +30,13 @@
     body{background-image: url(../../static/app/img/register.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size:cover;
     background-position:center;}
     label,a{color:#ff8a12; weight:500;}
     .btn{color:#ff8a12;border-color:#ff8a12;}
     .btn:hover{background-color:#ff8a12; border-color:#ff8a12;}
     .card{background:#1d1d1de8; }
+
 
 
 </style>
@@ -146,12 +148,29 @@
 
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label for="businessnum">Business Number</label>
+                                    <input type="text" name='businessnum' id="businessnum" class="form-control"
+                                           placeholder="Business Number" required="required">
 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label for="tbc">Trade Business Code</label>
+                                    <input type="text" name='tbc' id="tbc" class="form-control"
+                                           placeholder="Trade Business Code" required="required">
+
+                                </div>
+                            </div>
+                            <hr style="border-top:solid 1px; border-color:white!important;">
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label>Address</label>
-                                    <a class="btn btn-outline-dark" style="padding:0px 10px 0px 10px; color:white;" id="postcodify_search_button">Search</a>
-                                    <ul class="list-group" >
+                                    <a class="btn btn-outline-dark" style="padding:0px 10px 0px 10px; color:white;"
+                                       id="postcodify_search_button" onclick="addresstoggle()">Search</a>
+                                    <ul class="list-group" id="addressform" style="display:none;">
                                         <li class="list-group-item" style="background:#ffffff12;">
                                             <br>
                                             <label class="form-group-text" for="postcode">Postcode</label>
@@ -173,6 +192,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            <hr style="border-top:solid 1px; border-color:white!important;">
                             <!--user_password-->
                             <div class="form-group">
                                 <div class="form-label-group">
@@ -260,6 +280,14 @@
 <script>
 $(function() { $("#postcodify_search_button").postcodifyPopUp(); });
 
+function addresstoggle(){
+    var address = document.getElementById("addressform");
+    if (address.style.display === "none"){
+        address.style.display = "inline";
+    } else {
+    }
+}
+
 $("#user_id").keyup(function(){
     var email = document.getElementById('user_id');
     $.ajax({
@@ -280,9 +308,9 @@ $("#user_id").keyup(function(){
 $("#user_pw").keyup(function(){
     var email = document.getElementById('user_pw');
     if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, user_pw)){
-        $('#user_pw').css("background-color", "#ffcece");
+        $('#user_pw').css("border", "#ff0000 solid 2px");
     }else{
-        $('#user_pw').css("background-color", "#dafdc5");
+        $('#user_pw').css("border", "#00ff3b solid 2px");
     }
 });
 
@@ -291,6 +319,8 @@ $('#register').click(function(){
 
     var check_id = $('input:checked').val();
     var name = $('#user_name').val();
+    var businessnum = $('#businessnum').val();
+    var tbc = $('#tbc').val();
     var user_pw = document.getElementById('user_pw');
     var user_confirm_pw = $('#user_confirm_pw').val();
     var user_pass = $('#user_pw').val();
@@ -305,6 +335,14 @@ $('#register').click(function(){
         return false;
 
     }else if(!chk(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/, email, "이메일 형식에 어긋납니다.")){
+        return false;
+
+    }else if (businessnum.length == 0){
+        alert("사업자번호를 입력하세요");
+        return false;
+
+    }else if (tbc.length == 0){
+        alert("무역업고유번호를 입력하세요");
         return false;
 
     }else if(!chk(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, user_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 6~16자까지, 영문은 대소문자를 구분합니다.")){
@@ -353,6 +391,7 @@ $('#register').click(function(){
         e.focus();
         return false;
     }
+
 
 
 

@@ -148,7 +148,7 @@
                                 <input class="form-control" id="cid" name="cid" type="text" required="required">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-outline-dark"
-                                            style="background-color:#ff8a12;color:white;border-color: #ff8a12;border-top-left-radius:0px;border-bottom-left-radius:0px;">
+                                            style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">
                                         search
                                     </button>
                                 </div>
@@ -288,9 +288,9 @@ $("#cid").keyup(function(){
             data:$('form').serialize(),
             success:function(res){
                 if(res.result == 'exist'){
-                    $('#cid').css("background-color", "#dafdc5");
+                     $('#cid').css("border", "#00ff3b solid 2px");
                 }else{
-                    $('#cid').css("background-color", "#ffcece");
+                    $('#cid').css("border", "#ff0000 solid 2px");
                 }
             }
         });

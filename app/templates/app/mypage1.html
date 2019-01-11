@@ -35,6 +35,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -122,8 +134,6 @@
         </div>
     </div>
 </header>
-<!-- Header Area End -->
-
 
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
@@ -131,6 +141,40 @@
         <div class="row justify-content-center">
             <div class="container-fluid">
                 <!-- /here -->
+
+                <div class="col-8 mx-auto">
+
+                        <div class="card" >
+                           <button class="card-header btn btn-outline-dark" onclick="userinfotoggle()">나의 정보
+                        </button>
+                            <div class="card-body" id="userinfo" style="display:none;">
+                            <ul class="list-group">
+                              <h4 style="color:#ff8a12;"> {{user_info.user_id}}</h4>
+
+                                <li class="list-group-item">
+                                    <h5>Name</h5>
+                                    {{user_info.user_name}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>Address</h5>
+                                    {{user_info.address}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>Business Number</h5>
+                                    {{user_info.businessnum}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>Trade Business Code</h5>
+                                    {{user_info.tbc}}
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>OTP</h5>
+                                    {{user_info.otpkey}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-8 mx-auto">
                     <div class="card">
@@ -144,27 +188,37 @@
                                 <form method="post" style="margin-bottom:40px;">
 
                                     <h4 style="color:#ff8a12;">주소 변경</h4>
+
                                     <ul class="list-group">
+
                                         <li class="list-group-item">
-                                            <h5>Your Address</h5>
-                                            {{myaddress.address}}
-                                        </li>
-                                        <li class="list-group-item">
-                                            <h5>주소 검색</h5>
-                                            <a style="" id="postcodify_search_button">검색</a>
+
+                                            <div>
+                                                <a style="" class="btn btn-outline-dark"
+                                                   id="postcodify_search_button">주소
+                                                    찾기</a>
+                                            </div>
                                             <label class="form-group-text" for="postcode">Postcode</label>
-                                            <input class="form-control" type="text" name="postcode" id="postcode"
+                                            <input class="form-control postcodify_postcode5" type="text"
+                                                   name="postcode"
+                                                   id="postcode"
                                                    value=""/><br/>
                                             <label class="form-group-text" for="address">Address</label>
-                                            <input class="form-control" type="text" name="address" id="address"
+                                            <input class="form-control postcodify_address" type="text"
+                                                   name="address"
+                                                   id="address"
                                                    value=""/><br/>
                                             <label class="form-group-text" for="details">Details</label>
-                                            <input class="form-control" type="text" name="details" id="details"
+                                            <input class="form-control postcodify_details" type="text"
+                                                   name="details"
+                                                   id="details"
                                                    value=""/><br/>
                                             <label class="form-group-text" for="extra_info">Extra Info</label>
-                                            <input class="form-control" type="text" name="extra_info" id="extra_info"
+                                            <input class="form-control postcodify_extra_info" type="text"
+                                                   name="extra_info" id="extra_info"
                                                    value=""/><br/>
-                                            <div class="form-group-append" style="text-align:center;padding-top:20px;">
+                                            <div class="form-group-append"
+                                                 style="text-align:center;padding-top:20px;">
                                                 <button id="form1" class="btn btn-outline-dark">수정하기</button>
                                                 <button class="btn btn-outline-dark" type="reset">다시작성</button>
                                             </div>
@@ -179,18 +233,27 @@
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <label class="form-group-text" for="pw">password</label>
-                                            <input class="form-control" id="pw" name="user_pw" type="password"
+                                            <input class="form-control" id="pw" name="user_pw"
+                                                   type="password"
                                                    required="required">
-                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리
+                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자
+                                                포함
+                                                6자리
                                                 이상)</label>
-                                            <input class="form-control" id="npw" name="user_npw" type="password"
+                                            <input class="form-control" id="npw" name="user_npw"
+                                                   type="password"
                                                    required="required">
-                                            <label class="form-group-text" for="cpw">confirm new password</label>
-                                            <input class="form-control" id="cpw" name="user_cpw" type="password"
+                                            <label class="form-group-text" for="cpw">confirm new
+                                                password</label>
+                                            <input class="form-control" id="cpw" name="user_cpw"
+                                                   type="password"
                                                    required="required">
-                                            <div class="form-group-append" style="text-align:center;padding-top:20px;">
-                                                <button id="form2" class="btn btn-outline-dark">수정하기</button>
-                                                <button class="btn btn-outline-dark" type="reset">다시작성</button>
+                                            <div class="form-group-append"
+                                                 style="text-align:center;padding-top:20px;">
+                                                <button id="form2" class="btn btn-outline-dark">수정하기
+                                                </button>
+                                                <button class="btn btn-outline-dark" type="reset">다시작성
+                                                </button>
                                             </div>
                                             {% csrf_token %}
                                         </li>
@@ -206,7 +269,8 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card">
-                        <button class="card-header btn btn-outline-dark" onclick="otptoggle()">OTP 등록하기</button>
+                        <button class="card-header btn btn-outline-dark" onclick="otptoggle()">OTP 등록하기
+                        </button>
                         <div class="card-body" id="otp" style="display:none; text-align:center;">
 
                             <div class="col-12">
@@ -240,7 +304,8 @@
                     <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
                         </button>
-                        <div class="card-body" id="trade" style="display:block;text-align;center;display:none;">
+                        <div class="card-body" id="trade"
+                             style="display:block;text-align;center;display:none;">
                             <form method="post">
                                 <div class="form-group">
                                     <h4 style="color:#ff8a12;">진행 사항</h4>
@@ -275,7 +340,9 @@
                                     </div>
                                     <div style="text-align:center; margin-top:20px">
                                         <button id="form3" class="btn btn-outline-dark ">진행 사항 보기</button>
-                                        <button class="btn btn-outline-dark" formaction="{% url 'search1'%}">내역 보기
+                                        <button class="btn btn-outline-dark"
+                                                formaction="{% url 'search1'%}">내역
+                                            보기
                                         </button>
                                     </div>
                                 </div>
@@ -294,7 +361,8 @@
                                 <div class="form-group">
                                     <h4 style="color:#ff8a12;">문의 사항</h4>
                                     <form method="post">
-                                        <textarea class="form-control" rows="5" id="email" name="email"></textarea>
+                                                <textarea class="form-control" rows="5" id="email"
+                                                          name="email"></textarea>
                                         <p style="color:#ff8a12;">*답장은 ID(e-mail)로 전송됩니다.</p>
                                         <div style="margin-top:20px;text-align:center;">
 
@@ -310,13 +378,15 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
             </div>
+            <!-- /.row -->
         </div>
 
-        <!-- Sticky Footer -->
-
     </div>
+
+
+    <!-- Sticky Footer -->
+
 </section>
 <!--Valkyrie System Area End -->
 
@@ -382,6 +452,17 @@
 </body>
 <script>
 $(function() { $("#postcodify_search_button").postcodifyPopUp(); });
+
+
+
+function userinfotoggle(){
+    var userinfo = document.getElementById("userinfo");
+    if (userinfo.style.display === "inline-block"){
+        userinfo.style.display = "none";
+    } else {
+        userinfo.style.display = "inline-block";
+    }
+}
 
 function personaltoggle(){
     var personal = document.getElementById("personal");
@@ -559,9 +640,9 @@ function myqna(){
 $("#npw").keyup(function(){
     var email = document.getElementById('npw');
     if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, npw)){
-        $('#npw').css("background-color", "#ffcece");
+        $('#npw').css("border", "#ff0000 solid 2px");
     }else{
-        $('#npw').css("background-color", "#dafdc5");
+        $('#npw').css("border", "#00ff3b solid 2px");
     }
 });
 
@@ -572,6 +653,18 @@ $("#npw").keyup(function(){
         e.focus();
         return false;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -612,6 +705,18 @@ $("#npw").keyup(function(){
             })
             return false
          })
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

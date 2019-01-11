@@ -10,8 +10,10 @@ class Member(models.Model):
     user_id = models.CharField(max_length=30, primary_key=True)
     user_name = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
+    businessnum = models.CharField(max_length=30)
+    tbc = models.CharField(max_length=30)
     otpkey = models.CharField(max_length=20)
-    user_pw = models.CharField(max_length=50)
+    user_pw = models.CharField(max_length=100)
     c_date = models.DateTimeField(null=True)
 
     def __str__(self):
