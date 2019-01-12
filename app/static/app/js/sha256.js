@@ -126,7 +126,7 @@
           if (is_crypto && file.size < max_crypto_file_size) {
             crypto_algos.push({id: "#sha256_file_hash_" + file_id, name: "SHA-256"});
           } else {
-            worker = new Worker('https://md5file.com/js/calculator/calculator.worker.sha256.js');
+            worker = new Worker('/static/app/js/hash.js');
             worker.addEventListener('message', handle_worker_event('sha256_file_hash_' + file_id));
             workers.push(worker);
           }
