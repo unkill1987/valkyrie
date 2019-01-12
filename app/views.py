@@ -16,6 +16,9 @@ from valweb import settings
 from django.utils import timezone
 from cryptography.fernet import Fernet
 
+def hash(request):
+    return render(request, 'app/hash.html', {})
+
 def checkcontract(request):
     try:
         result_dict ={}

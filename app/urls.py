@@ -122,4 +122,6 @@ urlpatterns = [
 
     path('mytrade/', views.mytrade, name='mytrade'),
     path('email/', views.email, name='email'),
+
+    path('hash/', views.hash, name='hash'),
 ]

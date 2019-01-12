@@ -28,6 +28,8 @@
     .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:18px;}
 @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
+  #drop_zone, #doc_check{color:#ff8a12;border-color:#ff8a12;}
+    #drop_zone:hover, #doc_check:hover{background-color:#ff8a12; border-color:#ff8a12;color:white;}
 </style>
 <body>
 <!-- Preloader -->
@@ -171,12 +173,32 @@
                                         {{c.Value.do.To}}
                                     </td>
 
-                                    <td>{{c.Value.ci.doc_hash}}
+                                    <td>
+                                        <div id ="doc_hash">{{c.Value.ci.doc_hash}}
                                         {{c.Value.lcr.doc_hash}}
                                         {{c.Value.lc.doc_hash}}
                                         {{c.Value.sr.doc_hash}}
                                         {{c.Value.bl.doc_hash}}
                                         {{c.Value.do.doc_hash}}
+                                        </div>
+                                        <div>
+                                            <input style="display:none;" class="checkbox" type="checkbox" id="crypto"
+                                                   title="Fastest SHA-256(WebCrypto API)"/>
+                                            <input style="display:none;" type="checkbox" id="hash_sha256"
+                                                   title="Check this to calculate SHA2 (SHA-256) file hash" checked/>
+                                            <div style="float: right">
+                                                <input style="display:none;" type="file" id="files" name="files[]" multiple/>
+                                            </div>
+                                        </div>
+                                        <div id="list"></div>
+                                        <div class="btn btn-outline-dark" id="drop_zone">
+                                            파일 선택
+                                        </div>
+                                        <div class="btn btn-outline-dark"  id="doc_check">
+                                            진위여부 확인
+                                        </div>
+
+
                                     </td>
 
                                     <td>{{c.TxId}}</td>
@@ -255,10 +277,21 @@
 <!-- Active js -->
 <script src="{% static 'app/js/active.js'%}"></script>
 
+<script src="{% static 'app/js/sha256.js' %}"></script>
 </body>
 
 <script>
+$('#doc_check').click(function(){
+    var doc = document.getElementById("doc_hash").textContent.trim();
+    var x = doc.slice(-64);
+    var y = document.getElementById("list").textContent;
 
+    if (x != y){
+        $('#list').css("color", "#ff1f1f");
+    }else{
+        $('#list').css("color", "#39ff39");
+    }
+});
 </script>
 
 
