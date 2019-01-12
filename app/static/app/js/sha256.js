@@ -10,11 +10,10 @@
 
     var file_id = 1, drop_zone, is_crypto = false;
 
-    document.getElementById('drop_zone').onclick = function () {
+    $('#drop_zone').on('click', function () {
       document.getElementById('files').click();
-
       return false;
-    };
+    });
 
     if ((typeof File !== 'undefined') && !File.prototype.slice) {
       if(File.prototype.webkitSlice) {
