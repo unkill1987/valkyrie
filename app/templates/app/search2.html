@@ -289,9 +289,8 @@
 </body>
 
 <script>
-$('#doc_check')on('click', function(this){
-    var doc = document.getElementById("doc_hash").textContent.trim();
-    var x = doc.slice(-64);
+$('#doc_check').click(function(){
+    var x = $('#doc_hash').val();
     var y = document.getElementById("list").textContent;
 
     if (x != y){
@@ -301,6 +300,9 @@ $('#doc_check')on('click', function(this){
     }
 });
 
+$('#list').change(function(){
+    $('#list').css("color", "white");
+});
 </script>
 
 
