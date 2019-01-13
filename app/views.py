@@ -17,6 +17,15 @@ from django.utils import timezone
 from cryptography.fernet import Fernet
 
 
+def user_manual(request):
+    filepath = os.path.join(settings.BASE_DIR, 'app/static/app/manual/user_manual.pdf')
+    # filepath = os.path.join('/home/valkyrie1234', c.filename)
+    filename = os.path.basename(filepath)
+    with open(filepath, 'rb') as f:
+        response = HttpResponse(f, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        return response
+
 def checkcontract(request):
     try:
         result_dict ={}
