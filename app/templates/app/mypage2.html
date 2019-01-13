@@ -217,7 +217,7 @@
                                             <label class="form-group-text" for="pw">password</label>
                                             <input class="form-control" id="pw" name="user_pw" type="password"
                                                    required="required">
-                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 6자리
+                                            <label class="form-group-text" for="npw">new password<br>(숫자,영문,특수문자 포함 8자리
                                                 이상)</label>
                                             <input class="form-control" id="npw" name="user_npw" type="password"
                                                    required="required">
@@ -565,7 +565,7 @@ function myqna(){
         alert("비밀번호를 입력하세요");
         return false;
 
-    }else if (!chk(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, n_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 6~16자까지, 영문은 대소문자를 구분합니다.")){
+    }else if (!chk(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, n_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 8~16자까지, 영문은 대소문자를 구분합니다.")){
         return false;
     }else if (c_pass.length == 0){
         alert("비밀번호 확인란을 입력하세요.");
@@ -603,7 +603,7 @@ function myqna(){
 
     $("#npw").keyup(function(){
     var email = document.getElementById('npw');
-    if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, npw)){
+    if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, npw)){
          $('#npw').css("border", "#ff0000 solid 2px");
     }else{
         $('#npw').css("border", "#00ff3b solid 2px");

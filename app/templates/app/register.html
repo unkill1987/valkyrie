@@ -197,7 +197,7 @@
                             <div class="form-group">
                                 <div class="form-label-group">
                                     <label for="user_pw">Password</label>
-                                    <h6 style="color:#ff8a12;">(숫자,영문,특수문자 포함 6자리 이상)</h6>
+                                    <h6 style="color:#ff8a12;">(숫자,영문,특수문자 포함 8자리 이상)</h6>
                                     <input type="password" name='user_pw' id="user_pw" class="form-control"
                                            placeholder="Password" required="required">
 
@@ -307,7 +307,7 @@ $("#user_id").keyup(function(){
 
 $("#user_pw").keyup(function(){
     var email = document.getElementById('user_pw');
-    if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, user_pw)){
+    if(!check(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, user_pw)){
         $('#user_pw').css("border", "#ff0000 solid 2px");
     }else{
         $('#user_pw').css("border", "#00ff3b solid 2px");
@@ -345,7 +345,7 @@ $('#register').click(function(){
         alert("무역업고유번호를 입력하세요");
         return false;
 
-    }else if(!chk(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/, user_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 6~16자까지, 영문은 대소문자를 구분합니다.")){
+    }else if(!chk(/^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, user_pw, "비밀번호 : 영문,숫자,특수문자(!@$%^&* 만 허용)를 사용하여 8~16자까지, 영문은 대소문자를 구분합니다.")){
         return false;
 
     }else if (user_confirm_pw.length == 0){

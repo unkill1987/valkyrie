@@ -311,10 +311,10 @@ def search2(request):
         history = res.json()
 
         if len(history) == 0:
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage2.html', {})
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
     except Exception as e:
         return redirect('index')
 
@@ -341,10 +341,10 @@ def search3(request):
         history = res.json()
 
         if len(history) == 0:
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage3.html', {})
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
     except Exception as e:
         return redirect('index')
 
@@ -371,10 +371,10 @@ def search4(request):
         history = res.json()
 
         if len(history) == 0:
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage4.html', {})
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
     except Exception as e:
         return redirect('index')
 
