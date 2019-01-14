@@ -18,7 +18,7 @@ from django.utils import timezone
 from cryptography.fernet import Fernet
 
 
-def user_manual():
+def user_manual(request):
     filepath = os.path.join(settings.BASE_DIR, 'app/static/app/manual/user_manual.pdf')
     filename = os.path.basename(filepath)
     with open(filepath, 'rb') as pdf:
