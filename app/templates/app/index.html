@@ -26,6 +26,7 @@
 <style>
     td{padding:0px!important;}
     .card{background:#1d1d1de8;padding:10px;}
+    .wrapper{ border-radius:10px; background-position:center; background-size:cover;}
     .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:18px;}
     a{font-size:20px}
@@ -38,6 +39,10 @@
     border-bottom-left-radius:3px!important;}}
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
 
+
+
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -45,7 +50,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -59,7 +65,6 @@
 
 <!-- Gradient Background Overlay -->
 <div class="gradient-background-overlay"></div>
-
 
 
 <!-- Header Area Start -->
@@ -116,7 +121,8 @@
                                     <a class="nav-link" href="{% url 'mypage1'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal"
+                                       data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
 
@@ -135,97 +141,100 @@
             <!-- Breadcrumbs-->
 
             <div class="container-fluid">
-                <div class="card">
-                    <form method="post" action="{% url 'search1'%}">
-                        <div class="card-header">블록체인 검색</div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <label style="background:white; border:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;"
-                                       class="input-group-text" for="cid">Contract ID</label>
-                                <input class="form-control" id="cid" name="cid" type="text" required="required">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-outline-dark"
-                                            style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">
-                                        search
-                                    </button>
+                <div class="wrapper" style="background-image: url(../../static/app/img/block.jpg);">
+                    <div class="card">
+                        <form method="post" action="{% url 'search1'%}">
+                            <div class="card-header">블록체인 검색</div>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <label style="background:white; border:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;"
+                                           class="input-group-text" for="cid">Contract ID</label>
+                                    <input class="form-control" id="cid" name="cid" type="text" required="required">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-outline-dark"
+                                                style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">
+                                            search
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {% csrf_token %}
-                    </form>
+                            {% csrf_token %}
+                        </form>
+                    </div>
                 </div>
                 &nbsp
+                <div class="wrapper" style="background-image: url(../../static/app/img/block.jpg);">
+                    <div class="card">
+                        <div class="card-header">
+                            Notice
+                        </div>
 
+                        <div class="card-body" style="padding:0px;">
+                            <table class="table" style="text-align:center;">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Details</th>
+                                </tr>
+                                {% for n in notice%}
 
-                <div class="card">
-                    <div class="card-header">
-                        Notice
+                                <tr>
+
+                                    <td>{{n.id}}</td>
+                                    <td>{{n.title}}</td>
+                                    <td>{{n.c_date}}</td>
+                                    <td>
+                                        <button class="btn btn-outline-dark" id="{{n.id}}"
+                                                style="border:0px; border-radius:0px; color:white;"
+                                                onclick="toggleContent(this)">View
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4">
+                                        <div name="{{n.id}}" style="display:none; padding:20px!important;">
+                                            {{n.content}}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+
                     </div>
-
-                    <div class="card-body" style="padding:0px;">
-                        <table class="table" style="text-align:center;">
-                            <tr>
-                                <th>No.</th>
-                                <th>Title</th>
-                                <th>Date</th>
-                                <th>Details</th>
-                            </tr>
-                            {% for n in notice%}
-
-                            <tr>
-
-                                <td>{{n.id}}</td>
-                                <td>{{n.title}}</td>
-                                <td>{{n.c_date}}</td>
-                                <td>
-                                    <button class="btn btn-outline-dark" id="{{n.id}}"
-                                            style="border:0px; border-radius:0px; color:white;"
-                                            onclick="toggleContent(this)">View
-                                    </button>
-                                </td>
-
-                            </tr>
-
-                            <tr>
-                                <td colspan="4">
-                                    <div name="{{n.id}}" style="display:none; padding:20px!important;">
-                                        {{n.content}}
-                                    </div>
-                                </td>
-                            </tr>
+                </div>
+                &nbsp
+                <div class="wrapper" style="background-image: url(../../static/app/img/block.jpg);">
+                    <div class="card">
+                        <div class="card-header">
+                            News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
+                            <!--<button id="news" onclick="newstoggle()" class="btn btn-outline-dark"-->
+                            <!--style="border:0px; border-radius:0px; color:white;">open/close</button>-->
+                        </div>
+                        <div id="news-body" style="display:inline-block">
+                            {% for i in result %}
+                            <div id="news" class="card-body">
+                                <a id="news" style="color:white; font-weight:500" href="{{i.link}}"
+                                   target="_blank">
+                                    {{i.title}}</a>
+                            </div>
                             {% endfor %}
-                        </table>
-                    </div>
-
-                </div>
-                &nbsp
-                <div class="card">
-                    <div class="card-header">
-                        News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
-                        <!--<button id="news" onclick="newstoggle()" class="btn btn-outline-dark"-->
-                        <!--style="border:0px; border-radius:0px; color:white;">open/close</button>-->
-                    </div>
-                    <div id="news-body" style="display:inline-block">
-                        {% for i in result %}
-                        <div id ="news" class="card-body">
-                            <a  id ="news" style="color:white; font-weight:500" href="{{i.link}}"
-                               target="_blank">
-                                {{i.title}}</a>
+                            <!--</div>-->
                         </div>
-                        {% endfor %}
-                        <!--</div>-->
+
+
                     </div>
-
-
+                    <!-- /#wrapper -->
                 </div>
-                <!-- /#wrapper -->
+                <!-- Pagination -->
             </div>
-            <!-- Pagination -->
         </div>
+
     </div>
-
-
 </section>
 <!--Valkyrie System Area End -->
 
@@ -287,10 +296,7 @@
 <script src="{% static 'app/js/active.js'%}"></script>
 
 
-
-
 </body>
-
 
 
 <script>
@@ -323,6 +329,10 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
+
+
+
 
 
 

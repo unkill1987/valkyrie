@@ -28,6 +28,7 @@
     .card{background:#1d1d1de8;padding:10px;}
     .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:18px;}
+    .wrapper{ border-radius:10px; background-position:center; background-size:cover;}
     a{font-size:20px}
     @media (max-width:768px){
     label{display:none;}
@@ -35,9 +36,11 @@
     .card-header{font-size:18px}
     .card-body{padding:10px}
     #cid{border-top-left-radius:3px!important;
-         border-bottom-left-radius:3px!important;}}
+    border-bottom-left-radius:3px!important;}}
 
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
+
+
 
 
 
@@ -48,7 +51,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -138,82 +142,86 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
-                <div class="card">
-                    <form method="post" action="{% url 'search4'%}">
-                        <div class="card-header">블록체인 검색</div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <label style="background:white; border:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;"
-                                       class="input-group-text" for="cid">Contract ID</label>
-                                <input class="form-control" id="cid" name="cid" type="text" required="required">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-outline-dark"
-                                            style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">
-                                        search
-                                    </button>
+                <div class="wrapper" style="background-image: url(../../static/app/img/block.jpg);">
+                    <div class="card">
+                        <form method="post" action="{% url 'search4'%}">
+                            <div class="card-header">블록체인 검색</div>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <label style="background:white; border:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;"
+                                           class="input-group-text" for="cid">Contract ID</label>
+                                    <input class="form-control" id="cid" name="cid" type="text" required="required">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-outline-dark"
+                                                style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">
+                                            search
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+                &nbsp
+                <div class="wrapper" style="background-image: url(../../static/app/img/block.jpg);">
+                    <div class="card">
+                        <div class="card-header">
+                            Notice
                         </div>
 
-                        {% csrf_token %}
-                    </form>
+                        <div class="card-body" style="padding:0px;">
+                            <table class="table" style="text-align:center;">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Details</th>
+                                </tr>
+                                {% for n in notice%}
+
+                                <tr>
+
+                                    <td>{{n.id}}</td>
+                                    <td>{{n.title}}</td>
+                                    <td>{{n.c_date}}</td>
+                                    <td>
+                                        <button class="btn btn-outline-dark" id="{{n.id}}"
+                                                style="border:0px; border-radius:0px; color:white;"
+                                                onclick="toggleContent(this)">View
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4">
+                                        <div name="{{n.id}}" style="display:none; padding:20px!important;">
+                                            {{n.content}}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 &nbsp
-                <div class="card">
-                    <div class="card-header">
-                        Notice
-                    </div>
-
-                    <div class="card-body" style="padding:0px;">
-                        <table class="table" style="text-align:center;">
-                            <tr>
-                                <th>No.</th>
-                                <th>Title</th>
-                                <th>Date</th>
-                                <th>Details</th>
-                            </tr>
-                            {% for n in notice%}
-
-                            <tr>
-
-                                <td>{{n.id}}</td>
-                                <td>{{n.title}}</td>
-                                <td>{{n.c_date}}</td>
-                                <td>
-                                    <button class="btn btn-outline-dark" id="{{n.id}}"
-                                            style="border:0px; border-radius:0px; color:white;"
-                                            onclick="toggleContent(this)">View
-                                    </button>
-                                </td>
-
-                            </tr>
-
-                            <tr>
-                                <td colspan="4">
-                                    <div name="{{n.id}}" style="display:none; padding:20px!important;">
-                                        {{n.content}}
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
+                <div class="wrapper" style="background-image: url(../../static/app/img/block.jpg);">
+                    <div class="card">
+                        <div class="card-header">
+                            News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
+                        </div>
+                        {% for news in result %}
+                        <div class="card-body">
+                            <a style="color:white; font-weight:500" href="{{news.link}}" target="_blank">
+                                {{news.title}}</a>
+                        </div>
+                        {% endfor %}
                     </div>
 
                 </div>
-                &nbsp
-                <div class="card">
-                    <div class="card-header">
-                        News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
-                    </div>
-                    {% for news in result %}
-                    <div class="card-body">
-                        <a style="color:white; font-weight:500" href="{{news.link}}" target="_blank">
-                            {{news.title}}</a>
-                    </div>
-                    {% endfor %}
-                </div>
-
-
             </div>
 
             <!-- Icon Cards-->
@@ -308,6 +316,8 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
+
 
 
 </script>
