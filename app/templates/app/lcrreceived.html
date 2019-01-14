@@ -30,7 +30,7 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -141,7 +141,7 @@
                             <div class="card-body">
                                 <p class="card-text">
 
-                                <h5>Document Hash:<br>{{c.sha256}}</h5></p>
+                                <h5>Document Hash:<br>{{c.sha256}}</h5>
                             </div>
                             <div class="card-footer">
                                 <a href="{% url 'download' %}?id={{ c.id }}" class="btn btn-outline-dark"
@@ -279,7 +279,7 @@
                     <!-- Single Footer Content -->
                     <div class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
-                        <a href="{% url 'user_manual' %}">User Manual</a>
+                        <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
                 </div>
             </div>

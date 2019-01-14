@@ -11,24 +11,25 @@ import pyotp
 import os
 import time
 from pandas.io import json
-from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, Notice
+from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
+    Notice
 from valweb import settings
 from django.utils import timezone
 from cryptography.fernet import Fernet
 
 
-def user_manual(request):
+def user_manual():
     filepath = os.path.join(settings.BASE_DIR, 'app/static/app/manual/user_manual.pdf')
-    # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
-    with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
+
 
 def checkcontract(request):
     try:
-        result_dict ={}
+        result_dict = {}
         cid = str(request.POST['cid'])
         url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
@@ -40,6 +41,7 @@ def checkcontract(request):
         return JsonResponse(result_dict)
     except:
         pass
+
 
 def email(request):
     if request.method == 'GET':
@@ -68,9 +70,9 @@ def email(request):
             user_id = request.session['user_id']
             email = request.POST['email']
 
-            msg['Subject'] = "%s님의 문의글입니다" % (user_id)
+            msg['Subject'] = "%s님의 문의글입니다" % user_id
             # 내용 입력
-            msg.set_content("%s" % (email))
+            msg.set_content("%s" % email)
             # 보내는 사람
             msg['From'] = 'Valkyrie Trade System'
             # 관리자 메일
@@ -98,8 +100,9 @@ def mytrade(request):
         else:
             return redirect('index')
     else:
+        result_dict = {}
         try:
-            result_dict = {}
+
             mytrade = request.POST['mytrade']
             trade = Process.objects.filter(id=mytrade).values('CI_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash',
                                                               'DO_hash')
@@ -123,15 +126,15 @@ def addressmodify(request):
         else:
             return redirect('index')
     else:
+        result_dict = {}
         try:
-            result_dict = {}
             user_id = request.session['user_id']
             postcode = request.POST['postcode']
             address = request.POST['address']
             details = request.POST['details']
             extra = request.POST['extra_info']
             member = Member.objects.get(user_id=user_id)
-            user_address = '('+ postcode + ')' + address + extra + ' ' + details
+            user_address = '(' + postcode + ')' + address + extra + ' ' + details
             member.address = user_address
             member.save()
             result_dict['result'] = 'success'
@@ -195,7 +198,7 @@ def makeotp(request):
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
         cipher_suite = Fernet(key)
         ciphered_text = cipher_suite.encrypt(b"%s" % bytes(otpkey.encode('utf-8')))
-        with open('otpkey/%s.bin' % user_id , 'wb') as file_object:
+        with open('otpkey/%s.bin' % user_id, 'wb') as file_object:
             file_object.write(ciphered_text)
         otpsave = Member.objects.get(user_id=user_id)
         result_dict = {}
@@ -217,7 +220,7 @@ def mypage1(request):
         try:
             mytrade = Process.objects.filter(user1=user_id).order_by('-id')
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage1.html', {'mytrade': mytrade,'user_info':user_info})
+            return render(request, 'app/mypage1.html', {'mytrade': mytrade, 'user_info': user_info})
         except:
             return render(request, 'app/mypage1.html', {})
     except:
@@ -230,7 +233,7 @@ def mypage2(request):
         try:
             mytrade = Process.objects.filter(user2=user_id).order_by('-id')
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage2.html', {'mytrade': mytrade,'user_info':user_info})
+            return render(request, 'app/mypage2.html', {'mytrade': mytrade, 'user_info': user_info})
         except:
             return render(request, 'app/mypage2.html', {})
     except:
@@ -243,7 +246,7 @@ def mypage3(request):
         try:
             mytrade = Process.objects.filter(user3=user_id).order_by('-id')
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage3.html', {'mytrade': mytrade,'user_info':user_info})
+            return render(request, 'app/mypage3.html', {'mytrade': mytrade, 'user_info': user_info})
         except:
             return render(request, 'app/mypage3.html', {})
     except:
@@ -256,7 +259,7 @@ def mypage4(request):
         try:
             mytrade = Process.objects.filter(user4=user_id).order_by('-id')
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage4.html', {'mytrade': mytrade,'user_info':user_info})
+            return render(request, 'app/mypage4.html', {'mytrade': mytrade, 'user_info': user_info})
         except:
             return render(request, 'app/mypage4.html', {})
     except:
@@ -275,7 +278,6 @@ def search1(request):
         history = res.json()
 
         if len(history) == 0:
-            message = 'Invalid Contract ID'
             return redirect('index')
         else:
             history.reverse()
@@ -295,6 +297,7 @@ def search1(request):
             history.reverse()
             return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         return render(request, 'app/index.html', {})
 
 
@@ -306,12 +309,12 @@ def search2(request):
         history = res.json()
 
         if len(history) == 0:
-            message = "Invalid Contract ID"
             return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])
@@ -325,6 +328,7 @@ def search2(request):
             history.reverse()
             return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         return redirect('index')
 
 
@@ -336,12 +340,12 @@ def search3(request):
         history = res.json()
 
         if len(history) == 0:
-            message = "Invalid Contract ID"
             return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])
@@ -355,6 +359,7 @@ def search3(request):
             history.reverse()
             return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         return redirect('index')
 
 
@@ -366,12 +371,12 @@ def search4(request):
         history = res.json()
 
         if len(history) == 0:
-            message = "Invalid Contract ID"
             return redirect('index')
         else:
             history.reverse()
             return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])
@@ -385,6 +390,7 @@ def search4(request):
             history.reverse()
             return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
     except Exception as e:
+        print(e)
         return redirect('index')
 
 
@@ -424,7 +430,7 @@ def share1(request):
                     response = requests.post(url)
                     res = response.text
 
-                    if (res == "Fail"):
+                    if res == "Fail":
                         result_dict['result'] = 'Fail'
 
                     else:
@@ -483,7 +489,7 @@ def share2(request):
                 response = requests.post(url)
                 res = response.text
 
-                if (res == "The contract already exists"):
+                if res == "The contract already exists":
                     result_dict['result'] = 'Fail'
                 else:
                     process = Process.objects.get(CI_hash=hash)
@@ -542,7 +548,7 @@ def share2_1(request):
                     response = requests.post(url)
                     res = response.text
 
-                    if (res == "Fail"):
+                    if res == "Fail":
                         result_dict['result'] = 'Fail'
                     else:
 
@@ -607,7 +613,7 @@ def share3(request):
                     res = response.text
                     result_dict = {}
 
-                    if (res == "Fail"):
+                    if res == "Fail":
                         result_dict['result'] = 'Fail'
                     else:
 
@@ -670,7 +676,7 @@ def share4_1(request):
                     response = requests.post(url)
                     res = response.text
 
-                    if (res == "Fail"):
+                    if res == "Fail":
                         result_dict['result'] = 'Fail'
                     else:
 
@@ -734,7 +740,7 @@ def share4_2(request):
                     res = response.text
                     result_dict = {}
 
-                    if (res == "Fail"):
+                    if res == "Fail":
                         result_dict['result'] = 'Fail'
                     else:
 
@@ -839,6 +845,7 @@ def remove4_2(request):
     except Exception as e:
         print(e)
         return redirect('ing4_2')
+
 
 def ciremove(request):
     # deletes all objects from Car database table
@@ -1009,41 +1016,39 @@ def submit(request):
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
-            col_width = epw / 3
-            data = [['No.', 'title', 'content'],
-                    [1, 'Advising bank:', a],
-                    [2, 'Credit No.:', b],
-                    [3, 'Beneficiary:', c],
-                    [4, 'Applicant:', d],
-                    [5, 'L/C Amount and Tolerance:', e],
-                    [6, 'Type:', f],
-                    [7, 'Partial shipment:', g],
-                    [8, 'Transshipment:', h],
-                    [9, 'Trnasport mode:', i],
-                    [10, 'Loading(shipment from):', j],
-                    [11, 'Discharging(shipment to):', k],
-                    [12, 'Latest shipment date:', l],
-                    [13, 'All banking charges:', m],
-                    [14, 'Confirmation:', n],
-                    [15, 'T/T reimbursement:', o],
-                    ]
+            records = [['No.', 'title', 'content'],
+                       [1, 'Advising bank:', a],
+                       [2, 'Credit No.:', b],
+                       [3, 'Beneficiary:', c],
+                       [4, 'Applicant:', d],
+                       [5, 'L/C Amount and Tolerance:', e],
+                       [6, 'Type:', f],
+                       [7, 'Partial shipment:', g],
+                       [8, 'Transshipment:', h],
+                       [9, 'Trnasport mode:', i],
+                       [10, 'Loading(shipment from):', j],
+                       [11, 'Discharging(shipment to):', k],
+                       [12, 'Latest shipment date:', l],
+                       [13, 'All banking charges:', m],
+                       [14, 'Confirmation:', n],
+                       [15, 'T/T reimbursement:', o],
+                       ]
 
-            pdf.set_font('Times', 'B', 14.0)
+            pdf.set_font('Arial', 'B', 14.0)
             pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
             pdf.ln(0.25)
-            pdf.set_font('Times', '', 12.0)
+            pdf.set_font('Arial', '', 12.0)
             pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             pdf.ln(0.5)
 
             th = pdf.font_size
-            for row in data:
-                for datum in row:
-                    # Enter data in colums
-                    pdf.cell(col_width, 2 * th, str(datum), border=1)
-
+            for row in records:
+                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
                 pdf.ln(2 * th)
 
             pdf.output('document/LCR_' + time_format + '.pdf', 'F')
@@ -1101,8 +1106,8 @@ def submit2(request):
 
             pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
-            col_width = epw / 3
-            records = [[1, 'Shipper/Seller:', a],
+            records = [['No.', 'title', 'content'],
+                       [1, 'Shipper/Seller:', a],
                        [2, 'Consignee:', b],
                        [3, 'Departure Date:', c],
                        [4, 'Vessel/Flight:', d],
@@ -1146,7 +1151,8 @@ def submit2(request):
             file.close()
 
             # 데이터 저장
-            contract = Contract_CI(contractname=invoicename, sha256=hash, filename='document/CI_' + time_format + '.pdf')
+            contract = Contract_CI(contractname=invoicename, sha256=hash,
+                                   filename='document/CI_' + time_format + '.pdf')
 
             # 로그인한 사용자 정보를 Contract에 같이 저장
             user_id = request.session['user_id']
@@ -1191,9 +1197,8 @@ def submit2_1(request):
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
-            col_width = epw / 3
             records = [['No.', 'title', 'content'],
                        [1, 'Shipper:', a],
                        [2, 'Consignee:', b],
@@ -1212,12 +1217,12 @@ def submit2_1(request):
                        [15, 'Original B/L:', o],
                        ]
 
-            pdf.set_font('Times', 'B', 14.0)
+            pdf.set_font('Arial', 'B', 14.0)
             pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
             pdf.ln(0.25)
-            pdf.set_font('Times', '', 12.0)
+            pdf.set_font('Arial', '', 12.0)
             pdf.cell(epw, 0.0, srname + ' From:' + user_id, align='C')
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             pdf.ln(0.5)
 
             th = pdf.font_size
@@ -1297,9 +1302,8 @@ def submit3(request):
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
-            col_width = epw / 3
             records = [['No.', 'title', 'content'],
                        [1, 'Transfer:', a],
                        [2, 'Credit Number:', b],
@@ -1336,12 +1340,12 @@ def submit3(request):
                        [33, 'CommodityDescription:', gg],
                        ]
 
-            pdf.set_font('Times', 'B', 14.0)
+            pdf.set_font('Arial', 'B', 14.0)
             pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
             pdf.ln(0.25)
-            pdf.set_font('Times', '', 12.0)
+            pdf.set_font('Arial', '', 12.0)
             pdf.cell(epw, 0.0, letteroflc + ' From:' + user_id, align='C')
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             pdf.ln(0.5)
 
             th = pdf.font_size
@@ -1396,9 +1400,8 @@ def submit4_1(request):
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
-            col_width = epw / 3
             records = [['No.', 'title', 'content'],
                        [1, 'Bank:', a],
                        [2, 'Nodify party:', b],
@@ -1412,12 +1415,12 @@ def submit4_1(request):
                        [10, 'Measurement:', j],
                        ]
 
-            pdf.set_font('Times', 'B', 14.0)
+            pdf.set_font('Arial', 'B', 14.0)
             pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
             pdf.ln(0.25)
-            pdf.set_font('Times', '', 12.0)
+            pdf.set_font('Arial', '', 12.0)
             pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             pdf.ln(0.5)
 
             th = pdf.font_size
@@ -1471,9 +1474,8 @@ def submit4_2(request):
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
-            col_width = epw / 3
             records = [['No.', 'title', 'content'],
                        [1, 'Agent name:', a],
                        [2, 'Restricted delivery(Yes or no):', b],
@@ -1484,12 +1486,12 @@ def submit4_2(request):
                        [7, 'Date:', g],
                        ]
 
-            pdf.set_font('Times', 'B', 14.0)
+            pdf.set_font('Arial', 'B', 14.0)
             pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
             pdf.ln(0.25)
-            pdf.set_font('Times', '', 12.0)
+            pdf.set_font('Arial', '', 12.0)
             pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-            pdf.set_font('Times', '', 10.0)
+            pdf.set_font('Arial', '', 10.0)
             pdf.ln(0.5)
 
             th = pdf.font_size
@@ -1528,11 +1530,10 @@ def download(request):
     c = Contract_LCR.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
-    # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
-    with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
 
@@ -1541,11 +1542,10 @@ def download2(request):
     c = Contract_CI.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
-    # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
-    with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
 
@@ -1554,11 +1554,10 @@ def download2_1(request):
     c = Contract_SR.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
-    # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
-    with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
 
@@ -1567,11 +1566,10 @@ def download3(request):
     c = Contract_LC.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
-    # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
-    with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
 
@@ -1580,11 +1578,10 @@ def download4_1(request):
     c = Contract_BL.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
-    # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
-    with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
 
@@ -1594,26 +1591,18 @@ def download4_2(request):
     print(c.filename)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
-    # filepath = os.path.join('/home/valkyrie1234', c.filename)
     filename = os.path.basename(filepath)
-    with open(filepath, 'rb') as f:
-        response = HttpResponse(f, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
+
 
 def ing(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LCR.objects.filter(owner=member).order_by('-id')
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(LCR_hash=hash)
-
-        except:
-            hash = None
-            process = None
-
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1647,17 +1636,6 @@ def ing2(request):
         member = Member.objects.get(user_id=user_id)
         contract = Contract_CI.objects.filter(owner=member).order_by('-id')
         n = len(contract)
-
-        try:
-            for i in range(0, n):
-                hash = contract.values('sha256')[i]['sha256']
-                process = Process.objects.filter(CI_hash=hash)
-
-
-        except:
-            hash = None
-            process = None
-
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1690,12 +1668,6 @@ def ing2_1(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_SR.objects.filter(owner=member).order_by('-id')
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(SR_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1728,13 +1700,6 @@ def ing3(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LC.objects.filter(owner=member).order_by('-id')
-
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(LC_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1767,13 +1732,6 @@ def ing4_1(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(owner=member).order_by('-id')
-
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(BL_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1806,14 +1764,6 @@ def ing4_2(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_DO.objects.filter(owner=member).order_by('-id')
-
-        n = len(contract)
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(DO_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1846,13 +1796,6 @@ def cireceived(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_CI.objects.filter(share1=member).order_by('-id')
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(CI_hash=hash)
-        except:
-            hash = None
-            process = None
-
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1886,13 +1829,6 @@ def srreceived(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_SR.objects.filter(share4=member).order_by('-id')
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(SR_hash=hash)
-        except:
-            hash = None
-            process = None
-
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1926,12 +1862,6 @@ def blreceived1(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(share1=member).order_by('-id')
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(BL_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1965,13 +1895,6 @@ def lcreceived1(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LC.objects.filter(share1=member).order_by('-id')
-        n = len(contract)
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(LC_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2005,14 +1928,6 @@ def blreceived2(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_BL.objects.filter(share2=member).order_by('-id')
-
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(BL_hash=hash)
-        except:
-            hash = None
-            process = None
-
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2046,14 +1961,6 @@ def lcreceived2(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LC.objects.filter(share2=member).order_by('-id')
-        n = len(contract)
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(LC_hash=hash)
-        except Exception as e:
-            print(e)
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2087,12 +1994,6 @@ def doreceived(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_DO.objects.filter(share1=member).order_by('-id')
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(DO_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2126,12 +2027,6 @@ def doreceived2(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_DO.objects.filter(share3=member).order_by('-id')
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(DO_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2165,13 +2060,6 @@ def lcrreceived(request):
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
         contract = Contract_LCR.objects.filter(share3=member).order_by('-id')
-        n = len(contract)
-        try:
-            hash = contract.values('sha256')[0]['sha256']
-            process = Process.objects.filter(LCR_hash=hash)
-        except:
-            hash = None
-            process = None
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2369,6 +2257,7 @@ def login(request):
             result_dict['result'] = 'fail'
         return JsonResponse(result_dict)
 
+
 def registerpage(request):
     return render(request, 'app/register.html', {})
 
@@ -2393,7 +2282,8 @@ def register(request):
             Member.objects.get(user_id=user_id)
             result_dict['result'] = '이미 가입된 아이디가 있습니다.'
         except Member.DoesNotExist:
-            member = Member(user_role=user_role, user_id=user_id, user_pw=password, user_name=user_name, address=user_address, tbc=tbc, businessnum=businessnum)
+            member = Member(user_role=user_role, user_id=user_id, user_pw=password, user_name=user_name,
+                            address=user_address, tbc=tbc, businessnum=businessnum)
             member.c_date = timezone.now()
             member.save()
             result_dict['result'] = '가입완료'
@@ -2402,9 +2292,10 @@ def register(request):
         print(e)
         return redirect('registerpage')
 
+
 def checkid(request):
     try:
-        result_dict ={}
+        result_dict = {}
         user_id = request.POST['user_id']
         try:
             Member.objects.get(user_id=user_id)
@@ -2416,12 +2307,14 @@ def checkid(request):
     except:
         pass
 
+
 def forgot(request):
     if request.method == 'GET':
         return render(request, 'app/forgot.html', {})
     else:
+        result_dict = {}
         try:
-            result_dict = {}
+
             user_email = request.POST['email']
             user_name = request.POST['name']
             new_pw = pyotp.random_base32()
@@ -2456,13 +2349,13 @@ def forgot(request):
                     msg = EmailMessage()
                     msg['Subject'] = "새로운 비밀번호입니다"
                     # 내용 입력
-                    msg.set_content("새로운 비밀번호는 %s 입니다." % (new_pw))
+                    msg.set_content("새로운 비밀번호는 %s 입니다." % new_pw)
 
                     # 보내는 사람
                     msg['From'] = 'Valkyrie Trade System'
 
                     # 밥는 사람
-                    msg['To'] = '%s' % (user_email)
+                    msg['To'] = '%s' % user_email
 
                     smtp_gmail.send_message(msg)
                     result_dict['result'] = 'Success'
@@ -2475,4 +2368,3 @@ def forgot(request):
             print(e)
             result_dict['result'] = 'Fail'
             return JsonResponse(result_dict)
-
