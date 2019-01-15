@@ -144,8 +144,9 @@
       if (is_crypto) {
         handle_crypto_files(crypto_files);
       }
-
+      document.getElementById('list').style.color="white"
       document.getElementById('list').innerHTML = '<table class="table table-striped table-hover">' + output.join('') + '</table>' + document.getElementById('list').innerHTML;
+
     }
 
 
