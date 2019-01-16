@@ -253,13 +253,11 @@ ol {
 }
 
 li{
-
     align-items:center;
 }
 ol li,
 ul li {
     list-style: outside none none;
-
     display:flex;
 }
 

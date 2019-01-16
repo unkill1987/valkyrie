@@ -136,6 +136,10 @@
     p {
         font-size: 12px;
     }
+    .nav-item{
+        display:contents!important;
+        text-align:center;
+    }
     .navbar {
         padding: 0;
     }
