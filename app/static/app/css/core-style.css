@@ -52,8 +52,7 @@ h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
-
-li:hover{cursor:pointer}
+.nav-link:hover{cursor:pointer}
 
 p {
     color: #838383;
