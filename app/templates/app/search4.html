@@ -210,6 +210,7 @@
                             <input class="form-control" style="text-align:center;" id="doc_hash">
                         </div>
                         <div id="list"></div>
+                        <div id="check"></div>
                         <div class="btn btn-outline-dark" id="drop_zone">
                             파일 선택
                         </div>
@@ -292,13 +293,19 @@
 $('#doc_check').click(function(){
     var x = $('#doc_hash').val();
     var y = document.getElementById("list").textContent;
-
-    if (x != y){
+    $('h6').empty();
+    if (x==''){
+        alert("Document Hash가 입력되지 않았습니다.")
+    }else if (y==''){
+        alert("확인할 문서를 선택하세요.")
+    }else if (x != y){
         $('#list').css("color", "#ff1f1f");
-        $('#list').append(`<h6 style="color:#ff1f1f;">불일치 - 위조 문서</h6>`)
-    }else{
+        $('#check').append(`<h6 style="color:#ff1f1f;">불일치 - 위조 문서</h6>`)
+    }else if (x==y){
         $('#list').css("color", "#39ff39");
-        $('#list').append(`<h6 style="color:#39ff39;">일치 - 원본 문서</h6>`)
+        $('#check').append(`<h6 style="color:#39ff39;">일치 - 원본 문서</h6>`)
+    }else{
+        return false;
     }
 });
 
