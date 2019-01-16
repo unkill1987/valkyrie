@@ -295,8 +295,10 @@ $('#doc_check').click(function(){
 
     if (x != y){
         $('#list').css("color", "#ff1f1f");
+        $('#list').append(`<h6 style="color:#ff1f1f;">불일치 - 위조 문서</h6>`)
     }else{
         $('#list').css("color", "#39ff39");
+        $('#list').append(`<h6 style="color:#39ff39;">일치 - 원본 문서</h6>`)
     }
 });
 

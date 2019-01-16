@@ -298,7 +298,7 @@ def search1(request):
             return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return render(request, 'app/index.html', {})
+        return redirect('mypage1')
 
 
 def search2(request):
@@ -329,7 +329,7 @@ def search2(request):
             return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect('mypage2')
 
 
 def search3(request):
@@ -360,7 +360,7 @@ def search3(request):
             return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect('mypage3')
 
 
 def search4(request):
@@ -391,7 +391,7 @@ def search4(request):
             return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect('mypage4')
 
 
 def share1(request):
