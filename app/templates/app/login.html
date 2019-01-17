@@ -18,14 +18,15 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="{% static 'app/css/core-style.css'%}">
     <link rel="stylesheet" href="{% static 'app/css/style.css'%}">
-
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- Responsive CSS -->
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
 </head>
 <style>
 
-    @media (max-width:768px){section{padding:50px 0px 0px 0px!important}}
+    @media (max-width:768px){section{padding:50px 0px 0px 0px!important}
+    .w3-display-middle{width:300px;}}
     @media (min-width:968px){.card-login{width:500px}}
     body{background-image: url(../../static/app/img/bg-img/login.jpg);
     background-repeat: no-repeat;
@@ -38,6 +39,7 @@
     .btn:hover{background-color:#ff8a12; border-color:#ff8a12;}
     .card{background:#1d1d1de8;  vertical-align: middle;
   }
+
 </style>
 <body>
 <!-- Preloader -->
@@ -45,7 +47,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -68,7 +71,7 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index' %}">
+                        <a class="navbar-brand" href="{% url 'login' %}">
                             <img src="{% static 'app/img/core-img/logo.png'%}" alt="Logo">
                         </a>
 
@@ -108,54 +111,57 @@
 <section style="height:100%; vertical-align:middle; padding-top:5%;" class="blog-area">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="container-fluid">
+            <div class="w3-display-middle">
 
-                <div class="card card-login mx-auto mt-5" >
-                    <div class="card-header" style="color:#ff8a12;font-weight:700; border-bottom:solid 1px; border-color:white!important;">Login</div>
+                <div class="card card-login mx-auto mt-5">
+                    <div class="card-header"
+                         style="color:#ff8a12;font-weight:700; border-bottom:solid 1px; border-color:white!important;">
+                        Login
+                    </div>
                     <div class="card-body">
-                    <form>
-                        <select class="custom-select" name="user_role" style="width:200px;">
-                            <option value="1" selected>수입자</option>
-                            <option value="2">수출자</option>
-                            <option value="3">은행</option>
-                            <option value="4">운송사</option>
-                        </select>
-                        <div class="form-group">
-                            <div class="form-label-group">
+                        <form>
+                            <select class="custom-select" name="user_role" style="width:200px;">
+                                <option value="1" selected>수입자</option>
+                                <option value="2">수출자</option>
+                                <option value="3">은행</option>
+                                <option value="4">운송사</option>
+                            </select>
+                            <div class="form-group">
+                                <div class="form-label-group">
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-label-group">
-                                <label for="inputEmail">Email address</label>
-                                <input name="email" type="email" id="inputEmail" class="form-control"
-                                       placeholder="Email address"
-                                       required="required" >
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label for="inputEmail">Email address</label>
+                                    <input name="email" type="email" id="inputEmail" class="form-control"
+                                           placeholder="Email address"
+                                           required="required">
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-label-group">
-                                <label for="inputPassword">Password</label>
-                                <input name="password" type="password" id="inputPassword" class="form-control"
-                                       placeholder="Password" required="required">
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <label for="inputPassword">Password</label>
+                                    <input name="password" type="password" id="inputPassword" class="form-control"
+                                           placeholder="Password" required="required">
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="remember-me">
-                                    <a>Remember Password</a>
-                                </label>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="remember-me">
+                                        <a>Remember Password</a>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <hr style="border-top:solid 1px; border-color:white!important;">
-                        <a id='login' class="btn btn-outline-dark btn-block" href="{% url 'index' %}">Login</a>
+                            <hr style="border-top:solid 1px; border-color:white!important;">
+                            <a id='login' class="btn btn-outline-dark btn-block" href="{% url 'index' %}">Login</a>
 
 
-                        {% csrf_token %}
-                    </form>
+                            {% csrf_token %}
+                        </form>
                     </div>
                     <div class="text-center">
                         <a class="d-block small mt-3" href="{% url 'registerpage' %}">Register an Account</a>
@@ -250,6 +256,7 @@ if (event.keyCode === 13) {
 document.getElementById("login").click();
 }
 });
+
 
 
 
