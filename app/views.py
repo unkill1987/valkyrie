@@ -1097,7 +1097,6 @@ def submit2(request):
         o = request.POST['o']
         p = request.POST['p']
         q = request.POST['q']
-        r = request.POST['r']
 
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         try:
@@ -1112,7 +1111,7 @@ def submit2(request):
                        [3, 'Departure Date:', c],
                        [4, 'Vessel/Flight:', d],
                        [5, 'To:', e],
-                       [6, 'Type:', f],
+                       [6, 'From:', f],
                        [7, 'Invoice No.and Date:', g],
                        [8, 'L/C No.and Date:', h],
                        [9, 'Buyer(if other than consignee):', i],
@@ -1124,7 +1123,6 @@ def submit2(request):
                        [15, 'Quantity:', o],
                        [16, 'Unit price:', p],
                        [17, 'Amount:', q],
-                       [18, 'Singed by:', r],
                        ]
             tag = invoicename + '/' + time_format
 
@@ -2215,7 +2213,8 @@ def forms(request):
 
 
 def forms2(request):
-    return render(request, 'app/forms2.html', {})
+    user_id = request.session['user_id']
+    return render(request, 'app/forms2.html', {'user_id':user_id})
 
 
 def forms2_1(request):
