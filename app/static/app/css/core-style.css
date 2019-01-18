@@ -509,7 +509,8 @@ img {
 }
 
 .dropdown-item:hover {
-    color: #000;
+    color: #ffffff;
+    font-weight:600;
     font-size: 13px;
 }
 
