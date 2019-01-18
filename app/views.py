@@ -2090,7 +2090,7 @@ def logout(request):
     try:
         del request.session['user_role']
         del request.session['user_id']
-        return redirect('login')
+        return redirect('about')
     except:
         return render(request, 'app/login.html', {})
 
