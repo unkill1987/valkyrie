@@ -282,11 +282,12 @@
                                     <table class="mx-auto">
                                         <tr>
                                             <th>Start</th>
-                                            <th style="text-align:center">CI<br>전송</th>
+                                            <th style="text-align:center">OS<br>전송</th>
                                             <th style="text-align:center">LCR<br>전송</th>
                                             <th style="text-align:center">LC<br> 발급</th>
                                             <th style="text-align:center">SR<br>발급</th>
                                             <th style="text-align:center">BL<br> 발급</th>
+                                            <th style="text-align:center">CI<br> 발급</th>
                                             <th style="text-align:center">DO<br>발급</th>
                                             <th style="text-align:right;">End</th>
                                         </tr>
@@ -498,24 +499,27 @@ function myqna(){
             success: function(res){
                 if (res.result == 'Invalid Contract'){
                     alert(res.result)
-                }else if (res.trade[0].CI_hash.length == 0 ){
+                }else if (res.trade[0].OS_hash.length == 0 ){
                      $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:19%"></div>`);
+                    $('#progress').append(`<div class="progress-bar" style="width:17%"></div>`);
                 }else if (res.trade[0].LCR_hash.length == 0){
                 $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:32%"></div>`)
+                    $('#progress').append(`<div class="progress-bar" style="width:28%"></div>`)
                 }else if (res.trade[0].LC_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:44%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:39%"></div>`)
                 }else if (res.trade[0].SR_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:57%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:50%"></div>`)
                 }else if (res.trade[0].BL_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:69%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:61%"></div>`)
+                }else if (res.trade[0].CI_hash.length == 0){
+                    $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:72%"></div>`)
                 }else if (res.trade[0].DO_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:82%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:83%"></div>`)
                 }else if (res.trade[0].DO_hash.length != 0){
                         $('#progress').empty();
                         $('#progress').append(`<div class="progress-bar" style="width:100%">complete</div>`)

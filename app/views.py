@@ -11,8 +11,8 @@ import pyotp
 import os
 import time
 from pandas.io import json
-from app.models import Contract_LCR, Member, Contract_CI, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
-    Notice
+from app.models import Contract_LCR, Member, Contract_OS, Contract_SR, Contract_BL, Contract_DO, Contract_LC, Process, \
+    Notice, Contract_CI
 from valweb import settings
 from django.utils import timezone
 from cryptography.fernet import Fernet
@@ -104,7 +104,7 @@ def mytrade(request):
         try:
 
             mytrade = request.POST['mytrade']
-            trade = Process.objects.filter(id=mytrade).values('CI_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash',
+            trade = Process.objects.filter(id=mytrade).values('OS_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash',
                                                               'DO_hash')
             return JsonResponse({'trade': list(trade)})
         except Exception as e:
@@ -223,7 +223,8 @@ def mypage1(request):
             return render(request, 'app/mypage1.html', {'mytrade': mytrade, 'user_info': user_info})
         except:
             return render(request, 'app/mypage1.html', {})
-    except:
+    except Exception as e:
+        print(e)
         return redirect('index')
 
 
@@ -236,7 +237,8 @@ def mypage2(request):
             return render(request, 'app/mypage2.html', {'mytrade': mytrade, 'user_info': user_info})
         except:
             return render(request, 'app/mypage2.html', {})
-    except:
+    except Exception as e:
+        print(e)
         return redirect('index')
 
 
@@ -424,7 +426,7 @@ def share1(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                if history[0]['Value']['ci']['To'][11:] == user_id:
+                if history[0]['Value']['os']['To'][11:] == user_id:
                     url = (
                             'http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user + '- letter of credit request: ' + hash)
                     response = requests.post(url)
@@ -460,14 +462,14 @@ def share1(request):
         return redirect('ing')
 
 
-def share2(request):
+def share2_1(request):
     try:
         otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_CI.objects.filter(owner=member)
+        contract = Contract_OS.objects.filter(owner=member)
         getid = contract.filter(id=check_id)
         hash = getid.values('sha256')[0]['sha256']
         contract_id = str(getid.values('id')[0]['id'])
@@ -485,18 +487,18 @@ def share2(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                url = 'http://222.239.231.247:8001/add_CI/' + contract_id + '- Exporter: ' + user_id + '- importer: ' + share_user + '- commercial invoice: ' + hash
+                url = 'http://222.239.231.247:8001/add_OS/' + contract_id + '- Exporter: ' + user_id + '- importer: ' + share_user + '- offer sheet: ' + hash
                 response = requests.post(url)
                 res = response.text
 
                 if res == "The contract already exists":
                     result_dict['result'] = 'Fail'
                 else:
-                    process = Process.objects.get(CI_hash=hash)
+                    process = Process.objects.get(OS_hash=hash)
                     process.user1 = share_user
                     process.save()
 
-                    share = Contract_CI.objects.get(id=check_id)
+                    share = Contract_OS.objects.get(id=check_id)
                     share.share1 = share_user
                     share.save()
                     result_dict['result'] = 'Success'
@@ -511,10 +513,10 @@ def share2(request):
 
     except Exception as e:
         print(e)
-        return redirect('ing2')
+        return redirect('ing2_1')
 
 
-def share2_1(request):
+def share2_2(request):
     try:
         otp = request.POST['otp']
         check_id = request.POST['check_id']
@@ -574,8 +576,69 @@ def share2_1(request):
 
     except Exception as e:
         print(e)
-        return redirect('ing2_1')
+        return redirect('ing2_2')
 
+
+def share2_3(request):
+    try:
+        otp = request.POST['otp']
+        check_id = request.POST['check_id']
+        share_user = request.POST['share_user']
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_CI.objects.filter(owner=member)
+        getid = contract.filter(id=check_id)
+        hash = getid.values('sha256')[0]['sha256']
+        contract_id = str(getid.values('contract_id')[0]['contract_id'])
+        user_id = getid.values('owner')[0]['owner']
+
+        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
+        urlto = requests.post(urlhistory)
+        history = urlto.json()
+        result_dict = {}
+
+        key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+        cipher_suite = Fernet(key)
+        with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+            for line in file_object:
+                encryptedpwd = line
+        uncipher_text = cipher_suite.decrypt(encryptedpwd)
+        otpkey = bytes(uncipher_text).decode("utf-8")
+        totp = pyotp.TOTP(otpkey)
+        nowotp = totp.now()
+        try:
+            if otp == nowotp and Member.objects.get(user_id=share_user):
+                if history[2]['Value']['bl']['To'][11:] == user_id:
+                    url = 'http://222.239.231.247:8001/add_CI/' + contract_id + '- exporter: ' + user_id + '- importer: ' + share_user + '- commercial invoice: ' + hash
+                    response = requests.post(url)
+                    res = response.text
+
+                    if res == "Fail":
+                        result_dict['result'] = 'Fail'
+                    else:
+
+                        share = Contract_CI.objects.get(id=check_id)
+                        share.share1 = share_user
+                        share.save()
+
+                        process = Process.objects.get(id=contract_id)
+                        process.CI_hash = hash
+                        process.save()
+                        result_dict['result'] = 'Success'
+                    return JsonResponse(result_dict)
+                else:
+                    result_dict['result'] = "You don't have  the authority"
+                    return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        except:
+            result_dict['result'] = 'Not found user'
+            return JsonResponse(result_dict)
+
+    except Exception as e:
+        print(e)
+        return redirect('ing2_3')
 
 def share3(request):
     try:
@@ -672,7 +735,7 @@ def share4_1(request):
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
                 if history[3]['Value']['sr']['To'][10:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- bill of landing: ' + hash
+                    url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- exporter: ' + share_user2 + '- bills of lading: ' + hash
                     response = requests.post(url)
                     res = response.text
 
@@ -782,30 +845,42 @@ def remove(request):
         return redirect('ing')
 
 
-def remove2(request):
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
-
-    try:
-        for check_id in check_ids:
-            Contract_CI.objects.get(id=check_id).delete()
-        return redirect('ing2')
-    except Exception as e:
-        print(e)
-        return redirect('ing2')
-
-
 def remove2_1(request):
     check_id = request.GET['check_id']
     check_ids = check_id.split(',')
 
     try:
         for check_id in check_ids:
-            Contract_SR.objects.get(id=check_id).delete()
+            Contract_OS.objects.get(id=check_id).delete()
         return redirect('ing2_1')
     except Exception as e:
         print(e)
         return redirect('ing2_1')
+
+
+def remove2_2(request):
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    try:
+        for check_id in check_ids:
+            Contract_SR.objects.get(id=check_id).delete()
+        return redirect('ing2_2')
+    except Exception as e:
+        print(e)
+        return redirect('ing2_2')
+
+def remove2_3(request):
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    try:
+        for check_id in check_ids:
+            Contract_CI.objects.get(id=check_id).delete()
+        return redirect('ing2_3')
+    except Exception as e:
+        print(e)
+        return redirect('ing2_3')
 
 
 def remove3(request):
@@ -846,6 +921,21 @@ def remove4_2(request):
         print(e)
         return redirect('ing4_2')
 
+
+def osremove(request):
+    # deletes all objects from Car database table
+    # Contract.objects.get('id').delete()
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            share = Contract_OS.objects.get(id=id)
+            share.share1 = ' '
+            share.save()
+        except:
+            pass
+    return redirect('osreceived')
 
 def ciremove(request):
     # deletes all objects from Car database table
@@ -988,7 +1078,7 @@ def srremove(request):
             share.save()
         except:
             pass
-    return redirect('cireceived')
+    return redirect('osreceived')
 
 
 def submit(request):
@@ -1075,10 +1165,10 @@ def submit(request):
         return redirect('forms')
 
 
-def submit2(request):
+def submit2_1(request):
     try:
         user_id = request.session['user_id']
-        invoicename = request.POST['invoicename']
+        contractname = request.POST['contractname']
 
         a = request.POST['a']
         b = request.POST['b']
@@ -1095,8 +1185,6 @@ def submit2(request):
         m = request.POST['m']
         n = request.POST['n']
         o = request.POST['o']
-        p = request.POST['p']
-        q = request.POST['q']
 
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         try:
@@ -1106,31 +1194,29 @@ def submit2(request):
             pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
             records = [['No.', 'title', 'content'],
-                       [1, 'Shipper/Seller:', a],
-                       [2, 'Consignee:', b],
-                       [3, 'Departure Date:', c],
-                       [4, 'Vessel/Flight:', d],
-                       [5, 'To:', e],
-                       [6, 'From:', f],
-                       [7, 'Invoice No.and Date:', g],
-                       [8, 'L/C No.and Date:', h],
-                       [9, 'Buyer(if other than consignee):', i],
-                       [10, 'Other reference:', j],
-                       [11, 'Terms of delivery and payment:', k],
-                       [12, 'Shipping Mark:', l],
-                       [13, 'No.and kind of packages:', m],
-                       [14, 'Goods description:', n],
-                       [15, 'Quantity:', o],
-                       [16, 'Unit price:', p],
-                       [17, 'Amount:', q],
+                       [1, 'Origin:', a],
+                       [2, 'Packing:', b],
+                       [3, 'Shipment:', c],
+                       [4, 'Shipping Port:', d],
+                       [5, 'Inspection:', e],
+                       [6, 'Destination:', f],
+                       [7, 'Payment:', g],
+                       [8, 'Validity:', h],
+                       [9, 'Remarks:', i],
+                       [10, 'Item:', j],
+                       [11, 'Description:', k],
+                       [12, 'Unit:', l],
+                       [13, 'Quantity:', m],
+                       [14, 'Unit Price:', n],
+                       [15, 'Amount:', o],
                        ]
-            tag = invoicename + '/' + time_format
+            tag = contractname + '/' + time_format
 
             pdf.set_font('Arial', 'B', 14.0)
             pdf.cell(epw, 0.0, u'%s' % tag, align='C')
             pdf.ln(0.25)
             pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, 'CI From:' + user_id, align='C')
+            pdf.cell(epw, 0.0, 'OS From:' + user_id, align='C')
             pdf.set_font('Arial', '', 10.0)
             pdf.ln(0.5)
 
@@ -1141,36 +1227,36 @@ def submit2(request):
                 pdf.cell(3.5, 2 * th, str(row[2]), border=1)
                 pdf.ln(2 * th)
 
-            pdf.output('document/CI_' + time_format + '.pdf', 'F')
-            file = open('document/CI_' + time_format + '.pdf', 'rb')
+            pdf.output('document/OS_' + time_format + '.pdf', 'F')
+            file = open('document/OS_' + time_format + '.pdf', 'rb')
             data = file.read()
 
             hash = hashlib.sha256(data).hexdigest()
             file.close()
 
             # 데이터 저장
-            contract = Contract_CI(contractname=invoicename, sha256=hash,
-                                   filename='document/CI_' + time_format + '.pdf')
+            contract = Contract_OS(contractname=contractname, sha256=hash,
+                                   filename='document/OS_' + time_format + '.pdf')
 
             # 로그인한 사용자 정보를 Contract에 같이 저장
             user_id = request.session['user_id']
             member = Member.objects.get(user_id=user_id)
             contract.owner = member
             contract.save()
-            id = Contract_CI.objects.filter(sha256=hash).values('id')[0]['id']
+            id = Contract_OS.objects.filter(sha256=hash).values('id')[0]['id']
 
-            process = Process(contract_id=id, user2=user_id, CI_hash=hash)
+            process = Process(contract_id=id, user2=user_id, OS_hash=hash)
             process.save()
 
-            return redirect('ing2')
+            return redirect('ing2_1')
         except Exception as e:
             print(e)
-            return redirect('forms2')
+            return redirect('forms2_1')
     except:
-        return redirect('forms2')
+        return redirect('forms2_1')
 
 
-def submit2_1(request):
+def submit2_2(request):
     try:
         user_id = request.session['user_id']
         srname = request.POST['srequestname']
@@ -1248,13 +1334,102 @@ def submit2_1(request):
 
             contract.save()
 
-            return redirect('ing2_1')
+            return redirect('ing2_2')
         except Exception as e:
             print(e)
-            return redirect('forms2_1')
+            return redirect('forms2_2')
     except:
-        return redirect('forms2_1')
+        return redirect('forms2_2')
 
+
+def submit2_3(request):
+    try:
+        user_id = request.session['user_id']
+        contractname = request.POST['contractname']
+        contract_id = request.POST['contract_id']
+        a = request.POST['a']
+        b = request.POST['b']
+        c = request.POST['c']
+        d = request.POST['d']
+        e = request.POST['e']
+        f = request.POST['f']
+        g = request.POST['g']
+        h = request.POST['h']
+        i = request.POST['i']
+        j = request.POST['j']
+        k = request.POST['k']
+        l = request.POST['l']
+        m = request.POST['m']
+        n = request.POST['n']
+        o = request.POST['o']
+        p = request.POST['p']
+        q = request.POST['q']
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+
+        try:
+            pdf = FPDF(unit='in', format='A4')
+            pdf.add_page()
+            pdf.set_font('Arial', '', 10.0)
+            epw = pdf.w - 2 * pdf.l_margin
+            records = [['No.', 'title', 'content'],
+                       [1, 'Shipper/Seller:', a],
+                       [2, 'Consignee:', b],
+                       [3, 'Departure Date:', c],
+                       [4, 'Vessel/Flight:', d],
+                       [5, 'To:', e],
+                       [6, 'From:', f],
+                       [7, 'Invoice No.and Date:', g],
+                       [8, 'L/C No.and Date:', h],
+                       [9, 'Buyer(if other than consignee):', i],
+                       [10, 'Other reference:', j],
+                       [11, 'Terms of delivery and payment:', k],
+                       [12, 'Shipping Mark:', l],
+                       [13, 'No.and kind of packages:', m],
+                       [14, 'Goods description:', n],
+                       [15, 'Quantity:', o],
+                       [16, 'Unit price:', p],
+                       [17, 'Amount:', q],
+                       ]
+
+            pdf.set_font('Arial', 'B', 14.0)
+            pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+            pdf.ln(0.25)
+            pdf.set_font('Arial', '', 12.0)
+            pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
+            pdf.set_font('Arial', '', 10.0)
+            pdf.ln(0.5)
+
+            th = pdf.font_size
+            for row in records:
+                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                pdf.ln(2 * th)
+
+            pdf.output('document/CI_' + time_format + '.pdf', 'F')
+            file = open('document/CI_' + time_format + '.pdf', 'rb')
+            data = file.read()
+
+            hash = hashlib.sha256(data).hexdigest()
+            file.close()
+
+            # 데이터 저장
+            contract = Contract_CI(contractname=contractname, contract_id=contract_id, sha256=hash,
+                                   filename='document/CI_' + time_format + '.pdf')
+
+            # 로그인한 사용자 정보를 Contract에 같이 저장
+            user_id = request.session['user_id']
+            member = Member.objects.get(user_id=user_id)
+            contract.owner = member
+
+            contract.save()
+
+            return redirect('ing2_3')
+        except Exception as e:
+            print(e)
+            return redirect('forms2_3')
+    except:
+        return redirect('forms2_3')
 
 def submit3(request):
     try:
@@ -1535,9 +1710,9 @@ def download(request):
         return response
 
 
-def download2(request):
+def download2_1(request):
     id = request.GET['id']
-    c = Contract_CI.objects.get(id=id)
+    c = Contract_OS.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
     filename = os.path.basename(filepath)
@@ -1547,9 +1722,20 @@ def download2(request):
         return response
 
 
-def download2_1(request):
+def download2_2(request):
     id = request.GET['id']
     c = Contract_SR.objects.get(id=id)
+
+    filepath = os.path.join(settings.BASE_DIR, c.filename)
+    filename = os.path.basename(filepath)
+    with open(filepath, 'rb') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
+        return response
+
+def download2_3(request):
+    id = request.GET['id']
+    c = Contract_CI.objects.get(id=id)
 
     filepath = os.path.join(settings.BASE_DIR, c.filename)
     filename = os.path.basename(filepath)
@@ -1628,44 +1814,12 @@ def ing(request):
         return redirect('index')
 
 
-def ing2(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_CI.objects.filter(owner=member).order_by('-id')
-        n = len(contract)
-        total_len = len(contract)
-        page = request.GET.get('page')
-        paginator = Paginator(contract, 6)
-
-        try:
-            lines = paginator.page(page)
-        except PageNotAnInteger:
-            lines = paginator.page(1)
-        except EmptyPage:
-            lines = paginator.page(paginator.num_pages)
-        index = lines.number - 1
-        max_index = len(paginator.page_range)
-        start_index = index - 2 if index >= 2 else 0
-        if index < 2:
-            end_index = 5 - start_index
-        else:
-            end_index = index + 3 if index <= max_index - 3 else max_index
-        page_range = list(paginator.page_range[start_index:end_index])
-
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
-
-        return render(request, 'app/ing2.html', notice)
-    except Exception as e:
-        print(e)
-        return redirect('index')
-
-
 def ing2_1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_SR.objects.filter(owner=member).order_by('-id')
+        contract = Contract_OS.objects.filter(owner=member).order_by('-id')
+        n = len(contract)
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -1692,6 +1846,68 @@ def ing2_1(request):
         print(e)
         return redirect('index')
 
+
+def ing2_2(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_SR.objects.filter(owner=member).order_by('-id')
+        total_len = len(contract)
+        page = request.GET.get('page')
+        paginator = Paginator(contract, 6)
+
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 5 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
+
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing2_2.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
+
+def ing2_3(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_CI.objects.filter(owner=member).order_by('-id')
+        total_len = len(contract)
+        page = request.GET.get('page')
+        paginator = Paginator(contract, 6)
+
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 5 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
+
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+
+        return render(request, 'app/ing2_3.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def ing3(request):
     try:
@@ -1789,6 +2005,38 @@ def ing4_2(request):
         return redirect('index')
 
 
+def osreceived(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        contract = Contract_OS.objects.filter(share1=member).order_by('-id')
+        total_len = len(contract)
+        page = request.GET.get('page')
+        paginator = Paginator(contract, 6)
+
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 5 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
+
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/osreceived.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
+
 def cireceived(request):
     try:
         user_id = request.session['user_id']
@@ -1820,7 +2068,6 @@ def cireceived(request):
     except Exception as e:
         print(e)
         return redirect('index')
-
 
 def srreceived(request):
     try:
@@ -2208,20 +2455,23 @@ def charts(request):
 
 def forms(request):
     user_id = request.session['user_id']
-    contract = Contract_CI.objects.filter(share1=user_id).order_by('-id')
+    contract = Contract_OS.objects.filter(share1=user_id).order_by('-id')
     return render(request, 'app/forms.html', {'contract': contract})
 
 
-def forms2(request):
-    user_id = request.session['user_id']
-    return render(request, 'app/forms2.html', {'user_id':user_id})
-
-
 def forms2_1(request):
+    return render(request, 'app/forms2_1.html', {})
+
+
+def forms2_2(request):
     user_id = request.session['user_id']
     contract = Contract_LC.objects.filter(share2=user_id).order_by('-id')
-    return render(request, 'app/forms2_1.html', {'contract': contract})
+    return render(request, 'app/forms2_2.html', {'contract': contract})
 
+def forms2_3(request):
+    user_id = request.session['user_id']
+    contract = Contract_BL.objects.filter(share2=user_id).order_by('-id')
+    return render(request, 'app/forms2_3.html', {'contract': contract, 'user_id':user_id})
 
 def forms3(request):
     user_id = request.session['user_id']

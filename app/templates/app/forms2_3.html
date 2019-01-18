@@ -30,7 +30,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -71,20 +72,24 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
                                 </li>
-                                <li class="nav-item dropdown" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item dropdown"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">문서 작성</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
-                                        <a class="dropdown-item" href="{% url 'forms2'%}">상업송장</a>
-                                        <a class="dropdown-item" href="{% url 'forms2_1'%}">선적요청서</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="margin-top: 5px;">
+                                        <a class="dropdown-item" href="{% url 'forms2_1'%}">구매확약서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_2'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_3'%}">상업송장</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'ing2'%}">상업송장</a>
-                                        <a class="dropdown-item" href="{% url 'ing2_1'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_1'%}">구매확약서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_2'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_3'%}">상업송장</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -99,7 +104,8 @@
                                     <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal"
+                                       data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
                             <!-- Search Form -->
@@ -112,7 +118,6 @@
     </div>
 </header>
 <!-- Header Area End -->
-
 
 
 <!--Valkyrie System Area Start -->
@@ -135,15 +140,22 @@
 
 
                             <div class="panel-body">
-                                <form role="form" action="{% url 'submit2' %}" method="post">
+                                <form role="form" action="{% url 'submit2_3' %}" method="post">
 
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <h4 class="panel-heading">
+                                                <label>Contract ID.</label>
+                                                <select class="custom-select" name="contract_id">
+                                                    {% for c in contract %}
+                                                    <option value="{{c.contract_id}}">{{c.contract_id}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <hr>
                                                 COMMECIAL INVOICE NAME</h4>
 
-                                            <input class="form-control" name="invoicename" required="required">
-<hr>
+                                            <input class="form-control" name="contractname" required="required">
+                                            <hr>
                                             <div class="form-group">
                                                 <label>1.Shipper/Seller:</label>
                                                 <input class="form-control" name="a" required="required">
@@ -166,7 +178,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>6.To:</label>
-                                                <input class="form-control" name="f" >
+                                                <input class="form-control" name="f">
                                             </div>
                                             <div class="form-group">
                                                 <label>7.Invoice No.and Date:</label>
@@ -174,7 +186,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>8.L/C No.and Date:</label>
-                                                <input class="form-control"  type="date" name="h" required="required">
+                                                <input class="form-control" type="date" name="h" required="required">
                                             </div>
 
 
@@ -243,6 +255,9 @@
             </div>
         </div>
 
+        <!-- Sticky Footer -->
+
+
     </div>
 
 </section>
@@ -265,7 +280,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -310,6 +325,5 @@
 
 
 </script>
-
 
 </html>

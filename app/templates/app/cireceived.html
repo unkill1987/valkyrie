@@ -89,9 +89,10 @@
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
-                                        <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
+                                        <a class="dropdown-item" href="{% url 'osreceived'%}">구매확약서</a>
                                         <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
                                         <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
                                         <a class="dropdown-item" href="{% url 'doreceived'%}">인도지시서</a>
                                     </div>
                                 </li>
@@ -140,7 +141,7 @@
                                 <h5>Document Hash:<br>{{c.sha256}}</h5>
                             </div>
                             <div class="card-footer">
-                                <a href="{% url 'download2' %}?id={{ c.id }}" class="btn btn-outline-dark"
+                                <a href="{% url 'download2_1' %}?id={{ c.id }}" class="btn btn-outline-dark"
                                    target="_blank">
                                     Download File
                                 </a>

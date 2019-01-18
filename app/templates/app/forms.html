@@ -88,9 +88,10 @@
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
+                                        <a class="dropdown-item" href="{% url 'osreceived'%}">구매확약서</a>
                                         <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
                                         <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'cireceived'%}">상업송장</a>
                                         <a class="dropdown-item" href="{% url 'doreceived'%}">인도지시서</a>
                                     </div>
                                 </li>
@@ -144,7 +145,7 @@
                                                     {% endfor %}
                                                 </select>
                                                 <hr>
-                                                LETTER OF CREDIT REQUEST NAME
+                                                LETTER OF CREDIT REQUEST TITLE
                                             </h4>
 
                                             <input class="form-control" name="contractname" required="required">

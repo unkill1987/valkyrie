@@ -53,7 +53,7 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index4' %}"><img
+                        <a class="navbar-brand" href="{% url 'index2' %}"><img
                                 src="{% static 'app/img/core-img/logo.png'%}"
                                 alt="Logo"></a>
 
@@ -66,7 +66,7 @@
                             <!-- Menu Area Start  -->
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="{% url 'index4'%}">Home </a>
+                                    <a class="nav-link" href="{% url 'index2'%}">Home </a>
                                 </li>
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
@@ -75,28 +75,30 @@
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">문서 작성</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
-                                        <a class="dropdown-item" href="{% url 'forms4_1'%}">선하증권</a>
-                                        <a class="dropdown-item" href="{% url 'forms4_2'%}">인도지시서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_1'%}">구매확약서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_2'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_3'%}">상업송장</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'ing4_1'%}">선하증권</a>
-                                        <a class="dropdown-item" href="{% url 'ing4_2'%}">인도지시서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_1'%}">구매확약서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_2'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_3'%}">상업송장</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'srreceived'%}">선적요청서</a>
-
+                                        <a class="dropdown-item" href="{% url 'lcreceived2'%}">신용장</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived2'%}">선하증권</a>
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'mypage4'%}">MYPAGE</a>
+                                    <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="" data-toggle="modal"
@@ -122,9 +124,10 @@
             <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h4 class="page-header">선하증권(B/L) 작성</h4>
+                        <h4 class="page-header">선적요청서(S/R) 작성</h4>
                         <h5 style="color:orange;">English Only</h5>
                     </div>
+
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
@@ -134,7 +137,7 @@
 
 
                             <div class="panel-body">
-                                <form role="form" action="{% url 'submit4_1' %}" method="post">
+                                <form role="form" action="{% url 'submit2_2' %}" method="post">
 
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -146,74 +149,84 @@
                                                     {% endfor %}
                                                 </select>
                                                 <hr>
-                                                BILLS OF LADING TITLE
+                                                SHIPPING REQUEST TITLE
                                             </h4>
-
-                                            <input class="form-control" name="contractname" required="required">
-
+                                            <input class="form-control" name="srequestname" required="required">
                                             <div class="form-group">
-                                                <label>1.Bank:</label>
+                                                <label>1.Shipper:</label>
                                                 <input class="form-control" name="a" required="required">
-                                                <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>2.Nodify party:</label>
+                                                <label>2.Consignee:</label>
                                                 <input class="form-control" name="b" required="required">
                                             </div>
                                             <div class="form-group">
-                                                <label>3.Lessel:</label>
+                                                <label>3.Notify Party:</label>
                                                 <input class="form-control" name="c" required="required">
-                                                <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>4.Voyage No.:</label>
+                                                <label>4.Vessel:</label>
                                                 <input class="form-control" name="d" required="required">
-                                                <p class="help-block"></p>
                                             </div>
-
-                                        </div>
-                                        <!-- /.col-lg-6 (nested) -->
-                                        <div class="col-lg-6">
-
-                                            <!--<p style="font-size:25px"> Bank Form </p>-->
                                             <div class="form-group">
-                                                <label>5.Part of loading:</label>
+                                                <label>5.Voyage No.:</label>
                                                 <input class="form-control" name="e" required="required">
-                                                <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>6.Place of receipt:</label>
+                                                <label>6.Port of Loading:</label>
                                                 <input class="form-control" name="f" required="required">
-                                                <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>7.Place of delivery:</label>
+                                                <label>7.Port of Discharge:</label>
                                                 <input class="form-control" name="g" required="required">
-                                                <p class="help-block"></p>
                                             </div>
-                                            <div class="form-group">
-                                                <label>8.Description of goods:</label>
-                                                <input class="form-control" name="h" required="required">
-                                                <p class="help-block"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>9.Weight:</label>
-                                                <input class="form-control" name="i" required="required">
-                                                <p class="help-block"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>10.Measurement:</label>
-                                                <input class="form-control" name="j" required="required">
-                                                <p class="help-block"></p>
-                                            </div>
+
+
                                         </div>
 
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>8.Final Destination:</label>
+                                                <input class="form-control" name="h" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>9.Marking:</label>
+                                                <input class="form-control" name="i" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>10.Packages:</label>
+                                                <input class="form-control" name="j" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>11.Description of Goods:</label>
+                                                <input class="form-control" name="k" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>12.Gross Weight:</label>
+                                                <input class="form-control" name="l" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>13.Measurement:</label>
+                                                <input class="form-control" name="m" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>14.Freight Term:</label>
+                                                <input class="form-control" name="n" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>15.Original B/L:</label>
+                                                <input class="form-control" name="o" required="required">
+                                            </div>
 
-                                        <!-- /.col-lg-6 (nested) -->
+                                        </div>
                                     </div>
-                                    <hr>
+
+
+                                    <!-- /.col-lg-6 (nested) -->
+
                                     <!-- /.row (nested) -->
                                     <div style="text-align:center">
+                                        <hr>
                                         <button type="submit" class="btn btn-outline-dark">작성 완료</button>
                                         <button type="reset" class="btn btn-outline-dark">다시 작성하기</button>
                                     </div>
@@ -235,7 +248,6 @@
 
 
     </div>
-    <!-- /.content-wrapper -->
 
 </section>
 <!--Valkyrie System Area End -->
@@ -300,7 +312,7 @@
 </body>
 <script>
 
-</script>
 
+</script>
 
 </html>

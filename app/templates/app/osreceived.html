@@ -23,9 +23,7 @@
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
 </head>
-<style>
 
-</style>
 <body>
 <!-- Preloader -->
 <div id="preloader">
@@ -90,7 +88,7 @@
                                 <li class="nav-item dropdown" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown " style="margin-top: 5px;">
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
                                         <a class="dropdown-item" href="{% url 'osreceived'%}">구매확약서</a>
                                         <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
                                         <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
@@ -121,9 +119,8 @@
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
-            <!--진행중인 계약-->
             <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                <h4>인도지시서 확인({{total_len}}건)</h4>
+                <h4>구매확약서 확인({{total_len}}건)</h4>
                 <div class="row">
                     {% for c in result_list %}
                     <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
@@ -133,8 +130,7 @@
 
                             <h5 class="card-header">
 
-
-                                Contract ID.<br>{{c.contract_id}}
+                                Contract ID.<br>{{c.id}}
                                 <hr>
 
                                 {{c.contractname}}
@@ -145,18 +141,19 @@
                                 <h5>Document Hash:<br>{{c.sha256}}</h5>
                             </div>
                             <div class="card-footer">
-                                <a href="{% url 'download4_2' %}?id={{ c.id }}" class="btn btn-outline-dark"
+                                <a href="{% url 'download2_1' %}?id={{ c.id }}" class="btn btn-outline-dark"
                                    target="_blank">
                                     Download File
                                 </a>
                                 <hr>
-                                <h6>From (운송사ID):<br>{{c.owner_id}}</h6>
+                                <h6>From (수출자ID):<br>{{c.owner_id}}</h6>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                     <hr>
                 </div>
+
                 <hr>
                 <div class="wrapper">
                     {% if result_list.has_other_pages %}
@@ -167,6 +164,7 @@
                                style="border-top-left-radius:5px;border-bottom-left-radius:5px;">
                                 &laquo;
                             </a>
+
                         </li>
                         {% else %}
                         <li class="btn btn-outline-dark disabled"
@@ -242,13 +240,12 @@
                         </div>
                     </div>
                 </div>
-
-                <!--</form>-->
             </div>
         </div>
-        <!-- Sticky Footer -->
+        <!--</form>-->
     </div>
-    <!-- /.content-wrapper -->
+
+    <!-- Sticky Footer -->
 </section>
 <!--Valkyrie System Area End -->
 
@@ -329,7 +326,7 @@ $('#delete').click(function() {
           sep = ','
         })
 
-        location = '/doremove?check_id=' + check_ids
+        location = '/osremove?check_id=' + check_ids
         return false
       })
 

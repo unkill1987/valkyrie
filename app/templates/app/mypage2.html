@@ -84,16 +84,18 @@
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">문서 작성</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'forms2'%}">상업송장</a>
-                                        <a class="dropdown-item" href="{% url 'forms2_1'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_1'%}">구매확약서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_2'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'forms2_3'%}">상업송장</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'ing2'%}">상업송장</a>
-                                        <a class="dropdown-item" href="{% url 'ing2_1'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_1'%}">구매확약서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_2'%}">선적요청서</a>
+                                        <a class="dropdown-item" href="{% url 'ing2_3'%}">상업송장</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -282,18 +284,18 @@
                                     <table class="mx-auto">
                                         <tr>
                                             <th>Start</th>
-                                            <th style="text-align:center">CI<br>전송</th>
+                                            <th style="text-align:center">OS<br>전송</th>
                                             <th style="text-align:center">LCR<br>전송</th>
                                             <th style="text-align:center">LC<br> 발급</th>
                                             <th style="text-align:center">SR<br>발급</th>
                                             <th style="text-align:center">BL<br> 발급</th>
+                                            <th style="text-align:center">CI<br> 발급</th>
                                             <th style="text-align:center">DO<br>발급</th>
                                             <th style="text-align:right;">End</th>
                                         </tr>
                                         <tr>
                                             <td colspan="10">
                                                 <div class="progress" id="progress">
-
                                                 </div>
                                             </td>
                                         </tr>
@@ -499,24 +501,27 @@ function myqna(){
             success: function(res){
                 if (res.result == 'Invalid Contract'){
                     alert(res.result)
-                }else if (res.trade[0].CI_hash.length == 0 ){
+                }else if (res.trade[0].OS_hash.length == 0 ){
                      $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:19%"></div>`);
+                    $('#progress').append(`<div class="progress-bar" style="width:17%"></div>`);
                 }else if (res.trade[0].LCR_hash.length == 0){
                 $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:32%"></div>`)
+                    $('#progress').append(`<div class="progress-bar" style="width:28%"></div>`)
                 }else if (res.trade[0].LC_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:44%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:39%"></div>`)
                 }else if (res.trade[0].SR_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:57%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:50%"></div>`)
                 }else if (res.trade[0].BL_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:69%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:61%"></div>`)
+                }else if (res.trade[0].CI_hash.length == 0){
+                    $('#progress').empty();
+                        $('#progress').append(`<div class="progress-bar" style="width:72%"></div>`)
                 }else if (res.trade[0].DO_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:82%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:83%"></div>`)
                 }else if (res.trade[0].DO_hash.length != 0){
                         $('#progress').empty();
                         $('#progress').append(`<div class="progress-bar" style="width:100%">complete</div>`)
