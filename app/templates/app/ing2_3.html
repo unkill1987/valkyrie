@@ -382,16 +382,16 @@ $('#submit').click(function() {
      $('.btn').attr('disabled',true);
      $('#preloader').show();
      $.ajax({
-        url:'/share2_2/',
+        url:'/share2_3/',
         type:'post',
         data:$('form').serialize(),
         success: function(res){
             if (res.result == 'Success'){
                 alert(res.result)
-                location = '/SR/'
+                location = '/CI/'
                 }else{
                 alert(res.result)
-                location = '/SR/'
+                location = '/CI/'
                 }
             }
         })
@@ -406,7 +406,7 @@ $('#submit').click(function() {
           check_ids += sep + $(this).val()
           sep = ','
         })
-        location = '/remove2_2?check_id=' + check_ids
+        location = '/remove2_3?check_id=' + check_ids
         return false
       })
 
