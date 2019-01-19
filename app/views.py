@@ -104,7 +104,7 @@ def mytrade(request):
         try:
 
             mytrade = request.POST['mytrade']
-            trade = Process.objects.filter(id=mytrade).values('OS_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash',
+            trade = Process.objects.filter(id=mytrade).values('OS_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash', 'CI_hash',
                                                               'DO_hash')
             return JsonResponse({'trade': list(trade)})
         except Exception as e:
