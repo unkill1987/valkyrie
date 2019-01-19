@@ -608,7 +608,7 @@ def share2_3(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                if history[2]['Value']['bl']['To'][11:] == user_id:
+                if history[4]['Value']['bl']['To'][11:] == user_id:
                     url = 'http://222.239.231.247:8001/add_CI/' + contract_id + '- exporter: ' + user_id + '- importer: ' + share_user + '- commercial invoice: ' + hash
                     response = requests.post(url)
                     res = response.text
@@ -797,7 +797,7 @@ def share4_2(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
-                if history[4]['Value']['bl']['from'][10:] == user_id:
+                if history[5]['Value']['bl']['from'][10:] == user_id:
                     url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
                     response = requests.post(url)
                     res = response.text
