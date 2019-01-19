@@ -78,6 +78,7 @@ class Contract_SR(models.Model):
 
 class Contract_CI(models.Model):
     contractname = models.CharField(max_length=50)
+    contract_id = models.CharField(max_length=20)
     sha256 = models.CharField(max_length=100)
     filename = models.CharField(max_length=100)
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)

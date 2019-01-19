@@ -1428,7 +1428,8 @@ def submit2_3(request):
         except Exception as e:
             print(e)
             return redirect('forms2_3')
-    except:
+    except Exception as e:
+        print(e)
         return redirect('forms2_3')
 
 def submit3(request):
