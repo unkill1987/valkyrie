@@ -824,7 +824,8 @@ def share4_2(request):
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
     except Exception as e:
