@@ -142,30 +142,77 @@
             <!-- Breadcrumbs-->
 
             <div class="container-fluid">
-                <div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">
-                    <div class="card">
-                        <form method="post" action="{% url 'search1'%}">
-                            <div class="card-header">블록체인 검색</div>
-                            <div class="card-body">
-                                <div class="input-group">
-                                    <label style="background:white; border-top-right-radius:0px;border-bottom-right-radius:0px;"
-                                           class="input-group-text" for="cid">Contract ID</label>
-                                    <input class="form-control" id="cid" name="cid" type="text" required="required">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-dark"
-                                                style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">
-                                            search
-                                        </button>
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">새로운 문서</div>
+                            <div class="card-body" style="text-align:right">
+                                <a href="{% url 'osreceived' %}" style="color:white">{{new_os}}</a> /
+                                <a href="{% url 'lcreceived1' %}" style="color:white">{{new_lc}}</a> /
+                                <a href="{% url 'blreceived1' %}" style="color:white">{{new_bl}}</a> /
+                                <a href="{% url 'cireceived' %}" style="color:white">{{new_ci}}</a> /
+                                <a href="{% url 'doreceived' %}" style="color:white">{{new_do}}</a> 건
                             </div>
 
-                            {% csrf_token %}
-                        </form>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">진행중인 계약</div>
+                            <div class="card-body" style="font-size:20px;text-align:right">
+                                {{ing}} 건
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">완료된 계약</div>
+                            <div class="card-body" style="font-size:20px;text-align:right">
+                                {{complete}} 건
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">계약 검색</div>
+                            <div class="card-body">
+                                <form method="post" action="{% url 'search1' %}">
+                                    <div class="input-group">
+                                        <input id="cid" name ="cid" class="form-control" placeholder="Contract ID">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="submit"><i class="fa fa-check"></i></button>
+                                        </div>
+                                    </div>
+                                    {%csrf_token%}
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!--<div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">-->
+                    <!--<div class="card">-->
+                        <!--<form method="post" action="{% url 'search1'%}">-->
+                            <!--<div class="card-header">블록체인 검색</div>-->
+                            <!--<div class="card-body">-->
+                                <!--<div class="input-group">-->
+                                    <!--<label style="background:white; border-top-right-radius:0px;border-bottom-right-radius:0px;"-->
+                                           <!--class="input-group-text" for="cid">Contract ID</label>-->
+                                    <!--<input class="form-control" id="cid" name="cid" type="text" required="required">-->
+                                    <!--<div class="input-group-append">-->
+                                        <!--<button type="submit" class="btn btn-outline-dark"-->
+                                                <!--style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">-->
+                                            <!--search-->
+                                        <!--</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--{% csrf_token %}-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
                 &nbsp
-                <div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">
+                <div class="wrapper">
                     <div class="card">
                         <div class="card-header">
                             Notice
@@ -209,7 +256,7 @@
                     </div>
                 </div>
                 &nbsp
-                <div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">
+                <div class="wrapper" >
                     <div class="card">
                         <div class="card-header">
                             News(무역)&nbsp/&nbsp {{date}} - 출처:네이버

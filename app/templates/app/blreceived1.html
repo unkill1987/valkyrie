@@ -30,7 +30,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -84,10 +85,12 @@
                                         <a class="dropdown-item" href="{% url 'ing'%}">신용장 신청서</a>
                                     </div>
                                 </li>
-                                <li class="nav-item dropdown" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item dropdown"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="margin-top: 5px;">
                                         <a class="dropdown-item" href="{% url 'osreceived'%}">구매확약서</a>
                                         <a class="dropdown-item" href="{% url 'lcreceived1'%}">신용장</a>
                                         <a class="dropdown-item" href="{% url 'blreceived1'%}">선하증권</a>
@@ -129,21 +132,20 @@
                         <div class="card h-100">
 
                             <h5 class="card-header">
-
+                                <div id="status" style="color:orange">{{c.status}}</div>
+                                <hr>
                                 Contract ID.<br>{{c.contract_id}}
                                 <hr>
 
                                 {{c.contractname}}
                             </h5>
                             <div class="card-body">
-                                <p class="card-text">
-
                                 <h5>Document Hash:<br>{{c.sha256}}</h5>
                             </div>
                             <div class="card-footer">
                                 <a href="{% url 'download4_1' %}?id={{ c.id }}" class="btn btn-outline-dark"
                                    target="_blank">
-                                    Download File
+                                    View
                                 </a>
                                 <hr>
                                 <h6>From (운송사ID):<br>{{c.owner_id}}</h6>
@@ -271,7 +273,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -335,6 +337,7 @@ $('#delete').click(function() {
         location = '/blremove1?check_id=' + check_ids
         return false
       })
+
 
 
 

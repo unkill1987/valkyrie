@@ -20,10 +20,10 @@ from app import views
 urlpatterns = [
     path('about/', views.about, name='about'),
 
-    path('index/', views.index, name='index'),
-    path('index/', views.index, name='index2'),
-    path('index/', views.index, name='index3'),
-    path('index/', views.index, name='index4'),
+    path('Importer/', views.index, name='index'),
+    path('Exporter/', views.index2, name='index2'),
+    path('Bank/', views.index3, name='index3'),
+    path('Shipper/', views.index4, name='index4'),
 
     path('charts/', views.charts, name='charts'),
     path('charts/', views.charts, name='charts2'),
@@ -76,11 +76,28 @@ urlpatterns = [
     path('BL_received_E/', views.blreceived2, name='blreceived2'),
     path('DO_received/', views.doreceived, name='doreceived'),
     path('DO_received_B/', views.doreceived2, name='doreceived2'),
-    path('SR_received', views.srreceived, name='srreceived'),
-    path('CI_received', views.cireceived, name='cireceived'),
+    path('SR_received/', views.srreceived, name='srreceived'),
+    path('CI_received/', views.cireceived, name='cireceived'),
     path('LC_received_I/', views.lcreceived1, name='lcreceived1'),
     path('LC_received_E/', views.lcreceived2, name='lcreceived2'),
     path('LCR_received/', views.lcrreceived, name='lcrreceived'),
+
+    path('os_reject/', views.os_reject, name='os_reject'),
+    path('lcr_reject/', views.lcr_reject, name='lcr_reject'),
+    path('lc_reject/', views.lc_reject, name='lc_reject'),
+    path('sr_reject/', views.sr_reject, name='sr_reject'),
+    path('bl_reject/', views.bl_reject, name='bl_reject'),
+    path('ci_reject/', views.ci_reject, name='ci_reject'),
+    path('do_reject/', views.do_reject, name='do_reject'),
+
+    path('os_confirm/', views.os_confirm, name='os_confirm'),
+    path('lcr_confirm/', views.lcr_confirm, name='lcr_confirm'),
+    path('lc_confirm/', views.lc_confirm, name='lc_confirm'),
+    path('sr_confirm/', views.sr_confirm, name='sr_confirm'),
+    path('bl_confirm/', views.bl_confirm, name='bl_confirm'),
+    path('ci_confirm/', views.ci_confirm, name='ci_confirm'),
+    path('do_confirm/', views.do_confirm, name='do_confirm'),
+
 
     path('blremove1/', views.blremove1, name='blremove1'),
     path('blremove2/', views.blremove2, name='blremove2'),

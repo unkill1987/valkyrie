@@ -6,6 +6,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 import hashlib
+
+from django.views.decorators.csrf import csrf_exempt
 from fpdf import FPDF, HTMLMixin
 import pyotp
 import os
@@ -16,6 +18,515 @@ from app.models import Contract_LCR, Member, Contract_OS, Contract_SR, Contract_
 from valweb import settings
 from django.utils import timezone
 from cryptography.fernet import Fernet
+
+
+@csrf_exempt
+def os_confirm(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        contract_id = request.POST['c_id']
+        c = Contract_OS.objects.get(id=contract_id)
+        if c.status == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+            owner = str(c.owner)
+            share_user = c.share1
+            hash = c.sha256
+            if otp == nowotp:
+                url = (
+                            'http://192.168.56.101:8001/add_OS/' + contract_id + '- Exporter: ' + owner + '- importer: ' + share_user + '- offer sheet: ' + hash)
+                response = requests.post(url)
+                res = response.text
+                if res == "The contract already exists":
+                    result_dict['result'] = 'The contract already exists'
+                else:
+                    process = Process(contract_id=contract_id, user2=owner, OS_hash=hash, status='ing')
+                    process.user1 = share_user
+                    process.save()
+                    c.status = 'confirmed'
+                    c.save()
+                    result_dict['result'] = 'success'
+                    return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def lcr_confirm(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        c_id = request.POST['c_id']
+        c = Contract_LCR.objects.get(id=c_id)
+        contract_id = c.contract_id
+        if c.status == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+            owner = str(c.owner)
+            share_user = c.share3
+            hash = c.sha256
+            if otp == nowotp:
+                url = (
+                            'http://192.168.56.101:8001/add_LCR/' + contract_id + '- importer: ' + owner + '- bank: ' + share_user + '- letter of credit request: ' + hash)
+                response = requests.post(url)
+                res = response.text
+                if res == "Fail":
+                    result_dict['result'] = 'Fail'
+                else:
+                    process = Process.objects.get(contract_id=contract_id)
+                    process.LCR_hash = hash
+                    process.user3 = share_user
+                    process.save()
+                    c.status = 'confirmed'
+                    c.save()
+                    result_dict['result'] = 'success'
+                return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def lc_confirm(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        c_id = request.POST['c_id']
+        c = Contract_LC.objects.get(id=c_id)
+        contract_id = c.contract_id
+        if c.status == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+            owner = str(c.owner)
+            share_user = c.share2
+            hash = c.sha256
+            if otp == nowotp:
+                url = (
+                            'http://192.168.56.101:8001/add_LC/' + contract_id + '- bank: ' + owner + '- exporter: ' + share_user + '- letter of credit: ' + hash)
+                response = requests.post(url)
+                res = response.text
+                if res == "Fail":
+                    result_dict['result'] = 'Fail'
+                else:
+                    process = Process.objects.get(contract_id=contract_id)
+                    process.LC_hash = hash
+                    process.save()
+                    c.status = 'confirmed'
+                    c.save()
+                    result_dict['result'] = 'success'
+                return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def sr_confirm(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        c_id = request.POST['c_id']
+        c = Contract_SR.objects.get(id=c_id)
+        contract_id = c.contract_id
+        if c.status == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+            owner = str(c.owner)
+            share_user = c.share4
+            hash = c.sha256
+            if otp == nowotp:
+                url = (
+                            'http://192.168.56.101:8001/add_SR/' + contract_id + '- exporter: ' + owner + '- shipper: ' + share_user + '- shipping request: ' + hash)
+                response = requests.post(url)
+                res = response.text
+                if res == "Fail":
+                    result_dict['result'] = 'Fail'
+                else:
+                    process = Process.objects.get(contract_id=contract_id)
+                    process.SR_hash = hash
+                    process.user4 = share_user
+                    process.save()
+                    c.status = 'confirmed'
+                    c.save()
+                    result_dict['result'] = 'success'
+                return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def bl_confirm(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        c_id = request.POST['c_id']
+        c = Contract_BL.objects.get(id=c_id)
+        contract_id = c.contract_id
+        if c.status == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+            owner = str(c.owner)
+            share_user = c.share2
+            hash = c.sha256
+            if otp == nowotp:
+                url = (
+                            'http://192.168.56.101:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of lading: ' + hash)
+                response = requests.post(url)
+                res = response.text
+                if res == "Fail":
+                    result_dict['result'] = 'Fail'
+                else:
+                    process = Process.objects.get(contract_id=contract_id)
+                    process.BL_hash = hash
+                    process.save()
+                    c.status = 'confirmed'
+                    c.save()
+                    result_dict['result'] = 'success'
+                return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def ci_confirm(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        c_id = request.POST['c_id']
+        c = Contract_CI.objects.get(id=c_id)
+        contract_id = c.contract_id
+        if c.status == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+            owner = str(c.owner)
+            share_user = c.share1
+            hash = c.sha256
+            if otp == nowotp:
+                url = (
+                            'http://192.168.56.101:8001/add_CI/' + contract_id + '- exporter: ' + owner + '- importer: ' + share_user + '- commercial invoice: ' + hash)
+                response = requests.post(url)
+                res = response.text
+                if res == "Fail":
+                    result_dict['result'] = 'Fail'
+                else:
+                    process = Process.objects.get(contract_id=contract_id)
+                    process.CI_hash = hash
+                    process.save()
+                    c.status = 'confirmed'
+                    c.save()
+                    result_dict['result'] = 'success'
+                return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def do_confirm(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        c_id = request.POST['c_id']
+        c = Contract_DO.objects.get(id=c_id)
+        contract_id = c.contract_id
+        if c.status == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+            owner = str(c.owner)
+            share_user = c.share1
+            hash = c.sha256
+            if otp == nowotp:
+                url = ('http://192.168.56.101:8001/add_DO/' + contract_id + '- shipper: ' + owner + '- importer: ' + share_user + '- delivery order: ' + hash)
+                response = requests.post(url)
+                res = response.text
+                if res == "Fail":
+                    result_dict['result'] = 'Fail'
+                else:
+                    process = Process.objects.get(contract_id=contract_id)
+                    process.DO_hash = hash
+                    process.status = 'complete'
+                    process.save()
+                    os_status = Contract_OS.objects.get(id=contract_id)
+                    os_status.status = 'cpmplete'
+                    os_status.save()
+                    lcr_status = Contract_LCR.objects.get(contract_id=contract_id)
+                    lcr_status.status = 'cpmplete'
+                    lcr_status.save()
+                    lc_status = Contract_LC.objects.get(contract_id=contract_id)
+                    lc_status.status = 'cpmplete'
+                    lc_status.save()
+                    sr_status = Contract_SR.objects.get(contract_id=contract_id)
+                    sr_status.status = 'cpmplete'
+                    sr_status.save()
+                    bl_status = Contract_BL.objects.get(contract_id=contract_id)
+                    bl_status.status = 'cpmplete'
+                    bl_status.save()
+                    ci_status = Contract_CI.objects.get(contract_id=contract_id)
+                    ci_status.status = 'cpmplete'
+                    ci_status.save()
+                    c.status = 'complete'
+                    c.save()
+                    result_dict['result'] = 'success'
+                return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def os_reject(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_OS.objects.get(id=contract_id)
+        if c.status == 'new':
+            c.status = 'rejected'
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def lcr_reject(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_LCR.objects.get(id=contract_id)
+        if c.status == 'new':
+            c.status = 'rejected'
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def lc_reject(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_LC.objects.get(id=contract_id)
+        if c.status == 'new':
+            c.status = 'rejected'
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def sr_reject(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_SR.objects.get(id=contract_id)
+        if c.status == 'new':
+            c.status = 'rejected'
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def bl_reject(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_BL.objects.get(id=contract_id)
+        if c.status == 'new':
+            c.status = 'rejected'
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def ci_reject(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_CI.objects.get(id=contract_id)
+        if c.status == 'new':
+            c.status = 'rejected'
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def do_reject(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_DO.objects.get(id=contract_id)
+        if c.status == 'new':
+            c.status = 'rejected'
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status == 'rejected':
+            result_dict['result'] = 'already rejected'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
 
 
 def user_manual(request):
@@ -31,7 +542,7 @@ def checkcontract(request):
     try:
         result_dict = {}
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
         if len(history) == 0:
@@ -104,7 +615,8 @@ def mytrade(request):
         try:
 
             mytrade = request.POST['mytrade']
-            trade = Process.objects.filter(id=mytrade).values('OS_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash', 'CI_hash',
+            trade = Process.objects.filter(contract_id=mytrade).values('OS_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash',
+                                                              'CI_hash',
                                                               'DO_hash')
             return JsonResponse({'trade': list(trade)})
         except Exception as e:
@@ -275,7 +787,7 @@ def about(request):
 def search1(request):
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -289,12 +801,12 @@ def search1(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
-            return render(request, 'app/mypage1.html', {})
+            return redirect('mypage1')
         else:
             history.reverse()
             return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
@@ -306,12 +818,12 @@ def search1(request):
 def search2(request):
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
-            return redirect('index')
+            return redirect('index2')
         else:
             history.reverse()
             return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
@@ -320,29 +832,29 @@ def search2(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
-            return render(request, 'app/mypage2.html', {})
+            return redirect('mypage2')
         else:
             history.reverse()
             return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect('index2')
 
 
 def search3(request):
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
-            return redirect('index')
+            return redirect('index3')
         else:
             history.reverse()
             return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
@@ -351,29 +863,29 @@ def search3(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
-            return render(request, 'app/mypage3.html', {})
+            return redirect('mypage3')
         else:
             history.reverse()
             return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect('index3')
 
 
 def search4(request):
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
-            return redirect('index')
+            return redirect('index4')
         else:
             history.reverse()
             return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
@@ -382,18 +894,18 @@ def search4(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
         if len(history) == 0:
-            return render(request, 'app/mypage4.html', {})
+            return redirect('mypage4')
         else:
             history.reverse()
             return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect('index4')
 
 
 def share1(request):
@@ -402,16 +914,6 @@ def share1(request):
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_LCR.objects.filter(owner=member)
-        getid = contract.filter(id=check_id)
-        hash = getid.values('sha256')[0]['sha256']
-        contract_id = str(getid.values('contract_id')[0]['contract_id'])
-        user_id = getid.values('owner')[0]['owner']
-
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
-        urlto = requests.post(urlhistory)
-        history = urlto.json()
         result_dict = {}
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
@@ -424,37 +926,24 @@ def share1(request):
 
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
+
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                if history[0]['Value']['os']['To'][11:] == user_id:
-                    url = (
-                            'http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + user_id + '- bank: ' + share_user + '- letter of credit request: ' + hash)
-                    response = requests.post(url)
-                    res = response.text
-
-                    if res == "Fail":
-                        result_dict['result'] = 'Fail'
-
-                    else:
-
-                        process = Process.objects.get(id=contract_id)
-                        process.user1 = user_id
-                        process.LCR_hash = hash
-                        process.user3 = share_user
-                        process.save()
-
-                        share = Contract_LCR.objects.get(id=check_id)
-                        share.share3 = share_user
-                        share.save()
-                        result_dict['result'] = 'Success'
+                share = Contract_LCR.objects.get(id=check_id)
+                if share.share3 =='':
+                    share.share3 = share_user
+                    share.status = "new"
+                    share.save()
+                    result_dict['result'] = 'Success'
                     return JsonResponse(result_dict)
                 else:
-                    result_dict['result'] = "You don't have  the authority"
+                    result_dict['result'] = 'Already sent'
                     return JsonResponse(result_dict)
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
     except Exception as e:
@@ -468,12 +957,6 @@ def share2_1(request):
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_OS.objects.filter(owner=member)
-        getid = contract.filter(id=check_id)
-        hash = getid.values('sha256')[0]['sha256']
-        contract_id = str(getid.values('id')[0]['id'])
-        user_id = getid.values('owner')[0]['owner']
         result_dict = {}
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
@@ -487,22 +970,17 @@ def share2_1(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                url = 'http://222.239.231.247:8001/add_OS/' + contract_id + '- Exporter: ' + user_id + '- importer: ' + share_user + '- offer sheet: ' + hash
-                response = requests.post(url)
-                res = response.text
-
-                if res == "The contract already exists":
-                    result_dict['result'] = 'Fail'
-                else:
-                    process = Process.objects.get(OS_hash=hash)
-                    process.user1 = share_user
-                    process.save()
-
-                    share = Contract_OS.objects.get(id=check_id)
+                share = Contract_OS.objects.get(id=check_id)
+                if share.share1 == '':
                     share.share1 = share_user
+                    share.status = "new"
                     share.save()
                     result_dict['result'] = 'Success'
-                return JsonResponse(result_dict)
+                    return JsonResponse(result_dict)
+                else:
+                    result_dict['result'] = 'Already sent'
+                    return JsonResponse(result_dict)
+
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
@@ -510,7 +988,6 @@ def share2_1(request):
             print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
-
     except Exception as e:
         print(e)
         return redirect('ing2_1')
@@ -522,16 +999,6 @@ def share2_2(request):
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_SR.objects.filter(owner=member)
-        getid = contract.filter(id=check_id)
-        hash = getid.values('sha256')[0]['sha256']
-        contract_id = str(getid.values('contract_id')[0]['contract_id'])
-        user_id = getid.values('owner')[0]['owner']
-
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
-        urlto = requests.post(urlhistory)
-        history = urlto.json()
         result_dict = {}
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
@@ -545,32 +1012,21 @@ def share2_2(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                if history[2]['Value']['lc']['To'][11:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + user_id + '- shipper: ' + share_user + '- shipping request: ' + hash
-                    response = requests.post(url)
-                    res = response.text
-
-                    if res == "Fail":
-                        result_dict['result'] = 'Fail'
-                    else:
-
-                        share = Contract_SR.objects.get(id=check_id)
-                        share.share4 = share_user
-                        share.save()
-
-                        process = Process.objects.get(id=contract_id)
-                        process.SR_hash = hash
-                        process.user4 = share_user
-                        process.save()
-                        result_dict['result'] = 'Success'
+                share = Contract_SR.objects.get(id=check_id)
+                if share.share4 =='':
+                    share.share4 = share_user
+                    share.status = "new"
+                    share.save()
+                    result_dict['result'] = 'Success'
                     return JsonResponse(result_dict)
                 else:
-                    result_dict['result'] = "You don't have  the authority"
+                    result_dict['result'] = 'Already sent'
                     return JsonResponse(result_dict)
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
 
@@ -585,16 +1041,6 @@ def share2_3(request):
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
         user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_CI.objects.filter(owner=member)
-        getid = contract.filter(id=check_id)
-        hash = getid.values('sha256')[0]['sha256']
-        contract_id = str(getid.values('contract_id')[0]['contract_id'])
-        user_id = getid.values('owner')[0]['owner']
-
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
-        urlto = requests.post(urlhistory)
-        history = urlto.json()
         result_dict = {}
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
@@ -608,37 +1054,27 @@ def share2_3(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user):
-                if history[4]['Value']['bl']['To'][11:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_CI/' + contract_id + '- exporter: ' + user_id + '- importer: ' + share_user + '- commercial invoice: ' + hash
-                    response = requests.post(url)
-                    res = response.text
-
-                    if res == "Fail":
-                        result_dict['result'] = 'Fail'
-                    else:
-
-                        share = Contract_CI.objects.get(id=check_id)
-                        share.share1 = share_user
-                        share.save()
-
-                        process = Process.objects.get(id=contract_id)
-                        process.CI_hash = hash
-                        process.save()
-                        result_dict['result'] = 'Success'
+                share = Contract_CI.objects.get(id=check_id)
+                if share.share1 == '':
+                    share.share1 = share_user
+                    share.status = "new"
+                    share.save()
+                    result_dict['result'] = 'Success'
                     return JsonResponse(result_dict)
                 else:
-                    result_dict['result'] = "You don't have  the authority"
+                    result_dict['result'] = 'Already sent'
                     return JsonResponse(result_dict)
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
-
     except Exception as e:
         print(e)
         return redirect('ing2_3')
+
 
 def share3(request):
     try:
@@ -647,16 +1083,6 @@ def share3(request):
         share_user = request.POST['share_user']
         share_user2 = request.POST['share_user2']
         user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_LC.objects.filter(owner=member)
-        getid = contract.filter(id=check_id)
-        hash = getid.values('sha256')[0]['sha256']
-        contract_id = str(getid.values('contract_id')[0]['contract_id'])
-        user_id = getid.values('owner')[0]['owner']
-
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
-        urlto = requests.post(urlhistory)
-        history = urlto.json()
         result_dict = {}
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
@@ -670,33 +1096,22 @@ def share3(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
-                if history[1]['Value']['lcr']['To'][7:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + user_id + '- exporter: ' + share_user2 + '- letter of credit: ' + hash
-                    response = requests.post(url)
-                    res = response.text
-                    result_dict = {}
-
-                    if res == "Fail":
-                        result_dict['result'] = 'Fail'
-                    else:
-
-                        process = Process.objects.get(id=contract_id)
-                        process.LC_hash = hash
-                        process.save()
-
-                        share = Contract_LC.objects.get(id=check_id)
-                        share.share1 = share_user
-                        share.share2 = share_user2
-                        share.save()
-                        result_dict['result'] = 'Success'
+                share = Contract_LC.objects.get(id=check_id)
+                if share.share1 == '' and share.share2 =='':
+                    share.share1 = share_user
+                    share.share2 = share_user2
+                    share.status = "new"
+                    share.save()
+                    result_dict['result'] = 'Success'
                     return JsonResponse(result_dict)
                 else:
-                    result_dict['result'] = "You don't have  the authority"
+                    result_dict['result'] = 'Already sent'
                     return JsonResponse(result_dict)
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
     except Exception as e:
@@ -711,16 +1126,6 @@ def share4_1(request):
         share_user = request.POST['share_user']
         share_user2 = request.POST['share_user2']
         user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_BL.objects.filter(owner=member)
-        getid = contract.filter(id=check_id)
-        hash = getid.values('sha256')[0]['sha256']
-        contract_id = str(getid.values('contract_id')[0]['contract_id'])
-        user_id = getid.values('owner')[0]['owner']
-
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
-        urlto = requests.post(urlhistory)
-        history = urlto.json()
         result_dict = {}
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
@@ -734,36 +1139,26 @@ def share4_1(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
-                if history[3]['Value']['sr']['To'][10:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + user_id + '- exporter: ' + share_user2 + '- bills of lading: ' + hash
-                    response = requests.post(url)
-                    res = response.text
-
-                    if res == "Fail":
-                        result_dict['result'] = 'Fail'
-                    else:
-
-                        process = Process.objects.get(id=contract_id)
-                        process.BL_hash = hash
-                        process.save()
-
-                        share = Contract_BL.objects.get(id=check_id)
-                        share.share1 = share_user
-                        share.share2 = share_user2
-                        share.save()
-
-                        result_dict['result'] = 'Success'
+                share = Contract_BL.objects.get(id=check_id)
+                if share.share1 =='' and share.share2 =='':
+                    share.share1 = share_user
+                    share.share2 = share_user2
+                    share.status = "new"
+                    share.save()
+                    result_dict['result'] = 'Success'
                     return JsonResponse(result_dict)
                 else:
-                    result_dict['result'] = "You don't have  the authority"
+                    result_dict['result'] = 'Already sent'
                     return JsonResponse(result_dict)
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        except:
+        except Exception as e:
+            print(e)
             result_dict['result'] = 'Not found user'
             return JsonResponse(result_dict)
-    except:
+    except Exception as e:
+        print(e)
         return redirect('ing4_1')
 
 
@@ -774,16 +1169,6 @@ def share4_2(request):
         share_user = request.POST['share_user']
         share_user2 = request.POST['share_user2']
         user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        contract = Contract_DO.objects.filter(owner=member)
-        getid = contract.filter(id=check_id)
-        hash = getid.values('sha256')[0]['sha256']
-        contract_id = str(getid.values('contract_id')[0]['contract_id'])
-        user_id = getid.values('owner')[0]['owner']
-
-        urlhistory = ("http://222.239.231.247:8001/keyHistory/%s" % contract_id)
-        urlto = requests.post(urlhistory)
-        history = urlto.json()
         result_dict = {}
 
         key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
@@ -797,29 +1182,16 @@ def share4_2(request):
         nowotp = totp.now()
         try:
             if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
-                if history[3]['Value']['sr']['To'][10:] == user_id:
-                    url = 'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + user_id + '- importer: ' + share_user + '- delivery order: ' + hash
-                    response = requests.post(url)
-                    res = response.text
-                    result_dict = {}
-
-                    if res == "Fail":
-                        result_dict['result'] = 'Fail'
-                    else:
-
-                        process = Process.objects.get(id=contract_id)
-                        process.DO_hash = hash
-                        process.save()
-
-                        share = Contract_DO.objects.get(id=check_id)
-                        share.share1 = share_user
-                        share.share3 = share_user2
-                        share.save()
-
-                        result_dict['result'] = 'Success'
+                share = Contract_DO.objects.get(id=check_id)
+                if share.share1 =='' and share.share3 =='':
+                    share.share1 = share_user
+                    share.share3 = share_user2
+                    share.status = "new"
+                    share.save()
+                    result_dict['result'] = 'Success'
                     return JsonResponse(result_dict)
                 else:
-                    result_dict['result'] = "You don't have  the authority"
+                    result_dict['result'] = 'Already sent'
                     return JsonResponse(result_dict)
             else:
                 result_dict['result'] = "Check OTP"
@@ -832,92 +1204,125 @@ def share4_2(request):
         print(e)
         return redirect('ing4_2')
 
-
+@csrf_exempt
 def remove(request):
-    check_id = request.GET['check_id']
+    check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-
+    result_dict ={}
     try:
         for check_id in check_ids:
-            Contract_LCR.objects.get(id=check_id).delete()
-        return redirect('ing')
+            if  Contract_LCR.objects.get(id=check_id).status != 'confirmed':
+                Contract_LCR.objects.get(id=check_id).delete()
+                result_dict['result'] = 'deleted'
+            else:
+                result_dict['result'] = 'Could not delete'
+        return JsonResponse(result_dict)
     except Exception as e:
         print(e)
         return redirect('ing')
 
-
+@csrf_exempt
 def remove2_1(request):
-    check_id = request.GET['check_id']
+    check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-
+    result_dict = {}
     try:
         for check_id in check_ids:
-            Contract_OS.objects.get(id=check_id).delete()
-        return redirect('ing2_1')
+            if Contract_OS.objects.get(id=check_id).status != 'confirmed':
+                Contract_OS.objects.get(id=int(check_id)).delete()
+                result_dict['result'] = 'deleted'
+            else:
+                result_dict['result'] = 'Could not delete'
+        return JsonResponse(result_dict)
     except Exception as e:
         print(e)
         return redirect('ing2_1')
 
-
+@csrf_exempt
 def remove2_2(request):
-    check_id = request.GET['check_id']
+    check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-
+    result_dict ={}
     try:
         for check_id in check_ids:
-            Contract_SR.objects.get(id=check_id).delete()
-        return redirect('ing2_2')
+            if Contract_SR.objects.get(id=check_id).status != 'confirmed':
+                Contract_SR.objects.get(id=check_id).delete()
+                result_dict['result'] = 'deleted'
+            else:
+                result_dict['result'] = 'Could not delete'
+        return JsonResponse(result_dict)
     except Exception as e:
         print(e)
         return redirect('ing2_2')
 
+@csrf_exempt
 def remove2_3(request):
-    check_id = request.GET['check_id']
+    check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-
+    result_dict ={}
     try:
         for check_id in check_ids:
-            Contract_CI.objects.get(id=check_id).delete()
-        return redirect('ing2_3')
+            if Contract_CI.objects.get(id=check_id).status != 'confirmed':
+                Contract_CI.objects.get(id=check_id).delete()
+                result_dict['result'] = 'deleted'
+            else:
+                result_dict['result'] = 'Could not delete'
+        return JsonResponse(result_dict)
+
     except Exception as e:
         print(e)
         return redirect('ing2_3')
 
-
+@csrf_exempt
 def remove3(request):
-    check_id = request.GET['check_id']
+    check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-
+    result_dict ={}
     try:
         for check_id in check_ids:
-            Contract_LC.objects.get(id=check_id).delete()
-        return redirect('ing3')
+            if  Contract_LC.objects.get(id=check_id).status != 'confirmed':
+                Contract_LC.objects.get(id=check_id).delete()
+                result_dict['result'] = 'deleted'
+            else:
+                result_dict['result'] = 'Could not delete'
+        return JsonResponse(result_dict)
+
     except Exception as e:
         print(e)
         return redirect('ing3')
 
-
+@csrf_exempt
 def remove4_1(request):
-    check_id = request.GET['check_id']
+    check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-
+    result_dict ={}
     try:
         for check_id in check_ids:
-            Contract_BL.objects.get(id=check_id).delete()
-        return redirect('ing4_1')
+            if  Contract_BL.objects.get(id=check_id).status != 'confirmed':
+                Contract_BL.objects.get(id=check_id).delete()
+                result_dict['result'] = 'deleted'
+            else:
+                result_dict['result'] = 'Could not delete'
+        return JsonResponse(result_dict)
+
     except Exception as e:
         print(e)
         return redirect('ing4_1')
 
-
+@csrf_exempt
 def remove4_2(request):
-    check_id = request.GET['check_id']
+    check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-
+    result_dict ={}
     try:
         for check_id in check_ids:
-            Contract_DO.objects.get(id=check_id).delete()
-        return redirect('ing4_2')
+            if  Contract_DO.objects.get(id=check_id).status != 'confirmed':
+                Contract_DO.objects.get(id=check_id).delete()
+                result_dict['result'] = 'deleted'
+            else:
+                result_dict['result'] = 'Could not delete'
+        return JsonResponse(result_dict)
+
     except Exception as e:
         print(e)
         return redirect('ing4_2')
@@ -937,6 +1342,7 @@ def osremove(request):
         except:
             pass
     return redirect('osreceived')
+
 
 def ciremove(request):
     # deletes all objects from Car database table
@@ -1103,64 +1509,66 @@ def submit(request):
         n = request.POST['n']
         o = request.POST['o']
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        if len(Contract_LCR.objects.filter(contract_id=contract_id)) == 0:
+            try:
+                pdf = FPDF(unit='in', format='A4')
+                pdf.add_page()
+                pdf.set_font('Arial', '', 10.0)
+                epw = pdf.w - 2 * pdf.l_margin
+                records = [['No.', 'title', 'content'],
+                           [1, 'Advising bank:', a],
+                           [2, 'Credit No.:', b],
+                           [3, 'Beneficiary:', c],
+                           [4, 'Applicant:', d],
+                           [5, 'L/C Amount and Tolerance:', e],
+                           [6, 'Type:', f],
+                           [7, 'Partial shipment:', g],
+                           [8, 'Transshipment:', h],
+                           [9, 'Trnasport mode:', i],
+                           [10, 'Loading(shipment from):', j],
+                           [11, 'Discharging(shipment to):', k],
+                           [12, 'Latest shipment date:', l],
+                           [13, 'All banking charges:', m],
+                           [14, 'Confirmation:', n],
+                           [15, 'T/T reimbursement:', o],
+                           ]
 
-        try:
-            pdf = FPDF(unit='in', format='A4')
-            pdf.add_page()
-            pdf.set_font('Arial', '', 10.0)
-            epw = pdf.w - 2 * pdf.l_margin
-            records = [['No.', 'title', 'content'],
-                       [1, 'Advising bank:', a],
-                       [2, 'Credit No.:', b],
-                       [3, 'Beneficiary:', c],
-                       [4, 'Applicant:', d],
-                       [5, 'L/C Amount and Tolerance:', e],
-                       [6, 'Type:', f],
-                       [7, 'Partial shipment:', g],
-                       [8, 'Transshipment:', h],
-                       [9, 'Trnasport mode:', i],
-                       [10, 'Loading(shipment from):', j],
-                       [11, 'Discharging(shipment to):', k],
-                       [12, 'Latest shipment date:', l],
-                       [13, 'All banking charges:', m],
-                       [14, 'Confirmation:', n],
-                       [15, 'T/T reimbursement:', o],
-                       ]
+                pdf.set_font('Arial', 'B', 14.0)
+                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
+                pdf.set_font('Arial', '', 10.0)
+                pdf.ln(0.5)
 
-            pdf.set_font('Arial', 'B', 14.0)
-            pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-            pdf.ln(0.25)
-            pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-            pdf.set_font('Arial', '', 10.0)
-            pdf.ln(0.5)
+                th = pdf.font_size
+                for row in records:
+                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                    pdf.ln(2 * th)
 
-            th = pdf.font_size
-            for row in records:
-                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                pdf.ln(2 * th)
+                pdf.output('document/LCR_' + time_format + '.pdf', 'F')
+                file = open('document/LCR_' + time_format + '.pdf', 'rb')
+                data = file.read()
 
-            pdf.output('document/LCR_' + time_format + '.pdf', 'F')
-            file = open('document/LCR_' + time_format + '.pdf', 'rb')
-            data = file.read()
+                hash = hashlib.sha256(data).hexdigest()
+                file.close()
 
-            hash = hashlib.sha256(data).hexdigest()
-            file.close()
+                # 데이터 저장
+                contract = Contract_LCR(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
+                                        filename='document/LCR_' + time_format + '.pdf')
 
-            # 데이터 저장
-            contract = Contract_LCR(contractname=contractname, contract_id=contract_id, sha256=hash,
-                                    filename='document/LCR_' + time_format + '.pdf')
-
-            # 로그인한 사용자 정보를 Contract에 같이 저장
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract.owner = member
-            contract.save()
-            return redirect('ing')
-        except Exception as e:
-            print(e)
+                # 로그인한 사용자 정보를 Contract에 같이 저장
+                user_id = request.session['user_id']
+                member = Member.objects.get(user_id=user_id)
+                contract.owner = member
+                contract.save()
+                return redirect('ing')
+            except Exception as e:
+                print(e)
+                return redirect('forms')
+        else:
             return redirect('forms')
     except:
         return redirect('forms')
@@ -1236,7 +1644,7 @@ def submit2_1(request):
             file.close()
 
             # 데이터 저장
-            contract = Contract_OS(contractname=contractname, sha256=hash,
+            contract = Contract_OS(contractname=contractname, sha256=hash, status='new',
                                    filename='document/OS_' + time_format + '.pdf')
 
             # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -1244,10 +1652,6 @@ def submit2_1(request):
             member = Member.objects.get(user_id=user_id)
             contract.owner = member
             contract.save()
-            id = Contract_OS.objects.filter(sha256=hash).values('id')[0]['id']
-
-            process = Process(contract_id=id, user2=user_id, OS_hash=hash)
-            process.save()
 
             return redirect('ing2_1')
         except Exception as e:
@@ -1278,66 +1682,67 @@ def submit2_2(request):
         n = request.POST['n']
         o = request.POST['o']
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        if len(Contract_SR.objects.filter(contract_id=contract_id)) == 0:
+            try:
+                pdf = FPDF(unit='in', format='A4')
+                pdf.add_page()
+                pdf.set_font('Arial', '', 10.0)
+                epw = pdf.w - 2 * pdf.l_margin
+                records = [['No.', 'title', 'content'],
+                           [1, 'Shipper:', a],
+                           [2, 'Consignee:', b],
+                           [3, 'Notify Party:', c],
+                           [4, 'Vessel:', d],
+                           [5, 'Voyage No.:', e],
+                           [6, 'Port of Loading:', f],
+                           [7, 'Port of Discharge:', g],
+                           [8, 'Final Destination:', h],
+                           [9, 'Marking:', i],
+                           [10, 'Packages:', j],
+                           [11, 'Description of Goods:', k],
+                           [12, 'Gross Weight:', l],
+                           [13, 'Measurement:', m],
+                           [14, 'Freight Term:', n],
+                           [15, 'Original B/L:', o],
+                           ]
 
-        try:
-            pdf = FPDF(unit='in', format='A4')
-            pdf.add_page()
-            pdf.set_font('Arial', '', 10.0)
-            epw = pdf.w - 2 * pdf.l_margin
-            records = [['No.', 'title', 'content'],
-                       [1, 'Shipper:', a],
-                       [2, 'Consignee:', b],
-                       [3, 'Notify Party:', c],
-                       [4, 'Vessel:', d],
-                       [5, 'Voyage No.:', e],
-                       [6, 'Port of Loading:', f],
-                       [7, 'Port of Discharge:', g],
-                       [8, 'Final Destination:', h],
-                       [9, 'Marking:', i],
-                       [10, 'Packages:', j],
-                       [11, 'Description of Goods:', k],
-                       [12, 'Gross Weight:', l],
-                       [13, 'Measurement:', m],
-                       [14, 'Freight Term:', n],
-                       [15, 'Original B/L:', o],
-                       ]
+                pdf.set_font('Arial', 'B', 14.0)
+                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.0, srname + ' From:' + user_id, align='C')
+                pdf.set_font('Arial', '', 10.0)
+                pdf.ln(0.5)
 
-            pdf.set_font('Arial', 'B', 14.0)
-            pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-            pdf.ln(0.25)
-            pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, srname + ' From:' + user_id, align='C')
-            pdf.set_font('Arial', '', 10.0)
-            pdf.ln(0.5)
+                th = pdf.font_size
+                for row in records:
+                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                    pdf.ln(2 * th)
 
-            th = pdf.font_size
-            for row in records:
-                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                pdf.ln(2 * th)
+                pdf.output('document/SR_' + time_format + '.pdf', 'F')
+                file = open('document/SR_' + time_format + '.pdf', 'rb')
+                data = file.read()
 
-            pdf.output('document/SR_' + time_format + '.pdf', 'F')
-            file = open('document/SR_' + time_format + '.pdf', 'rb')
-            data = file.read()
+                hash = hashlib.sha256(data).hexdigest()
+                file.close()
 
-            hash = hashlib.sha256(data).hexdigest()
-            file.close()
+                # 데이터 저장
+                contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash,  status='new',
+                                       filename='document/SR_' + time_format + '.pdf')
 
-            # 데이터 저장
-            contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash,
-                                   filename='document/SR_' + time_format + '.pdf')
+                # 로그인한 사용자 정보를 Contract에 같이 저장
+                user_id = request.session['user_id']
+                member = Member.objects.get(user_id=user_id)
+                contract.owner = member
+                contract.save()
 
-            # 로그인한 사용자 정보를 Contract에 같이 저장
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract.owner = member
-
-            contract.save()
-
-            return redirect('ing2_2')
-        except Exception as e:
-            print(e)
+                return redirect('ing2_2')
+            except Exception as e:
+                print(e)
+                return redirect('forms2_2')
+        else:
             return redirect('forms2_2')
     except:
         return redirect('forms2_2')
@@ -1366,72 +1771,74 @@ def submit2_3(request):
         p = request.POST['p']
         q = request.POST['q']
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        if len(Contract_CI.objects.filter(contract_id=contract_id)) == 0:
+            try:
+                pdf = FPDF(unit='in', format='A4')
+                pdf.add_page()
+                pdf.set_font('Arial', '', 10.0)
+                epw = pdf.w - 2 * pdf.l_margin
+                records = [['No.', 'title', 'content'],
+                           [1, 'Shipper/Seller:', a],
+                           [2, 'Consignee:', b],
+                           [3, 'Departure Date:', c],
+                           [4, 'Vessel/Flight:', d],
+                           [5, 'To:', e],
+                           [6, 'From:', f],
+                           [7, 'Invoice No.and Date:', g],
+                           [8, 'L/C No.and Date:', h],
+                           [9, 'Buyer(if other than consignee):', i],
+                           [10, 'Other reference:', j],
+                           [11, 'Terms of delivery and payment:', k],
+                           [12, 'Shipping Mark:', l],
+                           [13, 'No.and kind of packages:', m],
+                           [14, 'Goods description:', n],
+                           [15, 'Quantity:', o],
+                           [16, 'Unit price:', p],
+                           [17, 'Amount:', q],
+                           ]
 
-        try:
-            pdf = FPDF(unit='in', format='A4')
-            pdf.add_page()
-            pdf.set_font('Arial', '', 10.0)
-            epw = pdf.w - 2 * pdf.l_margin
-            records = [['No.', 'title', 'content'],
-                       [1, 'Shipper/Seller:', a],
-                       [2, 'Consignee:', b],
-                       [3, 'Departure Date:', c],
-                       [4, 'Vessel/Flight:', d],
-                       [5, 'To:', e],
-                       [6, 'From:', f],
-                       [7, 'Invoice No.and Date:', g],
-                       [8, 'L/C No.and Date:', h],
-                       [9, 'Buyer(if other than consignee):', i],
-                       [10, 'Other reference:', j],
-                       [11, 'Terms of delivery and payment:', k],
-                       [12, 'Shipping Mark:', l],
-                       [13, 'No.and kind of packages:', m],
-                       [14, 'Goods description:', n],
-                       [15, 'Quantity:', o],
-                       [16, 'Unit price:', p],
-                       [17, 'Amount:', q],
-                       ]
+                pdf.set_font('Arial', 'B', 14.0)
+                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
+                pdf.set_font('Arial', '', 10.0)
+                pdf.ln(0.5)
 
-            pdf.set_font('Arial', 'B', 14.0)
-            pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-            pdf.ln(0.25)
-            pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-            pdf.set_font('Arial', '', 10.0)
-            pdf.ln(0.5)
+                th = pdf.font_size
+                for row in records:
+                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                    pdf.ln(2 * th)
 
-            th = pdf.font_size
-            for row in records:
-                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                pdf.ln(2 * th)
+                pdf.output('document/CI_' + time_format + '.pdf', 'F')
+                file = open('document/CI_' + time_format + '.pdf', 'rb')
+                data = file.read()
 
-            pdf.output('document/CI_' + time_format + '.pdf', 'F')
-            file = open('document/CI_' + time_format + '.pdf', 'rb')
-            data = file.read()
+                hash = hashlib.sha256(data).hexdigest()
+                file.close()
 
-            hash = hashlib.sha256(data).hexdigest()
-            file.close()
+                # 데이터 저장
+                contract = Contract_CI(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
+                                       filename='document/CI_' + time_format + '.pdf')
 
-            # 데이터 저장
-            contract = Contract_CI(contractname=contractname, contract_id=contract_id, sha256=hash,
-                                   filename='document/CI_' + time_format + '.pdf')
+                # 로그인한 사용자 정보를 Contract에 같이 저장
+                user_id = request.session['user_id']
+                member = Member.objects.get(user_id=user_id)
+                contract.owner = member
+                contract.save()
 
-            # 로그인한 사용자 정보를 Contract에 같이 저장
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract.owner = member
-
-            contract.save()
-
-            return redirect('ing2_3')
-        except Exception as e:
-            print(e)
+                return redirect('ing2_3')
+            except Exception as e:
+                print(e)
+                return redirect('forms2_3')
+        else:
             return redirect('forms2_3')
     except Exception as e:
         print(e)
         return redirect('forms2_3')
+
 
 def submit3(request):
     try:
@@ -1473,83 +1880,85 @@ def submit3(request):
         gg = request.POST['gg']
 
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        if len(Contract_LC.objects.filter(contract_id=contract_id)) == 0:
+            try:
+                pdf = FPDF(unit='in', format='A4')
+                pdf.add_page()
+                pdf.set_font('Arial', '', 10.0)
+                epw = pdf.w - 2 * pdf.l_margin
+                records = [['No.', 'title', 'content'],
+                           [1, 'Transfer:', a],
+                           [2, 'Credit Number:', b],
+                           [3, 'Advising Bank:', c],
+                           [4, 'Expiry Date:', d],
+                           [5, 'Applicant:', e],
+                           [6, 'Beneficiary:', f],
+                           [7, 'Amount:', g],
+                           [8, 'Partial Shipment:', h],
+                           [9, 'Latest Shipment Date:', i],
+                           [10, 'Additional Conditions:', j],
+                           [11, 'All banking charges:', k],
+                           [12, 'Documents delivered by:', l],
+                           [13, 'Confirmation:', m],
+                           [14, 'Reissue:', n],
+                           [15, 'Import L/C Transfer:', o],
+                           [16, 'Draft at:', p],
+                           [17, 'Usance:', q],
+                           [18, 'SettlingBank:', r],
+                           [19, 'Credit:', s],
+                           [20, 'Transshipment mode:', t],
+                           [21, 'Authorization:', u],
+                           [22, 'Port of Loading/Airport of Departure:', v],
+                           [23, 'Place of Taking in Charge:', w],
+                           [24, 'Signed/Original/Commercial Invoice:', x],
+                           [25, 'Full Set of B/L:', y],
+                           [26, 'Port of Loading:', z],
+                           [27, 'Certificate of Origin in:', aa],
+                           [28, 'Other Documents Required:', bb],
+                           [29, 'Description of Goods/Services:', cc],
+                           [30, 'Price Terms:', dd],
+                           [31, 'Country of Origin:', ee],
+                           [32, 'HS CODE:', ff],
+                           [33, 'CommodityDescription:', gg],
+                           ]
 
-        try:
-            pdf = FPDF(unit='in', format='A4')
-            pdf.add_page()
-            pdf.set_font('Arial', '', 10.0)
-            epw = pdf.w - 2 * pdf.l_margin
-            records = [['No.', 'title', 'content'],
-                       [1, 'Transfer:', a],
-                       [2, 'Credit Number:', b],
-                       [3, 'Advising Bank:', c],
-                       [4, 'Expiry Date:', d],
-                       [5, 'Applicant:', e],
-                       [6, 'Beneficiary:', f],
-                       [7, 'Amount:', g],
-                       [8, 'Partial Shipment:', h],
-                       [9, 'Latest Shipment Date:', i],
-                       [10, 'Additional Conditions:', j],
-                       [11, 'All banking charges:', k],
-                       [12, 'Documents delivered by:', l],
-                       [13, 'Confirmation:', m],
-                       [14, 'Reissue:', n],
-                       [15, 'Import L/C Transfer:', o],
-                       [16, 'Draft at:', p],
-                       [17, 'Usance:', q],
-                       [18, 'SettlingBank:', r],
-                       [19, 'Credit:', s],
-                       [20, 'Transshipment mode:', t],
-                       [21, 'Authorization:', u],
-                       [22, 'Port of Loading/Airport of Departure:', v],
-                       [23, 'Place of Taking in Charge:', w],
-                       [24, 'Signed/Original/Commercial Invoice:', x],
-                       [25, 'Full Set of B/L:', y],
-                       [26, 'Port of Loading:', z],
-                       [27, 'Certificate of Origin in:', aa],
-                       [28, 'Other Documents Required:', bb],
-                       [29, 'Description of Goods/Services:', cc],
-                       [30, 'Price Terms:', dd],
-                       [31, 'Country of Origin:', ee],
-                       [32, 'HS CODE:', ff],
-                       [33, 'CommodityDescription:', gg],
-                       ]
+                pdf.set_font('Arial', 'B', 14.0)
+                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.0, letteroflc + ' From:' + user_id, align='C')
+                pdf.set_font('Arial', '', 10.0)
+                pdf.ln(0.5)
 
-            pdf.set_font('Arial', 'B', 14.0)
-            pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-            pdf.ln(0.25)
-            pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, letteroflc + ' From:' + user_id, align='C')
-            pdf.set_font('Arial', '', 10.0)
-            pdf.ln(0.5)
+                th = pdf.font_size
+                for row in records:
+                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                    pdf.ln(2 * th)
 
-            th = pdf.font_size
-            for row in records:
-                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                pdf.ln(2 * th)
+                pdf.output('document/LC_' + time_format + '.pdf', 'F')
+                file = open('document/LC_' + time_format + '.pdf', 'rb')
+                data = file.read()
 
-            pdf.output('document/LC_' + time_format + '.pdf', 'F')
-            file = open('document/LC_' + time_format + '.pdf', 'rb')
-            data = file.read()
+                hash = hashlib.sha256(data).hexdigest()
+                file.close()
+                # 데이터 저장
+                contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash,  status='new',
+                                       filename='document/LC_' + time_format + '.pdf')
 
-            hash = hashlib.sha256(data).hexdigest()
-            file.close()
-            # 데이터 저장
-            contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash,
-                                   filename='document/LC_' + time_format + '.pdf')
+                # 로그인한 사용자 정보를 Contract에 같이 저장
+                user_id = request.session['user_id']
+                member = Member.objects.get(user_id=user_id)
+                contract.owner = member
 
-            # 로그인한 사용자 정보를 Contract에 같이 저장
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract.owner = member
+                contract.save()
 
-            contract.save()
-
-            return redirect('ing3')
-        except Exception as e:
-            print(e)
+                return redirect('ing3')
+            except Exception as e:
+                print(e)
+                return redirect('forms3')
+        else:
             return redirect('forms3')
     except:
         return redirect('forms3')
@@ -1572,60 +1981,63 @@ def submit4_1(request):
         j = request.POST['j']
 
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
-        try:
-            pdf = FPDF(unit='in', format='A4')
-            pdf.add_page()
-            pdf.set_font('Arial', '', 10.0)
-            epw = pdf.w - 2 * pdf.l_margin
-            records = [['No.', 'title', 'content'],
-                       [1, 'Bank:', a],
-                       [2, 'Nodify party:', b],
-                       [3, 'Vessel:', c],
-                       [4, 'Voyage No.:', d],
-                       [5, 'Place of receipt:', e],
-                       [6, 'Port of Loading:', f],
-                       [7, 'Place of delivery:', g],
-                       [8, 'Description of goods:', h],
-                       [9, 'Weight:', i],
-                       [10, 'Measurement:', j],
-                       ]
+        if len(Contract_BL.objects.filter(contract_id=contract_id)) == 0:
+            try:
+                pdf = FPDF(unit='in', format='A4')
+                pdf.add_page()
+                pdf.set_font('Arial', '', 10.0)
+                epw = pdf.w - 2 * pdf.l_margin
+                records = [['No.', 'title', 'content'],
+                           [1, 'Bank:', a],
+                           [2, 'Nodify party:', b],
+                           [3, 'Vessel:', c],
+                           [4, 'Voyage No.:', d],
+                           [5, 'Place of receipt:', e],
+                           [6, 'Port of Loading:', f],
+                           [7, 'Place of delivery:', g],
+                           [8, 'Description of goods:', h],
+                           [9, 'Weight:', i],
+                           [10, 'Measurement:', j],
+                           ]
 
-            pdf.set_font('Arial', 'B', 14.0)
-            pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-            pdf.ln(0.25)
-            pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-            pdf.set_font('Arial', '', 10.0)
-            pdf.ln(0.5)
+                pdf.set_font('Arial', 'B', 14.0)
+                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
+                pdf.set_font('Arial', '', 10.0)
+                pdf.ln(0.5)
 
-            th = pdf.font_size
-            for row in records:
-                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                pdf.ln(2 * th)
+                th = pdf.font_size
+                for row in records:
+                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                    pdf.ln(2 * th)
 
-            pdf.output('document/BL_' + time_format + '.pdf', 'F')
-            file = open('document/BL_' + time_format + '.pdf', 'rb')
-            data = file.read()
+                pdf.output('document/BL_' + time_format + '.pdf', 'F')
+                file = open('document/BL_' + time_format + '.pdf', 'rb')
+                data = file.read()
 
-            hash = hashlib.sha256(data).hexdigest()
-            file.close()
+                hash = hashlib.sha256(data).hexdigest()
+                file.close()
 
-            # 데이터 저장
-            contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash,
-                                   filename='document/BL_' + time_format + '.pdf')
+                # 데이터 저장
+                contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
+                                       filename='document/BL_' + time_format + '.pdf')
 
-            # 로그인한 사용자 정보를 Contract에 같이 저장
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract.owner = member
+                # 로그인한 사용자 정보를 Contract에 같이 저장
+                user_id = request.session['user_id']
+                member = Member.objects.get(user_id=user_id)
+                contract.owner = member
 
-            contract.save()
+                contract.save()
 
-            return redirect('ing4_1')
-        except Exception as e:
-            print(e)
+                return redirect('ing4_1')
+            except Exception as e:
+                print(e)
+                return redirect('forms4_1')
+        else:
             return redirect('forms4_1')
     except:
         return redirect('forms4_1')
@@ -1645,56 +2057,58 @@ def submit4_2(request):
         g = request.POST['g']
 
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        if len(Contract_DO.objects.filter(contract_id=contract_id)) == 0:
+            try:
+                pdf = FPDF(unit='in', format='A4')
+                pdf.add_page()
+                pdf.set_font('Arial', '', 10.0)
+                epw = pdf.w - 2 * pdf.l_margin
+                records = [['No.', 'title', 'content'],
+                           [1, 'Agent name:', a],
+                           [2, 'Restricted delivery(Yes or no):', b],
+                           [3, 'Adult signature restriced delivery(Yes or no):', c],
+                           [4, 'Agent Signture:', d],
+                           [5, 'ID verified (yes or no):', e],
+                           [6, 'USPS initals:', f],
+                           [7, 'Date:', g],
+                           ]
 
-        try:
-            pdf = FPDF(unit='in', format='A4')
-            pdf.add_page()
-            pdf.set_font('Arial', '', 10.0)
-            epw = pdf.w - 2 * pdf.l_margin
-            records = [['No.', 'title', 'content'],
-                       [1, 'Agent name:', a],
-                       [2, 'Restricted delivery(Yes or no):', b],
-                       [3, 'Adult signature restriced delivery(Yes or no):', c],
-                       [4, 'Agent Signture:', d],
-                       [5, 'ID verified (yes or no):', e],
-                       [6, 'USPS initals:', f],
-                       [7, 'Date:', g],
-                       ]
+                pdf.set_font('Arial', 'B', 14.0)
+                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
+                pdf.set_font('Arial', '', 10.0)
+                pdf.ln(0.5)
 
-            pdf.set_font('Arial', 'B', 14.0)
-            pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-            pdf.ln(0.25)
-            pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-            pdf.set_font('Arial', '', 10.0)
-            pdf.ln(0.5)
+                th = pdf.font_size
+                for row in records:
+                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
+                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                    pdf.ln(2 * th)
 
-            th = pdf.font_size
-            for row in records:
-                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                pdf.ln(2 * th)
+                pdf.output('document/DO_' + time_format + '.pdf', 'F')
+                file = open('document/DO_' + time_format + '.pdf', 'rb')
+                data = file.read()
 
-            pdf.output('document/DO_' + time_format + '.pdf', 'F')
-            file = open('document/DO_' + time_format + '.pdf', 'rb')
-            data = file.read()
+                hash = hashlib.sha256(data).hexdigest()
+                file.close()
+                # 데이터 저장
+                contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
+                                       filename='document/DO_' + time_format + '.pdf')
 
-            hash = hashlib.sha256(data).hexdigest()
-            file.close()
-            # 데이터 저장
-            contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash,
-                                   filename='document/DO_' + time_format + '.pdf')
+                # 로그인한 사용자 정보를 Contract에 같이 저장
+                user_id = request.session['user_id']
+                member = Member.objects.get(user_id=user_id)
+                contract.owner = member
+                contract.save()
 
-            # 로그인한 사용자 정보를 Contract에 같이 저장
-            user_id = request.session['user_id']
-            member = Member.objects.get(user_id=user_id)
-            contract.owner = member
-            contract.save()
-
-            return redirect('ing4_2')
-        except Exception as e:
-            print(e)
+                return redirect('ing4_2')
+            except Exception as e:
+                print(e)
+                return redirect('forms4_2')
+        else:
             return redirect('forms4_2')
     except:
         return redirect('forms4_2')
@@ -1734,6 +2148,7 @@ def download2_2(request):
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
+
 
 def download2_3(request):
     id = request.GET['id']
@@ -1880,6 +2295,7 @@ def ing2_2(request):
         print(e)
         return redirect('index')
 
+
 def ing2_3(request):
     try:
         user_id = request.session['user_id']
@@ -1910,6 +2326,7 @@ def ing2_3(request):
     except Exception as e:
         print(e)
         return redirect('index')
+
 
 def ing3(request):
     try:
@@ -2039,6 +2456,7 @@ def osreceived(request):
         print(e)
         return redirect('index')
 
+
 def cireceived(request):
     try:
         user_id = request.session['user_id']
@@ -2070,6 +2488,7 @@ def cireceived(request):
     except Exception as e:
         print(e)
         return redirect('index')
+
 
 def srreceived(request):
     try:
@@ -2346,11 +2765,9 @@ def logout(request):
 
 
 def index(request):
-
     try:
 
         user_id = request.session['user_id']
-        user_role = request.session['user_role']
 
         client_id = 'fpYuQKVX8str1aSVFrkc'
         client_secret = 'rLcccdn5R4'
@@ -2367,6 +2784,14 @@ def index(request):
 
         title_list = []
         link_list = []
+
+        new_os = len(Contract_OS.objects.filter(share1=user_id, status='new'))
+        new_lc = len(Contract_LC.objects.filter(share1=user_id, status='new'))
+        new_bl = len(Contract_BL.objects.filter(share1=user_id, status='new'))
+        new_ci = len(Contract_CI.objects.filter(share1=user_id, status='new'))
+        new_do = len(Contract_DO.objects.filter(share1=user_id, status='new'))
+        ing = len(Process.objects.filter(user1=user_id, status='ing'))
+        complete = len(Process.objects.filter(user1=user_id, status='complete'))
         for n in news:
             title = n['title'].replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('<b>',
                                                                                                         '').replace(
@@ -2380,19 +2805,146 @@ def index(request):
 
         notice = Notice.objects.all().order_by('-id')
 
-        templates = ''
-        if user_role == '1':
-            templates = 'app/index.html'
-        elif user_role == '2':
-            templates = 'app/index2.html'
-        elif user_role == '3':
-            templates = 'app/index3.html'
-        elif user_role == '4':
-            templates = 'app/index4.html'
-        else:
-            templates = 'app/login.html'
+        return render(request, 'app/index.html',
+                      {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
+                       'ing': ing, 'new_os': new_os, 'new_lc': new_lc, 'new_bl': new_bl, 'new_ci': new_ci,
+                       'new_do': new_do})
+    except Exception as e:
+        print(e)
+        return redirect('login')
 
-        return render(request, templates, {'user_id': user_id, 'date': time, 'notice': notice, 'result': result})
+
+def index2(request):
+    try:
+
+        user_id = request.session['user_id']
+
+        client_id = 'fpYuQKVX8str1aSVFrkc'
+        client_secret = 'rLcccdn5R4'
+        encText = urllib.parse.quote("국제무역,무역거래")
+        url = "https://openapi.naver.com/v1/search/news?query=" + encText + '&sort=date'
+        res = urllib.request.Request(url)
+        res.add_header("X-Naver-Client-Id", client_id)
+        res.add_header("X-Naver-Client-Secret", client_secret)
+        response = urllib.request.urlopen(res)
+        result = response.read().decode('utf-8')
+
+        news = json.loads(result)['items']
+        time = json.loads(result)['lastBuildDate']
+
+        title_list = []
+        link_list = []
+
+        new_lc = len(Contract_LC.objects.filter(share2=user_id, status='new'))
+        new_bl = len(Contract_BL.objects.filter(share2=user_id, status='new'))
+        ing = len(Process.objects.filter(user2=user_id, status='ing'))
+        complete = len(Process.objects.filter(user2=user_id, status='complete'))
+        for n in news:
+            title = n['title'].replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('<b>',
+                                                                                                        '').replace(
+                '</b>', '')
+            title_list.append(title)
+        for n in news:
+            link = n['link']
+            link_list.append(link)
+
+        result = [{'title': title, 'link': link} for title, link in zip(title_list, link_list)]
+        notice = Notice.objects.all().order_by('-id')
+
+        data = {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete, 'ing': ing,
+                'new_lc': new_lc, 'new_bl': new_bl}
+        return render(request, 'app/index2.html', data)
+    except Exception as e:
+        print(e)
+        return redirect('login')
+
+
+def index3(request):
+    try:
+
+        user_id = request.session['user_id']
+
+        client_id = 'fpYuQKVX8str1aSVFrkc'
+        client_secret = 'rLcccdn5R4'
+        encText = urllib.parse.quote("국제무역,무역거래")
+        url = "https://openapi.naver.com/v1/search/news?query=" + encText + '&sort=date'
+        res = urllib.request.Request(url)
+        res.add_header("X-Naver-Client-Id", client_id)
+        res.add_header("X-Naver-Client-Secret", client_secret)
+        response = urllib.request.urlopen(res)
+        result = response.read().decode('utf-8')
+
+        news = json.loads(result)['items']
+        time = json.loads(result)['lastBuildDate']
+
+        title_list = []
+        link_list = []
+
+        new_lcr = len(Contract_LCR.objects.filter(share3=user_id, status='new'))
+        new_do = len(Contract_DO.objects.filter(share3=user_id, status='new'))
+        ing = len(Process.objects.filter(user3=user_id, status='ing'))
+        complete = len(Process.objects.filter(user3=user_id, status='complete'))
+        for n in news:
+            title = n['title'].replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('<b>',
+                                                                                                        '').replace(
+                '</b>', '')
+            title_list.append(title)
+        for n in news:
+            link = n['link']
+            link_list.append(link)
+
+        result = [{'title': title, 'link': link} for title, link in zip(title_list, link_list)]
+
+        notice = Notice.objects.all().order_by('-id')
+
+        return render(request, 'app/index3.html',
+                      {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
+                       'ing': ing, 'new_lcr': new_lcr, 'new_do': new_do})
+    except Exception as e:
+        print(e)
+        return redirect('login')
+
+
+def index4(request):
+    try:
+
+        user_id = request.session['user_id']
+
+        client_id = 'fpYuQKVX8str1aSVFrkc'
+        client_secret = 'rLcccdn5R4'
+        encText = urllib.parse.quote("국제무역,무역거래")
+        url = "https://openapi.naver.com/v1/search/news?query=" + encText + '&sort=date'
+        res = urllib.request.Request(url)
+        res.add_header("X-Naver-Client-Id", client_id)
+        res.add_header("X-Naver-Client-Secret", client_secret)
+        response = urllib.request.urlopen(res)
+        result = response.read().decode('utf-8')
+
+        news = json.loads(result)['items']
+        time = json.loads(result)['lastBuildDate']
+
+        title_list = []
+        link_list = []
+
+        new_sr = len(Contract_SR.objects.filter(share4=user_id, status='new'))
+        ing = len(Process.objects.filter(user4=user_id, status='ing'))
+        complete = len(Process.objects.filter(user4=user_id, status='complete'))
+        for n in news:
+            title = n['title'].replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('<b>',
+                                                                                                        '').replace(
+                '</b>', '')
+            title_list.append(title)
+        for n in news:
+            link = n['link']
+            link_list.append(link)
+
+        result = [{'title': title, 'link': link} for title, link in zip(title_list, link_list)]
+
+        notice = Notice.objects.all().order_by('-id')
+
+        return render(request, 'app/index4.html',
+                      {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
+                       'ing': ing, 'new_sr': new_sr})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -2458,7 +3010,7 @@ def charts(request):
 
 def forms(request):
     user_id = request.session['user_id']
-    contract = Contract_OS.objects.filter(share1=user_id).order_by('-id')
+    contract = Contract_OS.objects.filter(share1=user_id, status='confirmed').order_by('-id')
     return render(request, 'app/forms.html', {'contract': contract})
 
 
@@ -2468,29 +3020,31 @@ def forms2_1(request):
 
 def forms2_2(request):
     user_id = request.session['user_id']
-    contract = Contract_LC.objects.filter(share2=user_id).order_by('-id')
+    contract = Contract_LC.objects.filter(share2=user_id, status='confirmed').order_by('-id')
     return render(request, 'app/forms2_2.html', {'contract': contract})
+
 
 def forms2_3(request):
     user_id = request.session['user_id']
-    contract = Contract_BL.objects.filter(share2=user_id).order_by('-id')
-    return render(request, 'app/forms2_3.html', {'contract': contract, 'user_id':user_id})
+    contract = Contract_BL.objects.filter(share2=user_id, status='confirmed').order_by('-id')
+    return render(request, 'app/forms2_3.html', {'contract': contract, 'user_id': user_id})
+
 
 def forms3(request):
     user_id = request.session['user_id']
-    contract = Contract_LCR.objects.filter(share3=user_id).order_by('-id')
+    contract = Contract_LCR.objects.filter(share3=user_id, status='confirmed').order_by('-id')
     return render(request, 'app/forms3.html', {'contract': contract})
 
 
 def forms4_1(request):
     user_id = request.session['user_id']
-    contract = Contract_SR.objects.filter(share4=user_id).order_by('-id')
+    contract = Contract_SR.objects.filter(share4=user_id, status='confirmed').order_by('-id')
     return render(request, 'app/forms4_1.html', {'contract': contract})
 
 
 def forms4_2(request):
     user_id = request.session['user_id']
-    contract = Contract_BL.objects.filter(owner=user_id).order_by('-id')
+    contract = Contract_BL.objects.filter(owner=user_id, status='confirmed').order_by('-id')
     return render(request, 'app/forms4_2.html', {'contract': contract})
 
 
@@ -2502,14 +3056,14 @@ def login(request):
         user_pw = request.POST['password']
         user_role = request.POST['user_role']
         password = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
-        result_dict = {}
+
         try:
             Member.objects.get(user_role=user_role, user_id=email, user_pw=password)
-            result_dict['result'] = 'success'
+            result_dict = {'result': 'success', 'role': user_role}
             request.session['user_id'] = email
             request.session['user_role'] = user_role
         except Member.DoesNotExist:
-            result_dict['result'] = 'fail'
+            result_dict = {'result': 'fail'}
         return JsonResponse(result_dict)
 
 

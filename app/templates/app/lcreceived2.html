@@ -30,7 +30,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -89,10 +90,12 @@
                                         <a class="dropdown-item" href="{% url 'ing2_3'%}">상업송장</a>
                                     </div>
                                 </li>
-                                <li class="nav-item dropdown" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item dropdown"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="margin-top: 5px;">
                                         <a class="dropdown-item" href="{% url 'lcreceived2'%}">신용장</a>
                                         <a class="dropdown-item" href="{% url 'blreceived2'%}">선하증권</a>
                                     </div>
@@ -101,7 +104,8 @@
                                     <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" data-toggle="modal" data-target="#logoutModal">LOGOUT</a>
+                                    <a class="nav-link" href="" data-toggle="modal"
+                                       data-target="#logoutModal">LOGOUT</a>
                                 </li>
                             </ul>
                             <!-- Search Form -->
@@ -114,7 +118,6 @@
     </div>
 </header>
 <!-- Header Area End -->
-
 
 
 <!--Valkyrie System Area Start -->
@@ -133,21 +136,27 @@
 
                             <h5 class="card-header">
 
-
+                                <div id="status" style="color:orange">{{c.status}}</div>
+                                <hr>
                                 Contract ID.<br>{{c.contract_id}}
                                 <hr>
 
                                 {{c.contractname}}
                             </h5>
                             <div class="card-body">
-                                <p class="card-text">
-
                                 <h5>Document Hash:<br>{{c.sha256}}</h5>
                             </div>
                             <div class="card-footer">
                                 <a href="{% url 'download3' %}?id={{ c.id }}" class="btn btn-outline-dark"
                                    target="_blank">
-                                    Download File
+                                    View
+                                </a>
+                                 <a id="{{ c.id }}" onclick="confirm(event)" data-toggle="modal"
+                                   data-target="#otpmodal" class="btn btn-outline-dark">
+                                    Confirm
+                                </a>
+                                <a id="{{ c.id }}" onclick="reject(event)" class="btn btn-outline-dark">
+                                    Reject
                                 </a>
                                 <hr>
                                 <h6>From (은행ID):<br>{{c.owner_id}}</h6>
@@ -215,7 +224,7 @@
                     {%endif%}
                 </div>
 
-               <div class="row">
+                <div class="row">
                     <div style="text-align:center; margin:auto;">
                         <a id="delete" class="btn btn-outline-dark" data-toggle="modal"
                            data-target="#deleteModal">선택삭제</a>
@@ -273,7 +282,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -283,6 +292,27 @@
     </div>
 </footer>
 <!-- Footer Area End -->
+<div class="modal fade" id="otpmodal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter otp</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Input your OTP Number:
+                <input id="otp" name="otp" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <a class="btn" style="color:white;background:#ff8a12;" id="confirm">Confirm</a>
+                <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -315,6 +345,10 @@
 
 </body>
 <script>
+$(document).ready(function(){
+  $('#preloader').hide();
+});
+
       $('#delete_btn').click(function() {
         check_ids = ''
         sep = ''
@@ -337,6 +371,48 @@ $('#delete').click(function() {
      }
     });
 
+function confirm(e){
+  var c_id = e.target.id;
+  $('#confirm').click(function(){
+        var otp = $('#otp').val();
+        $('.btn').attr('disabled',true);
+        $('#preloader').show();
+         $.ajax({
+        url:'/lc_confirm/',
+        type:'post',
+        dataType:'json',
+        data:{c_id:c_id, otp:otp},
+        success:function(res){
+            alert(res.result)
+            if (res.result == 'success'){
+                location = '/LC_received_E/'
+            }else{
+                $('#preloader').hide();
+
+            }
+        }
+      });
+          return false;
+  });
+}
+
+function reject(e){
+  var c_id = e.target.id;
+  $.ajax({
+    url:'/lc_reject/',
+    type:'post',
+    dataType:'json',
+    data:{c_id:c_id},
+    success:function(res){
+        alert(res.result)
+        if (res.result == 'rejected'){
+            location = '/LC_received_E/'
+        }else{
+
+        }
+    }
+  });
+}
 
 </script>
 

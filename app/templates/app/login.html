@@ -157,7 +157,7 @@
                                 </div>
                             </div>
                             <hr style="border-top:solid 1px; border-color:white!important;">
-                            <a id='login' class="btn btn-outline-dark btn-block" href="{% url 'index' %}">Login</a>
+                            <a id='login' class="btn btn-outline-dark btn-block" href="">Login</a>
 
 
                             {% csrf_token %}
@@ -230,14 +230,20 @@
           type: 'post',
           data: $('form').serialize(),
           success: function(res) {
-            alert(res.result)
-            if(res.result == 'success') {
-              location = '/index'
+                alert(res.result)
+            if(res.role == '1' ) {
+                location = '/Importer'
+            }else if (res.role == '2' ){
+                location = '/Exporter'
+            }else if (res.role == '3' ){
+                location = '/Bank'
+            }else if (res.role == '4' ){
+                location = '/Shipper'
             }
           }
-        })
+        });
         return false
-      })
+      });
 
 
 //엔터로 로그인하기

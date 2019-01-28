@@ -16,7 +16,7 @@
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="8">
+          <list size="9">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -25,15 +25,35 @@
             <item index="5" class="java.lang.String" itemvalue="script" />
             <item index="6" class="java.lang.String" itemvalue="hr" />
             <item index="7" class="java.lang.String" itemvalue="h4" />
+            <item index="8" class="java.lang.String" itemvalue="div" />
           </list>
         </value>
       </option>
       <option name="myCustomValuesEnabled" value="true" />
     </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N806" />
+        </list>
+      </option>
+    </inspection_tool>
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <list>
           <option value="urllib.parse" />
+          <option value="app.models.Contract_SR.objects" />
+          <option value="app.models.Contract_LC.objects" />
+          <option value="app.models.Contract_BL.objects" />
+          <option value="app.models.Process.objects" />
+          <option value="app.models.Contract_OS.objects" />
+          <option value="app.models.Contract_CI.objects" />
+          <option value="app.models.Contract_DO.objects" />
+          <option value="app.models.Member.*" />
+          <option value="app.models.Contract_LCR.*" />
+          <option value="app.models.Notice.*" />
+          <option value="app.views.fpdf" />
+          <option value="pyotp" />
         </list>
       </option>
     </inspection_tool>

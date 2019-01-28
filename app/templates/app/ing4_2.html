@@ -30,7 +30,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -79,10 +80,12 @@
                                         <a class="dropdown-item" href="{% url 'forms4_2'%}">인도지시서</a>
                                     </div>
                                 </li>
-                                <li class="nav-item dropdown" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item dropdown"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="margin-top: 5px;">
                                         <a class="dropdown-item" href="{% url 'ing4_1'%}">선하증권</a>
                                         <a class="dropdown-item" href="{% url 'ing4_2'%}">인도지시서</a>
                                     </div>
@@ -132,21 +135,20 @@
 
                                 <h5 class="card-header">
 
-
+                                    <div id="status" style="color:orange">{{c.status}}</div>
+                                    <hr>
                                     Contract ID.<br>{{c.contract_id}}
                                     <hr>
 
                                     {{c.contractname}}
                                 </h5>
                                 <div class="card-body">
-                                    <p class="card-text">
-
                                     <h5>Document Hash:<br>{{c.sha256}}</h5>
                                 </div>
                                 <div class="card-footer">
                                     <a href="{% url 'download4_2' %}?id={{ c.id }}" class="btn btn-outline-dark"
                                        target="_blank">
-                                        Download File
+                                        View
                                     </a>
                                     <hr>
                                     <h6>To (수입자ID):<br>{{c.share1}}</h6>
@@ -230,7 +232,7 @@
                                data-target="#otpmodal">전송하기
                             </a>
                             <a id="delete" class="btn btn-outline-dark" data-toggle="modal"
-                                    data-target="#deleteModal">선택삭제</a>
+                               data-target="#deleteModal">선택삭제</a>
 
 
                         </div>
@@ -306,7 +308,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -397,18 +399,28 @@
         return false
      })
 
-      $('#delete_btn').click(function() {
+$('#delete_btn').click(function() {
     $('.btn').attr('disabled',true);
         check_ids = ''
         sep = ''
         $('input:checked').each(function() {
           check_ids += sep + $(this).val()
           sep = ','
-        })
-        location = '/remove4_2?check_id=' + check_ids
-        return false
-      })
-
+        });
+        $.ajax({
+            url:'/remove4_2/',
+            type:'post',
+            dataType:'json',
+            data:{check_ids:check_ids},
+            success:function(res){
+                alert(res.result)
+                if (res.result == 'deleted'){
+                    location ='/DO/'
+                }
+            }
+        });
+        return false;
+      });
 
 
 

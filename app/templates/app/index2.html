@@ -42,6 +42,10 @@
 
 
 
+
+
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -85,7 +89,8 @@
                         <div class="collapse navbar-collapse" id="studioMenu">
                             <!-- Menu Area Start  -->
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item active" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item active"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link" href="{% url 'index2'%}">Home </a>
                                 </li>
                                 <li class="nav-item active">
@@ -141,30 +146,76 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
-                <div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">
-                    <div class="card">
-                        <form method="post" action="{% url 'search2'%}">
-                            <div class="card-header">블록체인 검색</div>
-                            <div class="card-body">
-                                <div class="input-group">
-                                    <label style="background:white; border-top-right-radius:0px;border-bottom-right-radius:0px;"
-                                           class="input-group-text" for="cid">Contract ID</label>
-                                    <input class="form-control" id="cid" name="cid" type="text" required="required">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-outline-dark"
-                                                style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">
-                                            search
-                                        </button>
-                                    </div>
-                                </div>
+               <div class="row">
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">새로운 문서</div>
+                            <div class="card-body" style="text-align:right">
+                                <a href="{% url 'lcreceived2' %}" style="color:white">{{new_lc}}</a> /
+                                <a href="{% url 'blreceived2' %}" style="color:white">{{new_bl}}</a> 건
                             </div>
 
-                            {% csrf_token %}
-                        </form>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">진행중인 계약</div>
+                            <div class="card-body" style="font-size:20px;text-align:right">
+                                {{ing}} 건
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">완료된 계약</div>
+                            <div class="card-body" style="font-size:20px;text-align:right">
+                                {{complete}} 건
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card" style="height:120px">
+                            <div class="card-header">계약 검색</div>
+                            <div class="card-body">
+                                <form method="post" action="{% url 'search2' %}">
+                                    <div class="input-group">
+                                        <input id="cid" name ="cid"  class="form-control" placeholder="Contract ID">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="submit"><i class="fa fa-check"></i></button>
+                                        </div>
+                                    </div>
+                                    {%csrf_token%}
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 &nbsp
-                <div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">
+                <!--<div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">-->
+                <!--<div class="card">-->
+                <!--<form method="post" action="{% url 'search2'%}">-->
+                <!--<div class="card-header">블록체인 검색</div>-->
+                <!--<div class="card-body">-->
+                <!--<div class="input-group">-->
+                <!--<label style="background:white; border-top-right-radius:0px;border-bottom-right-radius:0px;"-->
+                <!--class="input-group-text" for="cid">Contract ID</label>-->
+                <!--<input class="form-control" id="cid" name="cid" type="text" required="required">-->
+                <!--<div class="input-group-append">-->
+                <!--<button type="submit" class="btn btn-outline-dark"-->
+                <!--style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">-->
+                <!--search-->
+                <!--</button>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+
+                <!--{% csrf_token %}-->
+                <!--</form>-->
+                <!--</div>-->
+                <!--</div>-->
+                &nbsp
+                <div class="wrapper">
                     <div class="card">
                         <div class="card-header">
                             Notice
@@ -208,7 +259,7 @@
                     </div>
                 </div>
                 &nbsp
-                <div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">
+                <div class="wrapper">
                     <div class="card">
                         <div class="card-header">
                             News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
@@ -247,7 +298,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -290,7 +341,6 @@
 </body>
 <script>
 
-
 $("#cid").keyup(function(){
         $.ajax({
             url:'/checkcontract/',
@@ -318,6 +368,10 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
+
+
+
 
 
 

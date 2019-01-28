@@ -38,6 +38,7 @@ class Process(models.Model):
     user2 = models.CharField(max_length=30)
     user3 = models.CharField(max_length=30)
     user4 = models.CharField(max_length=30)
+    status = models.CharField(max_length=20)
 
 
 class Contract_OS(models.Model):
@@ -46,6 +47,7 @@ class Contract_OS(models.Model):
     filename = models.CharField(max_length=100)
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share1 = models.CharField(max_length=30)
+    status = models.CharField(max_length=20)
 
 
 class Contract_LCR(models.Model):
@@ -55,7 +57,7 @@ class Contract_LCR(models.Model):
     filename = models.CharField(max_length=100)
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share3 = models.CharField(max_length=30)
-
+    status = models.CharField(max_length=20)
 
 class Contract_LC(models.Model):
     contractname = models.CharField(max_length=50)
@@ -65,7 +67,7 @@ class Contract_LC(models.Model):
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share1 = models.CharField(max_length=30)
     share2 = models.CharField(max_length=30)
-
+    status = models.CharField(max_length=20)
 
 class Contract_SR(models.Model):
     contractname = models.CharField(max_length=50)
@@ -74,7 +76,7 @@ class Contract_SR(models.Model):
     filename = models.CharField(max_length=100)
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share4 = models.CharField(max_length=30)
-
+    status = models.CharField(max_length=20)
 
 class Contract_CI(models.Model):
     contractname = models.CharField(max_length=50)
@@ -83,7 +85,7 @@ class Contract_CI(models.Model):
     filename = models.CharField(max_length=100)
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share1 = models.CharField(max_length=30)
-
+    status = models.CharField(max_length=20)
 
 class Contract_BL(models.Model):
     contractname = models.CharField(max_length=50)
@@ -93,7 +95,7 @@ class Contract_BL(models.Model):
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share1 = models.CharField(max_length=30)
     share2 = models.CharField(max_length=30)
-
+    status = models.CharField(max_length=20)
 
 class Contract_DO(models.Model):
     contractname = models.CharField(max_length=50)
@@ -103,3 +105,4 @@ class Contract_DO(models.Model):
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share1 = models.CharField(max_length=30)
     share3 = models.CharField(max_length=30)
+    status = models.CharField(max_length=20)
