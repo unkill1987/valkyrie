@@ -144,7 +144,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-3">
-                        <div class="card" style="height:120px">
+                        <div class="card" >
                             <div class="card-header">새로운 문서</div>
                             <div class="card-body" style="text-align:right">
                                 <a href="{% url 'srreceived' %}" style="color:white">{{new_sr}}</a> 건
@@ -153,18 +153,18 @@
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="height:120px">
+                        <div class="card" >
                             <div class="card-header">진행중인 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
-                                {{ing}} 건
+                                <a href="/mypage4/?mytrade" style="color:white">{{ing}} 건</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="height:120px">
+                        <div class="card">
                             <div class="card-header">완료된 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
-                                {{complete}} 건
+                                <a href="/mypage1/?mytrade" style="color:white">{{complete}} 건</a>
                             </div>
                         </div>
                     </div>

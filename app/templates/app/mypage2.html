@@ -32,6 +32,9 @@
     #postcodify_search_button:hover{color:white;}
 
 
+
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -39,7 +42,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -106,7 +110,8 @@
                                         <a class="dropdown-item" href="{% url 'blreceived2'%}">선하증권</a>
                                     </div>
                                 </li>
-                                <li class="nav-item" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
@@ -136,7 +141,7 @@
                 <div class="col-8 mx-auto">
 
                     <div class="card">
-                        <button class="card-header btn btn-outline-dark" onclick="userinfotoggle()">나의 정보
+                        <button id="myinfo" class="card-header btn btn-outline-dark" onclick="userinfotoggle()">나의 정보
                         </button>
                         <div class="card-body" id="userinfo" style="display:none;">
                             <ul class="list-group">
@@ -163,6 +168,86 @@
                                     {{user_info.otpkey}}
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-8 mx-auto">
+                    <div class="card">
+                        <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
+                        </button>
+                        <div class="card-body" id="trade" style="display:block;text-align;center;display:none;">
+                            <form method="post">
+                                <div class="form-group">
+                                    <h4 style="color:#ff8a12;">진행중인 계약({{a}}건)</h4>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <table class="mx-auto">
+                                                <tr>
+                                                    <th>Start</th>
+                                                    <th style="text-align:center">OS<br>전송</th>
+                                                    <th style="text-align:center">LCR<br>전송</th>
+                                                    <th style="text-align:center">LC<br> 발급</th>
+                                                    <th style="text-align:center">SR<br>발급</th>
+                                                    <th style="text-align:center">BL<br> 발급</th>
+                                                    <th style="text-align:center">CI<br> 발급</th>
+                                                    <th style="text-align:center">DO<br>발급</th>
+                                                    <th style="text-align:right;">End</th>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="10">
+                                                        <div class="progress" id="progress">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+
+                                            <div style="text-align:center; margin-top:20px">
+                                                <label>Contract ID :</label><br>
+                                                <select style=" width:200px; " class="custom-select" name="mytrade">
+                                                    {% for i in mytrade %}
+                                                    <option value="{{i.contract_id}}">{{i.contract_id}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div style="text-align:center; margin-top:20px">
+                                                <button id="form3" class="btn btn-outline-dark ">진행 사항 보기</button>
+                                                <button class="btn btn-outline-dark" formaction="{% url 'search2'%}">내역
+                                                    보기
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% csrf_token %}
+                            </form>
+                            <form method="post">
+                                <div class="form-group">
+                                    <h4 style="color:#ff8a12;">완료된 계약({{b}}건)</h4>
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <div style="text-align:center; margin-top:20px">
+                                                <label>Contract ID :</label><br>
+                                                <select style=" width:200px; " class="custom-select" name="complete">
+                                                    {% for i in complete %}
+                                                    <option value="{{i.contract_id}}">{{i.contract_id}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div style="text-align:center; margin-top:20px">
+
+                                                <button class="btn btn-outline-dark"
+                                                        formaction="{% url 'search1'%}">내역
+                                                    보기
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% csrf_token %}
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -275,55 +360,6 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card">
-                        <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
-                        </button>
-                        <div class="card-body" id="trade" style="display:block;text-align;center;display:none;">
-                            <form method="post">
-                                <div class="form-group">
-                                    <h4 style="color:#ff8a12;">진행 사항</h4>
-                                    <table class="mx-auto">
-                                        <tr>
-                                            <th>Start</th>
-                                            <th style="text-align:center">OS<br>전송</th>
-                                            <th style="text-align:center">LCR<br>전송</th>
-                                            <th style="text-align:center">LC<br> 발급</th>
-                                            <th style="text-align:center">SR<br>발급</th>
-                                            <th style="text-align:center">BL<br> 발급</th>
-                                            <th style="text-align:center">CI<br> 발급</th>
-                                            <th style="text-align:center">DO<br>발급</th>
-                                            <th style="text-align:right;">End</th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10">
-                                                <div class="progress" id="progress">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-
-                                    <div style="text-align:center; margin-top:20px">
-                                        <label>Contract ID :</label><br>
-                                        <select style=" width:200px; " class="custom-select" name="mytrade">
-                                            {% for i in mytrade %}
-                                            <option value="{{i.contract_id}}">{{i.contract_id}}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div style="text-align:center; margin-top:20px">
-                                        <button id="form3" class="btn btn-outline-dark ">진행 사항 보기</button>
-                                        <button class="btn btn-outline-dark" formaction="{% url 'search2'%}">내역 보기
-                                        </button>
-                                    </div>
-                                </div>
-                                {% csrf_token %}
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-8 mx-auto">
-                    <div class="card">
                         <button class="card-header btn btn-outline-dark" onclick="myqna()">문의 하기
                         </button>
                         <div class="card-body" id="qna" style="display:none;">
@@ -374,7 +410,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -418,7 +454,14 @@
 
 </body>
 <script>
-$(function() { $("#postcodify_search_button").postcodifyPopUp(); });
+$(function() {
+    $("#postcodify_search_button").postcodifyPopUp();
+
+    let url = $(location).attr('href');
+            if (url.indexOf('mytrade') > 0)
+                mytrade();
+                document.getElementById('myinfo').scrollIntoView();
+});
 
 function userinfotoggle(){
     var userinfo = document.getElementById("userinfo");
@@ -626,6 +669,9 @@ function myqna(){
 
 
 
+
+
+
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>
 <script type="text/javascript">
@@ -656,6 +702,9 @@ function myqna(){
             })
             return false
          })
+
+
+
 
 
 

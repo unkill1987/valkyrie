@@ -148,7 +148,7 @@
             <div class="container-fluid">
                <div class="row">
                     <div class="col-3">
-                        <div class="card" style="height:120px">
+                        <div class="card" >
                             <div class="card-header">새로운 문서</div>
                             <div class="card-body" style="text-align:right">
                                 <a href="{% url 'lcreceived2' %}" style="color:white">{{new_lc}}</a> /
@@ -158,23 +158,23 @@
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="height:120px">
+                        <div class="card" >
                             <div class="card-header">진행중인 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
-                                {{ing}} 건
+                                <a href="/mypage2/?mytrade" style="color:white">{{ing}} 건</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="height:120px">
+                        <div class="card" >
                             <div class="card-header">완료된 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
-                                {{complete}} 건
+                                <a href="/mypage2/?mytrade" style="color:white">{{complete}} 건</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="card" style="height:120px">
+                        <div class="card" >
                             <div class="card-header">계약 검색</div>
                             <div class="card-body">
                                 <form method="post" action="{% url 'search2' %}">

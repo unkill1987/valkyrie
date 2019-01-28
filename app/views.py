@@ -730,9 +730,12 @@ def mypage1(request):
     try:
         user_id = request.session['user_id']
         try:
-            mytrade = Process.objects.filter(user1=user_id).order_by('-id')
+            mytrade = Process.objects.filter(user1=user_id, status='ing').order_by('-id')
+            complete = Process.objects.filter(user1=user_id, status='complete').order_by('-id')
+            a = len(mytrade)
+            b = len(complete)
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage1.html', {'mytrade': mytrade, 'user_info': user_info})
+            return render(request, 'app/mypage1.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b})
         except:
             return render(request, 'app/mypage1.html', {})
     except Exception as e:
@@ -744,9 +747,12 @@ def mypage2(request):
     try:
         user_id = request.session['user_id']
         try:
-            mytrade = Process.objects.filter(user2=user_id).order_by('-id')
+            mytrade = Process.objects.filter(user2=user_id, status='ing').order_by('-id')
+            complete = Process.objects.filter(user2=user_id, status='complete').order_by('-id')
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage2.html', {'mytrade': mytrade, 'user_info': user_info})
+            a = len(mytrade)
+            b = len(complete)
+            return render(request, 'app/mypage2.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b})
         except:
             return render(request, 'app/mypage2.html', {})
     except Exception as e:
@@ -758,9 +764,12 @@ def mypage3(request):
     try:
         user_id = request.session['user_id']
         try:
-            mytrade = Process.objects.filter(user3=user_id).order_by('-id')
+            mytrade = Process.objects.filter(user3=user_id, status='ing').order_by('-id')
+            complete = Process.objects.filter(user3=user_id, status='complete').order_by('-id')
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage3.html', {'mytrade': mytrade, 'user_info': user_info})
+            a = len(mytrade)
+            b = len(complete)
+            return render(request, 'app/mypage3.html', {'mytrade': mytrade, 'user_info': user_info,'complete':complete, 'a':a, 'b':b})
         except:
             return render(request, 'app/mypage3.html', {})
     except:
@@ -771,9 +780,12 @@ def mypage4(request):
     try:
         user_id = request.session['user_id']
         try:
-            mytrade = Process.objects.filter(user4=user_id).order_by('-id')
+            mytrade = Process.objects.filter(user4=user_id, status='ing').order_by('-id')
+            complete = Process.objects.filter(user4=user_id, status='complete').order_by('-id')
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage4.html', {'mytrade': mytrade, 'user_info': user_info})
+            a = len(mytrade)
+            b = len(complete)
+            return render(request, 'app/mypage4.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b})
         except:
             return render(request, 'app/mypage4.html', {})
     except:
@@ -801,6 +813,20 @@ def search1(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
+        res = requests.post(url)
+        history = res.json()
+
+        if len(history) == 0:
+            return redirect('mypage1')
+        else:
+            history.reverse()
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+    except Exception as e:
+        print(e)
+        pass
+    try:
+        cid = str(request.POST['complete'])
         url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
@@ -843,7 +869,21 @@ def search2(request):
             return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index2')
+        pass
+        try:
+            cid = str(request.POST['complete'])
+            url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
+            res = requests.post(url)
+            history = res.json()
+
+            if len(history) == 0:
+                return redirect('mypage2')
+            else:
+                history.reverse()
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+        except Exception as e:
+            print(e)
+            return redirect('index2')
 
 
 def search3(request):
@@ -874,7 +914,21 @@ def search3(request):
             return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index3')
+        pass
+        try:
+            cid = str(request.POST['complete'])
+            url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
+            res = requests.post(url)
+            history = res.json()
+
+            if len(history) == 0:
+                return redirect('mypage3')
+            else:
+                history.reverse()
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+        except Exception as e:
+            print(e)
+            return redirect('index3')
 
 
 def search4(request):
@@ -905,7 +959,21 @@ def search4(request):
             return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
     except Exception as e:
         print(e)
-        return redirect('index4')
+        pass
+        try:
+            cid = str(request.POST['complete'])
+            url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
+            res = requests.post(url)
+            history = res.json()
+
+            if len(history) == 0:
+                return redirect('mypage4')
+            else:
+                history.reverse()
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+        except Exception as e:
+            print(e)
+            return redirect('inde4')
 
 
 def share1(request):
