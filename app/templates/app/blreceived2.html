@@ -132,6 +132,7 @@
                         <option value="new">New</option>
                         <option value="confirmed">Confirmed</option>
                         <option value="rejected">Rejected</option>
+                        <option value="complete">Complete</option>
                     </select>
                     <button class="btn btn-outline-dark" formaction="{% url 'blreceived2' %}"> 조회</button>
                     {% csrf_token %}
@@ -144,7 +145,7 @@
                         <div class="card h-100">
 
                             <div class="card-header">
-                                <h5 id="status{{c.id}}" style="color:orange">{{c.status}}</h5>
+                                <h5 id="status{{c.id}}" style="color:orange">{{c.status2}}</h5>
                                 <hr>
                                 <h5>Contract ID.<br>{{c.contract_id}}
                                     <hr>
@@ -160,8 +161,7 @@
                                    target="_blank">
                                     View
                                 </a>
-                                <a id="{{ c.id }}" onclick="confirm(event)" data-toggle="modal"
-                                   data-target="#otpmodal" class="btn btn-outline-dark">
+                                <a id="{{ c.id }}" onclick="confirm(event)"  class="btn btn-outline-dark">
                                     Confirm
                                 </a>
                                 <a id="{{ c.id }}" onclick="reject(event)" class="btn btn-outline-dark">
@@ -169,6 +169,7 @@
                                 </a>
                                 <hr>
                                 <h6>From (운송사ID):<br>{{c.owner_id}}</h6>
+                                <h6>To (은행ID):<br>{{c.share3}}</h6>
                             </div>
                         </div>
                     </div>

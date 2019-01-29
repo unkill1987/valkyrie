@@ -95,7 +95,11 @@ class Contract_BL(models.Model):
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share1 = models.CharField(max_length=30)
     share2 = models.CharField(max_length=30)
-    status = models.CharField(max_length=20)
+    share3 = models.CharField(max_length=30)
+    status1 = models.CharField(max_length=20)
+    status2 = models.CharField(max_length=20)
+    status3 = models.CharField(max_length=20)
+
 
 class Contract_DO(models.Model):
     contractname = models.CharField(max_length=50)

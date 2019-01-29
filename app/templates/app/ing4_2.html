@@ -131,6 +131,7 @@
                             <option value="new">New</option>
                             <option value="confirmed">Confirmed</option>
                             <option value="rejected">Rejected</option>
+                            <option value="complete">Complete</option>
                         </select>
                         <button class="btn btn-outline-dark" formaction="{% url 'ing4_2' %}"> 조회</button>
                         {% csrf_token %}
@@ -161,7 +162,6 @@
                                     </a>
                                     <hr>
                                     <h6>To (수입자ID):<br>{{c.share1}}</h6>
-                                    <h6>To (은행ID):<br>{{c.share3}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -234,8 +234,6 @@
 
                         <div style="text-align:center; margin:auto;"><a>수입자ID:</a>
                             <input class="form-control" name="share_user" id="share_user">
-                            <a>은행ID:</a>
-                            <input class="form-control" name="share_user2" id="share_user2">
                             <br>
                             <a class="btn btn-outline-dark" data-toggle="modal" id="submit"
                                data-target="#otpmodal">전송하기
@@ -430,6 +428,7 @@ $('#delete_btn').click(function() {
         });
         return false;
       });
+
 
 
 

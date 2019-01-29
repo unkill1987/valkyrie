@@ -147,71 +147,71 @@
                                             <h4 class="panel-heading">
                                                 OFFER SHEET TITLE</h4>
 
-                                            <input class="form-control" name="contractname" required="required">
+                                            <input class="form-control" name="contractname" >
                                             <hr>
                                             <div class="form-group">
                                                 <label>1.Origin:</label>
-                                                <input class="form-control" name="a" required="required">
+                                                <input class="form-control" name="a" >
                                             </div>
                                             <div class="form-group">
                                                 <label>2.Packing:</label>
-                                                <input class="form-control" name="b" required="required">
+                                                <input class="form-control" name="b" >
                                             </div>
                                             <div class="form-group">
                                                 <label>3.Shipment:</label>
-                                                <input class="form-control" name="c" required="required">
+                                                <input class="form-control" name="c" >
                                             </div>
                                             <div class="form-group">
                                                 <label>4.Shipping Port:</label>
-                                                <input class="form-control" name="d" required="required">
+                                                <input class="form-control" name="d" >
                                             </div>
                                             <div class="form-group">
                                                 <label>5.Inspection:</label>
-                                                <input class="form-control" name="e" required="required">
+                                                <input class="form-control" name="e" >
                                             </div>
                                             <div class="form-group">
                                                 <label>6.Destination:</label>
-                                                <input class="form-control" name="f" required="required">
+                                                <input class="form-control" name="f" >
                                             </div>
                                             <div class="form-group">
                                                 <label>7.Payment:</label>
-                                                <input class="form-control"  name="g" required="required">
+                                                <input class="form-control"  name="g" >
                                             </div>
                                             <div class="form-group">
                                                 <label>8.Validity:</label>
-                                                <input class="form-control" type="date" name="h" required="required">
+                                                <input class="form-control" type="date" name="h" >
                                             </div>
 
 
                                             <div class="form-group">
                                                 <label>9.Remarks:</label>
-                                                <input class="form-control" name="i" required="required">
+                                                <input class="form-control" name="i" >
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>10.Item:</label>
-                                                <input class="form-control" name="j" required="required">
+                                                <input class="form-control" name="j" >
                                             </div>
                                             <div class="form-group">
                                                 <label>11.Description:</label>
-                                                <input class="form-control" name="k" required="required">
+                                                <input class="form-control" name="k" >
                                             </div>
                                             <div class="form-group">
                                                 <label>12.Unit:</label>
-                                                <input class="form-control" name="l" required="required">
+                                                <input class="form-control" name="l" >
                                             </div>
                                             <div class="form-group">
                                                 <label>13.Quantity:</label>
-                                                <input class="form-control" name="m" required="required">
+                                                <input class="form-control" name="m" >
                                             </div>
                                             <div class="form-group">
                                                 <label>14.Unit Price:</label>
-                                                <input class="form-control" name="n" required="required">
+                                                <input class="form-control" name="n" >
                                             </div>
                                             <div class="form-group">
                                                 <label>15.Amount:</label>
-                                                <input class="form-control" name="o" required="required">
+                                                <input class="form-control" name="o" >
                                             </div>
                                         </div>
                                     </div>
@@ -304,13 +304,12 @@
 </body>
 <script>
 $('#submit').click(function(){
-
     $.ajax({
         url:'/submit2_1/',
         type:'post',
         data:$('form').serialize(),
         success:function(res){
-            alert(res.result)
+            alert(res.result);
             if (res.result == "작성완료") {
                 location = '/OS/'
             }else{
@@ -318,7 +317,7 @@ $('#submit').click(function(){
             }
         }
     });
-
+return false;
 });
 
 </script>

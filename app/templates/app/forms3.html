@@ -92,7 +92,7 @@
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{% url 'lcrreceived'%}">신용장 신청서</a>
-                                        <a class="dropdown-item" href="{% url 'doreceived2'%}">인도지시서</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived3'%}">선하증권</a>
                                     </div>
                                 </li>
                                 <li class="nav-item">
@@ -150,83 +150,83 @@
                                                 Letter of Credit TITLE
                                             </h4>
 
-                                            <input class="form-control" name="letteroflc" required="required"><br>
+                                            <input class="form-control" name="letteroflc" ><br>
 
 
                                             <p style="font-size:25px"> L/C Form </p>
                                             <div class="form-group">
                                                 <label>1.Transfer:</label>
-                                                <input class="form-control" name="a" required="required">
+                                                <input class="form-control" name="a" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>2.Credit Number:</label>
-                                                <input class="form-control" name="b" required="required">
+                                                <input class="form-control" name="b" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>3.Advising Bank:</label>
-                                                <input class="form-control" name="c" required="required">
+                                                <input class="form-control" name="c" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>4.Expiry Date:</label>
-                                                <input class="form-control" name="d" required="required">
+                                                <input class="form-control" name="d" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>5.Applicant:</label>
-                                                <input class="form-control" name="e" required="required">
+                                                <input class="form-control" name="e" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>6.Beneficiary:</label>
-                                                <input class="form-control" name="f" required="required">
+                                                <input class="form-control" name="f" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>7.Amount:</label>
-                                                <input class="form-control" name="g" required="required">
+                                                <input class="form-control" name="g" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>8.Partial Shipment:</label>
-                                                <input class="form-control" name="h" required="required">
+                                                <input class="form-control" name="h" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>9.Latest Shipment Date:</label>
-                                                <input class="form-control" type="date" name="i" required="required">
+                                                <input class="form-control" type="date" name="i" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>10.Additional Conditions:</label>
-                                                <input class="form-control" name="j" required="required">
+                                                <input class="form-control" name="j" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>11.All banking charges:</label>
-                                                <input class="form-control" name="k" required="required">
+                                                <input class="form-control" name="k" >
                                             </div>
 
                                             <div class="form-group"><p class="help-block"></p>
                                                 <label>12.Documents delivered by:</label>
-                                                <input class="form-control" name="l" required="required">
+                                                <input class="form-control" name="l" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>13.Confirmation:</label>
-                                                <input class="form-control" name="m" required="required">
+                                                <input class="form-control" name="m" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>14.Reissue:</label>
-                                                <input class="form-control" name="n" required="required">
+                                                <input class="form-control" name="n" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>15.Import L/C Transfer:</label>
-                                                <input class="form-control" name="o" required="required">
+                                                <input class="form-control" name="o" >
                                             </div>
 
                                         </div>
@@ -236,44 +236,44 @@
 
                                             <div class="form-group">
                                                 <label>16.Draft at:</label>
-                                                <input class="form-control" name="p" required="required">
+                                                <input class="form-control" name="p" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>17.Usance:</label>
-                                                <input class="form-control" name="q" required="required">
+                                                <input class="form-control" name="q" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>18.Settling Bank:</label>
-                                                <input class="form-control" name="r" required="required">
+                                                <input class="form-control" name="r" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>19.Credit:</label>
-                                                <input class="form-control" name="s" required="required">
+                                                <input class="form-control" name="s" >
                                             </div>
 
                                             <p style="font-size:25px"> Transshippment </p>
                                             <div class="form-group">
                                                 <label>20.Transshipment mode:</label>
-                                                <input class="form-control" name="t" required="required">
+                                                <input class="form-control" name="t" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>21.Authorization:</label>
-                                                <input class="form-control" name="u" required="required">
+                                                <input class="form-control" name="u" >
                                             </div>
 
                                             <p style="font-size:25px"> Loading(Shipment from) </p>
                                             <div class="form-group">
                                                 <label>22.Port of Loading/Airport of Departure:</label>
-                                                <input class="form-control" name="v" required="required">
+                                                <input class="form-control" name="v" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>23.Place of Taking in Charge:</label>
-                                                <input class="form-control" name="w" required="required">
+                                                <input class="form-control" name="w" >
                                             </div>
                                         </div>
 
@@ -281,53 +281,53 @@
                                             <p style="font-size:25px">Documents Required </p>
                                             <div class="form-group">
                                                 <label>24.SIgned/Original/Commercial Invoice :</label>
-                                                <input class="form-control" name="x" required="required">
+                                                <input class="form-control" name="x" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>25.FULL SET of B/L:</label>
-                                                <input class="form-control" name="y" required="required">
+                                                <input class="form-control" name="y" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>26.Certificate of Origin in :</label>
-                                                <input class="form-control" name="z" required="required">
+                                                <input class="form-control" name="z" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>27.Certificate of Analysis in :</label>
-                                                <input class="form-control" name="aa" required="required">
+                                                <input class="form-control" name="aa" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>28.Other Documents Required:</label>
-                                                <input class="form-control" name="bb" required="required">
+                                                <input class="form-control" name="bb" >
                                             </div>
 
                                             <p style="font-size:25px">Description of Goods/Services </p>
                                             <div class="form-group">
                                                 <label>29. Description of Goods/Services:</label>
-                                                <input class="form-control" name="cc" required="required">
+                                                <input class="form-control" name="cc" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>30.Price Terms:</label>
-                                                <input class="form-control" name="dd" required="required">
+                                                <input class="form-control" name="dd" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>31.Country of Origin:</label>
-                                                <input class="form-control" name="ee" required="required">
+                                                <input class="form-control" name="ee" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>32.HS CODE:</label>
-                                                <input class="form-control" name="ff" required="required">
+                                                <input class="form-control" name="ff" >
                                             </div>
 
                                             <div class="form-group">
                                                 <label>33.Commodity Description:</label>
-                                                <input class="form-control" name="gg" required="required">
+                                                <input class="form-control" name="gg" >
                                             </div>
 
                                         </div>
@@ -432,7 +432,7 @@ $('#submit').click(function(){
             }
         }
     });
-
+return false;
 });
 </script>
 

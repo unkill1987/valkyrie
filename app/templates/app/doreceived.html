@@ -133,6 +133,7 @@
                         <option value="new">New</option>
                         <option value="confirmed">Confirmed</option>
                         <option value="rejected">Rejected</option>
+                        <option value="complete">Complete</option>
                     </select>
                     <button class="btn btn-outline-dark" formaction="{% url 'doreceived' %}"> 조회</button>
                     {% csrf_token %}
@@ -163,8 +164,7 @@
                                    target="_blank">
                                     View
                                 </a>
-                                <a id="{{ c.id }}" onclick="confirm(event)" data-toggle="modal"
-                                   data-target="#otpmodal" class="btn btn-outline-dark">
+                                <a id="{{ c.id }}" onclick="confirm(event)"  class="btn btn-outline-dark">
                                     Confirm
                                 </a>
                                 <a id="{{ c.id }}" onclick="reject(event)" class="btn btn-outline-dark">

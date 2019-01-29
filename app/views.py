@@ -63,6 +63,8 @@ def os_confirm(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -114,6 +116,8 @@ def lcr_confirm(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -164,6 +168,8 @@ def lc_confirm(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -215,6 +221,8 @@ def sr_confirm(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -229,7 +237,70 @@ def bl_confirm(request):
         c_id = request.POST['c_id']
         c = Contract_BL.objects.get(id=c_id)
         contract_id = c.contract_id
-        if c.status == 'new':
+        if c.status2 == 'new':
+            otp = request.POST['otp']
+            key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
+            cipher_suite = Fernet(key)
+            with open('otpkey/%s.bin' % user_id, 'rb') as file_object:
+                for line in file_object:
+                    encryptedpwd = line
+            uncipher_text = cipher_suite.decrypt(encryptedpwd)
+            otpkey = bytes(uncipher_text).decode("utf-8")
+            totp = pyotp.TOTP(otpkey)
+            nowotp = totp.now()
+
+            if otp == nowotp:
+                process = Process.objects.get(contract_id=contract_id)
+                c.status2 = 'confirmed'
+                c.status3 = 'new'
+                c.share3 = process.user3
+                c.save()
+                result_dict['result'] = 'success'
+                return JsonResponse(result_dict)
+            else:
+                result_dict['result'] = "Check OTP"
+                return JsonResponse(result_dict)
+        elif c.status2 == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status2 == 'rejected':
+            result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+@csrf_exempt
+def bl_confirm1(request):
+    result_dict = {}
+    try:
+        c_id = request.POST['c_id']
+        c = Contract_BL.objects.get(id=c_id)
+        if c.status1 == 'new':
+            c.status1 = 'confirmed'
+            c.save()
+            result_dict['result'] = 'success'
+            return JsonResponse(result_dict)
+        elif c.status2 == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        else:
+            result_dict['result'] = 'locked'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
+
+
+@csrf_exempt
+def bl_confirm2(request):
+    result_dict = {}
+    try:
+        user_id = request.session['user_id']
+        c_id = request.POST['c_id']
+        c = Contract_BL.objects.get(id=c_id)
+        contract_id = c.contract_id
+        if c.status3 == 'new':
             otp = request.POST['otp']
             key = b'PvyhpBY3ACtXhj_wm9ueKhFSYyKAz4ntMc3p6sKYvuI='
             cipher_suite = Fernet(key)
@@ -243,9 +314,10 @@ def bl_confirm(request):
             owner = str(c.owner)
             share_user = c.share2
             hash = c.sha256
+
             if otp == nowotp:
                 url = (
-                            'http://192.168.56.101:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of lading: ' + hash)
+                        'http://192.168.56.101:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of letter: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -254,22 +326,25 @@ def bl_confirm(request):
                     process = Process.objects.get(contract_id=contract_id)
                     process.BL_hash = hash
                     process.save()
-                    c.status = 'confirmed'
+                    c.share1 = process.user1
+                    c.status3 = 'confirmed'
+                    c.status1 = 'new'
                     c.save()
                     result_dict['result'] = 'success'
-                return JsonResponse(result_dict)
+                    return JsonResponse(result_dict)
             else:
                 result_dict['result'] = "Check OTP"
                 return JsonResponse(result_dict)
-        elif c.status == 'confirmed':
+        elif c.status3 == 'confirmed':
             result_dict['result'] = 'already confirmed'
-        elif c.status == 'rejected':
+        elif c.status3 == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
     return JsonResponse(result_dict)
-
 
 @csrf_exempt
 def ci_confirm(request):
@@ -315,6 +390,8 @@ def ci_confirm(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -367,7 +444,9 @@ def do_confirm(request):
                     sr_status.status = 'cpmplete'
                     sr_status.save()
                     bl_status = Contract_BL.objects.get(contract_id=contract_id)
-                    bl_status.status = 'cpmplete'
+                    bl_status.status1 = 'cpmplete'
+                    bl_status.status2 = 'cpmplete'
+                    bl_status.status3 = 'cpmplete'
                     bl_status.save()
                     ci_status = Contract_CI.objects.get(contract_id=contract_id)
                     ci_status.status = 'cpmplete'
@@ -383,6 +462,8 @@ def do_confirm(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -404,6 +485,8 @@ def os_reject(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -425,6 +508,8 @@ def lcr_reject(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -446,6 +531,8 @@ def lc_reject(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -467,6 +554,8 @@ def sr_reject(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -479,20 +568,43 @@ def bl_reject(request):
     try:
         contract_id = request.POST['c_id']
         c = Contract_BL.objects.get(id=contract_id)
-        if c.status == 'new':
-            c.status = 'rejected'
+        if c.status2 == 'new':
+            c.status2 = 'rejected'
             c.share2 = ''
             c.save()
             result_dict['result'] = 'rejected'
-        elif c.status == 'confirmed':
+        elif c.status2 == 'confirmed':
             result_dict['result'] = 'already confirmed'
-        elif c.status == 'rejected':
+        elif c.status2 == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
     return JsonResponse(result_dict)
 
+@csrf_exempt
+def bl_reject2(request):
+    result_dict = {}
+    try:
+        contract_id = request.POST['c_id']
+        c = Contract_BL.objects.get(id=contract_id)
+        if c.status3 == 'new':
+            c.status3 = 'rejected'
+            c.share2 = ''
+            c.save()
+            result_dict['result'] = 'rejected'
+        elif c.status3 == 'confirmed':
+            result_dict['result'] = 'already confirmed'
+        elif c.status3 == 'rejected':
+            result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
+    except Exception as e:
+        result_dict['result'] = 'fail'
+        print(e)
+    return JsonResponse(result_dict)
 
 @csrf_exempt
 def ci_reject(request):
@@ -509,6 +621,8 @@ def ci_reject(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -530,6 +644,8 @@ def do_reject(request):
             result_dict['result'] = 'already confirmed'
         elif c.status == 'rejected':
             result_dict['result'] = 'already rejected'
+        else:
+            result_dict['result'] = 'locked'
     except Exception as e:
         result_dict['result'] = 'fail'
         print(e)
@@ -1199,7 +1315,6 @@ def share4_1(request):
         otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
-        share_user2 = request.POST['share_user2']
         user_id = request.session['user_id']
         result_dict = {}
 
@@ -1213,12 +1328,11 @@ def share4_1(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user):
                 share = Contract_BL.objects.get(id=check_id)
                 if share.share1 =='' and share.share2 =='':
-                    share.share1 = share_user
-                    share.share2 = share_user2
-                    share.status = "new"
+                    share.share2 = share_user
+                    share.status2 = "new"
                     share.save()
                     result_dict['result'] = 'Success'
                     return JsonResponse(result_dict)
@@ -1242,7 +1356,6 @@ def share4_2(request):
         otp = request.POST['otp']
         check_id = request.POST['check_id']
         share_user = request.POST['share_user']
-        share_user2 = request.POST['share_user2']
         user_id = request.session['user_id']
         result_dict = {}
 
@@ -1256,11 +1369,10 @@ def share4_2(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+            if otp == nowotp and Member.objects.get(user_id=share_user):
                 share = Contract_DO.objects.get(id=check_id)
                 if share.share1 =='' and share.share3 =='':
                     share.share1 = share_user
-                    share.share3 = share_user2
                     share.status = "new"
                     share.save()
                     result_dict['result'] = 'Success'
@@ -1482,6 +1594,20 @@ def blremove2(request):
             pass
     return redirect('blreceived2')
 
+def blremove3(request):
+    # deletes all objects from Car database table
+    # Contract.objects.get('id').delete()
+    check_id = request.GET['check_id']
+    check_ids = check_id.split(',')
+
+    for id in check_ids:
+        try:
+            share = Contract_BL.objects.get(id=id)
+            share.share3 = ' '
+            share.save()
+        except:
+            pass
+    return redirect('blreceived3')
 
 def lcremove2(request):
     # deletes all objects from Car database table
@@ -1515,20 +1641,7 @@ def doremove(request):
     return redirect('doreceived')
 
 
-def doremove2(request):
-    # deletes all objects from Car database table
-    # Contract.objects.get('id').delete()
-    check_id = request.GET['check_id']
-    check_ids = check_id.split(',')
 
-    for id in check_ids:
-        try:
-            share = Contract_DO.objects.get(id=id)
-            share.share3 = ' '
-            share.save()
-        except:
-            pass
-    return redirect('doreceived2')
 
 
 def lcrremove(request):
@@ -1640,7 +1753,7 @@ def submit(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-                result_dict['result'] = "작성 완료"
+                result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
                 result_dict['result'] = "영어로 작성해주세요."
@@ -1733,7 +1846,7 @@ def submit2_1(request):
             member = Member.objects.get(user_id=user_id)
             contract.owner = member
             contract.save()
-            result_dict['result'] = "작성 완료"
+            result_dict['result'] = "작성완료"
             return JsonResponse(result_dict)
         except Exception as e:
             result_dict['result'] = "영어로 작성해주세요."
@@ -1821,7 +1934,7 @@ def submit2_2(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-                result_dict['result'] = "작성 완료"
+                result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
                 result_dict['result'] = "영어로 작성해주세요."
@@ -1916,7 +2029,7 @@ def submit2_3(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-                result_dict['result'] = "작성 완료"
+                result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
                 result_dict['result'] = "영어로 작성해주세요."
@@ -2043,7 +2156,7 @@ def submit3(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-                result_dict['result'] = "작성 완료"
+                result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
                 result_dict['result'] = "영어로 작성해주세요."
@@ -2117,7 +2230,7 @@ def submit4_1(request):
                 file.close()
 
                 # 데이터 저장
-                contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
+                contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash,  status2='new',
                                        filename='document/BL_' + time_format + '.pdf')
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -2125,7 +2238,7 @@ def submit4_1(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-                result_dict['result'] = "작성 완료"
+                result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
                 result_dict['result'] = "영어로 작성해주세요."
@@ -2201,7 +2314,7 @@ def submit4_2(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-                result_dict['result'] = "작성 완료"
+                result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
                 result_dict['result'] = "영어로 작성해주세요."
@@ -2314,6 +2427,9 @@ def ing(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_LCR.objects.filter(owner=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_LCR.objects.filter(owner=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_LCR.objects.filter(owner=member).order_by('-id')
                 filter = "All"
@@ -2361,6 +2477,9 @@ def ing2_1(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_OS.objects.filter(owner=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_OS.objects.filter(owner=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_OS.objects.filter(owner=member).order_by('-id')
                 filter = "All"
@@ -2408,6 +2527,9 @@ def ing2_2(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_SR.objects.filter(owner=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_SR.objects.filter(owner=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_SR.objects.filter(owner=member).order_by('-id')
                 filter = "All"
@@ -2455,6 +2577,9 @@ def ing2_3(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_CI.objects.filter(owner=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_CI.objects.filter(owner=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_CI.objects.filter(owner=member).order_by('-id')
                 filter = "All"
@@ -2502,6 +2627,9 @@ def ing3(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_LC.objects.filter(owner=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_LC.objects.filter(owner=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_LC.objects.filter(owner=member).order_by('-id')
                 filter = "All"
@@ -2541,14 +2669,17 @@ def ing4_1(request):
         member = Member.objects.get(user_id=user_id)
         try:
             if request.POST['filter'] == "new":
-                contract = Contract_BL.objects.filter(owner=member, status="new").order_by('-id')
+                contract = Contract_BL.objects.filter(owner=member, status2="new").order_by('-id')
                 filter = "New"
             elif request.POST['filter'] == "rejected":
-                contract = Contract_BL.objects.filter(owner=member, status="rejected").order_by('-id')
+                contract = Contract_BL.objects.filter(owner=member, status2="rejected").order_by('-id')
                 filter = "Rejected"
             elif request.POST['filter'] == "confirmed":
-                contract = Contract_BL.objects.filter(owner=member, status="confirmed").order_by('-id')
+                contract = Contract_BL.objects.filter(owner=member, status2="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_BL.objects.filter(owner=member, status2="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_BL.objects.filter(owner=member).order_by('-id')
                 filter = "All"
@@ -2596,6 +2727,9 @@ def ing4_2(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_DO.objects.filter(owner=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_DO.objects.filter(owner=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_DO.objects.filter(owner=member).order_by('-id')
                 filter = "All"
@@ -2636,14 +2770,22 @@ def osreceived(request):
         try:
             if request.POST['filter'] == "new":
                 contract = Contract_OS.objects.filter(share1=member, status="new").order_by('-id')
+                filter = "New"
             elif request.POST['filter'] == "rejected":
                 contract = Contract_OS.objects.filter(share1=member, status="rejected").order_by('-id')
+                filter = "Rejected"
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_OS.objects.filter(share1=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_OS.objects.filter(share1=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_OS.objects.filter(share1=member).order_by('-id')
+                filter = "All"
         except:
             contract = Contract_OS.objects.filter(share1=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2686,6 +2828,9 @@ def cireceived(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_CI.objects.filter(share1=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_CI.objects.filter(share1=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_CI.objects.filter(share1=member).order_by('-id')
                 filter = "All"
@@ -2734,6 +2879,9 @@ def srreceived(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_SR.objects.filter(share4=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_SR.objects.filter(share4=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_SR.objects.filter(share4=member).order_by('-id')
                 filter = "All"
@@ -2774,14 +2922,17 @@ def blreceived1(request):
         member = Member.objects.get(user_id=user_id)
         try:
             if request.POST['filter'] == "new":
-                contract = Contract_BL.objects.filter(share1=member, status="new").order_by('-id')
+                contract = Contract_BL.objects.filter(share1=member, status1="new").order_by('-id')
                 filter = "New"
             elif request.POST['filter'] == "rejected":
-                contract = Contract_BL.objects.filter(share1=member, status="rejected").order_by('-id')
+                contract = Contract_BL.objects.filter(share1=member, status1="rejected").order_by('-id')
                 filter = "Rejected"
             elif request.POST['filter'] == "confirmed":
-                contract = Contract_BL.objects.filter(share1=member, status="confirmed").order_by('-id')
+                contract = Contract_BL.objects.filter(share1=member, status1="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_BL.objects.filter(share1=member, status1="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_BL.objects.filter(share1=member).order_by('-id')
                 filter = "All"
@@ -2808,7 +2959,7 @@ def blreceived1(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2}
 
         return render(request, 'app/blreceived1.html', notice)
     except Exception as e:
@@ -2830,6 +2981,9 @@ def lcreceived1(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_LC.objects.filter(share1=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_LC.objects.filter(share1=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_LC.objects.filter(share1=member).order_by('-id')
                 filter = "All"
@@ -2870,14 +3024,17 @@ def blreceived2(request):
         member = Member.objects.get(user_id=user_id)
         try:
             if request.POST['filter'] == "new":
-                contract = Contract_BL.objects.filter(share2=member, status="new").order_by('-id')
+                contract = Contract_BL.objects.filter(share2=member, status2="new").order_by('-id')
                 filter = "New"
             elif request.POST['filter'] == "rejected":
-                contract = Contract_BL.objects.filter(share2=member, status="rejected").order_by('-id')
+                contract = Contract_BL.objects.filter(share2=member, status2="rejected").order_by('-id')
                 filter = "Rejected"
             elif request.POST['filter'] == "confirmed":
-                contract = Contract_BL.objects.filter(share2=member, status="confirmed").order_by('-id')
+                contract = Contract_BL.objects.filter(share2=member, status2="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_BL.objects.filter(share2=member, status2="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_BL.objects.filter(share2=member).order_by('-id')
                 filter = "All"
@@ -2911,6 +3068,55 @@ def blreceived2(request):
         print(e)
         return redirect('index')
 
+def blreceived3(request):
+    try:
+        user_id = request.session['user_id']
+        member = Member.objects.get(user_id=user_id)
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_BL.objects.filter(share3=member, status3="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_BL.objects.filter(share3=member, status3="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_BL.objects.filter(share3=member, status3="confirmed").order_by('-id')
+                filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_BL.objects.filter(share3=member, status3="complete").order_by('-id')
+                filter = "Complete"
+            else:
+                contract = Contract_BL.objects.filter(share3=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_BL.objects.filter(share3=member).order_by('-id')
+            filter = "All"
+        total_len = len(contract)
+        page = request.GET.get('page')
+        paginator = Paginator(contract, 6)
+
+        try:
+            lines = paginator.page(page)
+        except PageNotAnInteger:
+            lines = paginator.page(1)
+        except EmptyPage:
+            lines = paginator.page(paginator.num_pages)
+        index = lines.number - 1
+        max_index = len(paginator.page_range)
+        start_index = index - 2 if index >= 2 else 0
+        if index < 2:
+            end_index = 5 - start_index
+        else:
+            end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range[start_index:end_index])
+
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
+                  'max_index': max_index - 2}
+
+        return render(request, 'app/blreceived3.html', notice)
+    except Exception as e:
+        print(e)
+        return redirect('index')
 
 def lcreceived2(request):
     try:
@@ -2926,6 +3132,9 @@ def lcreceived2(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_LC.objects.filter(share2=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_LC.objects.filter(share2=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_LC.objects.filter(share2=member).order_by('-id')
                 filter = "All"
@@ -2974,6 +3183,9 @@ def doreceived(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_DO.objects.filter(share1=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_DO.objects.filter(share1=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_DO.objects.filter(share1=member).order_by('-id')
                 filter = "All"
@@ -3008,54 +3220,6 @@ def doreceived(request):
         return redirect('index')
 
 
-def doreceived2(request):
-    try:
-        user_id = request.session['user_id']
-        member = Member.objects.get(user_id=user_id)
-        try:
-            if request.POST['filter'] == "new":
-                contract = Contract_DO.objects.filter(share3=member, status="new").order_by('-id')
-                filter = "New"
-            elif request.POST['filter'] == "rejected":
-                contract = Contract_DO.objects.filter(share3=member, status="rejected").order_by('-id')
-                filter = "Rejected"
-            elif request.POST['filter'] == "confirmed":
-                contract = Contract_DO.objects.filter(share3=member, status="confirmed").order_by('-id')
-                filter = "Confirmed"
-            else:
-                contract = Contract_DO.objects.filter(share3=member).order_by('-id')
-                filter = "All"
-        except:
-            contract = Contract_DO.objects.filter(share3=member).order_by('-id')
-            filter = "All"
-        total_len = len(contract)
-        page = request.GET.get('page')
-        paginator = Paginator(contract, 6)
-
-        try:
-            lines = paginator.page(page)
-        except PageNotAnInteger:
-            lines = paginator.page(1)
-        except EmptyPage:
-            lines = paginator.page(paginator.num_pages)
-        index = lines.number - 1
-        max_index = len(paginator.page_range)
-        start_index = index - 2 if index >= 2 else 0
-        if index < 2:
-            end_index = 5 - start_index
-        else:
-            end_index = index + 3 if index <= max_index - 3 else max_index
-        page_range = list(paginator.page_range[start_index:end_index])
-
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
-
-        return render(request, 'app/doreceived2.html', notice)
-    except Exception as e:
-        print(e)
-        return redirect('index')
-
-
 def lcrreceived(request):
     try:
         user_id = request.session['user_id']
@@ -3070,6 +3234,9 @@ def lcrreceived(request):
             elif request.POST['filter'] == "confirmed":
                 contract = Contract_LCR.objects.filter(share3=member, status="confirmed").order_by('-id')
                 filter = "Confirmed"
+            elif request.POST['filter'] == "complete":
+                contract = Contract_LCR.objects.filter(share3=member, status="complete").order_by('-id')
+                filter = "Complete"
             else:
                 contract = Contract_LCR.objects.filter(share3=member).order_by('-id')
                 filter = "All"
@@ -3137,7 +3304,7 @@ def index(request):
 
         new_os = len(Contract_OS.objects.filter(share1=user_id, status='new'))
         new_lc = len(Contract_LC.objects.filter(share1=user_id, status='new'))
-        new_bl = len(Contract_BL.objects.filter(share1=user_id, status='new'))
+        new_bl = len(Contract_BL.objects.filter(share1=user_id, status1='new'))
         new_ci = len(Contract_CI.objects.filter(share1=user_id, status='new'))
         new_do = len(Contract_DO.objects.filter(share1=user_id, status='new'))
         ing = len(Process.objects.filter(user1=user_id, status='ing'))
@@ -3186,7 +3353,7 @@ def index2(request):
         link_list = []
 
         new_lc = len(Contract_LC.objects.filter(share2=user_id, status='new'))
-        new_bl = len(Contract_BL.objects.filter(share2=user_id, status='new'))
+        new_bl = len(Contract_BL.objects.filter(share2=user_id, status2='new'))
         ing = len(Process.objects.filter(user2=user_id, status='ing'))
         complete = len(Process.objects.filter(user2=user_id, status='complete'))
         for n in news:
@@ -3231,7 +3398,7 @@ def index3(request):
         link_list = []
 
         new_lcr = len(Contract_LCR.objects.filter(share3=user_id, status='new'))
-        new_do = len(Contract_DO.objects.filter(share3=user_id, status='new'))
+        new_bl = len(Contract_BL.objects.filter(share3=user_id, status3='new'))
         ing = len(Process.objects.filter(user3=user_id, status='ing'))
         complete = len(Process.objects.filter(user3=user_id, status='complete'))
         for n in news:
@@ -3249,7 +3416,7 @@ def index3(request):
 
         return render(request, 'app/index3.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
-                       'ing': ing, 'new_lcr': new_lcr, 'new_do': new_do})
+                       'ing': ing, 'new_lcr': new_lcr, 'new_bl': new_bl})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -3376,7 +3543,7 @@ def forms2_2(request):
 
 def forms2_3(request):
     user_id = request.session['user_id']
-    contract = Contract_BL.objects.filter(share2=user_id, status='confirmed').order_by('-id')
+    contract = Contract_BL.objects.filter(share2=user_id, status3='confirmed').order_by('-id')
     return render(request, 'app/forms2_3.html', {'contract': contract, 'user_id': user_id})
 
 
@@ -3394,7 +3561,7 @@ def forms4_1(request):
 
 def forms4_2(request):
     user_id = request.session['user_id']
-    contract = Contract_BL.objects.filter(owner=user_id, status='confirmed').order_by('-id')
+    contract = Contract_BL.objects.filter(owner=user_id, status3='confirmed').order_by('-id')
     return render(request, 'app/forms4_2.html', {'contract': contract})
 
 

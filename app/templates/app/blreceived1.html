@@ -122,13 +122,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                <h4>선하증권 확인({{total_len}}건) - {{filter}}</h4>
-                <form method="post">
+                <h4>선하증권 확인({{total_len}}건)</h4>
+                    <form method="post">
                     <select class="custom-select" id="filter" name="filter" style="width:130px">
                         <option value="all">All</option>
                         <option value="new">New</option>
                         <option value="confirmed">Confirmed</option>
-                        <option value="rejected">Rejected</option>
+                        <option value="complete">Complete</option>
                     </select>
                     <button class="btn btn-outline-dark" formaction="{% url 'blreceived1' %}"> 조회</button>
                     {% csrf_token %}
@@ -141,7 +141,7 @@
                         <div class="card h-100">
 
                             <h5 class="card-header">
-                                <div id="status" style="color:orange">{{c.status}}</div>
+                                <div id="status" style="color:orange">{{c.status1}}</div>
                                 <hr>
                                 Contract ID.<br>{{c.contract_id}}
                                 <hr>
@@ -156,8 +156,11 @@
                                    target="_blank">
                                     View
                                 </a>
+                                <a id="{{ c.id }}" onclick="confirm(event)" class="btn btn-outline-dark">
+                                    Confirm
+                                </a>
                                 <hr>
-                                <h6>From (운송사ID):<br>{{c.owner_id}}</h6>
+                                <h6>From (은행ID):<br>{{c.share3}}</h6>
                             </div>
                         </div>
                     </div>
@@ -348,6 +351,25 @@ $('#delete').click(function() {
       })
 
 
+function confirm(e){
+    var c_id = e.target.id;
+    $('#preloader').show();
+     $.ajax({
+    url:'/bl_confirm1/',
+    type:'post',
+    dataType:'json',
+    data:{c_id:c_id},
+    success:function(res){
+        alert(res.result)
+        if (res.result == 'success'){
+            location = '/BL_received_I/'
+        }else{
+            $('#preloader').hide();
+        }
+    }
+  });
+   return false;
+}
 
 
 

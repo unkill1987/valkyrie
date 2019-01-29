@@ -95,7 +95,7 @@
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown"
                                          style="margin-top: 5px;">
                                         <a class="dropdown-item" href="{% url 'lcrreceived'%}">신용장 신청서</a>
-                                        <a class="dropdown-item" href="{% url 'doreceived2'%}">인도지시서</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived3'%}">선하증권</a>
                                     </div>
                                 </li>
                                 <li class="nav-item">
@@ -131,6 +131,7 @@
                         <option value="new">New</option>
                         <option value="confirmed">Confirmed</option>
                         <option value="rejected">Rejected</option>
+                        <option value="complete">Complete</option>
                     </select>
                     <button class="btn btn-outline-dark" formaction="{% url 'lcrreceived' %}"> 조회</button>
                     {% csrf_token %}
@@ -160,8 +161,7 @@
                                    target="_blank">
                                     View
                                 </a>
-                                <a id="{{ c.id }}" onclick="confirm(event)" data-toggle="modal"
-                                   data-target="#otpmodal" class="btn btn-outline-dark">
+                                <a id="{{ c.id }}" onclick="confirm(event)" class="btn btn-outline-dark">
                                     Confirm
                                 </a>
                                 <a id="{{ c.id }}" onclick="reject(event)" class="btn btn-outline-dark">

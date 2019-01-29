@@ -112,7 +112,7 @@
                                        aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{% url 'lcrreceived'%}">신용장 신청서</a>
-                                        <a class="dropdown-item" href="{% url 'doreceived2'%}">인도지시서</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived3'%}">선하증권</a>
                                     </div>
                                 </li>
                                 <li class="nav-item">
@@ -145,7 +145,7 @@
                             <div class="card-header">새로운 문서</div>
                             <div class="card-body" style="text-align:right">
                                 <a href="{% url 'lcrreceived' %}" style="color:white">{{new_lcr}}</a> /
-                                <a href="{% url 'doreceived2' %}" style="color:white">{{new_do}}</a> 건
+                                <a href="{% url 'blreceived3' %}" style="color:white">{{new_bl}}</a> 건
                             </div>
 
                         </div>
