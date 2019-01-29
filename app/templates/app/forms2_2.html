@@ -137,7 +137,7 @@
 
 
                             <div class="panel-body">
-                                <form role="form" action="{% url 'submit2_2' %}" method="post">
+                                <form role="form"  method="post">
 
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -227,7 +227,7 @@
                                     <!-- /.row (nested) -->
                                     <div style="text-align:center">
                                         <hr>
-                                        <button type="submit" class="btn btn-outline-dark">작성 완료</button>
+                                        <button id="submit" class="btn btn-outline-dark">작성 완료</button>
                                         <button type="reset" class="btn btn-outline-dark">다시 작성하기</button>
                                     </div>
                                     {% csrf_token %}
@@ -311,7 +311,23 @@
 
 </body>
 <script>
+$('#submit').click(function(){
 
+    $.ajax({
+        url:'/submit2_2/',
+        type:'post',
+        data:$('form').serialize(),
+        success:function(res){
+            alert(res.result)
+            if (res.result == "작성완료") {
+                location = '/SR/'
+            }else{
+                return false;
+            }
+        }
+    });
+
+});
 
 </script>
 

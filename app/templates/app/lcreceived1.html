@@ -133,15 +133,16 @@
                         <input type="checkbox" id="{{c.id}}" value="{{ c.id }}"><a>Check</a>
                         <div class="card h-100">
 
-                            <h5 class="card-header">
-                                <div id="status" style="color:orange">{{c.status}}</div>
+                            <div class="card-header">
+                                <h5 id="status" style="color:orange">{{c.status}}</h5>
                                 <hr>
 
-                                Contract ID.<br>{{c.contract_id}}
-                                <hr>
+                                <h5>Contract ID.<br>{{c.contract_id}}
+                                    <hr>
 
-                                {{c.contractname}}
-                            </h5>
+                                    {{c.contractname}}
+                                </h5>
+                            </div>
                             <div class="card-body">
                                 <h5>Document Hash:<br>{{c.sha256}}</h5>
                             </div>
@@ -338,6 +339,7 @@ $('#delete').click(function() {
      }else{
      }
     });
+
 
 
 </script>

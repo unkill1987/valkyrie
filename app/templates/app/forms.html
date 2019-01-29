@@ -133,7 +133,7 @@
 
 
                             <div class="panel-body">
-                                <form role="form" action="{% url 'submit' %}" method="post">
+                                <form role="form" method="post">
 
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -148,29 +148,29 @@
                                                 LETTER OF CREDIT REQUEST TITLE
                                             </h4>
 
-                                            <input class="form-control" name="contractname" required="required">
+                                            <input class="form-control" name="contractname">
                                             <div class="form-group">
                                                 <label>1.Advising bank:</label>
-                                                <input class="form-control" name="a" required="required">
+                                                <input class="form-control" name="a">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>2.Credit No.:</label>
-                                                <input class="form-control" name="b" required="required">
+                                                <input class="form-control" name="b" >
                                             </div>
                                             <div class="form-group">
                                                 <label>3.Beneficiary:</label>
-                                                <input class="form-control" name="c" required="required">
+                                                <input class="form-control" name="c" >
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>4.Applicant:</label>
-                                                <input class="form-control" name="d" required="required">
+                                                <input class="form-control" name="d">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>5.L/C Amount and Tolerance:</label>
-                                                <input class="form-control" name="e" required="required">
+                                                <input class="form-control" name="e" >
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
@@ -214,17 +214,17 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>10.Loading(shipment from):</label>
-                                                <input class="form-control" name="j" required="required">
+                                                <input class="form-control" name="j">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>11.Discharging(shipment to):</label>
-                                                <input class="form-control" name="k" required="required">
+                                                <input class="form-control" name="k" >
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>12.Latest shipment date:</label>
-                                                <input class="form-control" type="date" name="l" required="required">
+                                                <input class="form-control" type="date" name="l">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
@@ -260,7 +260,7 @@
                                     <!-- /.row (nested) -->
                                     <div style="text-align:center">
                                         <hr>
-                                        <button type="submit" class="btn btn-outline-dark">작성 완료</button>
+                                        <button id = "submit" class="btn btn-outline-dark">작성 완료</button>
                                         <button type="reset" class="btn btn-outline-dark">다시 작성하기</button>
                                     </div>
                                     {% csrf_token %}
@@ -342,7 +342,23 @@
 
 </body>
 <script>
+$('#submit').click(function(){
 
+    $.ajax({
+        url:'/submit/',
+        type:'post',
+        data:$('form').serialize(),
+        success:function(res){
+            alert(res.result)
+            if (res.result == "작성완료") {
+                location = '/LCR/'
+            }else{
+                return false;
+            }
+        }
+    });
+
+});
 
 </script>
 

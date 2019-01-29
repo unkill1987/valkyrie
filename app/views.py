@@ -1557,6 +1557,7 @@ def srremove(request):
 
 
 def submit(request):
+    result_dict={}
     try:
         user_id = request.session['user_id']
         contractname = request.POST['contractname']
@@ -1632,17 +1633,22 @@ def submit(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-                return redirect('ing')
+                result_dict['result'] = "작성 완료"
+                return JsonResponse(result_dict)
             except Exception as e:
-                print(e)
-                return redirect('forms')
+                result_dict['result'] = "영어로 작성해주세요."
+                return JsonResponse(result_dict)
         else:
-            return redirect('forms')
-    except:
-        return redirect('forms')
+            result_dict['result'] = "해당 contract id 는 사용할 수 없습니다."
+            return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        result_dict['result'] = "양식을 완성해주세요."
+        return JsonResponse(result_dict)
 
 
 def submit2_1(request):
+    result_dict = {}
     try:
         user_id = request.session['user_id']
         contractname = request.POST['contractname']
@@ -1720,16 +1726,19 @@ def submit2_1(request):
             member = Member.objects.get(user_id=user_id)
             contract.owner = member
             contract.save()
-
-            return redirect('ing2_1')
+            result_dict['result'] = "작성 완료"
+            return JsonResponse(result_dict)
         except Exception as e:
-            print(e)
-            return redirect('forms2_1')
-    except:
-        return redirect('forms2_1')
+            result_dict['result'] = "영어로 작성해주세요."
+            return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        result_dict['result'] = "양식을 완성해주세요."
+        return JsonResponse(result_dict)
 
 
 def submit2_2(request):
+    result_dict = {}
     try:
         user_id = request.session['user_id']
         srname = request.POST['srequestname']
@@ -1805,18 +1814,22 @@ def submit2_2(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-
-                return redirect('ing2_2')
+                result_dict['result'] = "작성 완료"
+                return JsonResponse(result_dict)
             except Exception as e:
-                print(e)
-                return redirect('forms2_2')
+                result_dict['result'] = "영어로 작성해주세요."
+                return JsonResponse(result_dict)
         else:
-            return redirect('forms2_2')
-    except:
-        return redirect('forms2_2')
+            result_dict['result'] = "해당 contract id 는 사용할 수 없습니다."
+            return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        result_dict['result'] = "양식을 완성해주세요."
+        return JsonResponse(result_dict)
 
 
 def submit2_3(request):
+    result_dict = {}
     try:
         user_id = request.session['user_id']
         contractname = request.POST['contractname']
@@ -1896,19 +1909,22 @@ def submit2_3(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-
-                return redirect('ing2_3')
+                result_dict['result'] = "작성 완료"
+                return JsonResponse(result_dict)
             except Exception as e:
-                print(e)
-                return redirect('forms2_3')
+                result_dict['result'] = "영어로 작성해주세요."
+                return JsonResponse(result_dict)
         else:
-            return redirect('forms2_3')
+            result_dict['result'] = "해당 contract id 는 사용할 수 없습니다."
+            return JsonResponse(result_dict)
     except Exception as e:
         print(e)
-        return redirect('forms2_3')
+        result_dict['result'] = "양식을 완성해주세요."
+        return JsonResponse(result_dict)
 
 
 def submit3(request):
+    result_dict = {}
     try:
         user_id = request.session['user_id']
         letteroflc = request.POST['letteroflc']
@@ -2019,20 +2035,23 @@ def submit3(request):
                 user_id = request.session['user_id']
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
-
                 contract.save()
-
-                return redirect('ing3')
+                result_dict['result'] = "작성 완료"
+                return JsonResponse(result_dict)
             except Exception as e:
-                print(e)
-                return redirect('forms3')
+                result_dict['result'] = "영어로 작성해주세요."
+                return JsonResponse(result_dict)
         else:
-            return redirect('forms3')
-    except:
-        return redirect('forms3')
+            result_dict['result'] = "해당 contract id 는 사용할 수 없습니다."
+            return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        result_dict['result'] = "양식을 완성해주세요."
+        return JsonResponse(result_dict)
 
 
 def submit4_1(request):
+    result_dict = {}
     try:
         user_id = request.session['user_id']
         contractname = request.POST['contractname']
@@ -2098,20 +2117,24 @@ def submit4_1(request):
                 user_id = request.session['user_id']
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
-
                 contract.save()
-
-                return redirect('ing4_1')
+                result_dict['result'] = "작성 완료"
+                return JsonResponse(result_dict)
             except Exception as e:
-                print(e)
-                return redirect('forms4_1')
+                result_dict['result'] = "영어로 작성해주세요."
+                return JsonResponse(result_dict)
         else:
-            return redirect('forms4_1')
-    except:
-        return redirect('forms4_1')
+            result_dict['result'] = "해당 contract id 는 사용할 수 없습니다."
+            return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        result_dict['result'] = "양식을 완성해주세요."
+        return JsonResponse(result_dict)
+
 
 
 def submit4_2(request):
+    result_dict = {}
     try:
         user_id = request.session['user_id']
         contractname = request.POST['contractname']
@@ -2171,15 +2194,18 @@ def submit4_2(request):
                 member = Member.objects.get(user_id=user_id)
                 contract.owner = member
                 contract.save()
-
-                return redirect('ing4_2')
+                result_dict['result'] = "작성 완료"
+                return JsonResponse(result_dict)
             except Exception as e:
-                print(e)
-                return redirect('forms4_2')
+                result_dict['result'] = "영어로 작성해주세요."
+                return JsonResponse(result_dict)
         else:
-            return redirect('forms4_2')
-    except:
-        return redirect('forms4_2')
+            result_dict['result'] = "해당 Contract id 는 사용할 수 없습니다."
+            return JsonResponse(result_dict)
+    except Exception as e:
+        print(e)
+        result_dict['result'] = "양식을 완성해주세요."
+        return JsonResponse(result_dict)
 
 
 def download(request):

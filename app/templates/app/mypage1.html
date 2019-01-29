@@ -27,7 +27,7 @@
     .card-header{height:80px;font-size:20px;border:1px solid;}
     .card-body{border:1px solid;}
     th{font-size:10px;width:70px;}
-    .card{margin-top:30px;}
+    .card{margin-bottom:30px;}
     @media (max-width:768px){h5{font-size:14px!important;}}
     #postcodify_search_button:hover{color:white;}
 
@@ -127,7 +127,7 @@
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="container-fluid">
+            <div class="container-fluid" style="padding:5px">
                 <!-- /here -->
 
                 <div class="col-8 mx-auto">
@@ -567,28 +567,28 @@ function myqna(){
                     alert(res.result)
                 }else if (res.trade[0].OS_hash.length == 0 ){
                      $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:17%"></div>`);
+                    $('#progress').append(`<div class="progress-bar" style="width:0%"></div>`);
                 }else if (res.trade[0].LCR_hash.length == 0){
                 $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:28%"></div>`)
+                    $('#progress').append(`<div class="progress-bar" style="width:17%"></div>`)
                 }else if (res.trade[0].LC_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:39%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:28%"></div>`)
                 }else if (res.trade[0].SR_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:50%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:39%"></div>`)
                 }else if (res.trade[0].BL_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:61%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:50%"></div>`)
                 }else if (res.trade[0].CI_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:72%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:61%"></div>`)
                 }else if (res.trade[0].DO_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:83%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:72%"></div>`)
                 }else if (res.trade[0].DO_hash.length != 0){
                         $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:100%">complete</div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:83%"></div>`)
                 }else{
                          $('#progress').empty();
                         $('#progress').append(`<div class="progress-bar" style="width:0%"></div>`)
