@@ -130,8 +130,17 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                    <h4>구매확약서 관리({{total_len}}건)</h4>
-
+                    <h4>구매확약서 관리({{total_len}}건) - {{filter}}</h4>
+                    <form method="post">
+                        <select class="custom-select" id="filter" name="filter" style="width:130px">
+                            <option value="all">All</option>
+                            <option value="new">New</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <button class="btn btn-outline-dark" formaction="{% url 'ing2_1' %}"> 조회</button>
+                        {% csrf_token %}
+                    </form>
                     <div class="row">
                         {% for c in result_list %}
                         <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
@@ -432,6 +441,7 @@ $(document).ready(function(){
         });
         return false;
       });
+
 
 
 

@@ -2299,12 +2299,27 @@ def download4_2(request):
         response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
-
+@csrf_exempt
 def ing(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_LCR.objects.filter(owner=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_LCR.objects.filter(owner=member, status ="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_LCR.objects.filter(owner=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_LCR.objects.filter(owner=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_LCR.objects.filter(owner=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_LCR.objects.filter(owner=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2324,7 +2339,7 @@ def ing(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/ing.html', notice)
     except Exception as e:
@@ -2336,8 +2351,22 @@ def ing2_1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_OS.objects.filter(owner=member).order_by('-id')
-        n = len(contract)
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_OS.objects.filter(owner=member, status ="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_OS.objects.filter(owner=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_OS.objects.filter(owner=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_OS.objects.filter(owner=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_OS.objects.filter(owner=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2357,7 +2386,7 @@ def ing2_1(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/ing2_1.html', notice)
     except Exception as e:
@@ -2369,7 +2398,22 @@ def ing2_2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_SR.objects.filter(owner=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_SR.objects.filter(owner=member, status ="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_SR.objects.filter(owner=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_SR.objects.filter(owner=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_SR.objects.filter(owner=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_SR.objects.filter(owner=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2389,7 +2433,7 @@ def ing2_2(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/ing2_2.html', notice)
     except Exception as e:
@@ -2401,7 +2445,22 @@ def ing2_3(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_CI.objects.filter(owner=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_CI.objects.filter(owner=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_CI.objects.filter(owner=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_CI.objects.filter(owner=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_CI.objects.filter(owner=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_CI.objects.filter(owner=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2421,7 +2480,7 @@ def ing2_3(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/ing2_3.html', notice)
     except Exception as e:
@@ -2433,7 +2492,22 @@ def ing3(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_LC.objects.filter(owner=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_LC.objects.filter(owner=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_LC.objects.filter(owner=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_LC.objects.filter(owner=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_LC.objects.filter(owner=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_LC.objects.filter(owner=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2453,7 +2527,7 @@ def ing3(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/ing3.html', notice)
     except Exception as e:
@@ -2465,7 +2539,22 @@ def ing4_1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_BL.objects.filter(owner=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_BL.objects.filter(owner=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_BL.objects.filter(owner=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_BL.objects.filter(owner=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_BL.objects.filter(owner=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_BL.objects.filter(owner=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2485,7 +2574,7 @@ def ing4_1(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/ing4_1.html', notice)
     except Exception as e:
@@ -2497,7 +2586,22 @@ def ing4_2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_DO.objects.filter(owner=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_DO.objects.filter(owner=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_DO.objects.filter(owner=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_DO.objects.filter(owner=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_DO.objects.filter(owner=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_DO.objects.filter(owner=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2517,7 +2621,7 @@ def ing4_2(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/ing4_2.html', notice)
     except Exception as e:
@@ -2529,7 +2633,17 @@ def osreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_OS.objects.filter(share1=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_OS.objects.filter(share1=member, status="new").order_by('-id')
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_OS.objects.filter(share1=member, status="rejected").order_by('-id')
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_OS.objects.filter(share1=member, status="confirmed").order_by('-id')
+            else:
+                contract = Contract_OS.objects.filter(share1=member).order_by('-id')
+        except:
+            contract = Contract_OS.objects.filter(share1=member).order_by('-id')
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2550,7 +2664,7 @@ def osreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/osreceived.html', notice)
     except Exception as e:
@@ -2562,7 +2676,22 @@ def cireceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_CI.objects.filter(share1=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_CI.objects.filter(share1=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_CI.objects.filter(share1=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_CI.objects.filter(share1=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_CI.objects.filter(share1=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_CI.objects.filter(share1=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2583,7 +2712,7 @@ def cireceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/cireceived.html', notice)
     except Exception as e:
@@ -2595,7 +2724,22 @@ def srreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_SR.objects.filter(share4=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_SR.objects.filter(share4=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_SR.objects.filter(share4=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_SR.objects.filter(share4=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_SR.objects.filter(share4=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_SR.objects.filter(share4=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2616,7 +2760,7 @@ def srreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/srreceived.html', notice)
     except Exception as e:
@@ -2628,7 +2772,22 @@ def blreceived1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_BL.objects.filter(share1=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_BL.objects.filter(share1=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_BL.objects.filter(share1=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_BL.objects.filter(share1=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_BL.objects.filter(share1=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_BL.objects.filter(share1=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2649,7 +2808,7 @@ def blreceived1(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/blreceived1.html', notice)
     except Exception as e:
@@ -2661,7 +2820,22 @@ def lcreceived1(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_LC.objects.filter(share1=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_LC.objects.filter(share1=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_LC.objects.filter(share1=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_LC.objects.filter(share1=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_LC.objects.filter(share1=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_LC.objects.filter(share1=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2682,7 +2856,7 @@ def lcreceived1(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/lcreceived1.html', notice)
     except Exception as e:
@@ -2694,7 +2868,22 @@ def blreceived2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_BL.objects.filter(share2=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_BL.objects.filter(share2=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_BL.objects.filter(share2=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_BL.objects.filter(share2=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_BL.objects.filter(share2=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_BL.objects.filter(share2=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2715,7 +2904,7 @@ def blreceived2(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/blreceived2.html', notice)
     except Exception as e:
@@ -2727,7 +2916,22 @@ def lcreceived2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_LC.objects.filter(share2=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_LC.objects.filter(share2=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_LC.objects.filter(share2=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_LC.objects.filter(share2=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_LC.objects.filter(share2=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_LC.objects.filter(share2=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2748,7 +2952,7 @@ def lcreceived2(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/lcreceived2.html', notice)
     except Exception as e:
@@ -2760,7 +2964,22 @@ def doreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_DO.objects.filter(share1=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_DO.objects.filter(share1=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_DO.objects.filter(share1=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_DO.objects.filter(share1=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_DO.objects.filter(share1=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_DO.objects.filter(share1=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2781,7 +3000,7 @@ def doreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/doreceived.html', notice)
     except Exception as e:
@@ -2793,7 +3012,22 @@ def doreceived2(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_DO.objects.filter(share3=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_DO.objects.filter(share3=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_DO.objects.filter(share3=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_DO.objects.filter(share3=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_DO.objects.filter(share3=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_DO.objects.filter(share3=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2814,7 +3048,7 @@ def doreceived2(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/doreceived2.html', notice)
     except Exception as e:
@@ -2826,7 +3060,22 @@ def lcrreceived(request):
     try:
         user_id = request.session['user_id']
         member = Member.objects.get(user_id=user_id)
-        contract = Contract_LCR.objects.filter(share3=member).order_by('-id')
+        try:
+            if request.POST['filter'] == "new":
+                contract = Contract_LCR.objects.filter(share3=member, status="new").order_by('-id')
+                filter = "New"
+            elif request.POST['filter'] == "rejected":
+                contract = Contract_LCR.objects.filter(share3=member, status="rejected").order_by('-id')
+                filter = "Rejected"
+            elif request.POST['filter'] == "confirmed":
+                contract = Contract_LCR.objects.filter(share3=member, status="confirmed").order_by('-id')
+                filter = "Confirmed"
+            else:
+                contract = Contract_LCR.objects.filter(share3=member).order_by('-id')
+                filter = "All"
+        except:
+            contract = Contract_LCR.objects.filter(share3=member).order_by('-id')
+            filter = "All"
         total_len = len(contract)
         page = request.GET.get('page')
         paginator = Paginator(contract, 6)
@@ -2847,7 +3096,7 @@ def lcrreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter}
 
         return render(request, 'app/lcrreceived.html', notice)
     except Exception as e:

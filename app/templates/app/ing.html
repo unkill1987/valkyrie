@@ -122,11 +122,19 @@
     <section class="blog-area section_padding_100 mt-100">
         <div class="container">
             <div class="row justify-content-center">
-
                 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
 
-                    <h4>신용장 신청서 관리({{total_len}}건)</h4>
-
+                    <h4>신용장 신청서 관리({{total_len}}건) - {{filter}}</h4>
+                    <form method="post">
+                        <select class="custom-select" id="filter" name="filter" style="width:130px">
+                            <option value="all">All</option>
+                            <option value="new">New</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <button class="btn btn-outline-dark" formaction="{% url 'ing' %}"> 조회 </button>
+                        {% csrf_token %}
+                    </form>
                     <div class="row">
                         {% for c in result_list %}
                         <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
@@ -227,7 +235,7 @@
                                data-toggle="modal"
                                data-target="#otpmodal">전송하기
                             </a>
-                            <a class="btn btn-outline-dark"  id="delete"
+                            <a class="btn btn-outline-dark" id="delete"
                                data-toggle="modal"
                                data-target="#deleteModal">선택삭제
                             </a>
@@ -370,7 +378,6 @@
      }
     });
 
-
     $('#delete').click(function() {
     var check_id = $('input:checked').val();
 
@@ -424,6 +431,7 @@
         });
         return false;
       });
+
 
 
 

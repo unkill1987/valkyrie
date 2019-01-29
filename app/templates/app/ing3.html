@@ -124,8 +124,17 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                    <h4>신용장 관리({{total_len}}건)</h4>
-
+                    <h4>신용장 관리({{total_len}}건) - {{filter}}</h4>
+                    <form method="post">
+                        <select class="custom-select" id="filter" name="filter" style="width:130px">
+                            <option value="all">All</option>
+                            <option value="new">New</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <button class="btn btn-outline-dark" formaction="{% url 'ing3' %}"> 조회</button>
+                        {% csrf_token %}
+                    </form>
                     <div class="row">
                         {% for c in result_list %}
                         <div class="col-lg-4 mb-4" style="margin-bottom:30px; margin-top:30px">
@@ -427,6 +436,7 @@ $('#delete_btn').click(function() {
         });
         return false;
       });
+
 
 
 
