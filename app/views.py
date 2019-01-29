@@ -397,6 +397,7 @@ def os_reject(request):
         c = Contract_OS.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
+            c.share1 = ''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
@@ -417,6 +418,7 @@ def lcr_reject(request):
         c = Contract_LCR.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
+            c.share3 =''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
@@ -437,6 +439,7 @@ def lc_reject(request):
         c = Contract_LC.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
+            c.share2 = ''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
@@ -457,6 +460,7 @@ def sr_reject(request):
         c = Contract_SR.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
+            c.share4 = ''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
@@ -477,6 +481,7 @@ def bl_reject(request):
         c = Contract_BL.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
+            c.share2 = ''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
@@ -497,6 +502,7 @@ def ci_reject(request):
         c = Contract_CI.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
+            c.share1 = ''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
@@ -517,6 +523,7 @@ def do_reject(request):
         c = Contract_DO.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
+            c.share1 = ''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
