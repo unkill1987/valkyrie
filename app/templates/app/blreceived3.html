@@ -23,12 +23,8 @@
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
 </head>
-<style>
 
-</style>
 <body>
-
-
 <!-- Preloader -->
 <div id="preloader">
     <div class="showbox">
@@ -58,7 +54,7 @@
                 <div class="main-menu h-100">
                     <nav class="navbar h-100 navbar-expand-lg">
                         <!-- Logo Area  -->
-                        <a class="navbar-brand" href="{% url 'index2' %}"><img
+                        <a class="navbar-brand" href="{% url 'index3' %}"><img
                                 src="{% static 'app/img/core-img/logo.png'%}"
                                 alt="Logo"></a>
 
@@ -71,7 +67,7 @@
                             <!-- Menu Area Start  -->
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="{% url 'index2'%}">Home </a>
+                                    <a class="nav-link" href="{% url 'index3'%}">Home </a>
                                 </li>
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
@@ -80,32 +76,30 @@
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">문서 작성</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'forms2_1'%}">구매확약서</a>
-                                        <a class="dropdown-item" href="{% url 'forms2_2'%}">선적요청서</a>
-                                        <a class="dropdown-item" href="{% url 'forms2_3'%}">상업송장</a>
+                                        <a class="dropdown-item" href="{% url 'forms3'%}">신용장</a>
+
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{% url 'ing3'%}">신용장</a>
+
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown"
                                     style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">작성 문서 관리</a>
+                                       aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown"
                                          style="margin-top: 5px;">
-                                        <a class="dropdown-item" href="{% url 'ing2_1'%}">구매확약서</a>
-                                        <a class="dropdown-item" href="{% url 'ing2_2'%}">선적요청서</a>
-                                        <a class="dropdown-item" href="{% url 'ing2_3'%}">상업송장</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">받은 문서 관리</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{% url 'lcreceived2'%}">신용장</a>
-                                        <a class="dropdown-item" href="{% url 'blreceived2'%}">선하증권</a>
+                                        <a class="dropdown-item" href="{% url 'lcrreceived'%}">신용장 신청서</a>
+                                        <a class="dropdown-item" href="{% url 'blreceived3'%}">선하증권</a>
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'mypage2'%}">MYPAGE</a>
+                                    <a class="nav-link" href="{% url 'mypage3'%}">MYPAGE</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="" data-toggle="modal"
@@ -125,12 +119,13 @@
 
 
 <!--Valkyrie System Area Start -->
-<form method="post">
-    <section class="blog-area section_padding_100 mt-100">
+<section class="blog-area section_padding_100 mt-100">
+    <form method="post">
         <div class="container">
             <div class="row justify-content-center">
+                <!--진행중인 계약-->
                 <div class="container-fluid" style="margin:5px; margin-bottom:10px;">
-                    <h4>구매확약서 관리({{total_len}}건) - {{filter}}</h4>
+                    <h4>선하증권 확인({{total_len}}건)</h4>
                     <form method="post">
                         <select class="custom-select" id="filter" name="filter" style="width:130px">
                             <option value="all">All</option>
@@ -139,7 +134,7 @@
                             <option value="rejected">Rejected</option>
                             <option value="complete">Complete</option>
                         </select>
-                        <button class="btn btn-outline-dark" formaction="{% url 'ing2_1' %}"> 조회</button>
+                        <button class="btn btn-outline-dark" formaction="{% url 'blreceived3' %}"> 조회</button>
                         {% csrf_token %}
                     </form>
                     <div class="row">
@@ -149,34 +144,38 @@
                             <input type="checkbox" id="{{c.id}}" name="check_id" value="{{ c.id }}"><a>Check</a>
                             <div class="card h-100">
 
-                                <div class="card-header">
+                                <h5 class="card-header">
 
-                                    <div id="status" style="color:orange">{{c.status}}</div>
-                                    <hr>
-                                    <h5 id="contract_id" value="{{c.id}}">Contract ID.<br>{{c.id}}</h5>
+                                    <div id="status" style="color:orange">{{c.status3}}</div>
                                     <hr>
 
+                                    Contract ID.<br>{{c.contract_id}}
+                                    <hr>
 
                                     {{c.contractname}}
-                                </div>
+                                </h5>
                                 <div class="card-body">
-                                    <h5>Document Hash:</h5>
-                                    <h5 id="hash" value="{{c.sha256}}">{{c.sha256}}</h5>
+                                    <h5>Document Hash:<br>{{c.sha256}}</h5>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="{% url 'download2_1' %}?id={{ c.id }}" class="btn btn-outline-dark"
+                                    <a href="{% url 'download4_2' %}?id={{ c.id }}" class="btn btn-outline-dark"
                                        target="_blank">
                                         View
                                     </a>
+                                    <a id="{{ c.id }}" onclick="confirm(event)" class="btn btn-outline-dark">
+                                    Confirm
+                                </a>
+                                <a id="{{ c.id }}" onclick="reject(event)" class="btn btn-outline-dark">
+                                    Reject
+                                </a>
+                                <hr>
                                     <hr>
+                                    <h6>From (수출자ID):<br>{{c.share2}}</h6>
                                     <h6>To (수입자ID):<br>{{c.share1}}</h6>
                                 </div>
                             </div>
-
                         </div>
                         {% endfor %}
-
-
                         <hr>
                     </div>
 
@@ -207,7 +206,8 @@
                             {% for i in page_range %}
                             {% if result_list.number == i %}
                             <li class="btn btn-outline-dark active"><span style="color:white;">{{ i }}<span
-                                    class="sr-only">(current)</span></span></li>
+                                    class="sr-only">(current)</span></span>
+                            </li>
                             {% else %}
                             <li><a class="btn btn-outline-dark" href="?page={{ i }}">
                                 {{ i }}
@@ -240,39 +240,13 @@
                     </div>
 
                     <div class="row">
-
                         <div style="text-align:center; margin:auto;">
-                            <a>수입자ID:</a>
-                            <input class="form-control" name="share_user" id="share_user">
-                            <br>
-                            <a id="submit" class="btn btn-outline-dark" data-toggle="modal"
-                               data-target="#otpmodal">전송하기</a>
+
+
                             <a id="delete" class="btn btn-outline-dark" data-toggle="modal"
-                               data-target="#deleteModal">선택삭제
-                            </a>
+                               data-target="#deleteModal">선택삭제</a>
 
 
-                        </div>
-                    </div>
-                    <div class="modal fade" id="otpmodal" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Enter otp</h5>
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">Input your OTP Number:
-                                    <input name="otp" class="form-control">
-                                </div>
-                                <div class="modal-footer">
-                                    <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
-                                    <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
@@ -296,6 +270,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="otpmodal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Enter otp</h5>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">Input your OTP Number:
+                                    <input name="otp" id="otp" class="form-control">
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn" style="color:white;background:#ff8a12;" id="confirm">Confirm</a>
+                                    <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!--</form>-->
                 </div>
 
@@ -304,10 +299,13 @@
             </div>
 
         </div>
+        <!-- /.content-wrapper -->
+        {% csrf_token %}
 
-    </section>
-    {% csrf_token %}
-</form>
+    </form>
+</section>
+<!-- /
+</section>
 <!--Valkyrie System Area End -->
 
 <!-- Footer Area Start -->
@@ -338,7 +336,6 @@
 </footer>
 <!-- Footer Area End -->
 
-
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -357,10 +354,8 @@
         </div>
     </div>
 </div>
-
-
 <!-- jQuery (Necessary for All JavaScript Plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="{% static 'app/js/jquery/jquery-2.2.4.min.js'%}"></script>
 <!-- Popper js -->
 <script src="{% static 'app/js/popper.min.js'%}"></script>
 <!-- Bootstrap js -->
@@ -372,25 +367,13 @@
 
 </body>
 <script>
-$(document).ready(function(){
-  $('#preloader').hide();
-});
-
-    $('#submit').click(function() {
-        var share_user = $('#share_user').val();
-        var check_id = $('input:checked').val();
-
-        if (share_user.length == 0) {
-            alert("전송대상을 입력하세요");
-            return false;
-         }else if  (check_id == null) {
-            alert("전송할 문서를 선택하세요");
-            return false;
-         }else{
-         }
+ $(document).ready(function(){
+       $('#preloader').hide();
     });
 
-    $('#delete').click(function() {
+
+
+$('#delete').click(function() {
     var check_id = $('input:checked').val();
 
    if  (check_id == null) {
@@ -400,50 +383,74 @@ $(document).ready(function(){
      }
     });
 
-     $('#share').click(function(){
-     $('.btn').attr('disabled',true);
-     $('#preloader').show();
-     $.ajax({
-        url:'/share2_1/',
-        type:'post',
-        data:$('form').serialize(),
-        success: function(res){
-            if (res.result == 'Success'){
-                alert(res.result)
-                location = '/OS/'
-                }else{
-                alert(res.result)
-                location = '/OS/'
-                }
-            }
-        });
-        return false
-     });
-
-   $('#delete_btn').click(function() {
-    $('.btn').attr('disabled',true);
+      $('#delete_btn').click(function() {
         check_ids = ''
         sep = ''
         $('input:checked').each(function() {
           check_ids += sep + $(this).val()
           sep = ','
-        });
-        $.ajax({
-            url:'/remove2_1/',
-            type:'post',
-            dataType:'json',
-            data:{check_ids:check_ids},
-            success:function(res){
-                alert(res.result)
-                if (res.result == 'deleted'){
-                    location ='/OS/'
-                }else{
-                    location ='/OS/'
-                }
+        })
+
+        location = '/blremove3?check_id=' + check_ids
+        return false
+      })
+
+
+
+function confirm(e){
+    var c_id = e.target.id;
+    var status_id = '#status'+c_id
+    var status = $(status_id).text();
+        if (status == "confirmed"){
+            alert('already confirmed')
+        }else if (status == "rejected"){
+            alert('already rejected')
+        }else if (status == "complete"){
+            alert('locked')
+        }else{
+        $('#otpmodal').modal('toggle');
+        }
+  $('#confirm').click(function(){
+        $('.btn').attr('disabled',true);
+        $('#preloader').show();
+        var otp = $('#otp').val();
+         $.ajax({
+        url:'/bl_confirm2/',
+        type:'post',
+        dataType:'json',
+        data:{c_id:c_id, otp:otp},
+        success:function(res){
+            alert(res.result)
+            if (res.result == 'success'){
+                location = '/BL_received_B/'
+            }else{
+                $('#preloader').hide();
+
             }
-        });
-        return false;
+        }
       });
+       return false;
+  });
+}
+
+function reject(e){
+  var c_id = e.target.id;
+  $.ajax({
+    url:'/bl_reject2/',
+    type:'post',
+    dataType:'json',
+    data:{c_id:c_id},
+    success:function(res){
+        alert(res.result)
+        if (res.result == 'rejected'){
+            location = '/BL_received_B/'
+        }else{
+
+        }
+    }
+  });
+}
+
 
 
 

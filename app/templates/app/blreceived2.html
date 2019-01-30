@@ -145,7 +145,19 @@
                         <div class="card h-100">
 
                             <div class="card-header">
-                                <h5 id="status{{c.id}}" style="color:orange">{{c.status2}}</h5>
+                                <table>
+                                    <tr>
+                                        <td><h5>Exporter</h5></td>
+                                        <td>&nbsp:&nbsp</td>
+                                        <td><h5 id="status{{c.id}}" style="color:orange">{{c.status2}}</h5></td>
+                                    </tr>
+                                    <tr>
+                                        <td><h5>Bank</h5></td>
+                                        <td>&nbsp:&nbsp</td>
+                                        <td><h5 style="color:orange"> {{c.status3}}</h5></td>
+                                    </tr>
+
+                                </table>
                                 <hr>
                                 <h5>Contract ID.<br>{{c.contract_id}}
                                     <hr>
@@ -390,10 +402,13 @@ function confirm(e){
     var c_id = e.target.id;
     var status_id = '#status'+c_id
     var status = $(status_id).text();
+    console.log(status)
         if (status == "confirmed"){
             alert('already confirmed')
         }else if (status == "rejected"){
             alert('already rejected')
+        }else if (status == "complete"){
+            alert('locked')
         }else{
         $('#otpmodal').modal('toggle');
         }

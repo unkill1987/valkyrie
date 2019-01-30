@@ -432,24 +432,24 @@ def do_confirm(request):
                     process.status = 'complete'
                     process.save()
                     os_status = Contract_OS.objects.get(id=contract_id)
-                    os_status.status = 'cpmplete'
+                    os_status.status = 'complete'
                     os_status.save()
                     lcr_status = Contract_LCR.objects.get(contract_id=contract_id)
-                    lcr_status.status = 'cpmplete'
+                    lcr_status.status = 'complete'
                     lcr_status.save()
                     lc_status = Contract_LC.objects.get(contract_id=contract_id)
-                    lc_status.status = 'cpmplete'
+                    lc_status.status = 'complete'
                     lc_status.save()
                     sr_status = Contract_SR.objects.get(contract_id=contract_id)
-                    sr_status.status = 'cpmplete'
+                    sr_status.status = 'complete'
                     sr_status.save()
                     bl_status = Contract_BL.objects.get(contract_id=contract_id)
-                    bl_status.status1 = 'cpmplete'
-                    bl_status.status2 = 'cpmplete'
-                    bl_status.status3 = 'cpmplete'
+                    bl_status.status1 = 'complete'
+                    bl_status.status2 = 'complete'
+                    bl_status.status3 = 'complete'
                     bl_status.save()
                     ci_status = Contract_CI.objects.get(contract_id=contract_id)
-                    ci_status.status = 'cpmplete'
+                    ci_status.status = 'complete'
                     ci_status.save()
                     c.status = 'complete'
                     c.save()
@@ -1398,7 +1398,7 @@ def remove(request):
     result_dict ={}
     try:
         for check_id in check_ids:
-            if  Contract_LCR.objects.get(id=check_id).status != 'confirmed':
+            if  Contract_LCR.objects.get(id=check_id).share3 == '':
                 Contract_LCR.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1415,7 +1415,7 @@ def remove2_1(request):
     result_dict = {}
     try:
         for check_id in check_ids:
-            if Contract_OS.objects.get(id=check_id).status != 'confirmed':
+            if Contract_OS.objects.get(id=check_id).share1 == '':
                 Contract_OS.objects.get(id=int(check_id)).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1432,7 +1432,7 @@ def remove2_2(request):
     result_dict ={}
     try:
         for check_id in check_ids:
-            if Contract_SR.objects.get(id=check_id).status != 'confirmed':
+            if Contract_SR.objects.get(id=check_id).share4 == '':
                 Contract_SR.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1449,7 +1449,7 @@ def remove2_3(request):
     result_dict ={}
     try:
         for check_id in check_ids:
-            if Contract_CI.objects.get(id=check_id).status != 'confirmed':
+            if Contract_CI.objects.get(id=check_id).share1 == '':
                 Contract_CI.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1467,7 +1467,7 @@ def remove3(request):
     result_dict ={}
     try:
         for check_id in check_ids:
-            if  Contract_LC.objects.get(id=check_id).status != 'confirmed':
+            if  Contract_LC.objects.get(id=check_id).share1 == '' and Contract_LC.objects.get(id=check_id).share2 == '':
                 Contract_LC.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1485,7 +1485,7 @@ def remove4_1(request):
     result_dict ={}
     try:
         for check_id in check_ids:
-            if  Contract_BL.objects.get(id=check_id).status != 'confirmed':
+            if  Contract_BL.objects.get(id=check_id).share1 =='' and Contract_BL.objects.get(id=check_id).share2 =='' and Contract_BL.objects.get(id=check_id).share3 =='':
                 Contract_BL.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1503,7 +1503,7 @@ def remove4_2(request):
     result_dict ={}
     try:
         for check_id in check_ids:
-            if  Contract_DO.objects.get(id=check_id).status != 'confirmed':
+            if  Contract_DO.objects.get(id=check_id).share1 == '':
                 Contract_DO.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:

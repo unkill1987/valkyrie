@@ -391,6 +391,8 @@ function confirm(e){
             alert('already confirmed')
         }else if (status == "rejected"){
             alert('already rejected')
+        }else if (status == "complete"){
+            alert('locked')
         }else{
         $('#otpmodal').modal('toggle');
         }
