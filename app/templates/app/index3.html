@@ -31,7 +31,6 @@
     .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:18px;}
     .wrapper{ border-radius:10px; background-position:center; background-size:cover;}
-    a{font-size:20px}
     @media (max-width:768px){
     label{display:none;}
     .card-header{font-size:18px}
@@ -43,6 +42,7 @@
 
     #new-doc.show{ transform: translate3d(0px, 40px, 20px)!important;padding-right:20px;}
     .dropdown-toggle:hover{cursor:pointer;}
+
 
 
 
@@ -142,13 +142,13 @@
     </div>
 </header>
 <!-- Header Area End -->
-
+<div id="user-info"><a><i class="fas fa-globe-americas"> BANK&nbsp </i><i class="fas fa-user">{{user_id}}</i></a></div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
-                <div id="user-info"><a><i class="fas fa-user">{{user_id}}</i></a></div>
+
                 <div class="row">
                     <div class="col-lg-3 mb-4">
                         <div class="card">
@@ -162,8 +162,9 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                <a class="dropdown-item" href="{% url 'lcrreceived' %}" style="color:white">Letter
-                                            of credit request </a>
+                                                    <a class="dropdown-item" href="{% url 'lcrreceived' %}"
+                                                       style="color:white">Letter
+                                                        of credit request </a>
                                                 </td>
                                                 <td style="color:white">
                                                     {{new_lcr}}
@@ -171,11 +172,12 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'blreceived3' %}" style="color:white">Bills
-                                            of letter</a>
+                                                    <a class="dropdown-item" href="{% url 'blreceived3' %}"
+                                                       style="color:white">Bills
+                                                        of letter</a>
                                                 </td>
                                                 <td style="color:white">
-                                                     {{new_bl}}
+                                                    {{new_bl}}
                                                 </td>
                                             </tr>
                                         </table>
@@ -395,6 +397,7 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
 
 
 

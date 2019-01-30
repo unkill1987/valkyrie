@@ -680,14 +680,15 @@ def checkcontract(request):
 def email(request):
     if request.method == 'GET':
         user_role = request.session['user_role']
+        user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage1.html', {'user_id':user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {})
+            return render(request, 'app/mypage2.html', {'user_id':user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {})
+            return render(request, 'app/mypage3.html', {'user_id':user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {})
+            return render(request, 'app/mypage4.html', {'user_id':user_id})
         else:
             return redirect('index')
 
@@ -723,14 +724,15 @@ def email(request):
 def mytrade(request):
     if request.method == 'GET':
         user_role = request.session['user_role']
+        user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage1.html', {'user_id':user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {})
+            return render(request, 'app/mypage2.html', {'user_id':user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {})
+            return render(request, 'app/mypage3.html', {'user_id':user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {})
+            return render(request, 'app/mypage4.html', {'user_id':user_id})
         else:
             return redirect('index')
     else:
@@ -750,14 +752,15 @@ def mytrade(request):
 def addressmodify(request):
     if request.method == 'GET':
         user_role = request.session['user_role']
+        user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage1.html', {'user_id':user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {})
+            return render(request, 'app/mypage2.html', {'user_id':user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {})
+            return render(request, 'app/mypage3.html', {'user_id':user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {})
+            return render(request, 'app/mypage4.html', {'user_id':user_id})
         else:
             return redirect('index')
     else:
@@ -783,14 +786,15 @@ def addressmodify(request):
 def pwmodify(request):
     if request.method == 'GET':
         user_role = request.session['user_role']
+        user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage1.html', {'user_id':user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {})
+            return render(request, 'app/mypage2.html', {'user_id':user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {})
+            return render(request, 'app/mypage3.html', {'user_id':user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {})
+            return render(request, 'app/mypage4.html', {'user_id':user_id})
         else:
             return redirect('index')
     else:
@@ -817,14 +821,15 @@ def pwmodify(request):
 def makeotp(request):
     if request.method == 'GET':
         user_role = request.session['user_role']
+        user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {})
+            return render(request, 'app/mypage1.html', {'user_id':user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {})
+            return render(request, 'app/mypage2.html', {'user_id':user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {})
+            return render(request, 'app/mypage3.html', {'user_id':user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {})
+            return render(request, 'app/mypage4.html', {'user_id':user_id})
         else:
             return redirect('index')
     else:
@@ -858,7 +863,7 @@ def mypage1(request):
             a = len(mytrade)
             b = len(complete)
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage1.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b})
+            return render(request, 'app/mypage1.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b,'user_id':user_id})
         except:
             return render(request, 'app/mypage1.html', {})
     except Exception as e:
@@ -875,7 +880,7 @@ def mypage2(request):
             user_info = Member.objects.get(user_id=user_id)
             a = len(mytrade)
             b = len(complete)
-            return render(request, 'app/mypage2.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b})
+            return render(request, 'app/mypage2.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b,'user_id':user_id})
         except:
             return render(request, 'app/mypage2.html', {})
     except Exception as e:
@@ -892,7 +897,7 @@ def mypage3(request):
             user_info = Member.objects.get(user_id=user_id)
             a = len(mytrade)
             b = len(complete)
-            return render(request, 'app/mypage3.html', {'mytrade': mytrade, 'user_info': user_info,'complete':complete, 'a':a, 'b':b})
+            return render(request, 'app/mypage3.html', {'mytrade': mytrade, 'user_info': user_info,'complete':complete, 'a':a, 'b':b, 'user_id':user_id})
         except:
             return render(request, 'app/mypage3.html', {})
     except:
@@ -908,7 +913,7 @@ def mypage4(request):
             user_info = Member.objects.get(user_id=user_id)
             a = len(mytrade)
             b = len(complete)
-            return render(request, 'app/mypage4.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b})
+            return render(request, 'app/mypage4.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b, 'user_id':user_id})
         except:
             return render(request, 'app/mypage4.html', {})
     except:
@@ -920,6 +925,7 @@ def about(request):
 
 
 def search1(request):
+    user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
         url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
@@ -930,7 +936,7 @@ def search1(request):
             return redirect('index')
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -944,7 +950,7 @@ def search1(request):
             return redirect('mypage1')
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -958,13 +964,14 @@ def search1(request):
             return redirect('mypage1')
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         return redirect('index')
 
 
 def search2(request):
+    user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
         url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
@@ -975,7 +982,7 @@ def search2(request):
             return redirect('index2')
         else:
             history.reverse()
-            return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search2.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -989,7 +996,7 @@ def search2(request):
             return redirect('mypage2')
         else:
             history.reverse()
-            return render(request, 'app/search2.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search2.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -1003,13 +1010,14 @@ def search2(request):
                 return redirect('mypage2')
             else:
                 history.reverse()
-                return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
         except Exception as e:
             print(e)
             return redirect('index2')
 
 
 def search3(request):
+    user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
         url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
@@ -1020,7 +1028,7 @@ def search3(request):
             return redirect('index3')
         else:
             history.reverse()
-            return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search3.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -1034,7 +1042,7 @@ def search3(request):
             return redirect('mypage3')
         else:
             history.reverse()
-            return render(request, 'app/search3.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search3.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -1048,13 +1056,14 @@ def search3(request):
                 return redirect('mypage3')
             else:
                 history.reverse()
-                return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
         except Exception as e:
             print(e)
             return redirect('index3')
 
 
 def search4(request):
+    user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
         url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
@@ -1065,7 +1074,7 @@ def search4(request):
             return redirect('index4')
         else:
             history.reverse()
-            return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search4.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -1079,7 +1088,7 @@ def search4(request):
             return redirect('mypage4')
         else:
             history.reverse()
-            return render(request, 'app/search4.html', {'cid': cid, 'history': history, })
+            return render(request, 'app/search4.html', {'cid': cid, 'history': history, 'user_id':user_id})
     except Exception as e:
         print(e)
         pass
@@ -1093,7 +1102,7 @@ def search4(request):
                 return redirect('mypage4')
             else:
                 history.reverse()
-                return render(request, 'app/search1.html', {'cid': cid, 'history': history, })
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
         except Exception as e:
             print(e)
             return redirect('inde4')
@@ -2455,7 +2464,7 @@ def ing(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/ing.html', notice)
     except Exception as e:
@@ -2505,7 +2514,7 @@ def ing2_1(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/ing2_1.html', notice)
     except Exception as e:
@@ -2555,7 +2564,7 @@ def ing2_2(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/ing2_2.html', notice)
     except Exception as e:
@@ -2605,7 +2614,7 @@ def ing2_3(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/ing2_3.html', notice)
     except Exception as e:
@@ -2655,7 +2664,7 @@ def ing3(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/ing3.html', notice)
     except Exception as e:
@@ -2705,7 +2714,7 @@ def ing4_1(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/ing4_1.html', notice)
     except Exception as e:
@@ -2755,7 +2764,7 @@ def ing4_2(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/ing4_2.html', notice)
     except Exception as e:
@@ -2806,7 +2815,7 @@ def osreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/osreceived.html', notice)
     except Exception as e:
@@ -2857,7 +2866,7 @@ def cireceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/cireceived.html', notice)
     except Exception as e:
@@ -2908,7 +2917,7 @@ def srreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/srreceived.html', notice)
     except Exception as e:
@@ -2959,7 +2968,7 @@ def blreceived1(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/blreceived1.html', notice)
     except Exception as e:
@@ -3010,7 +3019,7 @@ def lcreceived1(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/lcreceived1.html', notice)
     except Exception as e:
@@ -3061,7 +3070,7 @@ def blreceived2(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/blreceived2.html', notice)
     except Exception as e:
@@ -3111,7 +3120,7 @@ def blreceived3(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/blreceived3.html', notice)
     except Exception as e:
@@ -3161,7 +3170,7 @@ def lcreceived2(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/lcreceived2.html', notice)
     except Exception as e:
@@ -3212,7 +3221,7 @@ def doreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
 
         return render(request, 'app/doreceived.html', notice)
     except Exception as e:
@@ -3263,7 +3272,7 @@ def lcrreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter}
+                  'max_index': max_index - 2, 'filter':filter,'user_id':user_id}
 
         return render(request, 'app/lcrreceived.html', notice)
     except Exception as e:
@@ -3464,7 +3473,7 @@ def index4(request):
 
         return render(request, 'app/index4.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
-                       'ing': ing, 'new_sr': new_sr, 'all_doc':all_doc})
+                       'ing': ing, 'new_sr': new_sr,})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -3500,7 +3509,7 @@ def charts(request):
     buyprice4 = json_data[0]['cashBuyingPrice']
 
     try:
-
+        user_id = request.session['user_id']
         user_role = request.session['user_role']
 
         templates = ''
@@ -3520,7 +3529,7 @@ def charts(request):
                        'time1': time1,
                        'basePrice2': basePrice2, 'sellprice2': sellprice2, 'buyprice2': buyprice2,
                        'basePrice3': basePrice3, 'sellprice3': sellprice3, 'buyprice3': buyprice3,
-                       'basePrice4': basePrice4, 'sellprice4': sellprice4, 'buyprice4': buyprice4})
+                       'basePrice4': basePrice4, 'sellprice4': sellprice4, 'buyprice4': buyprice4, 'user_id':user_id})
 
 
     except Exception as e:
@@ -3531,17 +3540,18 @@ def charts(request):
 def forms(request):
     user_id = request.session['user_id']
     contract = Contract_OS.objects.filter(share1=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms.html', {'contract': contract})
+    return render(request, 'app/forms.html', {'contract': contract, 'user_id':user_id})
 
 
 def forms2_1(request):
-    return render(request, 'app/forms2_1.html', {})
+    user_id = request.session['user_id']
+    return render(request, 'app/forms2_1.html', {'user_id':user_id})
 
 
 def forms2_2(request):
     user_id = request.session['user_id']
     contract = Contract_LC.objects.filter(share2=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms2_2.html', {'contract': contract})
+    return render(request, 'app/forms2_2.html', {'contract': contract, 'user_id':user_id})
 
 
 def forms2_3(request):
@@ -3553,19 +3563,19 @@ def forms2_3(request):
 def forms3(request):
     user_id = request.session['user_id']
     contract = Contract_LCR.objects.filter(share3=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms3.html', {'contract': contract})
+    return render(request, 'app/forms3.html', {'contract': contract, 'user_id':user_id})
 
 
 def forms4_1(request):
     user_id = request.session['user_id']
     contract = Contract_SR.objects.filter(share4=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms4_1.html', {'contract': contract})
+    return render(request, 'app/forms4_1.html', {'contract': contract, 'user_id':user_id})
 
 
 def forms4_2(request):
     user_id = request.session['user_id']
     contract = Contract_BL.objects.filter(owner=user_id, status3='confirmed').order_by('-id')
-    return render(request, 'app/forms4_2.html', {'contract': contract})
+    return render(request, 'app/forms4_2.html', {'contract': contract, 'user_id':user_id})
 
 
 def login(request):

@@ -96,6 +96,16 @@ a:focus {
     -ms-flex-align: center;
     align-items: center;
 }
+@media (max-width:768px){
+    #user-info{
+    right:10px!important;
+    top:70px!important;}
+}
+#user-info{
+position:absolute;
+right:80px;
+top:90px
+}
 
 .questions-area ul li {
     display: none;
@@ -396,7 +406,7 @@ img {
 }
 
 .section_padding_100 {
-
+padding-top:30px;
 }
 
 .section_padding_50 {

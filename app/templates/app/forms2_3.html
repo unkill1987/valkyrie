@@ -8,7 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Title  -->
     <title>Valkyrie System</title>
 
@@ -119,7 +120,7 @@
 </header>
 <!-- Header Area End -->
 
-
+<div id="user-info"><a><i class="fas fa-globe-europe"> EXPORTER&nbsp </i><i class="fas fa-user">{{user_id}}</i></a></div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -140,37 +141,38 @@
 
 
                             <div class="panel-body">
-                                <form role="form"  method="post">
+                                <form role="form" method="post">
 
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <h4 class="panel-heading">
                                                 <label>Contract ID.</label>
-                                                  <select class="custom-select" name="contract_id">
+                                                <select class="custom-select" name="contract_id">
                                                     {% for c in contract %}
                                                     <option value="{{c.contract_id}}">{{c.contract_id}}</option>
                                                     {% endfor %}
                                                 </select>
                                                 <hr>
-                                                COMMECIAL INVOICE NAME</h4>
+                                                COMMECIAL INVOICE NAME
+                                            </h4>
 
-                                            <input class="form-control" name="contractname" >
+                                            <input class="form-control" name="contractname">
                                             <hr>
                                             <div class="form-group">
                                                 <label>1.Shipper/Seller:</label>
-                                                <input class="form-control" name="a" >
+                                                <input class="form-control" name="a">
                                             </div>
                                             <div class="form-group">
                                                 <label>2.Consignee:</label>
-                                                <input class="form-control" name="b" >
+                                                <input class="form-control" name="b">
                                             </div>
                                             <div class="form-group">
                                                 <label>3.Departure date:</label>
-                                                <input class="form-control" type="date" name="c" >
+                                                <input class="form-control" type="date" name="c">
                                             </div>
                                             <div class="form-group">
                                                 <label>4.Vessel/Flight:</label>
-                                                <input class="form-control" name="d" >
+                                                <input class="form-control" name="d">
                                             </div>
                                             <div class="form-group">
                                                 <label>5.From:</label>
@@ -182,11 +184,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>7.Invoice No.and Date:</label>
-                                                <input class="form-control" type="date" name="g" >
+                                                <input class="form-control" type="date" name="g">
                                             </div>
                                             <div class="form-group">
                                                 <label>8.L/C No.and Date:</label>
-                                                <input class="form-control" type="date" name="h" >
+                                                <input class="form-control" type="date" name="h">
                                             </div>
 
 
@@ -195,39 +197,39 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>9.Buyer(if other than consignee):</label>
-                                                <input class="form-control" name="i" >
+                                                <input class="form-control" name="i">
                                             </div>
                                             <div class="form-group">
                                                 <label>10.Other reference:</label>
-                                                <input class="form-control" name="j" >
+                                                <input class="form-control" name="j">
                                             </div>
                                             <div class="form-group">
                                                 <label>11.Terms of delivery and payment:</label>
-                                                <input class="form-control" name="k" >
+                                                <input class="form-control" name="k">
                                             </div>
                                             <div class="form-group">
                                                 <label>12.Shipping Mark:</label>
-                                                <input class="form-control" name="l" >
+                                                <input class="form-control" name="l">
                                             </div>
                                             <div class="form-group">
                                                 <label>13.No.and kind of packages:</label>
-                                                <input class="form-control" name="m" >
+                                                <input class="form-control" name="m">
                                             </div>
                                             <div class="form-group">
                                                 <label>14.Goods description:</label>
-                                                <input class="form-control" name="n" >
+                                                <input class="form-control" name="n">
                                             </div>
                                             <div class="form-group">
                                                 <label>15.Quantity:</label>
-                                                <input class="form-control" name="o" >
+                                                <input class="form-control" name="o">
                                             </div>
                                             <div class="form-group">
                                                 <label>16.Unit price:</label>
-                                                <input class="form-control" name="p" >
+                                                <input class="form-control" name="p">
                                             </div>
                                             <div class="form-group">
                                                 <label>17. Amount:</label>
-                                                <input class="form-control" name="q" >
+                                                <input class="form-control" name="q">
                                             </div>
                                         </div>
                                     </div>
@@ -339,6 +341,7 @@ $('#submit').click(function(){
     });
 return false;
 });
+
 
 </script>
 

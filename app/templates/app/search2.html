@@ -8,7 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Title  -->
     <title>Valkyrie System</title>
 
@@ -32,6 +33,7 @@
     #drop_zone, #doc_check{color:#ff8a12;border-color:#ff8a12;}
     #drop_zone:hover, #doc_check:hover{background-color:#ff8a12; border-color:#ff8a12;color:white;}
     #list{color:white;}
+
 
 
 </style>
@@ -128,7 +130,7 @@
 </header>
 <!-- Header Area End -->
 
-
+<div id="user-info"><i class="fas fa-globe-europe"> EXPORTER&nbsp </i><a><i class="fas fa-user">{{user_id}}</i></a></div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -257,7 +259,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -323,6 +325,7 @@ $('#doc_check').click(function(){
 $('#list').change(function(){
     $('#list').css("color", "white");
 });
+
 
 </script>
 

@@ -8,7 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Title  -->
     <title>Valkyrie System|Valkyrie System</title>
 
@@ -30,7 +31,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -71,10 +73,12 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
                                 </li>
-                                <li class="nav-item dropdown" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item dropdown"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">문서 작성</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="margin-top: 5px;">
                                         <a class="dropdown-item" href="{% url 'forms3'%}">신용장</a>
 
                                     </div>
@@ -113,7 +117,7 @@
     </div>
 </header>
 <!-- Header Area End -->
-
+<div id="user-info"><a><i class="fas fa-globe-americas"> BANK&nbsp </i><i class="fas fa-user">{{user_id}}</i></a></div>
 
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
@@ -150,83 +154,83 @@
                                                 Letter of Credit TITLE
                                             </h4>
 
-                                            <input class="form-control" name="letteroflc" ><br>
+                                            <input class="form-control" name="letteroflc"><br>
 
 
                                             <p style="font-size:25px"> L/C Form </p>
                                             <div class="form-group">
                                                 <label>1.Transfer:</label>
-                                                <input class="form-control" name="a" >
+                                                <input class="form-control" name="a">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>2.Credit Number:</label>
-                                                <input class="form-control" name="b" >
+                                                <input class="form-control" name="b">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>3.Advising Bank:</label>
-                                                <input class="form-control" name="c" >
+                                                <input class="form-control" name="c">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>4.Expiry Date:</label>
-                                                <input class="form-control" name="d" >
+                                                <input class="form-control" name="d">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>5.Applicant:</label>
-                                                <input class="form-control" name="e" >
+                                                <input class="form-control" name="e">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>6.Beneficiary:</label>
-                                                <input class="form-control" name="f" >
+                                                <input class="form-control" name="f">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>7.Amount:</label>
-                                                <input class="form-control" name="g" >
+                                                <input class="form-control" name="g">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>8.Partial Shipment:</label>
-                                                <input class="form-control" name="h" >
+                                                <input class="form-control" name="h">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>9.Latest Shipment Date:</label>
-                                                <input class="form-control" type="date" name="i" >
+                                                <input class="form-control" type="date" name="i">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>10.Additional Conditions:</label>
-                                                <input class="form-control" name="j" >
+                                                <input class="form-control" name="j">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>11.All banking charges:</label>
-                                                <input class="form-control" name="k" >
+                                                <input class="form-control" name="k">
                                             </div>
 
                                             <div class="form-group"><p class="help-block"></p>
                                                 <label>12.Documents delivered by:</label>
-                                                <input class="form-control" name="l" >
+                                                <input class="form-control" name="l">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>13.Confirmation:</label>
-                                                <input class="form-control" name="m" >
+                                                <input class="form-control" name="m">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>14.Reissue:</label>
-                                                <input class="form-control" name="n" >
+                                                <input class="form-control" name="n">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>15.Import L/C Transfer:</label>
-                                                <input class="form-control" name="o" >
+                                                <input class="form-control" name="o">
                                             </div>
 
                                         </div>
@@ -236,44 +240,44 @@
 
                                             <div class="form-group">
                                                 <label>16.Draft at:</label>
-                                                <input class="form-control" name="p" >
+                                                <input class="form-control" name="p">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>17.Usance:</label>
-                                                <input class="form-control" name="q" >
+                                                <input class="form-control" name="q">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>18.Settling Bank:</label>
-                                                <input class="form-control" name="r" >
+                                                <input class="form-control" name="r">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>19.Credit:</label>
-                                                <input class="form-control" name="s" >
+                                                <input class="form-control" name="s">
                                             </div>
 
                                             <p style="font-size:25px"> Transshippment </p>
                                             <div class="form-group">
                                                 <label>20.Transshipment mode:</label>
-                                                <input class="form-control" name="t" >
+                                                <input class="form-control" name="t">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>21.Authorization:</label>
-                                                <input class="form-control" name="u" >
+                                                <input class="form-control" name="u">
                                             </div>
 
                                             <p style="font-size:25px"> Loading(Shipment from) </p>
                                             <div class="form-group">
                                                 <label>22.Port of Loading/Airport of Departure:</label>
-                                                <input class="form-control" name="v" >
+                                                <input class="form-control" name="v">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>23.Place of Taking in Charge:</label>
-                                                <input class="form-control" name="w" >
+                                                <input class="form-control" name="w">
                                             </div>
                                         </div>
 
@@ -281,53 +285,53 @@
                                             <p style="font-size:25px">Documents Required </p>
                                             <div class="form-group">
                                                 <label>24.SIgned/Original/Commercial Invoice :</label>
-                                                <input class="form-control" name="x" >
+                                                <input class="form-control" name="x">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>25.FULL SET of B/L:</label>
-                                                <input class="form-control" name="y" >
+                                                <input class="form-control" name="y">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>26.Certificate of Origin in :</label>
-                                                <input class="form-control" name="z" >
+                                                <input class="form-control" name="z">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>27.Certificate of Analysis in :</label>
-                                                <input class="form-control" name="aa" >
+                                                <input class="form-control" name="aa">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>28.Other Documents Required:</label>
-                                                <input class="form-control" name="bb" >
+                                                <input class="form-control" name="bb">
                                             </div>
 
                                             <p style="font-size:25px">Description of Goods/Services </p>
                                             <div class="form-group">
                                                 <label>29. Description of Goods/Services:</label>
-                                                <input class="form-control" name="cc" >
+                                                <input class="form-control" name="cc">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>30.Price Terms:</label>
-                                                <input class="form-control" name="dd" >
+                                                <input class="form-control" name="dd">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>31.Country of Origin:</label>
-                                                <input class="form-control" name="ee" >
+                                                <input class="form-control" name="ee">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>32.HS CODE:</label>
-                                                <input class="form-control" name="ff" >
+                                                <input class="form-control" name="ff">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>33.Commodity Description:</label>
-                                                <input class="form-control" name="gg" >
+                                                <input class="form-control" name="gg">
                                             </div>
 
                                         </div>
@@ -375,7 +379,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -434,6 +438,7 @@ $('#submit').click(function(){
     });
 return false;
 });
+
 </script>
 
 

@@ -8,7 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Title  -->
     <title>Valkyrie System</title>
 
@@ -30,7 +31,8 @@
     <div class="showbox">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                        stroke-miterlimit="10"></circle>
             </svg>
         </div>
     </div>
@@ -71,10 +73,12 @@
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
                                 </li>
-                                <li class="nav-item dropdown" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item dropdown"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">문서 작성</a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-top: 5px;">
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="margin-top: 5px;">
                                         <a class="dropdown-item" href="{% url 'forms4_1'%}">선하증권</a>
                                         <a class="dropdown-item" href="{% url 'forms4_2'%}">인도지시서</a>
                                     </div>
@@ -114,7 +118,7 @@
 </header>
 <!-- Header Area End -->
 
-
+<div id="user-info"><a><i class="fas fa-globe-africa"> SHIPPER&nbsp </i><i class="fas fa-user">{{user_id}}</i></a></div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -149,25 +153,25 @@
                                                 BILLS OF LADING TITLE
                                             </h4>
 
-                                            <input class="form-control" name="contractname" >
+                                            <input class="form-control" name="contractname">
 
                                             <div class="form-group">
                                                 <label>1.Bank:</label>
-                                                <input class="form-control" name="a" >
+                                                <input class="form-control" name="a">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>2.Nodify party:</label>
-                                                <input class="form-control" name="b" >
+                                                <input class="form-control" name="b">
                                             </div>
                                             <div class="form-group">
                                                 <label>3.Lessel:</label>
-                                                <input class="form-control" name="c" >
+                                                <input class="form-control" name="c">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>4.Voyage No.:</label>
-                                                <input class="form-control" name="d" >
+                                                <input class="form-control" name="d">
                                                 <p class="help-block"></p>
                                             </div>
 
@@ -178,32 +182,32 @@
                                             <!--<p style="font-size:25px"> Bank Form </p>-->
                                             <div class="form-group">
                                                 <label>5.Part of loading:</label>
-                                                <input class="form-control" name="e" >
+                                                <input class="form-control" name="e">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>6.Place of receipt:</label>
-                                                <input class="form-control" name="f" >
+                                                <input class="form-control" name="f">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>7.Place of delivery:</label>
-                                                <input class="form-control" name="g" >
+                                                <input class="form-control" name="g">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>8.Description of goods:</label>
-                                                <input class="form-control" name="h" >
+                                                <input class="form-control" name="h">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>9.Weight:</label>
-                                                <input class="form-control" name="i" >
+                                                <input class="form-control" name="i">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
                                                 <label>10.Measurement:</label>
-                                                <input class="form-control" name="j" >
+                                                <input class="form-control" name="j">
                                                 <p class="help-block"></p>
                                             </div>
                                         </div>
@@ -257,7 +261,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -316,6 +320,7 @@ $('#submit').click(function(){
     });
 return false;
 });
+
 </script>
 
 

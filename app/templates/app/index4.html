@@ -31,7 +31,6 @@
     .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:18px;}
     .wrapper{ border-radius:10px; background-position:center; background-size:cover;}
-    a{font-size:20px}
     @media (max-width:768px){
     label{display:none;}
     .card-header{font-size:18px}
@@ -40,6 +39,7 @@
     border-bottom-left-radius:3px!important;}}
 
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
+
 
 
 
@@ -139,13 +139,13 @@
 </header>
 <!-- Header Area End -->
 
-
+<div id="user-info"><i class="fas fa-globe-africa"> SHIPPER&nbsp </i><i class="fas fa-user">{{user_id}}</i></a></div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
-                <div id="user-info"><a><i class="fas fa-user">{{user_id}}</i></a></div>
+
                 <div class="row">
                     <div class="col-lg-3 mb-4">
                         <div class="card">
@@ -363,6 +363,7 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
 
 
 
