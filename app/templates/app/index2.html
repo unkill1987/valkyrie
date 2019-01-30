@@ -11,6 +11,8 @@
 
     <!-- Title  -->
     <title>Valkyrie System</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <!-- Favicon  -->
     <link rel="icon" href="{% static 'app/img/core-img/favicon.ico'%}">
@@ -37,6 +39,11 @@
     #cid{border-top-left-radius:3px!important;
     border-bottom-left-radius:3px!important;}}
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
+
+    #new-doc.show{ transform: translate3d(30px, 40px, 20px)!important;padding-right:20px;}
+    .dropdown-toggle:hover{cursor:pointer;}
+
+
 
 
 
@@ -145,19 +152,45 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container-fluid">
-               <div class="row">
+                <div id="user-info"><a><i class="fas fa-user">{{user_id}}</i></a></div>
+                <div class="row">
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">새로운 문서</div>
                             <div class="card-body" style="text-align:right">
-                                <a href="{% url 'lcreceived2' %}" style="color:white">{{new_lc}}</a> /
-                                <a href="{% url 'blreceived2' %}" style="color:white">{{new_bl}}</a> 건
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">{{all_doc}} 건</a>
+                                    <div id="new-doc" class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="background:black;">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <a class="dropdown-item" href="{% url 'lcreceived2' %}"
+                                                       style="color:white">Letter of credit</a>
+                                                </td>
+                                                <td style="color:white">
+                                                    {{new_lc}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a class="dropdown-item" href="{% url 'blreceived2' %}"
+                                                       style="color:white">Bills of letter</a>
+                                                </td>
+                                                <td style="color:white">
+                                                    {{new_bl}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
                     </div>
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">진행중인 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage2/?mytrade" style="color:white">{{ing}} 건</a>
@@ -165,7 +198,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">완료된 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage2/?mytrade" style="color:white">{{complete}} 건</a>
@@ -173,12 +206,12 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">계약 검색</div>
                             <div class="card-body">
                                 <form method="post" action="{% url 'search2' %}">
                                     <div class="input-group">
-                                        <input id="cid" name ="cid"  class="form-control" placeholder="Contract ID">
+                                        <input id="cid" name="cid" class="form-control" placeholder="Contract ID">
                                         <div class="input-group-append">
                                             <button class="btn" type="submit"><i class="fa fa-check"></i></button>
                                         </div>
@@ -367,6 +400,10 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
+
+
+
 
 
 

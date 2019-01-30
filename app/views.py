@@ -3309,6 +3309,7 @@ def index(request):
         new_do = len(Contract_DO.objects.filter(share1=user_id, status='new'))
         ing = len(Process.objects.filter(user1=user_id, status='ing'))
         complete = len(Process.objects.filter(user1=user_id, status='complete'))
+        all_doc = new_do + new_bl + new_ci + new_lc + new_os
         for n in news:
             title = n['title'].replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('<b>',
                                                                                                         '').replace(
@@ -3325,7 +3326,7 @@ def index(request):
         return render(request, 'app/index.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
                        'ing': ing, 'new_os': new_os, 'new_lc': new_lc, 'new_bl': new_bl, 'new_ci': new_ci,
-                       'new_do': new_do})
+                       'new_do': new_do, 'all_doc':all_doc})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -3356,6 +3357,7 @@ def index2(request):
         new_bl = len(Contract_BL.objects.filter(share2=user_id, status2='new'))
         ing = len(Process.objects.filter(user2=user_id, status='ing'))
         complete = len(Process.objects.filter(user2=user_id, status='complete'))
+        all_doc = new_lc + new_bl
         for n in news:
             title = n['title'].replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('<b>',
                                                                                                         '').replace(
@@ -3369,7 +3371,7 @@ def index2(request):
         notice = Notice.objects.all().order_by('-id')
 
         data = {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete, 'ing': ing,
-                'new_lc': new_lc, 'new_bl': new_bl}
+                'new_lc': new_lc, 'new_bl': new_bl, 'all_doc':all_doc}
         return render(request, 'app/index2.html', data)
     except Exception as e:
         print(e)
@@ -3401,6 +3403,7 @@ def index3(request):
         new_bl = len(Contract_BL.objects.filter(share3=user_id, status3='new'))
         ing = len(Process.objects.filter(user3=user_id, status='ing'))
         complete = len(Process.objects.filter(user3=user_id, status='complete'))
+        all_doc = new_lcr + new_bl
         for n in news:
             title = n['title'].replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('<b>',
                                                                                                         '').replace(
@@ -3416,7 +3419,7 @@ def index3(request):
 
         return render(request, 'app/index3.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
-                       'ing': ing, 'new_lcr': new_lcr, 'new_bl': new_bl})
+                       'ing': ing, 'new_lcr': new_lcr, 'new_bl': new_bl, 'all_doc':all_doc})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -3461,7 +3464,7 @@ def index4(request):
 
         return render(request, 'app/index4.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
-                       'ing': ing, 'new_sr': new_sr})
+                       'ing': ing, 'new_sr': new_sr, 'all_doc':all_doc})
     except Exception as e:
         print(e)
         return redirect('login')

@@ -11,7 +11,8 @@
 
     <!-- Title  -->
     <title>Valkyrie System</title>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Favicon  -->
     <link rel="icon" href="{% static 'app/img/core-img/favicon.ico'%}">
 
@@ -37,10 +38,8 @@
     #cid{border-top-left-radius:3px!important;
     border-bottom-left-radius:3px!important;}}
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
-
-
-
-
+    #new-doc.show{ transform: translate3d(0px, 40px, 20px)!important;padding-right:20px;}
+    .dropdown-toggle:hover{cursor:pointer;}
 
 </style>
 <body>
@@ -86,10 +85,11 @@
                         <div class="collapse navbar-collapse" id="studioMenu">
                             <!-- Menu Area Start  -->
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item active" style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
+                                <li class="nav-item active"
+                                    style="height:80px;border-top:5px solid #ffffff00;border-bottom:5px solid #ff8a12">
                                     <a class="nav-link" href="{% url 'index' %}">Home </a>
                                 </li>
-                                <li class="nav-item active" >
+                                <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'charts'%}">환율정보</a>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -141,22 +141,76 @@
             <!-- Breadcrumbs-->
 
             <div class="container-fluid">
+
+                <div id="user-info"><a><i class="fas fa-user">{{user_id}}</i></a></div>
+
                 <div class="row">
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">새로운 문서</div>
                             <div class="card-body" style="text-align:right">
-                                <a href="{% url 'osreceived' %}" style="color:white">{{new_os}}</a> /
-                                <a href="{% url 'lcreceived1' %}" style="color:white">{{new_lc}}</a> /
-                                <a href="{% url 'blreceived1' %}" style="color:white">{{new_bl}}</a> /
-                                <a href="{% url 'cireceived' %}" style="color:white">{{new_ci}}</a> /
-                                <a href="{% url 'doreceived' %}" style="color:white">{{new_do}}</a> 건
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">{{all_doc}} 건</a>
+                                    <div id="new-doc" class="dropdown-menu" aria-labelledby="navbarDropdown"
+                                         style="background:black;">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <a class="dropdown-item" href="{% url 'osreceived' %}"
+                                                       style="color:white">Offer Sheet</a>
+                                                </td>
+                                                <td style="color:white">
+                                                    {{new_os}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a class="dropdown-item" href="{% url 'lcreceived1' %}"
+                                                       style="color:white">Letter Of Credit</a>
+                                                </td>
+                                                <td style="color:white">
+                                                    {{new_lc}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a class="dropdown-item" href="{% url 'blreceived1' %}"
+                                                       style="color:white">Bills of letter</a>
+                                                </td>
+                                                <td style="color:white">
+                                                    {{new_bl}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a class="dropdown-item" href="{% url 'cireceived' %}"
+                                                       style="color:white">commercial invoice</a>
+                                                </td>
+                                                <td style="color:white">
+                                                    {{new_ci}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a class="dropdown-item" href="{% url 'doreceived' %}"
+                                                       style="color:white">delivery order</a>
+                                                </td>
+                                                <td style="color:white">
+                                                    {{new_do}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+
                             </div>
 
                         </div>
                     </div>
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">진행중인 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage1/?mytrade" style="color:white">{{ing}} 건</a>
@@ -164,7 +218,7 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">완료된 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage1/?mytrade" style="color:white">{{complete}} 건</a>
@@ -172,12 +226,12 @@
                         </div>
                     </div>
                     <div class="col-lg-3 mb-4">
-                        <div class="card" >
+                        <div class="card">
                             <div class="card-header">계약 검색</div>
                             <div class="card-body">
                                 <form method="post" action="{% url 'search1' %}">
                                     <div class="input-group">
-                                        <input id="cid" name ="cid" class="form-control" placeholder="Contract ID">
+                                        <input id="cid" name="cid" class="form-control" placeholder="Contract ID">
                                         <div class="input-group-append">
                                             <button class="btn" type="submit"><i class="fa fa-check"></i></button>
                                         </div>
@@ -189,26 +243,26 @@
                     </div>
                 </div>
                 <!--<div class="wrapper" style="background-image: url(../../static/app/img/block_black.jpg);">-->
-                    <!--<div class="card">-->
-                        <!--<form method="post" action="{% url 'search1'%}">-->
-                            <!--<div class="card-header">블록체인 검색</div>-->
-                            <!--<div class="card-body">-->
-                                <!--<div class="input-group">-->
-                                    <!--<label style="background:white; border-top-right-radius:0px;border-bottom-right-radius:0px;"-->
-                                           <!--class="input-group-text" for="cid">Contract ID</label>-->
-                                    <!--<input class="form-control" id="cid" name="cid" type="text" required="required">-->
-                                    <!--<div class="input-group-append">-->
-                                        <!--<button type="submit" class="btn btn-outline-dark"-->
-                                                <!--style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">-->
-                                            <!--search-->
-                                        <!--</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                <!--<div class="card">-->
+                <!--<form method="post" action="{% url 'search1'%}">-->
+                <!--<div class="card-header">블록체인 검색</div>-->
+                <!--<div class="card-body">-->
+                <!--<div class="input-group">-->
+                <!--<label style="background:white; border-top-right-radius:0px;border-bottom-right-radius:0px;"-->
+                <!--class="input-group-text" for="cid">Contract ID</label>-->
+                <!--<input class="form-control" id="cid" name="cid" type="text" required="required">-->
+                <!--<div class="input-group-append">-->
+                <!--<button type="submit" class="btn btn-outline-dark"-->
+                <!--style="background-color:#ff8a12;color:white;border: #ff8a12 2px solid;border-top-left-radius:0px;border-bottom-left-radius:0px;">-->
+                <!--search-->
+                <!--</button>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
 
-                            <!--{% csrf_token %}-->
-                        <!--</form>-->
-                    <!--</div>-->
+                <!--{% csrf_token %}-->
+                <!--</form>-->
+                <!--</div>-->
                 <!--</div>-->
                 &nbsp
                 <div class="wrapper">
@@ -255,7 +309,7 @@
                     </div>
                 </div>
                 &nbsp
-                <div class="wrapper" >
+                <div class="wrapper">
                     <div class="card">
                         <div class="card-header">
                             News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
@@ -302,7 +356,7 @@
                         <a>Operation Valkyrie</a>
                     </div>
                     <!-- Single Footer Content -->
-                    <div style="height:50px;background:#ff7b07;padding:10px"  class="single-footer-content">
+                    <div style="height:50px;background:#ff7b07;padding:10px" class="single-footer-content">
                         <i class="fa fa-file-text-o"></i>
                         <a href="{% url 'user_manual' %}" target="_blank">User Manual</a>
                     </div>
@@ -375,6 +429,8 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
+
 
 
 
