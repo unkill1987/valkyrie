@@ -403,9 +403,9 @@
                 location = '/DO/'
                 }
             }
-        })
+        });
         return false
-     })
+     });
 
 $('#delete_btn').click(function() {
     $('.btn').attr('disabled',true);
@@ -415,22 +415,22 @@ $('#delete_btn').click(function() {
           check_ids += sep + $(this).val()
           sep = ','
         });
-        $.ajax({
-            url:'/remove4_2/',
-            type:'post',
-            dataType:'json',
-            data:{check_ids:check_ids},
-            success:function(res){
-                alert(res.result)
-                if (res.result == 'deleted'){
-                    location ='/DO/'
-                }elser{
-                    location ='/DO/'
-                }
+    $.ajax({
+        url:'/remove4_2/',
+        type:'post',
+        dataType:'json',
+        data:{check_ids:check_ids},
+        success:function(res){
+            alert(res.result)
+            if (res.result == 'deleted'){
+                location ='/DO/'
+            }else{
+                location ='/DO/'
             }
-        });
-        return false;
-      });
+        }
+    });
+    return false;
+  });
 
 
 
