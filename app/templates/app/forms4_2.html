@@ -150,7 +150,7 @@
                                                 DELIVERY ORDER TITLE
                                             </h4>
 
-                                            <input class="form-control" name="contractname">
+                                            <input class="form-control" name="contractname" id = "contractname">
                                             <div class="form-group">
                                                 <label>1.Agent name:</label>
                                                 <input class="form-control" name="a" id="a">
@@ -287,21 +287,58 @@
 </body>
 <script>
 $('#submit').click(function(){
+    var contractname = $('#contractname').val();
+    var a = $('#a').val();
+    var b = $('#b').val();
+    var c = $('#c').val();
+    var d = $('#d').val();
+    var e = $('#e').val();
+    var f = $('#f').val();
+    var g = $('#g').val();
+    var h = $('#h').val();
+    var i = $('#i').val();
+    var j = $('#j').val();
 
-    $.ajax({
-        url:'/submit4_2/',
-        type:'post',
-        data:$('form').serialize(),
-        success:function(res){
-            alert(res.result)
-            if (res.result == "작성완료") {
-                location = '/DO/'
-            }else{
-                return false;
+    if (contractname.length == 0){
+        alert("DELIVERY ORDER TITLE를 입력하세요");
+        return false;
+    }else if (a.length == 0){
+        alert("1.Agent name를 입력하세요");
+        return false;
+    }else if(b.length == 0){
+        alert("2.Restricted delivery(Yes or no)를 입력하세요");
+        return false;
+    }else if(c.length == 0){
+        alert("3.Adult signature restriced delivery(Yes or no)를 입력하세요");
+        return false;
+    }else if(d.length == 0){
+        alert("4.Agent Signture를 입력하세요");
+        return false;
+    }else if(e.length == 0){
+        alert("5.ID verified (yes or no)를 입력하세요");
+        return false;
+    }else if(f.length == 0){
+        alert("6.USPS initals를 입력하세요");
+        return false;
+    }else if(g.length == 0){
+        alert("7.Date를 입력하세요");
+        return false;
+    }else{
+        $.ajax({
+            url:'/submit4_2/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                alert(res.result)
+                if (res.result == "작성완료") {
+                    location = '/DO/'
+                }else{
+                    return false;
+                }
             }
-        }
-    });
-return false;
+        });
+    return false;
+    }
 });
 
 </script>

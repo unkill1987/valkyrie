@@ -212,7 +212,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>￦&nbsp</td>
+                                                <td style="height:40px">￦&nbsp</td>
                                                 <td><input style="border: none; background: #ffffff00;" id="result1">
                                                 </td>
                                             </tr>
@@ -261,7 +261,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>￦&nbsp</td>
+                                                <td style="height:40px">￦&nbsp</td>
                                                 <td><input style="border: none; background: #ffffff00;" id="result2">
                                                 </td>
                                             </tr>
@@ -312,7 +312,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>￦&nbsp</td>
+                                                <td style="height:40px">￦&nbsp</td>
                                                 <td><input style="border: none; background: #ffffff00;" id="result3">
                                                 </td>
                                             </tr>
@@ -362,7 +362,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>￦&nbsp</td>
+                                                <td style="height:40px">￦&nbsp</td>
                                                 <td><input style="border: none; background: #ffffff00;" id="result4">
                                                 </td>
                                             </tr>
@@ -381,20 +381,20 @@
             function mul1() {
             var usnum = document.getElementById('usnum');
             var result1 = eval(usnum.value)*{{ basePrice1 }}
-            document.getElementById('result1').value = result1;}
+            document.getElementById('result1').value = result1.toFixed(2);}
             function mul2() {
             var jpnum = document.getElementById('jpnum');
             var result2 = eval(jpnum.value)*{{ basePrice2 }}
-            document.getElementById('result2').value = result2;}
+            document.getElementById('result2').value = result2.toFixed(2);}
             function mul3() {
             var chnum = document.getElementById('chnum');
             var result3 = eval(chnum.value)*{{ basePrice3 }}
-            document.getElementById('result3').value = result3;}
+            document.getElementById('result3').value = result3.toFixed(2);}
 
             function mul4() {
             var eunum = document.getElementById('eunum');
             var result4 = eval(eunum.value)*{{ basePrice4 }}
-            document.getElementById('result4').value = result4;}
+            document.getElementById('result4').value = result4.toFixed(2);}
 
 
 

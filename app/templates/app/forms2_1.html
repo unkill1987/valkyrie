@@ -305,20 +305,87 @@
 </body>
 <script>
 $('#submit').click(function(){
-    $.ajax({
-        url:'/submit2_1/',
-        type:'post',
-        data:$('form').serialize(),
-        success:function(res){
-            alert(res.result);
-            if (res.result == "작성완료") {
-                location = '/OS/'
-            }else{
-                return false;
+    var contractname =$('#contractname').val();
+    var a = $('#a').val();
+    var b = $('#b').val();
+    var c = $('#c').val();
+    var d = $('#d').val();
+    var e = $('#e').val();
+    var f = $('#f').val();
+    var g = $('#g').val();
+    var h = $('#h').val();
+    var i = $('#i').val();
+    var j = $('#j').val();
+    var k = $('#k').val();
+    var l = $('#l').val();
+    var m = $('#m').val();
+    var n = $('#n').val();
+    var o = $('#o').val();
+
+    if(contractname.length == 0){
+        alert("OFFER SHEET TITLE를 입력하세요");
+        return false;
+    }else if(a.length == 0){
+        alert("1.Origin를 입력하세요");
+        return false;
+    }else if(b.length == 0){
+        alert("2.Packing를 입력하세요");
+        return false;
+    }else if(c.length == 0){
+        alert("3.Shipment를 입력하세요");
+        return false;
+    }else if(d.length == 0){
+        alert("4.Shipping Port를 입력하세요");
+        return false;
+    }else if(e.length == 0){
+        alert("5.Inspection를 입력하세요");
+        return false;
+    }else if(f.length == 0){
+        alert("6.Destination를 입력하세요");
+        return false;
+    }else if(g.length == 0){
+        alert("7.Payment를 입력하세요");
+        return false;
+    }else if(h.length == 0){
+        alert("8.Validity를 입력하세요");
+        return false;
+    }else if(i.length == 0){
+        alert("9.Remarks를 입력하세요");
+        return false;
+    }else if(j.length == 0){
+        alert("10.Item를 입력하세요");
+        return false;
+    }else if(k.length == 0){
+        alert("11.Description를 입력하세요");
+        return false;
+    }else if(l.length == 0){
+        alert("12.Unit를 입력하세요");
+        return false;
+    }else if(m.length == 0){
+        alert("13.Quantity를 입력하세요");
+        return false;
+    }else if(n.length == 0){
+        alert("14.Unit Price를 입력하세요");
+        return false;
+    }else if(o.length == 0){
+        alert("15.Amount를 입력하세요");
+        return false;
+    }else{
+        $.ajax({
+            url:'/submit2_1/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                alert(res.result);
+                if (res.result == "작성완료") {
+                    location = '/OS/'
+                }else{
+                    return false;
+                }
             }
-        }
-    });
-return false;
+        });
+    return false;
+    }
 });
 
 

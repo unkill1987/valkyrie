@@ -156,7 +156,7 @@
                                                 COMMECIAL INVOICE NAME
                                             </h4>
 
-                                            <input class="form-control" name="contractname">
+                                            <input class="form-control" name="contractname" id ="contractname">
                                             <hr>
                                             <div class="form-group">
                                                 <label>1.Shipper/Seller:</label>
@@ -325,21 +325,95 @@
 </body>
 <script>
 $('#submit').click(function(){
+    var contractname = $('#contractname').val();
+    var a = $('#a').val();
+    var b = $('#b').val();
+    var c = $('#c').val();
+    var d = $('#d').val();
+    var e = $('#e').val();
+    var f = $('#f').val();
+    var g = $('#g').val();
+    var h = $('#h').val();
+    var i = $('#i').val();
+    var j = $('#j').val();
+    var k = $('#k').val();
+    var l = $('#l').val();
+    var m = $('#m').val();
+    var n = $('#n').val();
+    var o = $('#o').val();
+    var p = $('#p').val();
+    var q = $('#q').val();
 
-    $.ajax({
-        url:'/submit2_3/',
-        type:'post',
-        data:$('form').serialize(),
-        success:function(res){
-            alert(res.result)
-            if (res.result == "작성완료") {
-                location = '/CI/'
-            }else{
-                return false;
+    if (contractname.length ==0){
+        alert("COMMECIAL INVOICE NAME를 입력하세요");
+        return false;
+    }else if(a.length == 0){
+        alert("1.Shipper/Seller를 입력하세요");
+        return false;
+    }else if(b.length == 0){
+        alert("2.Consignee를 입력하세요");
+        return false;
+    }else if(c.length == 0){
+        alert("3.Departure date를 입력하세요");
+        return false;
+    }else if(d.length == 0){
+        alert("4.Vessel/Flight를 입력하세요");
+        return false;
+    }else if(e.length == 0){
+        alert("5.From를 입력하세요");
+        return false;
+    }else if(f.length == 0){
+        alert("6.To를 입력하세요");
+        return false;
+    }else if(g.length == 0){
+        alert("7.Invoice No.and Date를 입력하세요");
+        return false;
+    }else if(h.length == 0){
+        alert("8.L/C No.and Date를 입력하세요");
+        return false;
+    }else if(i.length == 0){
+        alert("9.Buyer(if other than consignee)를 입력하세요");
+        return false;
+    }else if(j.length == 0){
+        alert("10.Other reference를 입력하세요");
+        return false;
+    }else if(k.length == 0){
+        alert("11.Terms of delivery and payment를 입력하세요");
+        return false;
+    }else if(l.length == 0){
+        alert("12.Shipping Mark를 입력하세요");
+        return false;
+    }else if(m.length == 0){
+        alert("13.No.and kind of packages를 입력하세요");
+        return false;
+    }else if(n.length == 0){
+        alert("14.Goods description를 입력하세요");
+        return false;
+    }else if(o.length == 0){
+        alert("15.Quantity를 입력하세요");
+        return false;
+    }else if(p.length == 0){
+        alert("16.Unit price를 입력하세요");
+        return false;
+    }else if(q.length == 0){
+        alert("17. Amount를 입력하세요");
+        return false;
+    }else{
+        $.ajax({
+            url:'/submit2_3/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                alert(res.result)
+                if (res.result == "작성완료") {
+                    location = '/CI/'
+                }else{
+                    return false;
+                }
             }
-        }
-    });
-return false;
+        });
+    return false;
+    }
 });
 
 

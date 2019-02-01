@@ -154,7 +154,7 @@
                                                 Letter of Credit TITLE
                                             </h4>
 
-                                            <input class="form-control" name="letteroflc"><br>
+                                            <input class="form-control" name="letteroflc" id="letteroflc"><br>
 
 
                                             <p style="font-size:25px"> L/C Form </p>
@@ -422,21 +422,160 @@
 </body>
 <script>
 $('#submit').click(function(){
+    var contractname = $('#letteroflc').val();
+    var a = $('#a').val();
+    var b = $('#b').val();
+    var c = $('#c').val();
+    var d = $('#d').val();
+    var e = $('#e').val();
+    var f = $('#f').val();
+    var g = $('#g').val();
+    var h = $('#h').val();
+    var i = $('#i').val();
+    var j = $('#j').val();
+    var k = $('#k').val();
+    var l = $('#l').val();
+    var m = $('#m').val();
+    var n = $('#n').val();
+    var o = $('#o').val();
+    var p = $('#f').val();
+    var q = $('#p').val();
+    var r = $('#q').val();
+    var s = $('#r').val();
+    var t = $('#s').val();
+    var t = $('#t').val();
+    var t = $('#u').val();
+    var t = $('#v').val();
+    var t = $('#w').val();
+    var t = $('#x').val();
+    var t = $('#y').val();
+    var t = $('#z').val();
+    var t = $('#aa').val();
+    var t = $('#bb').val();
+    var t = $('#cc').val();
+    var t = $('#dd').val();
+    var t = $('#ee').val();
+    var t = $('#ff').val();
+    var t = $('#gg').val();
 
-    $.ajax({
-        url:'/submit3/',
-        type:'post',
-        data:$('form').serialize(),
-        success:function(res){
-            alert(res.result)
-            if (res.result == "작성완료") {
-                location = '/LC/'
-            }else{
-                return false;
+    if (contractname.length == 0){
+        alert("Letter of Credit TITLE를 입력하세요");
+        return false;
+    }else if (a.length == 0){
+        alert("1.Transfer를 입력하세요");
+        return false;
+    }else if(b.length == 0){
+        alert("2.Credit Number를 입력하세요");
+        return false;
+    }else if(c.length == 0){
+        alert("3.Advising Bank를 입력하세요");
+        return false;
+    }else if(d.length == 0){
+        alert("4.Expiry Date를 입력하세요");
+        return false;
+    }else if(e.length == 0){
+        alert("5.Applicant를 입력하세요");
+        return false;
+    }else if(f.length == 0){
+        alert("6.Beneficiary를 입력하세요");
+        return false;
+    }else if(g.length == 0){
+        alert("7.Amount를 입력하세요");
+        return false;
+    }else if(h.length == 0){
+        alert("8.Partial Shipment를 입력하세요");
+        return false;
+    }else if(i.length == 0){
+        alert("9.Latest Shipment Date를 입력하세요");
+        return false;
+    }else if(j.length == 0){
+        alert("10.Additional Conditions를 입력하세요");
+        return false;
+    }else if(k.length == 0){
+        alert("11.All banking charges를 입력하세요");
+        return false;
+    }else if(l.length == 0){
+        alert("12.Documents delivered by를 입력하세요");
+        return false;
+    }else if(m.length == 0){
+        alert("13.Confirmation를 입력하세요");
+        return false;
+    }else if(n.length == 0){
+        alert("14.Reissue를 입력하세요");
+        return false;
+    }else if(o.length == 0){
+        alert("15.Import L/C Transfer를 입력하세요");
+        return false;
+    }else if(p.length == 0){
+        alert("16.Draft at를 입력하세요");
+        return false;
+    }else if(q.length == 0){
+        alert("17.Usance를 입력하세요");
+        return false;
+    }else if(r.length == 0){
+        alert("18.Settling Bank를 입력하세요");
+        return false;
+    }else if(s.length == 0){
+        alert("19.Credit를 입력하세요");
+        return false;
+    }else if(t.length == 0){
+        alert("20.Transshipment mode를 입력하세요");
+        return false;
+    }else if(u.length == 0){
+        alert("21.Authorization를 입력하세요");
+        return false;
+    }else if(v.length == 0){
+        alert("22.Port of Loading/Airport of Departure를 입력하세요");
+        return false;
+    }else if(w.length == 0){
+        alert("23.Place of Taking in Charge를 입력하세요");
+        return false;
+    }else if(x.length == 0){
+        alert("24.SIgned/Original/Commercial Invoice를 입력하세요");
+        return false;
+    }else if(y.length == 0){
+        alert("25.FULL SET of B/L를 입력하세요");
+        return false;
+    }else if(z.length == 0){
+        alert("26.Certificate of Origin in를 입력하세요");
+        return false;
+    }else if(aa.length == 0){
+        alert("27.Certificate of Analysis in");
+        return false;
+    }else if(bb.length == 0){
+        alert("28.Other Documents Required를 입력하세요");
+        return false;
+    }else if(cc.length == 0){
+        alert("29. Description of Goods/Services를 입력하세요");
+        return false;
+    }else if(dd.length == 0){
+        alert("30.Price Terms를 입력하세요");
+        return false;
+    }else if(ee.length == 0){
+        alert("31.Country of Origin를 입력하세요");
+        return false;
+    }else if(ff.length == 0){
+        alert("32.HS CODE를 입력하세요");
+        return false;
+    }else if(gg.length == 0){
+        alert("33.Commodity Description를 입력하세요");
+        return false;
+    }else{
+        $.ajax({
+            url:'/submit3/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                alert(res.result)
+                if (res.result == "작성완료") {
+                    location = '/LC/'
+                }else{
+                    return false;
+                }
             }
-        }
-    });
-return false;
+        });
+    return false;
+    }
 });
 
 </script>

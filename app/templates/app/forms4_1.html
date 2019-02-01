@@ -165,7 +165,7 @@
                                                 <input class="form-control" name="b" id="b">
                                             </div>
                                             <div class="form-group">
-                                                <label>3.Lessel:</label>
+                                                <label>3.Vessel:</label>
                                                 <input class="form-control" name="c" id="c">
                                                 <p class="help-block"></p>
                                             </div>
@@ -304,21 +304,67 @@
 </body>
 <script>
 $('#submit').click(function(){
+    var contractname =$('#contractname').val();
+    var a = $('#a').val();
+    var b = $('#b').val();
+    var c = $('#c').val();
+    var d = $('#d').val();
+    var e = $('#e').val();
+    var f = $('#f').val();
+    var g = $('#g').val();
+    var h = $('#h').val();
+    var i = $('#i').val();
+    var j = $('#j').val();
 
-    $.ajax({
-        url:'/submit4_1/',
-        type:'post',
-        data:$('form').serialize(),
-        success:function(res){
-            alert(res.result)
-            if (res.result == "작성완료") {
-                location = '/BL/'
-            }else{
-                return false;
+    if (contractname.length == 0){
+        alert("BILLS OF LADING TITLE를 입력하세요");
+        return false;
+    }else if (a.length == 0){
+        alert("1.Bank를 입력하세요");
+        return false;
+    }else if(b.length == 0){
+        alert("2.Nodify party를 입력하세요");
+        return false;
+    }else if(c.length == 0){
+        alert("3.Vessel를 입력하세요");
+        return false;
+    }else if(d.length == 0){
+        alert("4.Voyage No.를 입력하세요");
+        return false;
+    }else if(e.length == 0){
+        alert("5.Part of loading:를 입력하세요");
+        return false;
+    }else if(f.length == 0){
+        alert("6.Place of receipt를 입력하세요");
+        return false;
+    }else if(g.length == 0){
+        alert("7.Place of delivery를 입력하세요");
+        return false;
+    }else if(h.length == 0){
+        alert("8.Description of goods를 입력하세요");
+        return false;
+    }else if(i.length == 0){
+        alert("9.Weight를 입력하세요");
+        return false;
+    }else if(j.length == 0){
+        alert("10.Measurement를 입력하세요");
+        return false;
+    }else{
+        $.ajax({
+            url:'/submit4_1/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                alert(res.result)
+                if (res.result == "작성완료") {
+                    location = '/BL/'
+                }else{
+                    return false;
+                }
             }
-        }
-    });
-return false;
+        });
+    return false;
+    }
 });
 
 </script>

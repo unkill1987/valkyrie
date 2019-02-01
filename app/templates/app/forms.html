@@ -153,7 +153,7 @@
                                                 LETTER OF CREDIT REQUEST TITLE
                                             </h4>
 
-                                            <input class="form-control" name="contractname">
+                                            <input class="form-control" name="contractname" id="contractname">
                                             <div class="form-group">
                                                 <label>1.Advising bank:</label>
                                                 <input class="form-control" name="a" id="a">
@@ -348,21 +348,87 @@
 </body>
 <script>
 $('#submit').click(function(){
+    var contractname = $('#contractname').val();
+    var a = $('#a').val();
+    var b = $('#b').val();
+    var c = $('#c').val();
+    var d = $('#d').val();
+    var e = $('#e').val();
+    var f = $('#f').val();
+    var g = $('#g').val();
+    var h = $('#h').val();
+    var i = $('#i').val();
+    var j = $('#j').val();
+    var k = $('#k').val();
+    var l = $('#l').val();
+    var m = $('#m').val();
+    var n = $('#n').val();
+    var o = $('#o').val();
 
-    $.ajax({
-        url:'/submit/',
-        type:'post',
-        data:$('form').serialize(),
-        success:function(res){
-            alert(res.result)
-            if (res.result == "작성완료") {
-                location = '/LCR/'
-            }else{
-                return false;
+    if (contractname.length ==0 )
+        alert("LETTER OF CREDIT REQUEST TITLE를 입력하세요");
+        return false;
+    }else if (a.length == 0){
+        alert("1.Advising bank를 입력하세요");
+        return false;
+    }else if(b.length == 0){
+        alert("2.Credit No.를 입력하세요");
+        return false;
+    }else if(c.length == 0){
+        alert("3.Beneficiary를 입력하세요");
+        return false;
+    }else if(d.length == 0){
+        alert("4.Applicant를 입력하세요");
+        return false;
+    }else if(e.length == 0){
+        alert("5.L/C Amount and Tolerance를 입력하세요");
+        return false;
+    }else if(f.length == 0){
+        alert("6.Type를 입력하세요");
+        return false;
+    }else if(g.length == 0){
+        alert("7.Partial shipment를 입력하세요");
+        return false;
+    }else if(h.length == 0){
+        alert("8.Transshipment를 입력하세요");
+        return false;
+    }else if(i.length == 0){
+        alert("9.Trnasport mode를 입력하세요");
+        return false;
+    }else if(j.length == 0){
+        alert("10.Loading(shipment from)를 입력하세요");
+        return false;
+    }else if(k.length == 0){
+        alert("11.Discharging(shipment to)를 입력하세요");
+        return false;
+    }else if(l.length == 0){
+        alert("12.Latest shipment date를 입력하세요");
+        return false;
+    }else if(m.length == 0){
+        alert("13.All banking charges를 입력하세요");
+        return false;
+    }else if(n.length == 0){
+        alert("14.Confirmation를 입력하세요");
+        return false;
+    }else if(o.length == 0){
+        alert("15.T/T reimbursement를 입력하세요");
+        return false;
+    }else{
+        $.ajax({
+            url:'/submit/',
+            type:'post',
+            data:$('form').serialize(),
+            success:function(res){
+                alert(res.result)
+                if (res.result == "작성완료") {
+                    location = '/LCR/'
+                }else{
+                    return false;
+                }
             }
-        }
-    });
-return false;
+        });
+    return false;
+    }
 });
 
 
