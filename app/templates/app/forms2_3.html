@@ -346,57 +346,75 @@ $('#submit').click(function(){
 
     if (contractname.length ==0){
         alert("COMMECIAL INVOICE NAME를 입력하세요");
+        $('#contractname').focus();
         return false;
     }else if(a.length == 0){
         alert("1.Shipper/Seller를 입력하세요");
+        $('#a').focus();
         return false;
     }else if(b.length == 0){
         alert("2.Consignee를 입력하세요");
+        $('#b').focus();
         return false;
     }else if(c.length == 0){
         alert("3.Departure date를 입력하세요");
+        $('#c').focus();
         return false;
     }else if(d.length == 0){
         alert("4.Vessel/Flight를 입력하세요");
+        $('#d').focus();
         return false;
     }else if(e.length == 0){
         alert("5.From를 입력하세요");
+        $('#e').focus();
         return false;
     }else if(f.length == 0){
         alert("6.To를 입력하세요");
+        $('#f').focus();
         return false;
     }else if(g.length == 0){
         alert("7.Invoice No.and Date를 입력하세요");
+        $('#g').focus();
         return false;
     }else if(h.length == 0){
         alert("8.L/C No.and Date를 입력하세요");
+        $('#h').focus();
         return false;
     }else if(i.length == 0){
         alert("9.Buyer(if other than consignee)를 입력하세요");
+        $('#i').focus();
         return false;
     }else if(j.length == 0){
         alert("10.Other reference를 입력하세요");
+        $('#j').focus();
         return false;
     }else if(k.length == 0){
         alert("11.Terms of delivery and payment를 입력하세요");
+        $('#k').focus();
         return false;
     }else if(l.length == 0){
         alert("12.Shipping Mark를 입력하세요");
+        $('#l').focus();
         return false;
     }else if(m.length == 0){
         alert("13.No.and kind of packages를 입력하세요");
+        $('#m').focus();
         return false;
     }else if(n.length == 0){
         alert("14.Goods description를 입력하세요");
+        $('#n').focus();
         return false;
     }else if(o.length == 0){
         alert("15.Quantity를 입력하세요");
+        $('#o').focus();
         return false;
     }else if(p.length == 0){
         alert("16.Unit price를 입력하세요");
+        $('#p').focus();
         return false;
     }else if(q.length == 0){
         alert("17. Amount를 입력하세요");
+        $('#q').focus();
         return false;
     }else{
         $.ajax({

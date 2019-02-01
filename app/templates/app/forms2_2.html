@@ -335,51 +335,67 @@ $('#submit').click(function(){
 
     if (contractname.length ==0){
         alert("SHIPPING REQUEST TITLE를 입력하세요");
+        $('#contractname').focus();
         return false;
     }else if (a.length == 0){
         alert("1.Shipper를 입력하세요");
+        $('#a').focus();
         return false;
     }else if(b.length == 0){
         alert("2.Consignee를 입력하세요");
+        $('#b').focus();
         return false;
     }else if(c.length == 0){
         alert("3.Notify Party를 입력하세요");
+        $('#c').focus();
         return false;
     }else if(d.length == 0){
         alert("4.Vessel를 입력하세요");
+        $('#d').focus();
         return false;
     }else if(e.length == 0){
         alert("5.Voyage No.를 입력하세요");
+        $('#e').focus();
         return false;
     }else if(f.length == 0){
         alert("6.Port of Loading를 입력하세요");
+        $('#f').focus();
         return false;
     }else if(g.length == 0){
         alert("7.Port of Discharge를 입력하세요");
+        $('#g').focus();
         return false;
     }else if(h.length == 0){
         alert("8.Final Destination를 입력하세요");
+        $('#h').focus();
         return false;
     }else if(i.length == 0){
         alert("9.Marking를 입력하세요");
+        $('#i').focus();
         return false;
     }else if(j.length == 0){
         alert("10.Packages를 입력하세요");
+        $('#j').focus();
         return false;
     }else if(k.length == 0){
         alert("11.Description of Goods 입력하세요");
+        $('#k').focus();
         return false;
     }else if(l.length == 0){
         alert("12.Gross Weight 입력하세요");
+        $('#l').focus();
         return false;
     }else if(m.length == 0){
         alert("13.Measurement 입력하세요");
+        $('#m').focus();
         return false;
     }else if(n.length == 0){
         alert("14.Freight Term를 입력하세요");
+        $('#n').focus();
         return false;
     }else if(o.length == 0){
         alert("15.Original B/L 입력하세요");
+        $('#o').focus();
         return false;
     }else{
         $.ajax({
