@@ -843,7 +843,7 @@ def makeotp(request):
         otpsave = Member.objects.get(user_id=user_id)
         result_dict = {}
 
-        if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == '':
+        if Member.objects.filter(user_id=user_id).values('otpkey')[0]['otpkey'] == 'Not yet issued':
             otpsave.otpkey = "Issued"
             otpsave.save()
             data = pyotp.totp.TOTP(otpkey).provisioning_uri(user_id, issuer_name="Valkyrie App")
@@ -3622,7 +3622,7 @@ def register(request):
             result_dict['result'] = '이미 가입된 아이디가 있습니다.'
         except Member.DoesNotExist:
             member = Member(user_role=user_role, user_id=user_id, user_pw=password, user_name=user_name,
-                            address=user_address, tbc=tbc, businessnum=businessnum)
+                            address=user_address, tbc=tbc, businessnum=businessnum, otpkey="Not yet issued")
             member.c_date = timezone.now()
             member.save()
             result_dict['result'] = '가입완료'

@@ -143,7 +143,7 @@
                 <div class="col-8 mx-auto">
 
                     <div class="card">
-                        <button id="myinfo" class="card-header btn btn-outline-dark" onclick="userinfotoggle()">나의 정보
+                        <button id="myinfo" class="card-header btn btn-outline-dark" onclick="userinfotoggle()"><i class="fas fa-user-check"></i> &nbsp나의 정보
                         </button>
                         <div class="card-body" id="userinfo" style="display:none;">
                             <ul class="list-group">
@@ -177,7 +177,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card">
-                        <button class="card-header btn btn-outline-dark" onclick="mytrade()">나의 거래 보기
+                        <button class="card-header btn btn-outline-dark" onclick="mytrade()"><i class="fas fa-tasks"></i> &nbsp나의 거래 보기
                         </button>
                         <div class="card-body" id="trade" style="display:block;text-align;center;display:none;">
                             <form method="post">
@@ -188,14 +188,14 @@
                                             <table class="mx-auto">
                                                 <tr>
                                                     <th>Start</th>
-                                                    <th style="text-align:center">OS<br>전송</th>
-                                                    <th style="text-align:center">LCR<br>전송</th>
+                                                    <th style="text-align:center">OS<br>발급</th>
+                                                    <th style="text-align:center">LCR<br>발급</th>
                                                     <th style="text-align:center">LC<br> 발급</th>
                                                     <th style="text-align:center">SR<br>발급</th>
                                                     <th style="text-align:center">BL<br> 발급</th>
                                                     <th style="text-align:center">CI<br> 발급</th>
                                                     <th style="text-align:center">DO<br>발급</th>
-                                                    <th style="text-align:right;">End</th>
+                                                    <th style="text-align:right;">Complete</th>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="10">
@@ -259,7 +259,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card">
-                        <button class="card-header btn btn-outline-dark" onclick="personaltoggle()">개인정보 수정
+                        <button class="card-header btn btn-outline-dark" onclick="personaltoggle()"><i class="fas fa-user-cog"></i> &nbsp개인정보 수정
                         </button>
                         <div class="card-body" id="personal" style="display:none;">
 
@@ -334,7 +334,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card">
-                        <button class="card-header btn btn-outline-dark" onclick="otptoggle()">OTP 등록하기</button>
+                        <button class="card-header btn btn-outline-dark" onclick="otptoggle()"><i class="fas fa-user-shield"></i> &nbspOTP 등록하기</button>
                         <div class="card-body" id="otp" style="display:none; text-align:center;">
                             <div class="col-12">
                                 <h4 style="color:#ff8a12;">OTP 발급</h4>
@@ -365,7 +365,7 @@
 
                 <div class="col-8 mx-auto">
                     <div class="card">
-                        <button class="card-header btn btn-outline-dark" onclick="myqna()">문의 하기
+                        <button class="card-header btn btn-outline-dark" onclick="myqna()"><i class="fas fa-comment-dots"></i> &nbsp문의 하기
                         </button>
                         <div class="card-body" id="qna" style="display:none;">
                             <form>
@@ -558,28 +558,28 @@ function myqna(){
                     alert(res.result)
                 }else if (res.trade[0].OS_hash.length == 0 ){
                      $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:0%"></div>`);
+                    $('#progress').append(`<div class="progress-bar" style="width:17%"></div>`);
                 }else if (res.trade[0].LCR_hash.length == 0){
                 $('#progress').empty();
-                    $('#progress').append(`<div class="progress-bar" style="width:17%"></div>`)
+                    $('#progress').append(`<div class="progress-bar" style="width:28%"></div>`)
                 }else if (res.trade[0].LC_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:28%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:39%"></div>`)
                 }else if (res.trade[0].SR_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:39%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:50%"></div>`)
                 }else if (res.trade[0].BL_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:50%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:61%"></div>`)
                 }else if (res.trade[0].CI_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:61%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:72%"></div>`)
                 }else if (res.trade[0].DO_hash.length == 0){
                     $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:72%"></div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:83%"></div>`)
                 }else if (res.trade[0].DO_hash.length != 0){
                         $('#progress').empty();
-                        $('#progress').append(`<div class="progress-bar" style="width:83%">complete</div>`)
+                        $('#progress').append(`<div class="progress-bar" style="width:100%">complete</div>`)
                 }else{
                          $('#progress').empty();
                         $('#progress').append(`<div class="progress-bar" style="width:0%"></div>`)
