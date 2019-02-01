@@ -17,7 +17,7 @@
 
 /* :: 1.0 Import Web Fonts */
 
-@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
 
 /* :: 2.0 Import All CSS */
 
@@ -36,7 +36,7 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Do Hyeon', sans-serif;
     font-weight: 400;
     overflow-x: hidden;
 }
@@ -49,7 +49,7 @@ h5,
 h6 {
     color: #1d1d1d;
     line-height: 1.2;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Do Hyeon', sans-serif;
     font-weight: 500;
 }
 .nav-link:hover{cursor:pointer}
@@ -58,7 +58,7 @@ p {
     color: #838383;
     font-size: 15px;
     line-height: 2;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Do Hyeon', sans-serif;
     font-weight: 400;
 }
 
@@ -74,7 +74,7 @@ a:focus {
     text-decoration: none;
     outline: none;
     color: #000;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Do Hyeon', sans-serif;
     font-weight: 400;
 }
 
@@ -495,8 +495,8 @@ padding-bottom: 30px;
 }
 
 .header-area .main-menu .nav-link {
-    font-size: 14px;
-    text-shadow: 1px 1px #ff8a12;;
+    font-size: 16px;
+    text-shadow: 0.5px 0.5px #ff8a12;;
     text-transform: uppercase;
     color: #ffffff;
     padding: 0 15px;
@@ -516,13 +516,12 @@ padding-bottom: 30px;
 
 .dropdown-item {
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .dropdown-item:hover {
     color: #ffffff;
-    font-weight:600;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .header-search-form form input {
