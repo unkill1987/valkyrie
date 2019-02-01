@@ -152,7 +152,7 @@
                 <div class="row">
                     <div class="col-lg-3 ">
                         <div class="card">
-                            <div class="card-header">새로운 문서 &nbsp<i class="fas fa-bell"></i></div>
+                            <div class="card-header"><i class="fas fa-bell"></i>&nbsp 새로운 문서</div>
                             <div class="card-body" style="text-align:right">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" role="button" data-toggle="dropdown"
@@ -191,7 +191,7 @@
                     </div>
                     <div class="col-lg-3 ">
                         <div class="card">
-                            <div class="card-header">진행중인 계약 &nbsp<i class="fas fa-hands-helping"></i></div>
+                            <div class="card-header"><i class="fas fa-hands-helping"></i>&nbsp 진행중인 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage3/?mytrade" style="color:white">{{ing}} 건</a>
                             </div>
@@ -199,7 +199,7 @@
                     </div>
                     <div class="col-lg-3 ">
                         <div class="card">
-                            <div class="card-header">완료된 계약 &nbsp<i class="fas fa-boxes"></i></div>
+                            <div class="card-header"><i class="fas fa-boxes"></i>&nbsp 완료된 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage3/?mytrade" style="color:white">{{complete}} 건</a>
                             </div>
@@ -207,7 +207,7 @@
                     </div>
                     <div class="col-lg-3 ">
                         <div class="card" style="padding-bottom:0px!important;">
-                            <div class="card-header">계약 검색 &nbsp<i class="fas fa-link"></i></div>
+                            <div class="card-header"><i class="fas fa-link"></i> &nbsp계약 검색</div>
                             <div class="card-body">
                                 <form method="post" action="{% url 'search3' %}">
                                     <div class="input-group">
@@ -248,7 +248,7 @@
                 <div class="wrapper">
                     <div class="card">
                         <div class="card-header">
-                            Notice<i class="fas fa-bullhorn"></i>
+                            <i class="fas fa-bullhorn"></i>&nbsp Notice
                         </div>
 
                         <div class="card-body" style="padding:0px;">
@@ -291,7 +291,7 @@
                 <div class="wrapper">
                     <div class="card">
                         <div class="card-header">
-                            News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
+                            <i class="fas fa-newspaper"></i>&nbsp News(무역)&nbsp/&nbsp {{date}} - 출처:네이버
                         </div>
                         {% for news in result %}
                         <div class="card-body">
