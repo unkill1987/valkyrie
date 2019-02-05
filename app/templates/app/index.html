@@ -24,15 +24,15 @@
 
 </head>
 <style>
+    .doc:hover{background-color:#ff8a12;}
     td{padding:0px!important;}
     .card{background:#1d1d1de8;padding:10px;margin-bottom: 5px;}
     .wrapper{ border-radius:10px; background-position:center; background-size:cover;}
     .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:20px;}
-    #new-doc.show{ transform: translate3d(0px, 40px, 20px)!important;padding-right:20px;}
+    #new-doc.show{ transform: translate3d(-10px, 40px, 20px)!important;}
     @media (max-width:768px){
-    #new-doc.show{ transform: translate3d(100px, 40px, 20px)!important;}
-
+    #new-doc.show{ transform: translate3d(50px, 40px, 20px)!important;}
     label{display:none;}
     .card-header{font-size:18px}
     .card-body{padding:10px}
@@ -156,49 +156,54 @@
                                     <div id="new-doc" class="dropdown-menu" aria-labelledby="navbarDropdown"
                                          style="background:black;">
                                         <table>
-                                            <tr>
+                                            <tr class="doc dropdown-item">
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'osreceived' %}"
-                                                       style="color:white">Offer Sheet</a>
+                                                    <a href="{% url 'osreceived' %}"
+                                                       style="color:white; padding:0px 20px;">Offer Sheet</a>
                                                 </td>
-                                                <td style="color:white">
-                                                    {{new_os}}
+                                                <td>
+                                                    <a href="{% url 'osreceived' %}"
+                                                       style="color:white; padding-right:20px;">{{new_os}}</a>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="doc dropdown-item">
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'lcreceived1' %}"
-                                                       style="color:white">Letter Of Credit</a>
+                                                    <a  href="{% url 'lcreceived1' %}"
+                                                       style="color:white; padding:0px 20px;">Letter Of Credit</a>
                                                 </td>
-                                                <td style="color:white">
-                                                    {{new_lc}}
+                                                <td>
+                                                    <a href="{% url 'lcreceived1' %}"
+                                                       style="color:white; padding-right:20px;">{{new_lc}}</a>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="doc dropdown-item">
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'blreceived1' %}"
-                                                       style="color:white">Bills of letter</a>
+                                                    <a href="{% url 'blreceived1' %}"
+                                                       style="color:white; padding:0px 20px;">Bills of letter</a>
                                                 </td>
-                                                <td style="color:white">
-                                                    {{new_bl}}
+                                                <td>
+                                                    <a href="{% url 'blreceived1' %}"
+                                                       style="color:white; padding-right:20px;">{{new_bl}}</a>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="doc dropdown-item">
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'cireceived' %}"
-                                                       style="color:white">commercial invoice</a>
+                                                    <a href="{% url 'cireceived' %}"
+                                                       style="color:white; padding:0px 20px;">commercial invoice</a>
                                                 </td>
-                                                <td style="color:white">
-                                                    {{new_ci}}
+                                                <td>
+                                                    <a href="{% url 'cireceived' %}"
+                                                       style="color:white; padding-right:20px;">{{new_ci}}</a>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="doc dropdown-item">
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'doreceived' %}"
-                                                       style="color:white">delivery order</a>
+                                                    <a href="{% url 'doreceived' %}"
+                                                       style="color:white; padding:0px 20px;">delivery order</a>
                                                 </td>
-                                                <td style="color:white">
-                                                    {{new_do}}
+                                                <td>
+                                                    <a href="{% url 'doreceived' %}"
+                                                       style="color:white; padding-right:20px;">{{new_do}}</a>
                                                 </td>
                                             </tr>
                                         </table>
@@ -289,7 +294,7 @@
                                     <td>{{n.c_date}}</td>
                                     <td>
                                         <button class="btn btn-outline-dark" id="{{n.id}}"
-                                                style="border:0px; border-radius:0px; color:white;"
+                                                style="padding:0px; border:0px; border-radius:0px; color:white;"
                                                 onclick="toggleContent(this)">View
                                         </button>
                                     </td>

@@ -26,23 +26,21 @@
 
 </head>
 <style>
+    .doc:hover{background-color:#ff8a12;}
     td{padding:0px!important;}
     .card{background:#1d1d1de8;padding:10px;margin-bottom: 5px;}
     .card-header{ color:#ff8a12;font-size:20px; border-bottom:1px solid white;}
     .card-body{color:white;font-size:20px;}
     .wrapper{ border-radius:10px; background-position:center; background-size:cover;}
-    #new-doc.show{ transform: translate3d(0px, 40px, 20px)!important;padding-right:20px;}
+    #new-doc.show{ transform: translate3d(-30px, 40px, 20px)!important;}
     @media (max-width:768px){
-    transform: translate3d(50px, 40px, 20px)!important;
+    #new-doc.show{transform: translate3d(10px, 40px, 20px)!important;}
     label{display:none;}
     .card-header{font-size:18px}
     .card-body{padding:10px}
     #cid{border-top-left-radius:3px!important;
     border-bottom-left-radius:3px!important;}}
-
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
-
-
     .dropdown-toggle:hover{cursor:pointer;}
 
 
@@ -162,24 +160,26 @@
                                     <div id="new-doc" class="dropdown-menu" aria-labelledby="navbarDropdown"
                                          style="background:black;">
                                         <table>
-                                            <tr>
+                                            <tr class="doc dropdown-item">
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'lcrreceived' %}"
-                                                       style="color:white">Letter
+                                                    <a href="{% url 'lcrreceived' %}"
+                                                       style="color:white; padding:0px 20px;">Letter
                                                         of credit request </a>
                                                 </td>
                                                 <td style="color:white">
-                                                    {{new_lcr}}
+                                                    <a href="{% url 'lcrreceived' %}"
+                                                       style="color:white; padding-right:20px;">{{new_lcr}}</a>
                                                 </td>
                                             </tr>
-                                            <tr>
+                                            <tr class="doc dropdown-item">
                                                 <td>
-                                                    <a class="dropdown-item" href="{% url 'blreceived3' %}"
-                                                       style="color:white">Bills
+                                                    <a href="{% url 'blreceived3' %}"
+                                                       style="color:white; padding:0px 20px;">Bills
                                                         of letter</a>
                                                 </td>
                                                 <td style="color:white">
-                                                    {{new_bl}}
+                                                    <a href="{% url 'blreceived3' %}"
+                                                       style="color:white; padding-right:20px;">{{new_bl}}</a>
                                                 </td>
                                             </tr>
                                         </table>
