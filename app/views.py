@@ -3292,7 +3292,6 @@ def logout(request):
 
 def index(request):
     try:
-
         user_id = request.session['user_id']
 
         client_id = 'fpYuQKVX8str1aSVFrkc'

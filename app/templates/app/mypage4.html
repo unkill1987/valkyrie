@@ -347,7 +347,7 @@
 
                                 <form method="post">
                                     <div class="col-lg-6 col-md-10 mx-auto">
-                                        <button id="otp" class="btn btn-outline-dark  btn-block">makeotp
+                                        <button id="otp_issue" class="btn btn-outline-dark  btn-block">makeotp
                                         </button>
 
                                     </div>
@@ -687,7 +687,7 @@ function myqna(){
 </script>
 <script type="text/javascript" src="https://www.webtoolkitonline.com/js/jquery.qrcode-0.6.0.min.js"></script>
 <script type="text/javascript">
-		 $('#otp').click(function(){
+		 $('#otp_issue').click(function(){
          $.ajax({
             url:'/makeotp/',
             type:'post',
