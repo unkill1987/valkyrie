@@ -354,18 +354,14 @@ $('#submit').click(function(){
     var c = $('#c').val();
     var d = $('#d').val();
     var e = $('#e').val();
-    var f = $('#f').val();
-    var g = $('#g').val();
-    var h = $('#h').val();
-    var i = $('#i').val();
+
+
     var j = $('#j').val();
     var k = $('#k').val();
     var l = $('#l').val();
-    var m = $('#m').val();
-    var n = $('#n').val();
-    var o = $('#o').val();
 
-    if (contractname.length ==0 ){
+
+    if (contractname.length == 0 ){
         alert("LETTER OF CREDIT REQUEST TITLE를 입력하세요");
         $('#contractname').focus();
         return false;
@@ -389,22 +385,6 @@ $('#submit').click(function(){
         alert("5.L/C Amount and Tolerance를 입력하세요");
         $('#e').focus();
         return false;
-    }else if(f.length == 0){
-        alert("6.Type를 입력하세요");
-        $('#f').focus();
-        return false;
-    }else if(g.length == 0){
-        alert("7.Partial shipment를 입력하세요");
-        $('#g').focus();
-        return false;
-    }else if(h.length == 0){
-        alert("8.Transshipment를 입력하세요");
-        $('#h').focus();
-        return false;
-    }else if(i.length == 0){
-        alert("9.Trnasport mode를 입력하세요");
-        $('#i').focus();
-        return false;
     }else if(j.length == 0){
         alert("10.Loading(shipment from)를 입력하세요");
         $('#j').focus();
@@ -416,18 +396,6 @@ $('#submit').click(function(){
     }else if(l.length == 0){
         alert("12.Latest shipment date를 입력하세요");
         $('#l').focus();
-        return false;
-    }else if(m.length == 0){
-        alert("13.All banking charges를 입력하세요");
-        $('#m').focus();
-        return false;
-    }else if(n.length == 0){
-        alert("14.Confirmation를 입력하세요");
-        $('#n').focus();
-        return false;
-    }else if(o.length == 0){
-        alert("15.T/T reimbursement를 입력하세요");
-        $('#o').focus();
         return false;
     }else{
         $.ajax({
