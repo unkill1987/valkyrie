@@ -48,6 +48,31 @@ class Contract_OS(models.Model):
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share1 = models.CharField(max_length=30)
     status = models.CharField(max_length=20)
+    item1 = models.CharField(max_length=10)
+    item2 = models.CharField(max_length=10, null=True)
+    item3 = models.CharField(max_length=10, null=True)
+    item4 = models.CharField(max_length=10, null=True)
+    item5 = models.CharField(max_length=10, null=True)
+    description1 = models.CharField(max_length=30)
+    description2 = models.CharField(max_length=30, null=True)
+    description3 = models.CharField(max_length=30, null=True)
+    description4 = models.CharField(max_length=30, null=True)
+    description5 = models.CharField(max_length=30, null=True)
+    quantity1 = models.CharField(max_length=20)
+    quantity2 = models.CharField(max_length=20, null=True)
+    quantity3 = models.CharField(max_length=20, null=True)
+    quantity4 = models.CharField(max_length=20, null=True)
+    quantity5 = models.CharField(max_length=20, null=True)
+    price1 = models.CharField(max_length=20)
+    price2 = models.CharField(max_length=20, null=True)
+    price3 = models.CharField(max_length=20, null=True)
+    price4 = models.CharField(max_length=20, null=True)
+    price5 = models.CharField(max_length=20, null=True)
+    amount1 = models.CharField(max_length=20)
+    amount2 = models.CharField(max_length=20, null=True)
+    amount3 = models.CharField(max_length=20, null=True)
+    amount4 = models.CharField(max_length=20, null=True)
+    amount5 = models.CharField(max_length=20, null=True)
 
 
 class Contract_LCR(models.Model):
@@ -58,6 +83,13 @@ class Contract_LCR(models.Model):
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share3 = models.CharField(max_length=30)
     status = models.CharField(max_length=20)
+    advisingbank = models.CharField(max_length=30)
+    applicant = models.CharField(max_length=30)
+    beneficiary = models.CharField(max_length=30)
+    amount = models.CharField(max_length=20)
+    particalshipment = models.CharField(max_length=20)
+    transshipment = models.CharField(max_length=20)
+    loding = models.CharField(max_length=20)
 
 class Contract_LC(models.Model):
     contractname = models.CharField(max_length=50)
@@ -77,6 +109,12 @@ class Contract_SR(models.Model):
     owner = models.ForeignKey(Member, on_delete=models.CASCADE, null=True)
     share4 = models.CharField(max_length=30)
     status = models.CharField(max_length=20)
+    consignee = models.CharField(max_length=30)
+    notify = models.CharField(max_length=30)
+    lport = models.CharField(max_length=30)
+    dport = models.CharField(max_length=30)
+
+
 
 class Contract_CI(models.Model):
     contractname = models.CharField(max_length=50)

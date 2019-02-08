@@ -154,61 +154,41 @@
                                             </h4>
 
                                             <input class="form-control" name="contractname" id="contractname">
-
+                                            <hr>
                                             <div class="form-group">
-                                                <label>1.Bank:</label>
+                                                <label>1.Voyage No.:</label>
                                                 <input class="form-control" name="a" id="a">
-                                                <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>2.Nodify party:</label>
+                                                <label>2.Place of receipt:</label>
                                                 <input class="form-control" name="b" id="b">
                                             </div>
                                             <div class="form-group">
-                                                <label>3.Vessel:</label>
+                                                <label>3.Final Destination:</label>
                                                 <input class="form-control" name="c" id="c">
-                                                <p class="help-block"></p>
                                             </div>
-                                            <div class="form-group">
-                                                <label>4.Voyage No.:</label>
-                                                <input class="form-control" name="d" id="d">
-                                                <p class="help-block"></p>
-                                            </div>
-
                                         </div>
-                                        <!-- /.col-lg-6 (nested) -->
                                         <div class="col-lg-6">
-
-                                            <!--<p style="font-size:25px"> Bank Form </p>-->
                                             <div class="form-group">
-                                                <label>5.Part of loading:</label>
-                                                <input class="form-control" name="e" id="e">
-                                                <p class="help-block"></p>
+                                                <label>4.Seal No.:</label>
+                                                <textarea class="form-control" rows="3" name="d" id="d"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>6.Place of receipt:</label>
-                                                <input class="form-control" name="f" id="f">
-                                                <p class="help-block"></p>
+                                                <label>5.Kind of Packages:</label>
+                                                <textarea class="form-control" rows="3" name="e" id="e"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>7.Place of delivery:</label>
+                                                <label>6.Description of goods:</label>
+                                                <textarea class="form-control"  rows="3" name="f" id="f"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>7.Gross Weight:</label>
                                                 <input class="form-control" name="g" id="g">
-                                                <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>8.Description of goods:</label>
+                                                <label>8.Measurement:</label>
                                                 <input class="form-control" name="h" id="h">
-                                                <p class="help-block"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>9.Weight:</label>
-                                                <input class="form-control" name="i" id="i">
-                                                <p class="help-block"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>10.Measurement:</label>
-                                                <input class="form-control" name="j" id="j">
-                                                <p class="help-block"></p>
+
                                             </div>
                                         </div>
 
@@ -313,52 +293,44 @@ $('#submit').click(function(){
     var f = $('#f').val();
     var g = $('#g').val();
     var h = $('#h').val();
-    var i = $('#i').val();
-    var j = $('#j').val();
+
+
 
     if (contractname.length == 0){
         alert("BILLS OF LADING TITLE를 입력하세요");
         $('#contractname').focus();
         return false;
     }else if (a.length == 0){
-        alert("1.Bank를 입력하세요");
+        alert("1.Voyage No.를 입력하세요");
         $('#a').focus();
         return false;
     }else if(b.length == 0){
-        alert("2.Nodify party를 입력하세요");
+        alert("2.Place of receipt를 입력하세요");
         $('#b').focus();
         return false;
     }else if(c.length == 0){
-        alert("3.Vessel를 입력하세요");
+        alert("3.Final Destination를 입력하세요");
         $('#c').focus();
         return false;
     }else if(d.length == 0){
-        alert("4.Voyage No.를 입력하세요");
+        alert("4.Seal No.를 입력하세요");
         $('#d').focus();
         return false;
     }else if(e.length == 0){
-        alert("5.Part of loading:를 입력하세요");
+        alert("5.Kind of Packages를 입력하세요");
         $('#e').focus();
         return false;
     }else if(f.length == 0){
-        alert("6.Place of receipt를 입력하세요");
+        alert("6.Description of goods를 입력하세요");
         $('#f').focus();
         return false;
     }else if(g.length == 0){
-        alert("7.Place of delivery를 입력하세요");
+        alert("7.Gross Weight를 입력하세요");
         $('#g').focus();
         return false;
     }else if(h.length == 0){
-        alert("8.Description of goods를 입력하세요");
+        alert("8.Measurement를 입력하세요");
         $('#h').focus();
-        return false;
-    }else if(i.length == 0){
-        alert("9.Weight를 입력하세요");
-        $('#i').focus();
-        return false;
-    }else if(j.length == 0){
-        alert("10.Measurement를 입력하세요");
-        $('#j').focus();
         return false;
     }else{
         $.ajax({

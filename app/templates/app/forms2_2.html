@@ -120,7 +120,8 @@
 </header>
 <!-- Header Area End -->
 
-<div id="user-info"><a><i class="fas fa-globe-europe"> EXPORTER&nbsp </i><i class="fas fa-user">&nbsp{{user_id}}</i></a></div>
+<div id="user-info"><a><i class="fas fa-globe-europe"> EXPORTER&nbsp </i><i class="fas fa-user">&nbsp{{user_id}}</i></a>
+</div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -156,72 +157,55 @@
                                                 SHIPPING REQUEST TITLE
                                             </h4>
                                             <input class="form-control" name="srequestname" id="srequestname">
+                                            <hr>
                                             <div class="form-group">
-                                                <label>1.Shipper:</label>
+                                                <label>1.Consignee:</label>
                                                 <input class="form-control" name="a" id="a">
                                             </div>
                                             <div class="form-group">
-                                                <label>2.Consignee:</label>
+                                                <label>2.Notify Party:</label>
                                                 <input class="form-control" name="b" id="b">
                                             </div>
                                             <div class="form-group">
-                                                <label>3.Notify Party:</label>
-                                                <input class="form-control" name="c" id="c">
+                                                <label>3.Departure Date:</label>
+                                                <input class="form-control" name="c" type="date">
                                             </div>
                                             <div class="form-group">
-                                                <label>4.Vessel:</label>
+                                                <label>4.Loading Port:</label>
                                                 <input class="form-control" name="d" id="d">
                                             </div>
-                                            <div class="form-group">
-                                                <label>5.Voyage No.:</label>
-                                                <input class="form-control" name="e" id="e">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>6.Port of Loading:</label>
-                                                <input class="form-control" name="f" id="f">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>7.Port of Discharge:</label>
-                                                <input class="form-control" name="g" id="g">
-                                            </div>
-
-
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>8.Final Destination:</label>
+                                                <label>5.Type:</label>
+                                                <select class="custom-select" name="e">
+                                                    <option value="Vessel">Vessel</option>
+                                                    <option value="Flight">Flight</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>6.Terms of Delivery:</label>
+                                                <input class="form-control" name="f" id="f">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>7.Terms of Payment:</label>
+                                                <input class="form-control" name="g" id="g">
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label>8.Discharging Port:</label>
                                                 <input class="form-control" name="h" id="h">
                                             </div>
                                             <div class="form-group">
-                                                <label>9.Marking:</label>
+                                                <label>9.Cargo Type:</label>
                                                 <input class="form-control" name="i" id="i">
                                             </div>
                                             <div class="form-group">
-                                                <label>10.Packages:</label>
-                                                <input class="form-control" name="j" id="j">
+                                                <label>10.Pick up Date of Cargo:</label>
+                                                <input class="form-control" name="j" type="date">
                                             </div>
-                                            <div class="form-group">
-                                                <label>11.Description of Goods:</label>
-                                                <input class="form-control" name="k" id="k">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>12.Gross Weight:</label>
-                                                <input class="form-control" name="l" id="l">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>13.Measurement:</label>
-                                                <input class="form-control" name="m" id="m">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>14.Freight Term:</label>
-                                                <input class="form-control" name="n" id="n">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>15.Original B/L:</label>
-                                                <input class="form-control" name="o" id="o">
-                                            </div>
-
                                         </div>
                                     </div>
 
@@ -319,83 +303,45 @@ $('#submit').click(function(){
     var contractname = $('#srequestname').val();
     var a = $('#a').val();
     var b = $('#b').val();
-    var c = $('#c').val();
     var d = $('#d').val();
-    var e = $('#e').val();
     var f = $('#f').val();
     var g = $('#g').val();
     var h = $('#h').val();
     var i = $('#i').val();
-    var j = $('#j').val();
-    var k = $('#k').val();
-    var l = $('#l').val();
-    var m = $('#m').val();
-    var n = $('#n').val();
-    var o = $('#o').val();
+
+
 
     if (contractname.length ==0){
         alert("SHIPPING REQUEST TITLE를 입력하세요");
         $('#contractname').focus();
         return false;
     }else if (a.length == 0){
-        alert("1.Shipper를 입력하세요");
+        alert("1.Consignee를 입력하세요");
         $('#a').focus();
         return false;
     }else if(b.length == 0){
-        alert("2.Consignee를 입력하세요");
+        alert("2.Notify Party를 입력하세요");
         $('#b').focus();
         return false;
-    }else if(c.length == 0){
-        alert("3.Notify Party를 입력하세요");
-        $('#c').focus();
-        return false;
     }else if(d.length == 0){
-        alert("4.Vessel를 입력하세요");
+        alert("4.Loading Port를 입력하세요");
         $('#d').focus();
         return false;
-    }else if(e.length == 0){
-        alert("5.Voyage No.를 입력하세요");
-        $('#e').focus();
-        return false;
     }else if(f.length == 0){
-        alert("6.Port of Loading를 입력하세요");
+        alert("6.Terms of Delivery를 입력하세요");
         $('#f').focus();
         return false;
     }else if(g.length == 0){
-        alert("7.Port of Discharge를 입력하세요");
+        alert("7.Terms of Payment를 입력하세요");
         $('#g').focus();
         return false;
     }else if(h.length == 0){
-        alert("8.Final Destination를 입력하세요");
+        alert("8.Discharging Port를 입력하세요");
         $('#h').focus();
         return false;
     }else if(i.length == 0){
-        alert("9.Marking를 입력하세요");
+        alert("9.Cargo Type를 입력하세요");
         $('#i').focus();
-        return false;
-    }else if(j.length == 0){
-        alert("10.Packages를 입력하세요");
-        $('#j').focus();
-        return false;
-    }else if(k.length == 0){
-        alert("11.Description of Goods 입력하세요");
-        $('#k').focus();
-        return false;
-    }else if(l.length == 0){
-        alert("12.Gross Weight 입력하세요");
-        $('#l').focus();
-        return false;
-    }else if(m.length == 0){
-        alert("13.Measurement 입력하세요");
-        $('#m').focus();
-        return false;
-    }else if(n.length == 0){
-        alert("14.Freight Term를 입력하세요");
-        $('#n').focus();
-        return false;
-    }else if(o.length == 0){
-        alert("15.Original B/L 입력하세요");
-        $('#o').focus();
         return false;
     }else{
         $.ajax({
@@ -414,6 +360,7 @@ $('#submit').click(function(){
     return false;
     }
 });
+
 
 
 </script>

@@ -160,12 +160,17 @@
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>2.Credit No.:</label>
-                                                <input class="form-control" name="b" id="b">
+                                                <label>2.Type:</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="b">
+                                                    <option value="Sight">Sight</option>
+                                                    <option value="Banker's usance">Banker's usance</option>
+                                                    <option value="Shipper's usance">Shipper's usance</option>
+
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label>3.Beneficiary:</label>
-                                                <input class="form-control" name="c" id="c">
+                                                <input class="form-control" name="c" id="c" value="{{user_id}}">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
@@ -179,17 +184,8 @@
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>6.Type:</label><br>
+                                                <label>6.Partial shipment:</label><br>
                                                 <select style="width:300px; height:38px; border-radius:4px" name="f">
-                                                    <option value="Sight">Sight</option>
-                                                    <option value="Banker's usance">Banker's usance</option>
-                                                    <option value="Shipper's usance">Shipper's usance</option>
-
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>7.Partial shipment:</label><br>
-                                                <select style="width:300px; height:38px; border-radius:4px" name="g">
                                                     <option value="Allowed">Allowed</option>
                                                     <option value="Not allowed">Not allowed</option>
 
@@ -200,16 +196,16 @@
                                         <!-- /.col-lg-6 (nested) -->
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>8.Transshipment:</label><br>
-                                                <select style="width:300px; height:38px; border-radius:4px" name="h">
+                                                <label>7.Transshipment:</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="g">
                                                     <option value="Allowed">Allowed</option>
                                                     <option value="Not allowed">Not allowed</option>
 
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>9.Trnasport mode:</label><br>
-                                                <select style="width:300px; height:38px; border-radius:4px" name="i">
+                                                <label>8.Trnasport mode:</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="h">
                                                     <option value="Sea">Sea</option>
                                                     <option value="Air">Air</option>
                                                     <option value="Combined">Combined</option>
@@ -218,39 +214,39 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>10.Loading(shipment from):</label>
+                                                <label>9.Loading(shipment from):</label>
+                                                <input class="form-control" name="i" id="i">
+                                                <p class="help-block"></p>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>10.Discharging(shipment to):</label>
                                                 <input class="form-control" name="j" id="j">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>11.Discharging(shipment to):</label>
-                                                <input class="form-control" name="k" id="k">
+                                                <label>11.Latest shipment date:</label>
+                                                <input class="form-control" type="date" name="k" id="k">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>12.Latest shipment date:</label>
-                                                <input class="form-control" type="date" name="l" id="l">
-                                                <p class="help-block"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>13.All banking charges:</label><br>
-                                                <select style="width:300px; height:38px; border-radius:4px" name="m">
+                                                <label>12.All banking charges:</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="l">
                                                     <option value="Applicant">Applicant</option>
                                                     <option value="Beneficiary">Beneficiary</option>
 
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>14.Confirmation:</label><br>
-                                                <select style="width:300px; height:38px; border-radius:4px" name="n">
+                                                <label>13.Confirmation:</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="m">
                                                     <option value="Confirm">Confirm</option>
                                                     <option value="May add">May add</option>
                                                     <option value="Without">Without</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>15.T/T reimbursement:</label><br>
-                                                <select style="width:300px; height:38px; border-radius:4px" name="o">
+                                                <label>14.T/T reimbursement:</label><br>
+                                                <select style="width:300px; height:38px; border-radius:4px" name="n">
                                                     <option value="Allowed">Allowed</option>
                                                     <option value="Not allowed">Not allowed</option>
 
@@ -350,15 +346,11 @@
 $('#submit').click(function(){
     var contractname = $('#contractname').val();
     var a = $('#a').val();
-    var b = $('#b').val();
     var c = $('#c').val();
     var d = $('#d').val();
     var e = $('#e').val();
-
-
     var j = $('#j').val();
-    var k = $('#k').val();
-    var l = $('#l').val();
+    var i = $('#i').val();
 
 
     if (contractname.length == 0 ){
@@ -368,10 +360,6 @@ $('#submit').click(function(){
     }else if (a.length == 0){
         alert("1.Advising bank를 입력하세요");
         $('#a').focus();
-        return false;
-    }else if(b.length == 0){
-        alert("2.Credit No.를 입력하세요");
-        $('#b').focus();
         return false;
     }else if(c.length == 0){
         alert("3.Beneficiary를 입력하세요");
@@ -385,17 +373,13 @@ $('#submit').click(function(){
         alert("5.L/C Amount and Tolerance를 입력하세요");
         $('#e').focus();
         return false;
-    }else if(j.length == 0){
+    }else if(i.length == 0){
         alert("10.Loading(shipment from)를 입력하세요");
-        $('#j').focus();
+        $('#i').focus();
         return false;
-    }else if(k.length == 0){
+    }else if(j.length == 0){
         alert("11.Discharging(shipment to)를 입력하세요");
-        $('#k').focus();
-        return false;
-    }else if(l.length == 0){
-        alert("12.Latest shipment date를 입력하세요");
-        $('#l').focus();
+        $('#j').focus();
         return false;
     }else{
         $.ajax({

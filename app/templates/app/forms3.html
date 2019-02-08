@@ -142,7 +142,7 @@
                                 <form role="form" method="post">
 
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-10 mx-auto">
                                             <h4 class="panel-heading">
                                                 <label>Contract ID.</label>
                                                 <select class="custom-select" name="contract_id">
@@ -156,186 +156,26 @@
 
                                             <input class="form-control" name="letteroflc" id="letteroflc"><br>
 
-
-                                            <p style="font-size:25px"> L/C Form </p>
                                             <div class="form-group">
-                                                <label>1.Transfer:</label>
+                                                <label>1.Credit Number:</label>
                                                 <input class="form-control" name="a" id="a">
                                             </div>
 
                                             <div class="form-group">
-                                                <label>2.Credit Number:</label>
-                                                <input class="form-control" name="b" id="b">
+                                                <label>2.Date Of Issue:</label>
+                                                <input class="form-control" type="date" name="b" id="b">
                                             </div>
 
                                             <div class="form-group">
-                                                <label>3.Advising Bank:</label>
-                                                <input class="form-control" name="c" id="c">
+                                                <label>3.Expiry Date:</label>
+                                                <input class="form-control" type="date" name="c" id="c">
                                             </div>
-
                                             <div class="form-group">
-                                                <label>4.Expiry Date:</label>
+                                                <label>4.Credit available with:</label>
                                                 <input class="form-control" name="d" id="d">
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>5.Applicant:</label>
-                                                <input class="form-control" name="e" id="e">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>6.Beneficiary:</label>
-                                                <input class="form-control" name="f" id="f">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>7.Amount:</label>
-                                                <input class="form-control" name="g" id="g">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>8.Partial Shipment:</label>
-                                                <input class="form-control" name="h" id="h">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>9.Latest Shipment Date:</label>
-                                                <input class="form-control" type="date" name="i" id="i">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>10.Additional Conditions:</label>
-                                                <input class="form-control" name="j" id="j">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>11.All banking charges:</label>
-                                                <input class="form-control" name="k" id="k">
-                                            </div>
-
-                                            <div class="form-group"><p class="help-block"></p>
-                                                <label>12.Documents delivered by:</label>
-                                                <input class="form-control" name="l" id="l">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>13.Confirmation:</label>
-                                                <input class="form-control" name="m" id="m">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>14.Reissue:</label>
-                                                <input class="form-control" name="n" id="n">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>15.Import L/C Transfer:</label>
-                                                <input class="form-control" name="o" id="o">
-                                            </div>
-
                                         </div>
-
-                                        <div class="col-lg-4">
-                                            <p style="font-size:25px">Draft </p>
-
-                                            <div class="form-group">
-                                                <label>16.Draft at:</label>
-                                                <input class="form-control" name="p" id="p">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>17.Usance:</label>
-                                                <input class="form-control" name="q" id="q">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>18.Settling Bank:</label>
-                                                <input class="form-control" name="r" id="r">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>19.Credit:</label>
-                                                <input class="form-control" name="s" id="s">
-                                            </div>
-
-                                            <p style="font-size:25px"> Transshippment </p>
-                                            <div class="form-group">
-                                                <label>20.Transshipment mode:</label>
-                                                <input class="form-control" name="t" id="t">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>21.Authorization:</label>
-                                                <input class="form-control" name="u" id="u">
-                                            </div>
-
-                                            <p style="font-size:25px"> Loading(Shipment from) </p>
-                                            <div class="form-group">
-                                                <label>22.Port of Loading/Airport of Departure:</label>
-                                                <input class="form-control" name="v" id="v">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>23.Place of Taking in Charge:</label>
-                                                <input class="form-control" name="w" id="w">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <p style="font-size:25px">Documents Required </p>
-                                            <div class="form-group">
-                                                <label>24.SIgned/Original/Commercial Invoice :</label>
-                                                <input class="form-control" name="x" id="x">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>25.FULL SET of B/L:</label>
-                                                <input class="form-control" name="y" id="y">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>26.Certificate of Origin in :</label>
-                                                <input class="form-control" name="z" id="z">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>27.Certificate of Analysis in :</label>
-                                                <input class="form-control" name="aa" id="aa">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>28.Other Documents Required:</label>
-                                                <input class="form-control" name="bb" id="bb">
-                                            </div>
-
-                                            <p style="font-size:25px">Description of Goods/Services </p>
-                                            <div class="form-group">
-                                                <label>29. Description of Goods/Services:</label>
-                                                <input class="form-control" name="cc" id="cc">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>30.Price Terms:</label>
-                                                <input class="form-control" name="dd" id="dd">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>31.Country of Origin:</label>
-                                                <input class="form-control" name="ee" id="ee">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>32.HS CODE:</label>
-                                                <input class="form-control" name="ff" id="ff">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>33.Commodity Description:</label>
-                                                <input class="form-control" name="gg" id="gg">
-                                            </div>
-
-                                        </div>
-
 
                                     </div>
 
@@ -424,175 +264,20 @@
 $('#submit').click(function(){
     var contractname = $('#letteroflc').val();
     var a = $('#a').val();
-    var b = $('#b').val();
-    var c = $('#c').val();
     var d = $('#d').val();
-    var e = $('#e').val();
-    var f = $('#f').val();
-    var g = $('#g').val();
-    var h = $('#h').val();
-    var i = $('#i').val();
-    var j = $('#j').val();
-    var k = $('#k').val();
-    var l = $('#l').val();
-    var m = $('#m').val();
-    var n = $('#n').val();
-    var o = $('#o').val();
-    var p = $('#f').val();
-    var q = $('#p').val();
-    var r = $('#q').val();
-    var s = $('#r').val();
-    var t = $('#s').val();
-    var t = $('#t').val();
-    var t = $('#u').val();
-    var t = $('#v').val();
-    var t = $('#w').val();
-    var t = $('#x').val();
-    var t = $('#y').val();
-    var t = $('#z').val();
-    var t = $('#aa').val();
-    var t = $('#bb').val();
-    var t = $('#cc').val();
-    var t = $('#dd').val();
-    var t = $('#ee').val();
-    var t = $('#ff').val();
-    var t = $('#gg').val();
+
 
     if (contractname.length == 0){
         alert("Letter of Credit TITLE를 입력하세요");
         $('#contractname').focus();
         return false;
     }else if (a.length == 0){
-        alert("1.Transfer를 입력하세요");
+        alert("1.Credit Number:를 입력하세요");
         $('#a').focus();
         return false;
-    }else if(b.length == 0){
-        alert("2.Credit Number를 입력하세요");
-        $('#b').focus();
-        return false;
-    }else if(c.length == 0){
-        alert("3.Advising Bank를 입력하세요");
-        $('#c').focus();
-        return false;
     }else if(d.length == 0){
-        alert("4.Expiry Date를 입력하세요");
+        alert("4.Credit available with:를 입력하세요");
         $('#d').focus();
-        return false;
-    }else if(e.length == 0){
-        alert("5.Applicant를 입력하세요");
-        $('#e').focus();
-        return false;
-    }else if(f.length == 0){
-        alert("6.Beneficiary를 입력하세요");
-        $('#f').focus();
-        return false;
-    }else if(g.length == 0){
-        alert("7.Amount를 입력하세요");
-        $('#g').focus();
-        return false;
-    }else if(h.length == 0){
-        alert("8.Partial Shipment를 입력하세요");
-        $('#h').focus();
-        return false;
-    }else if(i.length == 0){
-        alert("9.Latest Shipment Date를 입력하세요");
-        $('#i').focus();
-        return false;
-    }else if(j.length == 0){
-        alert("10.Additional Conditions를 입력하세요");
-        $('#j').focus();
-        return false;
-    }else if(k.length == 0){
-        alert("11.All banking charges를 입력하세요");
-        $('#k').focus();
-        return false;
-    }else if(l.length == 0){
-        alert("12.Documents delivered by를 입력하세요");
-        $('#l').focus();
-        return false;
-    }else if(m.length == 0){
-        alert("13.Confirmation를 입력하세요");
-        $('#m').focus();
-        return false;
-    }else if(n.length == 0){
-        alert("14.Reissue를 입력하세요");
-        $('#n').focus();
-        return false;
-    }else if(o.length == 0){
-        alert("15.Import L/C Transfer를 입력하세요");
-        $('#o').focus();
-        return false;
-    }else if(p.length == 0){
-        alert("16.Draft at를 입력하세요");
-        $('#p').focus();
-        return false;
-    }else if(q.length == 0){
-        alert("17.Usance를 입력하세요");
-        $('#q').focus();
-        return false;
-    }else if(r.length == 0){
-        alert("18.Settling Bank를 입력하세요");
-        $('#r').focus();
-        return false;
-    }else if(s.length == 0){
-        alert("19.Credit를 입력하세요");
-        $('#s').focus();
-        return false;
-    }else if(t.length == 0){
-        alert("20.Transshipment mode를 입력하세요");
-        $('#t').focus();
-        return false;
-    }else if(u.length == 0){
-        alert("21.Authorization를 입력하세요");
-        $('#u').focus();
-        return false;
-    }else if(v.length == 0){
-        alert("22.Port of Loading/Airport of Departure를 입력하세요");
-        $('#v').focus();
-        return false;
-    }else if(w.length == 0){
-        alert("23.Place of Taking in Charge를 입력하세요");
-        $('#w').focus();
-        return false;
-    }else if(x.length == 0){
-        alert("24.SIgned/Original/Commercial Invoice를 입력하세요");
-        $('#x').focus();
-        return false;
-    }else if(y.length == 0){
-        alert("25.FULL SET of B/L를 입력하세요");
-        $('#y').focus();
-        return false;
-    }else if(z.length == 0){
-        alert("26.Certificate of Origin in를 입력하세요");
-        $('#z').focus();
-        return false;
-    }else if(aa.length == 0){
-        alert("27.Certificate of Analysis in를 입력하세요");
-        $('#aa').focus();
-        return false;
-    }else if(bb.length == 0){
-        alert("28.Other Documents Required를 입력하세요");
-        $('#bb').focus();
-        return false;
-    }else if(cc.length == 0){
-        alert("29. Description of Goods/Services를 입력하세요");
-        $('#cc').focus();
-        return false;
-    }else if(dd.length == 0){
-        alert("30.Price Terms를 입력하세요");
-        $('#dd').focus();
-        return false;
-    }else if(ee.length == 0){
-        alert("31.Country of Origin를 입력하세요");
-        $('#ee').focus();
-        return false;
-    }else if(ff.length == 0){
-        alert("32.HS CODE를 입력하세요");
-        $('#ff').focus();
-        return false;
-    }else if(gg.length == 0){
-        alert("33.Commodity Description를 입력하세요");
-        $('#gg').focus();
         return false;
     }else{
         $.ajax({

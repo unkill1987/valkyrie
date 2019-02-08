@@ -24,7 +24,9 @@
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
 </head>
-
+<style>
+    tr td .form-control{border-radius:0px;}
+</style>
 <body>
 <!-- Preloader -->
 <div id="preloader">
@@ -135,8 +137,8 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
-                <div class="row">
-                    <div class="col-lg-12">
+                <div class="row" >
+                    <div class="col-lg-10 mx-auto">
                         <div class="panel panel-default">
 
 
@@ -153,7 +155,7 @@
                                             <table>
                                                 <tr>
                                                     <th>
-                                                        Item:
+                                                        Item No:
                                                     </th>
                                                     <th>
                                                         Description:
@@ -193,25 +195,86 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <input class="form-control" name="j" id="j">
+                                                        <input class="form-control" name="j2" id="j">
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" name="k" id="k">
+                                                        <input class="form-control" name="k2" id="k">
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" name="l" id="l">
+                                                        <input class="form-control" name="l2" id="l">
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" name="m" id="m">
+                                                        <input class="form-control" name="m2" id="m">
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" name="n" id="n">
+                                                        <input class="form-control" name="n2" id="n">
                                                     </td>
                                                     <td>
-                                                        <input class="form-control" name="o" id="o">
+                                                        <input class="form-control" name="o2" id="o">
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <td>
+                                                        <input class="form-control" name="j3" id="j">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="k3" id="k">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="l3" id="l">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="m3" id="m">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="n3" id="n">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="o3" id="o">
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <td>
+                                                        <input class="form-control" name="j4" id="j">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="k4" id="k">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="l4" id="l">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="m4" id="m">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="n4" id="n">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="o4" id="o">
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <td>
+                                                        <input class="form-control" name="j5" id="j">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="k5" id="k">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="l5" id="l">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="m5" id="m">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="n5" id="n">
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" name="o5" id="o">
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <hr>
                                             <div class="form-group">
                                                 <label>1.Origin:</label>
                                                 <input class="form-control" name="a" id="a">
@@ -399,27 +462,27 @@ $('#submit').click(function(){
         $('#i').focus();
         return false;
     }else if(j.length == 0){
-        alert("10.Item를 입력하세요");
+        alert("Item를 입력하세요");
         $('#j').focus();
         return false;
     }else if(k.length == 0){
-        alert("11.Description를 입력하세요");
+        alert("Description를 입력하세요");
         $('#k').focus();
         return false;
     }else if(l.length == 0){
-        alert("12.Unit를 입력하세요");
+        alert("Unit를 입력하세요");
         $('#l').focus();
         return false;
     }else if(m.length == 0){
-        alert("13.Quantity를 입력하세요");
+        alert("Quantity를 입력하세요");
         $('#m').focus();
         return false;
     }else if(n.length == 0){
-        alert("14.Unit Price를 입력하세요");
+        alert("Unit Price를 입력하세요");
         $('#n').focus();
         return false;
     }else if(o.length == 0){
-        alert("15.Amount를 입력하세요");
+        alert("Amount를 입력하세요");
         $('#o').focus();
         return false;
     }else{

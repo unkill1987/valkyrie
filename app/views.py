@@ -43,7 +43,7 @@ def os_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                            'http://222.239.231.247:8001/add_OS/' + contract_id + '- Exporter: ' + owner + '- importer: ' + share_user + '- offer sheet: ' + hash)
+                        'http://127.0.0.1:8001/add_OS/' + contract_id + '- Exporter: ' + owner + '- importer: ' + share_user + '- offer sheet: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "The contract already exists":
@@ -95,7 +95,7 @@ def lcr_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                            'http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + owner + '- bank: ' + share_user + '- letter of credit request: ' + hash)
+                        'http://127.0.0.1:8001/add_LCR/' + contract_id + '- importer: ' + owner + '- bank: ' + share_user + '- letter of credit request: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -148,7 +148,7 @@ def lc_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                            'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + owner + '- exporter: ' + share_user + '- letter of credit: ' + hash)
+                        'http://127.0.0.1:8001/add_LC/' + contract_id + '- bank: ' + owner + '- exporter: ' + share_user + '- letter of credit: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -200,7 +200,7 @@ def sr_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                            'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + owner + '- shipper: ' + share_user + '- shipping request: ' + hash)
+                        'http://127.0.0.1:8001/add_SR/' + contract_id + '- exporter: ' + owner + '- shipper: ' + share_user + '- shipping request: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -271,6 +271,7 @@ def bl_confirm(request):
         print(e)
     return JsonResponse(result_dict)
 
+
 @csrf_exempt
 def bl_confirm1(request):
     result_dict = {}
@@ -317,7 +318,7 @@ def bl_confirm2(request):
 
             if otp == nowotp:
                 url = (
-                        'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of letter: ' + hash)
+                        'http://127.0.0.1:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of letter: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -346,6 +347,7 @@ def bl_confirm2(request):
         print(e)
     return JsonResponse(result_dict)
 
+
 @csrf_exempt
 def ci_confirm(request):
     result_dict = {}
@@ -370,7 +372,7 @@ def ci_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                            'http://222.239.231.247:8001/add_CI/' + contract_id + '- exporter: ' + owner + '- importer: ' + share_user + '- commercial invoice: ' + hash)
+                        'http://127.0.0.1:8001/add_CI/' + contract_id + '- exporter: ' + owner + '- importer: ' + share_user + '- commercial invoice: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -421,7 +423,8 @@ def do_confirm(request):
             share_user = c.share1
             hash = c.sha256
             if otp == nowotp:
-                url = ('http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + owner + '- importer: ' + share_user + '- delivery order: ' + hash)
+                url = (
+                            'http://127.0.0.1:8001/add_DO/' + contract_id + '- shipper: ' + owner + '- importer: ' + share_user + '- delivery order: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -501,7 +504,7 @@ def lcr_reject(request):
         c = Contract_LCR.objects.get(id=contract_id)
         if c.status == 'new':
             c.status = 'rejected'
-            c.share3 =''
+            c.share3 = ''
             c.save()
             result_dict['result'] = 'rejected'
         elif c.status == 'confirmed':
@@ -584,6 +587,7 @@ def bl_reject(request):
         print(e)
     return JsonResponse(result_dict)
 
+
 @csrf_exempt
 def bl_reject2(request):
     result_dict = {}
@@ -605,6 +609,7 @@ def bl_reject2(request):
         result_dict['result'] = 'fail'
         print(e)
     return JsonResponse(result_dict)
+
 
 @csrf_exempt
 def ci_reject(request):
@@ -665,7 +670,7 @@ def checkcontract(request):
     try:
         result_dict = {}
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
         if len(history) == 0:
@@ -682,13 +687,13 @@ def email(request):
         user_role = request.session['user_role']
         user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {'user_id':user_id})
+            return render(request, 'app/mypage1.html', {'user_id': user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {'user_id':user_id})
+            return render(request, 'app/mypage2.html', {'user_id': user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {'user_id':user_id})
+            return render(request, 'app/mypage3.html', {'user_id': user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {'user_id':user_id})
+            return render(request, 'app/mypage4.html', {'user_id': user_id})
         else:
             return redirect('index')
 
@@ -726,13 +731,13 @@ def mytrade(request):
         user_role = request.session['user_role']
         user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {'user_id':user_id})
+            return render(request, 'app/mypage1.html', {'user_id': user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {'user_id':user_id})
+            return render(request, 'app/mypage2.html', {'user_id': user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {'user_id':user_id})
+            return render(request, 'app/mypage3.html', {'user_id': user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {'user_id':user_id})
+            return render(request, 'app/mypage4.html', {'user_id': user_id})
         else:
             return redirect('index')
     else:
@@ -740,9 +745,10 @@ def mytrade(request):
         try:
 
             mytrade = request.POST['mytrade']
-            trade = Process.objects.filter(contract_id=mytrade).values('OS_hash', 'LCR_hash', 'LC_hash', 'SR_hash', 'BL_hash',
-                                                              'CI_hash',
-                                                              'DO_hash')
+            trade = Process.objects.filter(contract_id=mytrade).values('OS_hash', 'LCR_hash', 'LC_hash', 'SR_hash',
+                                                                       'BL_hash',
+                                                                       'CI_hash',
+                                                                       'DO_hash')
             return JsonResponse({'trade': list(trade)})
         except Exception as e:
             result_dict['result'] = "Invalid Contract"
@@ -754,13 +760,13 @@ def addressmodify(request):
         user_role = request.session['user_role']
         user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {'user_id':user_id})
+            return render(request, 'app/mypage1.html', {'user_id': user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {'user_id':user_id})
+            return render(request, 'app/mypage2.html', {'user_id': user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {'user_id':user_id})
+            return render(request, 'app/mypage3.html', {'user_id': user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {'user_id':user_id})
+            return render(request, 'app/mypage4.html', {'user_id': user_id})
         else:
             return redirect('index')
     else:
@@ -788,13 +794,13 @@ def pwmodify(request):
         user_role = request.session['user_role']
         user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {'user_id':user_id})
+            return render(request, 'app/mypage1.html', {'user_id': user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {'user_id':user_id})
+            return render(request, 'app/mypage2.html', {'user_id': user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {'user_id':user_id})
+            return render(request, 'app/mypage3.html', {'user_id': user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {'user_id':user_id})
+            return render(request, 'app/mypage4.html', {'user_id': user_id})
         else:
             return redirect('index')
     else:
@@ -823,13 +829,13 @@ def makeotp(request):
         user_role = request.session['user_role']
         user_id = request.session['user_id']
         if user_role == '1':
-            return render(request, 'app/mypage1.html', {'user_id':user_id})
+            return render(request, 'app/mypage1.html', {'user_id': user_id})
         elif user_role == '2':
-            return render(request, 'app/mypage2.html', {'user_id':user_id})
+            return render(request, 'app/mypage2.html', {'user_id': user_id})
         elif user_role == '3':
-            return render(request, 'app/mypage3.html', {'user_id':user_id})
+            return render(request, 'app/mypage3.html', {'user_id': user_id})
         elif user_role == '4':
-            return render(request, 'app/mypage4.html', {'user_id':user_id})
+            return render(request, 'app/mypage4.html', {'user_id': user_id})
         else:
             return redirect('index')
     else:
@@ -863,7 +869,9 @@ def mypage1(request):
             a = len(mytrade)
             b = len(complete)
             user_info = Member.objects.get(user_id=user_id)
-            return render(request, 'app/mypage1.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b,'user_id':user_id})
+            return render(request, 'app/mypage1.html',
+                          {'mytrade': mytrade, 'user_info': user_info, 'complete': complete, 'a': a, 'b': b,
+                           'user_id': user_id})
         except:
             return render(request, 'app/mypage1.html', {})
     except Exception as e:
@@ -880,7 +888,9 @@ def mypage2(request):
             user_info = Member.objects.get(user_id=user_id)
             a = len(mytrade)
             b = len(complete)
-            return render(request, 'app/mypage2.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b,'user_id':user_id})
+            return render(request, 'app/mypage2.html',
+                          {'mytrade': mytrade, 'user_info': user_info, 'complete': complete, 'a': a, 'b': b,
+                           'user_id': user_id})
         except:
             return render(request, 'app/mypage2.html', {})
     except Exception as e:
@@ -897,7 +907,9 @@ def mypage3(request):
             user_info = Member.objects.get(user_id=user_id)
             a = len(mytrade)
             b = len(complete)
-            return render(request, 'app/mypage3.html', {'mytrade': mytrade, 'user_info': user_info,'complete':complete, 'a':a, 'b':b, 'user_id':user_id})
+            return render(request, 'app/mypage3.html',
+                          {'mytrade': mytrade, 'user_info': user_info, 'complete': complete, 'a': a, 'b': b,
+                           'user_id': user_id})
         except:
             return render(request, 'app/mypage3.html', {})
     except:
@@ -913,7 +925,9 @@ def mypage4(request):
             user_info = Member.objects.get(user_id=user_id)
             a = len(mytrade)
             b = len(complete)
-            return render(request, 'app/mypage4.html', {'mytrade': mytrade, 'user_info': user_info, 'complete':complete, 'a':a, 'b':b, 'user_id':user_id})
+            return render(request, 'app/mypage4.html',
+                          {'mytrade': mytrade, 'user_info': user_info, 'complete': complete, 'a': a, 'b': b,
+                           'user_id': user_id})
         except:
             return render(request, 'app/mypage4.html', {})
     except:
@@ -928,7 +942,7 @@ def search1(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -936,13 +950,13 @@ def search1(request):
             return redirect('index')
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -950,13 +964,13 @@ def search1(request):
             return redirect('mypage1')
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
     try:
         cid = str(request.POST['complete'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -964,7 +978,7 @@ def search1(request):
             return redirect('mypage1')
         else:
             history.reverse()
-            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         return redirect('index')
@@ -974,7 +988,7 @@ def search2(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -982,13 +996,13 @@ def search2(request):
             return redirect('index2')
         else:
             history.reverse()
-            return render(request, 'app/search2.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search2.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -996,13 +1010,13 @@ def search2(request):
             return redirect('mypage2')
         else:
             history.reverse()
-            return render(request, 'app/search2.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search2.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+            url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1010,7 +1024,7 @@ def search2(request):
                 return redirect('mypage2')
             else:
                 history.reverse()
-                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id': user_id})
         except Exception as e:
             print(e)
             return redirect('index2')
@@ -1020,7 +1034,7 @@ def search3(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1028,13 +1042,13 @@ def search3(request):
             return redirect('index3')
         else:
             history.reverse()
-            return render(request, 'app/search3.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search3.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1042,13 +1056,13 @@ def search3(request):
             return redirect('mypage3')
         else:
             history.reverse()
-            return render(request, 'app/search3.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search3.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+            url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1056,7 +1070,7 @@ def search3(request):
                 return redirect('mypage3')
             else:
                 history.reverse()
-                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id': user_id})
         except Exception as e:
             print(e)
             return redirect('index3')
@@ -1066,7 +1080,7 @@ def search4(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1074,13 +1088,13 @@ def search4(request):
             return redirect('index4')
         else:
             history.reverse()
-            return render(request, 'app/search4.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search4.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1088,13 +1102,13 @@ def search4(request):
             return redirect('mypage4')
         else:
             history.reverse()
-            return render(request, 'app/search4.html', {'cid': cid, 'history': history, 'user_id':user_id})
+            return render(request, 'app/search4.html', {'cid': cid, 'history': history, 'user_id': user_id})
     except Exception as e:
         print(e)
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+            url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1102,7 +1116,7 @@ def search4(request):
                 return redirect('mypage4')
             else:
                 history.reverse()
-                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id':user_id})
+                return render(request, 'app/search1.html', {'cid': cid, 'history': history, 'user_id': user_id})
         except Exception as e:
             print(e)
             return redirect('inde4')
@@ -1128,9 +1142,9 @@ def share1(request):
         nowotp = totp.now()
 
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user, user_role='3'):
                 share = Contract_LCR.objects.get(id=check_id)
-                if share.share3 =='':
+                if share.share3 == '':
                     share.share3 = share_user
                     share.status = "new"
                     share.save()
@@ -1169,7 +1183,7 @@ def share2_1(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user, user_role='1'):
                 share = Contract_OS.objects.get(id=check_id)
                 if share.share1 == '':
                     share.share1 = share_user
@@ -1211,9 +1225,9 @@ def share2_2(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user, user_role='4'):
                 share = Contract_SR.objects.get(id=check_id)
-                if share.share4 =='':
+                if share.share4 == '':
                     share.share4 = share_user
                     share.status = "new"
                     share.save()
@@ -1253,7 +1267,7 @@ def share2_3(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user, user_role='1'):
                 share = Contract_CI.objects.get(id=check_id)
                 if share.share1 == '':
                     share.share1 = share_user
@@ -1295,9 +1309,9 @@ def share3(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user2):
+            if otp == nowotp and Member.objects.get(user_id=share_user, user_role='1') and Member.objects.get(user_id=share_user2, user_role='2'):
                 share = Contract_LC.objects.get(id=check_id)
-                if share.share1 == '' and share.share2 =='':
+                if share.share1 == '' and share.share2 == '':
                     share.share1 = share_user
                     share.share2 = share_user2
                     share.status = "new"
@@ -1337,9 +1351,9 @@ def share4_1(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user) and Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user, user_role='2'):
                 share = Contract_BL.objects.get(id=check_id)
-                if share.share1 =='' and share.share2 =='':
+                if share.share1 == '' and share.share2 == '':
                     share.share2 = share_user
                     share.status2 = "new"
                     share.save()
@@ -1378,9 +1392,9 @@ def share4_2(request):
         totp = pyotp.TOTP(otpkey)
         nowotp = totp.now()
         try:
-            if otp == nowotp and Member.objects.get(user_id=share_user):
+            if otp == nowotp and Member.objects.get(user_id=share_user, user_role='1'):
                 share = Contract_DO.objects.get(id=check_id)
-                if share.share1 =='' and share.share3 =='':
+                if share.share1 == '' and share.share3 == '':
                     share.share1 = share_user
                     share.status = "new"
                     share.save()
@@ -1400,14 +1414,15 @@ def share4_2(request):
         print(e)
         return redirect('ing4_2')
 
+
 @csrf_exempt
 def remove(request):
     check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-    result_dict ={}
+    result_dict = {}
     try:
         for check_id in check_ids:
-            if  Contract_LCR.objects.get(id=check_id).share3 == '':
+            if Contract_LCR.objects.get(id=check_id).share3 == '':
                 Contract_LCR.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1416,6 +1431,7 @@ def remove(request):
     except Exception as e:
         print(e)
         return redirect('ing')
+
 
 @csrf_exempt
 def remove2_1(request):
@@ -1434,11 +1450,12 @@ def remove2_1(request):
         print(e)
         return redirect('ing2_1')
 
+
 @csrf_exempt
 def remove2_2(request):
     check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-    result_dict ={}
+    result_dict = {}
     try:
         for check_id in check_ids:
             if Contract_SR.objects.get(id=check_id).share4 == '':
@@ -1451,11 +1468,12 @@ def remove2_2(request):
         print(e)
         return redirect('ing2_2')
 
+
 @csrf_exempt
 def remove2_3(request):
     check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-    result_dict ={}
+    result_dict = {}
     try:
         for check_id in check_ids:
             if Contract_CI.objects.get(id=check_id).share1 == '':
@@ -1469,14 +1487,15 @@ def remove2_3(request):
         print(e)
         return redirect('ing2_3')
 
+
 @csrf_exempt
 def remove3(request):
     check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-    result_dict ={}
+    result_dict = {}
     try:
         for check_id in check_ids:
-            if  Contract_LC.objects.get(id=check_id).share1 == '' and Contract_LC.objects.get(id=check_id).share2 == '':
+            if Contract_LC.objects.get(id=check_id).share1 == '' and Contract_LC.objects.get(id=check_id).share2 == '':
                 Contract_LC.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1487,14 +1506,16 @@ def remove3(request):
         print(e)
         return redirect('ing3')
 
+
 @csrf_exempt
 def remove4_1(request):
     check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-    result_dict ={}
+    result_dict = {}
     try:
         for check_id in check_ids:
-            if  Contract_BL.objects.get(id=check_id).share1 =='' and Contract_BL.objects.get(id=check_id).share2 =='' and Contract_BL.objects.get(id=check_id).share3 =='':
+            if Contract_BL.objects.get(id=check_id).share1 == '' and Contract_BL.objects.get(
+                    id=check_id).share2 == '' and Contract_BL.objects.get(id=check_id).share3 == '':
                 Contract_BL.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1505,14 +1526,15 @@ def remove4_1(request):
         print(e)
         return redirect('ing4_1')
 
+
 @csrf_exempt
 def remove4_2(request):
     check_id = request.POST['check_ids']
     check_ids = check_id.split(',')
-    result_dict ={}
+    result_dict = {}
     try:
         for check_id in check_ids:
-            if  Contract_DO.objects.get(id=check_id).share1 == '':
+            if Contract_DO.objects.get(id=check_id).share1 == '':
                 Contract_DO.objects.get(id=check_id).delete()
                 result_dict['result'] = 'deleted'
             else:
@@ -1603,6 +1625,7 @@ def blremove2(request):
             pass
     return redirect('blreceived2')
 
+
 def blremove3(request):
     # deletes all objects from Car database table
     # Contract.objects.get('id').delete()
@@ -1617,6 +1640,7 @@ def blremove3(request):
         except:
             pass
     return redirect('blreceived3')
+
 
 def lcremove2(request):
     # deletes all objects from Car database table
@@ -1648,9 +1672,6 @@ def doremove(request):
         except:
             pass
     return redirect('doreceived')
-
-
-
 
 
 def lcrremove(request):
@@ -1686,7 +1707,7 @@ def srremove(request):
 
 
 def submit(request):
-    result_dict={}
+    result_dict = {}
     try:
         user_id = request.session['user_id']
         contractname = request.POST['contractname']
@@ -1705,7 +1726,50 @@ def submit(request):
         l = request.POST['l']
         m = request.POST['m']
         n = request.POST['n']
-        o = request.POST['o']
+
+
+        package = Contract_OS.objects.filter(id=contract_id)
+
+        item1 = package.values('item1')[0]['item1']
+        description1 = package.values('description1')[0]['description1']
+        quantity1 = package.values('quantity1')[0]['quantity1']
+        price1 = package.values('price1')[0]['price1']
+        amount1 = package.values('amount1')[0]['amount1']
+
+        item2 = package.values('item2')[0]['item2']
+        description2 = package.values('description2')[0]['description2']
+        quantity2 = package.values('quantity2')[0]['quantity2']
+        price2= package.values('price2')[0]['price2']
+        amount2 = package.values('amount2')[0]['amount2']
+
+        item3 = package.values('item3')[0]['item3']
+        description3 = package.values('description3')[0]['description3']
+        quantity3 = package.values('quantity3')[0]['quantity3']
+        price3 = package.values('price3')[0]['price3']
+        amount3 = package.values('amount3')[0]['amount3']
+
+        item4 = package.values('item4')[0]['item4']
+        description4 = package.values('description4')[0]['description4']
+        quantity4 = package.values('quantity4')[0]['quantity4']
+        price4 = package.values('price4')[0]['price4']
+        amount4 = package.values('amount4')[0]['amount4']
+
+        item5 = package.values('item5')[0]['item5']
+        description5 = package.values('description5')[0]['description5']
+        quantity5 = package.values('quantity5')[0]['quantity5']
+        price5 = package.values('price5')[0]['price5']
+        amount5 = package.values('amount5')[0]['amount5']
+
+        # beneficiary = Member.objects.filter(user_id=c)
+        # applicant = Member.objects.filter(user_id=d)
+        # beneficiary_name = beneficiary.values('user_name')[0]['user_name']
+        # beneficiary_address = beneficiary.values('address')[0]['address']
+        # applicant_name = applicant.values('user_name')[0]['user_name']
+        # applicant_address = applicant.values('address')[0]['address']
+        # beneficiary_info = beneficiary_name + '\n' + beneficiary_address
+        # applicant_info = applicant_name + '\n' + applicant_address
+
+
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_LCR.objects.filter(contract_id=contract_id)) == 0:
             try:
@@ -1713,38 +1777,60 @@ def submit(request):
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['No.', 'title', 'content'],
-                           [1, 'Advising bank:', a],
-                           [2, 'Credit No.:', b],
-                           [3, 'Beneficiary:', c],
-                           [4, 'Applicant:', d],
-                           [5, 'L/C Amount and Tolerance:', e],
-                           [6, 'Type:', f],
-                           [7, 'Partial shipment:', g],
-                           [8, 'Transshipment:', h],
-                           [9, 'Trnasport mode:', i],
-                           [10, 'Loading(shipment from):', j],
-                           [11, 'Discharging(shipment to):', k],
-                           [12, 'Latest shipment date:', l],
-                           [13, 'All banking charges:', m],
-                           [14, 'Confirmation:', n],
-                           [15, 'T/T reimbursement:', o],
-                           ]
+                records = [['1.Advising bank:', '2.Type:'],
+                           ['>'+a, '>'+b],
+                           ['3.Beneficiary:', '4.Applicant:'],
+                           ['>'+c, '>'+d],
+                           ['5.L/C Amount and Tolerance:', '6.Latest shipment date:'],
+                           ['>'+e, '>'+k],
+                           ['7.Partial shipment:', '8.Transshipment:'],
+                           ['>'+f, '>'+g],
+                           ['9.Loading(shipment from):', '10.Discharging(shipment to):'],
+                           ['>'+i, '>'+j]]
 
+                pdf.ln(0.5)
+                pdf.set_font('Arial', 'BU', 16.0)
+                pdf.cell(epw, 0.0, 'APPLICATION FOR IRREVOCABLE DOCUMENTRAY CREADIT', align='C')
+                pdf.ln(0.25)
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
                 pdf.ln(0.25)
                 pdf.set_font('Arial', '', 12.0)
-                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-                pdf.set_font('Arial', '', 10.0)
                 pdf.ln(0.5)
 
                 th = pdf.font_size
                 for row in records:
-                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                    pdf.cell(epw/2, 2 * th, str(row[0]), border=1)
+                    pdf.cell(epw/2, 2 * th, str(row[1]), border=1)
                     pdf.ln(2 * th)
+                pdf.cell(epw, 2 * th, 'Trnasport mode : ' + h, border=1)
+                pdf.ln(2 * th)
+                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
+                          [item1, description1, quantity1, price1, amount1],
+                          [item2, description2, quantity2, price2, amount2],
+                          [item3, description3, quantity3, price3, amount3],
+                          [item4, description4, quantity4, price4, amount4],
+                          [item5, description5, quantity5, price5, amount5]]
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.5, 'Description of Goods and/or Services', align='C')
+                pdf.ln(0.5)
+                for row in tables:
+                    pdf.cell(epw/7, 2 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3*epw/7, 2 * th, str(row[1]), border=1, align='C')
+                    pdf.cell(epw/7, 2 * th, str(row[2]), border=1, align='C')
+                    pdf.cell(epw/7, 2 * th, str(row[3]), border=1, align='C')
+                    pdf.cell(epw/7, 2 * th, str(row[4]), border=1, align='C')
+                    pdf.ln(2 * th)
+                pdf.ln(0.5)
+                pdf.cell(epw, 2 * th, ' All banking charges : ' + l, border=1)
+                pdf.ln(2 * th)
+                pdf.cell(epw, 2 * th, ' Confirmation : ' + m, border=1)
+                pdf.ln(2 * th)
+                pdf.cell(epw, 2 * th, ' T/T reimbursement : ' + n, border=1)
+                pdf.ln(0.5)
+                pdf.cell(epw, 2 * th,  ' Request By : ' + user_id, border=0, align='R')
+                pdf.ln(2 * th)
+
 
                 pdf.output('document/LCR_' + time_format + '.pdf', 'F')
                 file = open('document/LCR_' + time_format + '.pdf', 'rb')
@@ -1754,8 +1840,8 @@ def submit(request):
                 file.close()
 
                 # 데이터 저장
-                contract = Contract_LCR(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
-                                        filename='document/LCR_' + time_format + '.pdf')
+                contract = Contract_LCR(contractname=contractname, contract_id=contract_id, sha256=hash, status='new',
+                                        filename='document/LCR_' + time_format + '.pdf', advisingbank=a, applicant=c, beneficiary=d, amount=e, particalshipment=f, transshipment=g, loding=i)
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
                 user_id = request.session['user_id']
@@ -1765,6 +1851,7 @@ def submit(request):
                 result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
+                print(e)
                 result_dict['result'] = "영어로 작성해주세요."
                 return JsonResponse(result_dict)
         else:
@@ -1798,6 +1885,34 @@ def submit2_1(request):
         n = request.POST['n']
         o = request.POST['o']
 
+        j2 = request.POST['j2']
+        k2 = request.POST['k2']
+        l2 = request.POST['l2']
+        m2 = request.POST['m2']
+        n2 = request.POST['n2']
+        o2 = request.POST['o2']
+
+        j3 = request.POST['j3']
+        k3 = request.POST['k3']
+        l3 = request.POST['l3']
+        m3 = request.POST['m3']
+        n3 = request.POST['n3']
+        o3 = request.POST['o3']
+
+        j4 = request.POST['j4']
+        k4 = request.POST['k4']
+        l4 = request.POST['l4']
+        m4 = request.POST['m4']
+        n4 = request.POST['n4']
+        o4 = request.POST['o4']
+
+        j5 = request.POST['j5']
+        k5 = request.POST['k5']
+        l5 = request.POST['l5']
+        m5 = request.POST['m5']
+        n5 = request.POST['n5']
+        o5 = request.POST['o5']
+
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         try:
             pdf = FPDF(unit='in', format='A4')
@@ -1805,39 +1920,57 @@ def submit2_1(request):
 
             pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
-            records = [['No.', 'title', 'content'],
-                       [1, 'Origin:', a],
-                       [2, 'Packing:', b],
-                       [3, 'Shipment:', c],
-                       [4, 'Shipping Port:', d],
-                       [5, 'Inspection:', e],
-                       [6, 'Destination:', f],
-                       [7, 'Payment:', g],
-                       [8, 'Validity:', h],
-                       [9, 'Remarks:', i],
-                       [10, 'Item:', j],
-                       [11, 'Description:', k],
-                       [12, 'Unit:', l],
-                       [13, 'Quantity:', m],
-                       [14, 'Unit Price:', n],
-                       [15, 'Amount:', o],
-                       ]
-            tag = contractname + '/' + time_format
 
+            pdf.ln(0.75)
+            pdf.set_font('Arial', 'BU', 16.0)
+            pdf.cell(epw, 0.0, 'OFFER SHEET', align='C')
+            pdf.ln(0.25)
             pdf.set_font('Arial', 'B', 14.0)
-            pdf.cell(epw, 0.0, u'%s' % tag, align='C')
+            pdf.cell(epw, 0.0, time_format, align='C')
             pdf.ln(0.25)
             pdf.set_font('Arial', '', 12.0)
-            pdf.cell(epw, 0.0, 'OS From:' + user_id, align='C')
-            pdf.set_font('Arial', '', 10.0)
             pdf.ln(0.5)
-
+            pdf.cell(epw, 0.0, 'We are pleased to offer under-mentioned article(s) as per conditions and details described as follows', align='L')
+            pdf.ln(0.25)
             th = pdf.font_size
+            records = [['Item No.', 'Description', 'Unit', 'Quantity', 'Unit Price', 'Amount'],
+                       [j, k, l, m, n, o],
+                       [j2, k2, l2, m2, n2, o2],
+                       [j3, k3, l3, m3, n3, o3],
+                       [j4, k4, l4, m4, n4, o4],
+                       [j5, k5, l5, m5, n5, o5]]
+
             for row in records:
-                pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                pdf.cell(3.5, 2 * th, str(row[2]), border=1)
+                pdf.cell(1, 2 * th, str(row[0]), border=1, align='C')
+                pdf.cell(2.5, 2 * th, str(row[1]), border=1, align='C')
+                pdf.cell(1, 2 * th, str(row[2]), border=1, align='C')
+                pdf.cell(1, 2 * th, str(row[3]), border=1, align='C')
+                pdf.cell(1, 2 * th, str(row[4]), border=1, align='C')
+                pdf.cell(1, 2 * th, str(row[5]), border=1, align='C')
                 pdf.ln(2 * th)
+            pdf.ln(0.5)
+            bottom_content = [['Origin', ':', a],
+                              ['Packing', ':', b],
+                              ['Shipment', ':', c],
+                              ['Shipping Port', ':', d],
+                              ['Inspection', ':', e],
+                              ['Destination', ':', f],
+                              ['Payment', ':', g],
+                              ['Validity', ':', h],
+                              ['Remarks', ':', i]]
+
+            for b in bottom_content:
+                pdf.cell(1, 2 * th, str(b[0]), align='L')
+                pdf.cell(1, 2 * th, str(b[1]), align='C')
+                pdf.cell(5.5, 2 * th, str(b[2]), align='L')
+                pdf.ln(2 * th)
+            pdf.ln(1)
+            pdf.cell(epw, 0.0, 'Looking forward to your valued order for the above offer, we are' , align='R')
+            pdf.ln(0.5)
+            pdf.cell(epw, 0.0, 'yours faithfully', align='R')
+            pdf.ln(0.5)
+            pdf.cell(epw, 0.0, user_id, align='R')
+            pdf.ln(0.5)
 
             pdf.output('document/OS_' + time_format + '.pdf', 'F')
             file = open('document/OS_' + time_format + '.pdf', 'rb')
@@ -1848,7 +1981,12 @@ def submit2_1(request):
 
             # 데이터 저장
             contract = Contract_OS(contractname=contractname, sha256=hash, status='new',
-                                   filename='document/OS_' + time_format + '.pdf')
+                                   filename='document/OS_' + time_format + '.pdf',
+                                   item1=j, item2=j2, item3=j3, item4=j4, item5=j5,
+                                   description1=k, description2=k2, description3=k3, description4=k4, description5=k5,
+                                   quantity1=m, quantity2=m2, quantity3=m3, quantity4=m4, quantity5=m5,
+                                   price1=n, price2=n2, price3=n3, price4=n4, price5=n5,
+                                   amount1=o, amount2=o2, amount3=o3, amount4=o4, amount5=o5)
 
             # 로그인한 사용자 정보를 Contract에 같이 저장
             user_id = request.session['user_id']
@@ -1882,11 +2020,41 @@ def submit2_2(request):
         h = request.POST['h']
         i = request.POST['i']
         j = request.POST['j']
-        k = request.POST['k']
-        l = request.POST['l']
-        m = request.POST['m']
-        n = request.POST['n']
-        o = request.POST['o']
+
+        package = Contract_OS.objects.filter(id=contract_id)
+
+        item1 = package.values('item1')[0]['item1']
+        description1 = package.values('description1')[0]['description1']
+        quantity1 = package.values('quantity1')[0]['quantity1']
+        price1 = package.values('price1')[0]['price1']
+        amount1 = package.values('amount1')[0]['amount1']
+
+        item2 = package.values('item2')[0]['item2']
+        description2 = package.values('description2')[0]['description2']
+        quantity2 = package.values('quantity2')[0]['quantity2']
+        price2 = package.values('price2')[0]['price2']
+        amount2 = package.values('amount2')[0]['amount2']
+
+        item3 = package.values('item3')[0]['item3']
+        description3 = package.values('description3')[0]['description3']
+        quantity3 = package.values('quantity3')[0]['quantity3']
+        price3 = package.values('price3')[0]['price3']
+        amount3 = package.values('amount3')[0]['amount3']
+
+        item4 = package.values('item4')[0]['item4']
+        description4 = package.values('description4')[0]['description4']
+        quantity4 = package.values('quantity4')[0]['quantity4']
+        price4 = package.values('price4')[0]['price4']
+        amount4 = package.values('amount4')[0]['amount4']
+
+        item5 = package.values('item5')[0]['item5']
+        description5 = package.values('description5')[0]['description5']
+        quantity5 = package.values('quantity5')[0]['quantity5']
+        price5 = package.values('price5')[0]['price5']
+        amount5 = package.values('amount5')[0]['amount5']
+
+        exporter = user_id
+        importer = package.values('share1')[0]['share1']
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_SR.objects.filter(contract_id=contract_id)) == 0:
             try:
@@ -1894,39 +2062,52 @@ def submit2_2(request):
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['No.', 'title', 'content'],
-                           [1, 'Shipper:', a],
-                           [2, 'Consignee:', b],
-                           [3, 'Notify Party:', c],
-                           [4, 'Vessel:', d],
-                           [5, 'Voyage No.:', e],
-                           [6, 'Port of Loading:', f],
-                           [7, 'Port of Discharge:', g],
-                           [8, 'Final Destination:', h],
-                           [9, 'Marking:', i],
-                           [10, 'Packages:', j],
-                           [11, 'Description of Goods:', k],
-                           [12, 'Gross Weight:', l],
-                           [13, 'Measurement:', m],
-                           [14, 'Freight Term:', n],
-                           [15, 'Original B/L:', o],
-                           ]
+                records = [['1.Exporter:', '2.Importer:'],
+                           ['>'+exporter, '>'+importer],
+                           ['3.Consignee:', '4.Notify Party:'],
+                           ['>'+a, '>'+b],
+                           ['5.Departure Date.:', '6.Type:'],
+                           ['>'+c, '>'+e],
+                           ['7.Loading Port:', '8.Discharging Port:'],
+                           ['>'+d, '>'+h],
+                           ['9.Terms of Delivery:', '10.Terms of Payment:'],
+                           ['>'+f, '>'+g],
+                           ['11.Cargo Type:', '12.Pick up Date of Cargo:'],
+                           ['>'+i, '>'+j]]
 
+                pdf.ln(0.75)
+                pdf.set_font('Arial', 'BU', 16.0)
+                pdf.cell(epw, 0.0, 'SHIPPING REQUEST', align='C')
+                pdf.ln(0.25)
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-                pdf.ln(0.25)
-                pdf.set_font('Arial', '', 12.0)
-                pdf.cell(epw, 0.0, srname + ' From:' + user_id, align='C')
-                pdf.set_font('Arial', '', 10.0)
                 pdf.ln(0.5)
+                pdf.set_font('Arial', '', 12.0)
 
                 th = pdf.font_size
                 for row in records:
-                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                    pdf.ln(2 * th)
+                    pdf.cell(epw/2, 2.5 * th, str(row[0]), border=1)
+                    pdf.cell(epw/2, 2.5 * th, str(row[1]), border=1)
+                    pdf.ln(2.5 * th)
 
+                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
+                          [item1, description1, quantity1, price1, amount1],
+                          [item2, description2, quantity2, price2, amount2],
+                          [item3, description3, quantity3, price3, amount3],
+                          [item4, description4, quantity4, price4, amount4],
+                          [item5, description5, quantity5, price5, amount5]]
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.5, 'Description of Goods and/or Services', align='C')
+                pdf.ln(0.5)
+                for row in tables:
+                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
+                    pdf.ln(2.5 * th)
+                pdf.cell(epw, 0.5, ' Request By:' + user_id, align='R')
+                pdf.ln(0.5)
                 pdf.output('document/SR_' + time_format + '.pdf', 'F')
                 file = open('document/SR_' + time_format + '.pdf', 'rb')
                 data = file.read()
@@ -1935,7 +2116,7 @@ def submit2_2(request):
                 file.close()
 
                 # 데이터 저장
-                contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash,  status='new',
+                contract = Contract_SR(contractname=srname, contract_id=contract_id, sha256=hash, status='new', lport=d , dport=h, notify=b, consignee=a,
                                        filename='document/SR_' + time_format + '.pdf')
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -1946,6 +2127,7 @@ def submit2_2(request):
                 result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
+                print(e)
                 result_dict['result'] = "영어로 작성해주세요."
                 return JsonResponse(result_dict)
         else:
@@ -1967,19 +2149,16 @@ def submit2_3(request):
         b = request.POST['b']
         c = request.POST['c']
         d = request.POST['d']
-        e = request.POST['e']
-        f = request.POST['f']
-        g = request.POST['g']
-        h = request.POST['h']
-        i = request.POST['i']
-        j = request.POST['j']
-        k = request.POST['k']
-        l = request.POST['l']
-        m = request.POST['m']
-        n = request.POST['n']
-        o = request.POST['o']
-        p = request.POST['p']
-        q = request.POST['q']
+        lcr = Contract_LCR.objects.filter(contract_id=contract_id)
+        e = lcr.values('advisingbank')[0]['advisingbank']
+        f = lcr.values('applicant')[0]['applicant']
+        g = lcr.values('beneficiary')[0]['beneficiary']
+        h = lcr.values('amount')[0]['amount']
+        i = lcr.values('paticalshipment')[0]['paticalshipment']
+        j = lcr.values('transshipment')[0]['transshipment']
+        k = lcr.values('loding')[0]['loding']
+
+
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_CI.objects.filter(contract_id=contract_id)) == 0:
             try:
@@ -1987,25 +2166,7 @@ def submit2_3(request):
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['No.', 'title', 'content'],
-                           [1, 'Shipper/Seller:', a],
-                           [2, 'Consignee:', b],
-                           [3, 'Departure Date:', c],
-                           [4, 'Vessel/Flight:', d],
-                           [5, 'To:', e],
-                           [6, 'From:', f],
-                           [7, 'Invoice No.and Date:', g],
-                           [8, 'L/C No.and Date:', h],
-                           [9, 'Buyer(if other than consignee):', i],
-                           [10, 'Other reference:', j],
-                           [11, 'Terms of delivery and payment:', k],
-                           [12, 'Shipping Mark:', l],
-                           [13, 'No.and kind of packages:', m],
-                           [14, 'Goods description:', n],
-                           [15, 'Quantity:', o],
-                           [16, 'Unit price:', p],
-                           [17, 'Amount:', q],
-                           ]
+
 
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
@@ -2014,8 +2175,27 @@ def submit2_3(request):
                 pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
                 pdf.set_font('Arial', '', 10.0)
                 pdf.ln(0.5)
-
                 th = pdf.font_size
+                records = [['Advising bank:', 'Credit No.:'],
+                           [e, a],
+                           ['Date of Issue:', 'Expiry Date:'],
+                           [b, c],
+                           ['Applicant:', 'Beneficiary:'],
+                           [f, g],
+                           ['Amount of Credit:', 'Loding on board:'],
+                           [h, k],
+                           ['Partial Shipments:', 'Transshipment:'],
+                           [i, j]]
+
+                pdf.ln(0.5)
+                pdf.set_font('Arial', 'BU', 16.0)
+                pdf.cell(epw, 0.0, 'LETTER OF CREDIT', align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', 'B', 14.0)
+                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
+                pdf.ln(0.25)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.ln(0.5)
                 for row in records:
                     pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
                     pdf.cell(3.5, 2 * th, str(row[1]), border=1)
@@ -2030,7 +2210,7 @@ def submit2_3(request):
                 file.close()
 
                 # 데이터 저장
-                contract = Contract_CI(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
+                contract = Contract_CI(contractname=contractname, contract_id=contract_id, sha256=hash, status='new',
                                        filename='document/CI_' + time_format + '.pdf')
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -2062,35 +2242,47 @@ def submit3(request):
         b = request.POST['b']
         c = request.POST['c']
         d = request.POST['d']
-        e = request.POST['e']
-        f = request.POST['f']
-        g = request.POST['g']
-        h = request.POST['h']
-        i = request.POST['i']
-        j = request.POST['j']
-        k = request.POST['k']
-        l = request.POST['l']
-        m = request.POST['m']
-        n = request.POST['n']
-        o = request.POST['o']
-        p = request.POST['p']
-        q = request.POST['q']
-        r = request.POST['r']
-        s = request.POST['s']
-        t = request.POST['t']
-        u = request.POST['u']
-        v = request.POST['v']
-        w = request.POST['w']
-        x = request.POST['x']
-        y = request.POST['y']
-        z = request.POST['z']
-        aa = request.POST['aa']
-        bb = request.POST['bb']
-        cc = request.POST['cc']
-        dd = request.POST['dd']
-        ee = request.POST['ee']
-        ff = request.POST['ff']
-        gg = request.POST['gg']
+
+        lcr = Contract_LCR.objects.filter(contract_id=contract_id)
+        e = lcr.values('advisingbank')[0]['advisingbank']
+        f = lcr.values('applicant')[0]['applicant']
+        g = lcr.values('beneficiary')[0]['beneficiary']
+        h = lcr.values('amount')[0]['amount']
+        i = lcr.values('particalshipment')[0]['particalshipment']
+        j = lcr.values('transshipment')[0]['transshipment']
+        k = lcr.values('loding')[0]['loding']
+
+        package = Contract_OS.objects.filter(id=contract_id)
+
+        item1 = package.values('item1')[0]['item1']
+        description1 = package.values('description1')[0]['description1']
+        quantity1 = package.values('quantity1')[0]['quantity1']
+        price1 = package.values('price1')[0]['price1']
+        amount1 = package.values('amount1')[0]['amount1']
+
+        item2 = package.values('item2')[0]['item2']
+        description2 = package.values('description2')[0]['description2']
+        quantity2 = package.values('quantity2')[0]['quantity2']
+        price2 = package.values('price2')[0]['price2']
+        amount2 = package.values('amount2')[0]['amount2']
+
+        item3 = package.values('item3')[0]['item3']
+        description3 = package.values('description3')[0]['description3']
+        quantity3 = package.values('quantity3')[0]['quantity3']
+        price3 = package.values('price3')[0]['price3']
+        amount3 = package.values('amount3')[0]['amount3']
+
+        item4 = package.values('item4')[0]['item4']
+        description4 = package.values('description4')[0]['description4']
+        quantity4 = package.values('quantity4')[0]['quantity4']
+        price4 = package.values('price4')[0]['price4']
+        amount4 = package.values('amount4')[0]['amount4']
+
+        item5 = package.values('item5')[0]['item5']
+        description5 = package.values('description5')[0]['description5']
+        quantity5 = package.values('quantity5')[0]['quantity5']
+        price5 = package.values('price5')[0]['price5']
+        amount5 = package.values('amount5')[0]['amount5']
 
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_LC.objects.filter(contract_id=contract_id)) == 0:
@@ -2099,57 +2291,54 @@ def submit3(request):
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['No.', 'title', 'content'],
-                           [1, 'Transfer:', a],
-                           [2, 'Credit Number:', b],
-                           [3, 'Advising Bank:', c],
-                           [4, 'Expiry Date:', d],
-                           [5, 'Applicant:', e],
-                           [6, 'Beneficiary:', f],
-                           [7, 'Amount:', g],
-                           [8, 'Partial Shipment:', h],
-                           [9, 'Latest Shipment Date:', i],
-                           [10, 'Additional Conditions:', j],
-                           [11, 'All banking charges:', k],
-                           [12, 'Documents delivered by:', l],
-                           [13, 'Confirmation:', m],
-                           [14, 'Reissue:', n],
-                           [15, 'Import L/C Transfer:', o],
-                           [16, 'Draft at:', p],
-                           [17, 'Usance:', q],
-                           [18, 'SettlingBank:', r],
-                           [19, 'Credit:', s],
-                           [20, 'Transshipment mode:', t],
-                           [21, 'Authorization:', u],
-                           [22, 'Port of Loading/Airport of Departure:', v],
-                           [23, 'Place of Taking in Charge:', w],
-                           [24, 'Signed/Original/Commercial Invoice:', x],
-                           [25, 'Full Set of B/L:', y],
-                           [26, 'Port of Loading:', z],
-                           [27, 'Certificate of Origin in:', aa],
-                           [28, 'Other Documents Required:', bb],
-                           [29, 'Description of Goods/Services:', cc],
-                           [30, 'Price Terms:', dd],
-                           [31, 'Country of Origin:', ee],
-                           [32, 'HS CODE:', ff],
-                           [33, 'CommodityDescription:', gg],
-                           ]
+                records = [['1.Advising bank:', '2.Credit No.:'],
+                           ['>'+e, '>'+a],
+                           ['3.Date of Issue:', '4.Expiry Date:'],
+                           ['>'+b, '>'+c],
+                           ['5.Applicant:', '6.Beneficiary:'],
+                           ['>'+f, '>'+g],
+                           ['7.Amount of Credit:', '8.Loding on board:'],
+                           ['>'+h, '>'+k],
+                           ['9.Partial Shipments:', '10.Transshipment:'],
+                           ['>'+i, '>'+j]]
 
+                pdf.ln(0.5)
+                pdf.set_font('Arial', 'BU', 16.0)
+                pdf.cell(epw, 0.0, 'LETTER OF CREDIT', align='C')
+                pdf.ln(0.25)
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
                 pdf.ln(0.25)
                 pdf.set_font('Arial', '', 12.0)
-                pdf.cell(epw, 0.0, letteroflc + ' From:' + user_id, align='C')
-                pdf.set_font('Arial', '', 10.0)
                 pdf.ln(0.5)
 
                 th = pdf.font_size
                 for row in records:
-                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                    pdf.ln(2 * th)
+                    pdf.cell(epw/2, 2.5 * th, str(row[0]), border=1)
+                    pdf.cell(epw/2, 2.5 * th, str(row[1]), border=1)
+                    pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, 'Credit Available With :' + d, border=1)
+                pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, 'Covering details :' + d, border=1)
+                pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, 'Description of Goods and/or Services :', border=0, align='C')
+                pdf.ln(2.5 * th)
+                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
+                          [item1, description1, quantity1, price1, amount1],
+                          [item2, description2, quantity2, price2, amount2],
+                          [item3, description3, quantity3, price3, amount3],
+                          [item4, description4, quantity4, price4, amount4],
+                          [item5, description5, quantity5, price5, amount5]]
 
+                for row in tables:
+                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
+                    pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, ' Confirmed by : ' + user_id, border=0, align='R')
+                pdf.ln(2.5 * th)
                 pdf.output('document/LC_' + time_format + '.pdf', 'F')
                 file = open('document/LC_' + time_format + '.pdf', 'rb')
                 data = file.read()
@@ -2157,7 +2346,7 @@ def submit3(request):
                 hash = hashlib.sha256(data).hexdigest()
                 file.close()
                 # 데이터 저장
-                contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash,  status='new',
+                contract = Contract_LC(contractname=letteroflc, contract_id=contract_id, sha256=hash, status='new',
                                        filename='document/LC_' + time_format + '.pdf')
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -2168,6 +2357,7 @@ def submit3(request):
                 result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
+                print(e)
                 result_dict['result'] = "영어로 작성해주세요."
                 return JsonResponse(result_dict)
         else:
@@ -2193,9 +2383,12 @@ def submit4_1(request):
         f = request.POST['f']
         g = request.POST['g']
         h = request.POST['h']
-        i = request.POST['i']
-        j = request.POST['j']
 
+        sr = Contract_SR.objects.filter(contract_id=contract_id)
+        consignee = sr.values('consignee')[0]['consignee']
+        notify = sr.values('notify')[0]['notify']
+        lport = sr.values('lport')[0]['lport']
+        dport = sr.values('dport')[0]['dport']
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_BL.objects.filter(contract_id=contract_id)) == 0:
             try:
@@ -2203,33 +2396,47 @@ def submit4_1(request):
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['No.', 'title', 'content'],
-                           [1, 'Bank:', a],
-                           [2, 'Nodify party:', b],
-                           [3, 'Vessel:', c],
-                           [4, 'Voyage No.:', d],
-                           [5, 'Place of receipt:', e],
-                           [6, 'Port of Loading:', f],
-                           [7, 'Place of delivery:', g],
-                           [8, 'Description of goods:', h],
-                           [9, 'Weight:', i],
-                           [10, 'Measurement:', j],
-                           ]
+                records = [
+                           ['1.Shipper:', '2.Consignee:'],
+                           ['>'+user_id, '>'+consignee],
+                           ['3.Nodify party:', '4.Place of Receipt:'],
+                           ['>'+notify, '>'+b],
+                           ['5.Voyage No.:', '6.Loading Port:'],
+                           ['>'+a,'>'+lport],
+                           ['7.Discharging Port:', '8.Final Destination:'],
+                           ['>'+dport,'>'+c]]
 
+                pdf.ln(0.5)
+                pdf.set_font('Arial', 'BU', 16.0)
+                pdf.cell(epw, 0.0, 'BILLS OF LADING', align='C')
+                pdf.ln(0.25)
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-                pdf.ln(0.25)
                 pdf.set_font('Arial', '', 12.0)
-                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-                pdf.set_font('Arial', '', 10.0)
                 pdf.ln(0.5)
 
                 th = pdf.font_size
                 for row in records:
-                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                    pdf.ln(2 * th)
+                    pdf.cell(epw/2, 3 * th, str(row[0]), border=1)
+                    pdf.cell(epw/2, 3 * th, str(row[1]), border=1)
+                    pdf.ln(3 * th)
+
+                pdf.cell(epw / 2, 3 * th, '9.Seal No.', border=1)
+                pdf.cell(epw / 2, 3 * th, '10.Kind of Packages', border=1)
+                pdf.ln(3 * th)
+                pdf.cell(epw / 2, 10 * th, '>'+e, border=1)
+                pdf.cell(epw / 2, 10 * th, '>'+f, border=1)
+                pdf.ln(10 * th)
+                pdf.cell(epw / 3, 3 * th, '11.Description of goods:', border=1)
+                pdf.cell(epw / 3, 3 * th, '12.Gross Weight:', border=1)
+                pdf.cell(epw / 3, 3 * th, '13.Measurement:', border=1)
+                pdf.ln(3 * th)
+                pdf.cell(epw / 3, 10 * th, '>'+d, border=1)
+                pdf.cell(epw / 3, 10 * th, '>'+g, border=1)
+                pdf.cell(epw / 3, 10 * th, '>'+h, border=1)
+                pdf.ln(10 * th)
+                pdf.cell(epw, 2.5 * th, ' Issued by : ' + user_id, border=0, align='R')
+                pdf.ln(2.5 * th)
 
                 pdf.output('document/BL_' + time_format + '.pdf', 'F')
                 file = open('document/BL_' + time_format + '.pdf', 'rb')
@@ -2239,7 +2446,7 @@ def submit4_1(request):
                 file.close()
 
                 # 데이터 저장
-                contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash,  status2='new',
+                contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, status2='new',
                                        filename='document/BL_' + time_format + '.pdf')
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -2259,7 +2466,6 @@ def submit4_1(request):
         print(e)
         result_dict['result'] = "양식을 완성해주세요."
         return JsonResponse(result_dict)
-
 
 
 def submit4_2(request):
@@ -2315,7 +2521,7 @@ def submit4_2(request):
                 hash = hashlib.sha256(data).hexdigest()
                 file.close()
                 # 데이터 저장
-                contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash,  status='new',
+                contract = Contract_DO(contractname=contractname, contract_id=contract_id, sha256=hash, status='new',
                                        filename='document/DO_' + time_format + '.pdf')
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -2421,6 +2627,7 @@ def download4_2(request):
         response['Content-Disposition'] = 'inline; filename="{}"'.format(filename)
         return response
 
+
 @csrf_exempt
 def ing(request):
     try:
@@ -2428,7 +2635,7 @@ def ing(request):
         member = Member.objects.get(user_id=user_id)
         try:
             if request.POST['filter'] == "new":
-                contract = Contract_LCR.objects.filter(owner=member, status ="new").order_by('-id')
+                contract = Contract_LCR.objects.filter(owner=member, status="new").order_by('-id')
                 filter = "New"
             elif request.POST['filter'] == "rejected":
                 contract = Contract_LCR.objects.filter(owner=member, status="rejected").order_by('-id')
@@ -2464,7 +2671,8 @@ def ing(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2,
+                  'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/ing.html', notice)
     except Exception as e:
@@ -2478,7 +2686,7 @@ def ing2_1(request):
         member = Member.objects.get(user_id=user_id)
         try:
             if request.POST['filter'] == "new":
-                contract = Contract_OS.objects.filter(owner=member, status ="new").order_by('-id')
+                contract = Contract_OS.objects.filter(owner=member, status="new").order_by('-id')
                 filter = "New"
             elif request.POST['filter'] == "rejected":
                 contract = Contract_OS.objects.filter(owner=member, status="rejected").order_by('-id')
@@ -2514,7 +2722,8 @@ def ing2_1(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2,
+                  'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/ing2_1.html', notice)
     except Exception as e:
@@ -2528,7 +2737,7 @@ def ing2_2(request):
         member = Member.objects.get(user_id=user_id)
         try:
             if request.POST['filter'] == "new":
-                contract = Contract_SR.objects.filter(owner=member, status ="new").order_by('-id')
+                contract = Contract_SR.objects.filter(owner=member, status="new").order_by('-id')
                 filter = "New"
             elif request.POST['filter'] == "rejected":
                 contract = Contract_SR.objects.filter(owner=member, status="rejected").order_by('-id')
@@ -2564,7 +2773,8 @@ def ing2_2(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2,
+                  'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/ing2_2.html', notice)
     except Exception as e:
@@ -2614,7 +2824,8 @@ def ing2_3(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2,
+                  'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/ing2_3.html', notice)
     except Exception as e:
@@ -2664,7 +2875,8 @@ def ing3(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2,
+                  'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/ing3.html', notice)
     except Exception as e:
@@ -2714,7 +2926,8 @@ def ing4_1(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2,
+                  'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/ing4_1.html', notice)
     except Exception as e:
@@ -2764,7 +2977,8 @@ def ing4_2(request):
             end_index = index + 3 if index <= max_index - 3 else max_index
         page_range = list(paginator.page_range[start_index:end_index])
 
-        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+        notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len, 'max_index': max_index - 2,
+                  'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/ing4_2.html', notice)
     except Exception as e:
@@ -2815,7 +3029,7 @@ def osreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/osreceived.html', notice)
     except Exception as e:
@@ -2866,7 +3080,7 @@ def cireceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/cireceived.html', notice)
     except Exception as e:
@@ -2917,7 +3131,7 @@ def srreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/srreceived.html', notice)
     except Exception as e:
@@ -2968,7 +3182,7 @@ def blreceived1(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/blreceived1.html', notice)
     except Exception as e:
@@ -3019,7 +3233,7 @@ def lcreceived1(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/lcreceived1.html', notice)
     except Exception as e:
@@ -3070,12 +3284,13 @@ def blreceived2(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/blreceived2.html', notice)
     except Exception as e:
         print(e)
         return redirect('index')
+
 
 def blreceived3(request):
     try:
@@ -3120,12 +3335,13 @@ def blreceived3(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/blreceived3.html', notice)
     except Exception as e:
         print(e)
         return redirect('index')
+
 
 def lcreceived2(request):
     try:
@@ -3170,7 +3386,7 @@ def lcreceived2(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/lcreceived2.html', notice)
     except Exception as e:
@@ -3221,7 +3437,7 @@ def doreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter, 'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/doreceived.html', notice)
     except Exception as e:
@@ -3272,7 +3488,7 @@ def lcrreceived(request):
         page_range = list(paginator.page_range[start_index:end_index])
 
         notice = {'result_list': lines, 'page_range': page_range, 'total_len': total_len,
-                  'max_index': max_index - 2, 'filter':filter,'user_id':user_id}
+                  'max_index': max_index - 2, 'filter': filter, 'user_id': user_id}
 
         return render(request, 'app/lcrreceived.html', notice)
     except Exception as e:
@@ -3334,7 +3550,7 @@ def index(request):
         return render(request, 'app/index.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
                        'ing': ing, 'new_os': new_os, 'new_lc': new_lc, 'new_bl': new_bl, 'new_ci': new_ci,
-                       'new_do': new_do, 'all_doc':all_doc})
+                       'new_do': new_do, 'all_doc': all_doc})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -3379,7 +3595,7 @@ def index2(request):
         notice = Notice.objects.all().order_by('-id')
 
         data = {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete, 'ing': ing,
-                'new_lc': new_lc, 'new_bl': new_bl, 'all_doc':all_doc}
+                'new_lc': new_lc, 'new_bl': new_bl, 'all_doc': all_doc}
         return render(request, 'app/index2.html', data)
     except Exception as e:
         print(e)
@@ -3427,7 +3643,7 @@ def index3(request):
 
         return render(request, 'app/index3.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
-                       'ing': ing, 'new_lcr': new_lcr, 'new_bl': new_bl, 'all_doc':all_doc})
+                       'ing': ing, 'new_lcr': new_lcr, 'new_bl': new_bl, 'all_doc': all_doc})
     except Exception as e:
         print(e)
         return redirect('login')
@@ -3472,7 +3688,7 @@ def index4(request):
 
         return render(request, 'app/index4.html',
                       {'user_id': user_id, 'date': time, 'notice': notice, 'result': result, 'complete': complete,
-                       'ing': ing, 'new_sr': new_sr,})
+                       'ing': ing, 'new_sr': new_sr, })
     except Exception as e:
         print(e)
         return redirect('login')
@@ -3528,7 +3744,7 @@ def charts(request):
                        'time1': time1,
                        'basePrice2': basePrice2, 'sellprice2': sellprice2, 'buyprice2': buyprice2,
                        'basePrice3': basePrice3, 'sellprice3': sellprice3, 'buyprice3': buyprice3,
-                       'basePrice4': basePrice4, 'sellprice4': sellprice4, 'buyprice4': buyprice4, 'user_id':user_id})
+                       'basePrice4': basePrice4, 'sellprice4': sellprice4, 'buyprice4': buyprice4, 'user_id': user_id})
 
 
     except Exception as e:
@@ -3539,18 +3755,18 @@ def charts(request):
 def forms(request):
     user_id = request.session['user_id']
     contract = Contract_OS.objects.filter(share1=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms.html', {'contract': contract, 'user_id':user_id})
+    return render(request, 'app/forms.html', {'contract': contract, 'user_id': user_id})
 
 
 def forms2_1(request):
     user_id = request.session['user_id']
-    return render(request, 'app/forms2_1.html', {'user_id':user_id})
+    return render(request, 'app/forms2_1.html', {'user_id': user_id})
 
 
 def forms2_2(request):
     user_id = request.session['user_id']
     contract = Contract_LC.objects.filter(share2=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms2_2.html', {'contract': contract, 'user_id':user_id})
+    return render(request, 'app/forms2_2.html', {'contract': contract, 'user_id': user_id})
 
 
 def forms2_3(request):
@@ -3562,19 +3778,19 @@ def forms2_3(request):
 def forms3(request):
     user_id = request.session['user_id']
     contract = Contract_LCR.objects.filter(share3=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms3.html', {'contract': contract, 'user_id':user_id})
+    return render(request, 'app/forms3.html', {'contract': contract, 'user_id': user_id})
 
 
 def forms4_1(request):
     user_id = request.session['user_id']
     contract = Contract_SR.objects.filter(share4=user_id, status='confirmed').order_by('-id')
-    return render(request, 'app/forms4_1.html', {'contract': contract, 'user_id':user_id})
+    return render(request, 'app/forms4_1.html', {'contract': contract, 'user_id': user_id})
 
 
 def forms4_2(request):
     user_id = request.session['user_id']
     contract = Contract_BL.objects.filter(owner=user_id, status3='confirmed').order_by('-id')
-    return render(request, 'app/forms4_2.html', {'contract': contract, 'user_id':user_id})
+    return render(request, 'app/forms4_2.html', {'contract': contract, 'user_id': user_id})
 
 
 def login(request):
