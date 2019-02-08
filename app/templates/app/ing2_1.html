@@ -267,7 +267,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">Input your OTP Number:
-                                    <input name="otp" class="form-control">
+                                    <input id='otpnum'  name="otp" class="form-control" >
                                 </div>
                                 <div class="modal-footer">
                                     <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
@@ -375,6 +375,7 @@
 <script>
 $(document).ready(function(){
   $('#preloader').hide();
+
 });
 
     $('#submit').click(function() {
@@ -445,9 +446,6 @@ $(document).ready(function(){
         });
         return false;
       });
-
-
-
 
 
 

@@ -1770,7 +1770,7 @@ def submit(request):
         # applicant_info = applicant_name + '\n' + applicant_address
 
 
-        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_LCR.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -1913,7 +1913,7 @@ def submit2_1(request):
         n5 = request.POST['n5']
         o5 = request.POST['o5']
 
-        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
@@ -2055,7 +2055,7 @@ def submit2_2(request):
 
         exporter = user_id
         importer = package.values('share1')[0]['share1']
-        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_SR.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2192,7 +2192,7 @@ def submit2_3(request):
 
 
 
-        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_CI.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2333,7 +2333,7 @@ def submit3(request):
         price5 = package.values('price5')[0]['price5']
         amount5 = package.values('amount5')[0]['amount5']
 
-        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_LC.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2438,7 +2438,7 @@ def submit4_1(request):
         notify = sr.values('notify')[0]['notify']
         lport = sr.values('lport')[0]['lport']
         dport = sr.values('dport')[0]['dport']
-        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_BL.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2471,15 +2471,13 @@ def submit4_1(request):
                     pdf.ln(3 * th)
 
                 pdf.cell(epw / 2, 3 * th, '9.Seal No.', border=1)
-                pdf.cell(epw / 2, 3 * th, '10.Kind of Packages', border=1)
-                pdf.ln(3 * th)
-                pdf.cell(epw / 2, 10 * th, '>  '+e, border=1)
-                pdf.cell(epw / 2, 10 * th, '>  '+f, border=1)
-                pdf.ln(10 * th)
-                pdf.cell(epw / 3, 3 * th, '11.Description of goods:', border=1)
+                pdf.cell(epw / 2, 3 * th, '10.Packages', border=1)
+                pdf.cell(epw / 3, 3 * th, '11.Description', border=1)
                 pdf.cell(epw / 3, 3 * th, '12.Gross Weight:', border=1)
                 pdf.cell(epw / 3, 3 * th, '13.Measurement:', border=1)
                 pdf.ln(3 * th)
+                pdf.cell(epw / 2, 10 * th, '>  '+e, border=1)
+                pdf.cell(epw / 2, 10 * th, '>  '+f, border=1)
                 pdf.cell(epw / 3, 10 * th, '>  '+d, border=1)
                 pdf.cell(epw / 3, 10 * th, '>  '+g, border=1)
                 pdf.cell(epw / 3, 10 * th, '>  '+h, border=1)
@@ -2559,7 +2557,7 @@ def submit4_2(request):
         price5 = package.values('price5')[0]['price5']
         amount5 = package.values('amount5')[0]['amount5']
         importer = package.values('share1')[0]['share1']
-        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_DO.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2576,13 +2574,13 @@ def submit4_2(request):
                 pdf.set_font('Arial', '', 12.0)
                 pdf.ln(0.5)
                 th = pdf.font_size
-                pdf.cell(epw, 3 * th, 'Delivery To : ' + importer, border=0, align='C')
+                pdf.cell(epw, 3 * th, 'Delivery To : ' + importer, border=0, align='L')
                 pdf.ln(3 * th)
-                pdf.cell(epw, 3 * th, 'Delivery Address :' , border=0, align='C')
+                pdf.cell(epw, 3 * th, 'Delivery Address :' , border=0, align='L')
                 pdf.ln(3 * th)
-                pdf.cell(epw, 3 * th, 'Delivery Date : ' + a, border=0, align='C')
+                pdf.cell(epw, 3 * th, 'Delivery Date : ' + a, border=0, align='L')
                 pdf.ln(3 * th)
-                pdf.cell(epw, 3 * th, 'Delivery Time :' + b, border=0, align='C')
+                pdf.cell(epw, 3 * th, 'Delivery Time :' + b, border=0, align='L')
                 pdf.ln(3 * th)
                 pdf.cell(epw, 2.5 * th, 'Description of Goods and/or Services :', border=0, align='C')
                 pdf.ln(2.5 * th)
@@ -2600,11 +2598,11 @@ def submit4_2(request):
                     pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
                     pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
                     pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, 'Remarks:', border=1, align='R')
+                pdf.cell(epw, 2.5 * th, 'Remarks:', border=1, align='L')
                 pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, '>  '+ c, border=1, align='R')
+                pdf.cell(epw, 2.5 * th, '>  '+ c, border=1, align='L')
                 pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, ' Confirmed by : ' + user_id, border=0, align='R')
+                pdf.cell(epw, 2.5 * th, ' Confirmed by : ' + user_id, border=0, align='L')
                 pdf.ln(2.5 * th)
 
 
