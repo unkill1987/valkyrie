@@ -138,7 +138,7 @@
                             <div class="panel-body">
                                 <form role="form" method="post">
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-8 mx-auto">
                                             <h4 class="panel-heading">
                                                 <label>Contract ID.</label>
                                                 <select class="custom-select" name="contract_id">
@@ -152,52 +152,26 @@
 
                                             <input class="form-control" name="contractname" id = "contractname">
                                             <div class="form-group">
-                                                <label>1.Agent name:</label>
+                                                <label>1.Delivery Date:</label>
                                                 <input class="form-control" name="a" id="a">
                                                 <p class="help-block"></p>
                                             </div>
                                             <div class="form-group">
-                                                <label>2.Restricted delivery(Yes or no):</label><br>
+                                                <label>2.Delivery Time:</label><br>
                                                 <select style="width:300px; height:38px; border-radius:4px" name="b">
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label>3.Adult signature restriced delivery(Yes or no):</label><br>
+                                                <label>3.Remarks:</label><br>
                                                 <select style="width:300px; height:38px; border-radius:4px" name="c">
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>4.Agent Signture:</label>
-                                                <input class="form-control" name="d" id="d">
-                                                <p class="help-block"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>5.ID verified (yes or no):</label><br>
-                                                <select style="width:300px; height:38px; border-radius:4px" name="e">
-                                                    <option value="Yes">Yes</option>
-                                                    <option value="No">No</option>
-                                                </select>
-                                            </div>
-                                            <!--/.col-lg-6 (nested) -->
-                                            <!--<p style="font-size:25px"> Bank Form </p>-->
-                                            <div class="form-group">
-                                                <label>6.USPS initals:</label>
-                                                <input class="form-control" name="f" id="f">
-                                                <p class="help-block"></p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>7.Date:</label>
-                                                <input class="form-control" name="g" id="g">
-                                                <p class="help-block"></p>
-                                            </div>
-                                        </div>
-                                        <!-- /.col-lg-6 (nested) -->
+
                                     </div>
                                     <hr>
                                     <!-- /.row (nested) -->
@@ -289,31 +263,20 @@
 $('#submit').click(function(){
     var contractname = $('#contractname').val();
     var a = $('#a').val();
+    var b = $('#b').val();
 
-    var d = $('#d').val();
-
-    var f = $('#f').val();
-    var g = $('#g').val();
 
     if (contractname.length == 0){
         alert("DELIVERY ORDER TITLE를 입력하세요");
         $('#contractname').focus();
         return false;
     }else if (a.length == 0){
-        alert("1.Agent name를 입력하세요");
+        alert("1.Delivery Date를 입력하세요");
         $('#a').focus();
         return false;
-    }else if(d.length == 0){
-        alert("4.Agent Signture를 입력하세요");
-        $('#d').focus();
-        return false;
-    }else if(f.length == 0){
-        alert("6.USPS initals를 입력하세요");
-        $('#f').focus();
-        return false;
-    }else if(g.length == 0){
-        alert("7.Date를 입력하세요");
-        $('#g').focus();
+    }else if(b.length == 0){
+        alert("4.Delivery Time를 입력하세요");
+        $('#b').focus();
         return false;
     }else{
         $.ajax({

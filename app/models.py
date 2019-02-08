@@ -137,7 +137,8 @@ class Contract_BL(models.Model):
     status1 = models.CharField(max_length=20)
     status2 = models.CharField(max_length=20)
     status3 = models.CharField(max_length=20)
-
+    finaldestination = models.CharField(max_length=30)
+    vessel = models.CharField(max_length=30)
 
 class Contract_DO(models.Model):
     contractname = models.CharField(max_length=50)

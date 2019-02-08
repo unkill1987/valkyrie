@@ -43,7 +43,7 @@ def os_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://127.0.0.1:8001/add_OS/' + contract_id + '- Exporter: ' + owner + '- importer: ' + share_user + '- offer sheet: ' + hash)
+                        'http://222.239.231.247:8001/add_OS/' + contract_id + '- Exporter: ' + owner + '- importer: ' + share_user + '- offer sheet: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "The contract already exists":
@@ -95,7 +95,7 @@ def lcr_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://127.0.0.1:8001/add_LCR/' + contract_id + '- importer: ' + owner + '- bank: ' + share_user + '- letter of credit request: ' + hash)
+                        'http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + owner + '- bank: ' + share_user + '- letter of credit request: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -148,7 +148,7 @@ def lc_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://127.0.0.1:8001/add_LC/' + contract_id + '- bank: ' + owner + '- exporter: ' + share_user + '- letter of credit: ' + hash)
+                        'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + owner + '- exporter: ' + share_user + '- letter of credit: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -200,7 +200,7 @@ def sr_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://127.0.0.1:8001/add_SR/' + contract_id + '- exporter: ' + owner + '- shipper: ' + share_user + '- shipping request: ' + hash)
+                        'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + owner + '- shipper: ' + share_user + '- shipping request: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -318,7 +318,7 @@ def bl_confirm2(request):
 
             if otp == nowotp:
                 url = (
-                        'http://127.0.0.1:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of letter: ' + hash)
+                        'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of letter: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -372,7 +372,7 @@ def ci_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://127.0.0.1:8001/add_CI/' + contract_id + '- exporter: ' + owner + '- importer: ' + share_user + '- commercial invoice: ' + hash)
+                        'http://222.239.231.247:8001/add_CI/' + contract_id + '- exporter: ' + owner + '- importer: ' + share_user + '- commercial invoice: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -424,7 +424,7 @@ def do_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                            'http://127.0.0.1:8001/add_DO/' + contract_id + '- shipper: ' + owner + '- importer: ' + share_user + '- delivery order: ' + hash)
+                            'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + owner + '- importer: ' + share_user + '- delivery order: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -670,7 +670,7 @@ def checkcontract(request):
     try:
         result_dict = {}
         cid = str(request.POST['cid'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
         if len(history) == 0:
@@ -942,7 +942,7 @@ def search1(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -956,7 +956,7 @@ def search1(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -970,7 +970,7 @@ def search1(request):
         pass
     try:
         cid = str(request.POST['complete'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -988,7 +988,7 @@ def search2(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1002,7 +1002,7 @@ def search2(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1016,7 +1016,7 @@ def search2(request):
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1034,7 +1034,7 @@ def search3(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1048,7 +1048,7 @@ def search3(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1062,7 +1062,7 @@ def search3(request):
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1080,7 +1080,7 @@ def search4(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1094,7 +1094,7 @@ def search4(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1108,7 +1108,7 @@ def search4(request):
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://127.0.0.1:8001/keyHistory/%s" % cid)
+            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1778,15 +1778,15 @@ def submit(request):
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [['1.Advising bank:', '2.Type:'],
-                           ['>'+a, '>'+b],
+                           ['>  '+a, '>  '+b],
                            ['3.Beneficiary:', '4.Applicant:'],
-                           ['>'+c, '>'+d],
+                           ['>  '+c, '>  '+d],
                            ['5.L/C Amount and Tolerance:', '6.Latest shipment date:'],
-                           ['>'+e, '>'+k],
+                           ['>  '+e, '>  '+k],
                            ['7.Partial shipment:', '8.Transshipment:'],
-                           ['>'+f, '>'+g],
+                           ['>  '+f, '>  '+g],
                            ['9.Loading(shipment from):', '10.Discharging(shipment to):'],
-                           ['>'+i, '>'+j]]
+                           ['>  '+i, '>  '+j]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2063,17 +2063,17 @@ def submit2_2(request):
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [['1.Exporter:', '2.Importer:'],
-                           ['>'+exporter, '>'+importer],
+                           ['>  '+exporter, '>  '+importer],
                            ['3.Consignee:', '4.Notify Party:'],
-                           ['>'+a, '>'+b],
+                           ['>  '+a, '>  '+b],
                            ['5.Departure Date.:', '6.Type:'],
-                           ['>'+c, '>'+e],
+                           ['>  '+c, '>  '+e],
                            ['7.Loading Port:', '8.Discharging Port:'],
-                           ['>'+d, '>'+h],
+                           ['>  '+d, '>  '+h],
                            ['9.Terms of Delivery:', '10.Terms of Payment:'],
-                           ['>'+f, '>'+g],
+                           ['>  '+f, '>  '+g],
                            ['11.Cargo Type:', '12.Pick up Date of Cargo:'],
-                           ['>'+i, '>'+j]]
+                           ['>  '+i, '>  '+j]]
 
                 pdf.ln(0.75)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2147,16 +2147,49 @@ def submit2_3(request):
         contract_id = request.POST['contract_id']
         a = request.POST['a']
         b = request.POST['b']
-        c = request.POST['c']
-        d = request.POST['d']
-        lcr = Contract_LCR.objects.filter(contract_id=contract_id)
-        e = lcr.values('advisingbank')[0]['advisingbank']
-        f = lcr.values('applicant')[0]['applicant']
-        g = lcr.values('beneficiary')[0]['beneficiary']
-        h = lcr.values('amount')[0]['amount']
-        i = lcr.values('paticalshipment')[0]['paticalshipment']
-        j = lcr.values('transshipment')[0]['transshipment']
-        k = lcr.values('loding')[0]['loding']
+
+        package = Contract_OS.objects.filter(id=contract_id)
+        importer = package.values('share1')[0]['share1']
+        item1 = package.values('item1')[0]['item1']
+        description1 = package.values('description1')[0]['description1']
+        quantity1 = package.values('quantity1')[0]['quantity1']
+        price1 = package.values('price1')[0]['price1']
+        amount1 = package.values('amount1')[0]['amount1']
+
+        item2 = package.values('item2')[0]['item2']
+        description2 = package.values('description2')[0]['description2']
+        quantity2 = package.values('quantity2')[0]['quantity2']
+        price2 = package.values('price2')[0]['price2']
+        amount2 = package.values('amount2')[0]['amount2']
+
+        item3 = package.values('item3')[0]['item3']
+        description3 = package.values('description3')[0]['description3']
+        quantity3 = package.values('quantity3')[0]['quantity3']
+        price3 = package.values('price3')[0]['price3']
+        amount3 = package.values('amount3')[0]['amount3']
+
+        item4 = package.values('item4')[0]['item4']
+        description4 = package.values('description4')[0]['description4']
+        quantity4 = package.values('quantity4')[0]['quantity4']
+        price4 = package.values('price4')[0]['price4']
+        amount4 = package.values('amount4')[0]['amount4']
+
+        item5 = package.values('item5')[0]['item5']
+        description5 = package.values('description5')[0]['description5']
+        quantity5 = package.values('quantity5')[0]['quantity5']
+        price5 = package.values('price5')[0]['price5']
+        amount5 = package.values('amount5')[0]['amount5']
+
+        sr = Contract_SR.objects.filter(contract_id=contract_id)
+        consignee = sr.values('consignee')[0]['consignee']
+        notify = sr.values('notify')[0]['notify']
+        lport = sr.values('lport')[0]['lport']
+
+        bl = Contract_BL.objects.filter(contract_id=contract_id)
+        finaldestination = bl.values('finaldestination')[0]['finaldestination']
+        vessel = bl.values('vessel')[0]['vessel']
+        shipper = bl.values('owner_id')[0]['owner_id']
+
 
 
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
@@ -2176,20 +2209,20 @@ def submit2_3(request):
                 pdf.set_font('Arial', '', 10.0)
                 pdf.ln(0.5)
                 th = pdf.font_size
-                records = [['Advising bank:', 'Credit No.:'],
-                           [e, a],
-                           ['Date of Issue:', 'Expiry Date:'],
-                           [b, c],
-                           ['Applicant:', 'Beneficiary:'],
-                           [f, g],
-                           ['Amount of Credit:', 'Loding on board:'],
-                           [h, k],
-                           ['Partial Shipments:', 'Transshipment:'],
-                           [i, j]]
+                records = [['1.Shipper:', '2.Exporter:'],
+                           [shipper, user_id],
+                           ['3.Importer:', '4.Consignee:'],
+                           [importer, consignee],
+                           ['5.Notify Party:', '6.Remarks:'],
+                           [notify, a],
+                           ['7.Loading Port:', '8.Final Destination:'],
+                           [lport, finaldestination],
+                           ['9.Vessel:', '10.Sailng On:'],
+                           [vessel, b]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
-                pdf.cell(epw, 0.0, 'LETTER OF CREDIT', align='C')
+                pdf.cell(epw, 0.0, 'COMMERCIAL INVOICE', align='C')
                 pdf.ln(0.25)
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
@@ -2197,11 +2230,27 @@ def submit2_3(request):
                 pdf.set_font('Arial', '', 12.0)
                 pdf.ln(0.5)
                 for row in records:
-                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                    pdf.ln(2 * th)
-
+                    pdf.cell(3.5, 2.5 * th, str(row[0]), border=1)
+                    pdf.cell(3.5, 2.5 * th, str(row[1]), border=1)
+                    pdf.ln(2.5 * th)
+                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
+                          [item1, description1, quantity1, price1, amount1],
+                          [item2, description2, quantity2, price2, amount2],
+                          [item3, description3, quantity3, price3, amount3],
+                          [item4, description4, quantity4, price4, amount4],
+                          [item5, description5, quantity5, price5, amount5]]
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw, 0.5, 'Description of Goods and/or Services', align='C')
+                pdf.ln(0.5)
+                for row in tables:
+                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
+                    pdf.ln(2.5 * th)
+                pdf.cell(epw, 0.5, ' Signed By:' + user_id, align='R')
+                pdf.ln(0.5)
                 pdf.output('document/CI_' + time_format + '.pdf', 'F')
                 file = open('document/CI_' + time_format + '.pdf', 'rb')
                 data = file.read()
@@ -2292,15 +2341,15 @@ def submit3(request):
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [['1.Advising bank:', '2.Credit No.:'],
-                           ['>'+e, '>'+a],
+                           ['>  '+e, '>  '+a],
                            ['3.Date of Issue:', '4.Expiry Date:'],
-                           ['>'+b, '>'+c],
+                           ['>  '+b, '>  '+c],
                            ['5.Applicant:', '6.Beneficiary:'],
-                           ['>'+f, '>'+g],
+                           ['>  '+f, '>  '+g],
                            ['7.Amount of Credit:', '8.Loding on board:'],
-                           ['>'+h, '>'+k],
+                           ['>  '+h, '>  '+k],
                            ['9.Partial Shipments:', '10.Transshipment:'],
-                           ['>'+i, '>'+j]]
+                           ['>  '+i, '>  '+j]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2398,13 +2447,13 @@ def submit4_1(request):
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [
                            ['1.Shipper:', '2.Consignee:'],
-                           ['>'+user_id, '>'+consignee],
+                           ['>  '+user_id, '>  '+consignee],
                            ['3.Nodify party:', '4.Place of Receipt:'],
-                           ['>'+notify, '>'+b],
+                           ['>  '+notify, '>  '+b],
                            ['5.Voyage No.:', '6.Loading Port:'],
-                           ['>'+a,'>'+lport],
+                           ['>  '+a,'>  '+lport],
                            ['7.Discharging Port:', '8.Final Destination:'],
-                           ['>'+dport,'>'+c]]
+                           ['>  '+dport,'>  '+c]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2424,16 +2473,16 @@ def submit4_1(request):
                 pdf.cell(epw / 2, 3 * th, '9.Seal No.', border=1)
                 pdf.cell(epw / 2, 3 * th, '10.Kind of Packages', border=1)
                 pdf.ln(3 * th)
-                pdf.cell(epw / 2, 10 * th, '>'+e, border=1)
-                pdf.cell(epw / 2, 10 * th, '>'+f, border=1)
+                pdf.cell(epw / 2, 10 * th, '>  '+e, border=1)
+                pdf.cell(epw / 2, 10 * th, '>  '+f, border=1)
                 pdf.ln(10 * th)
                 pdf.cell(epw / 3, 3 * th, '11.Description of goods:', border=1)
                 pdf.cell(epw / 3, 3 * th, '12.Gross Weight:', border=1)
                 pdf.cell(epw / 3, 3 * th, '13.Measurement:', border=1)
                 pdf.ln(3 * th)
-                pdf.cell(epw / 3, 10 * th, '>'+d, border=1)
-                pdf.cell(epw / 3, 10 * th, '>'+g, border=1)
-                pdf.cell(epw / 3, 10 * th, '>'+h, border=1)
+                pdf.cell(epw / 3, 10 * th, '>  '+d, border=1)
+                pdf.cell(epw / 3, 10 * th, '>  '+g, border=1)
+                pdf.cell(epw / 3, 10 * th, '>  '+h, border=1)
                 pdf.ln(10 * th)
                 pdf.cell(epw, 2.5 * th, ' Issued by : ' + user_id, border=0, align='R')
                 pdf.ln(2.5 * th)
@@ -2446,7 +2495,7 @@ def submit4_1(request):
                 file.close()
 
                 # 데이터 저장
-                contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, status2='new',
+                contract = Contract_BL(contractname=contractname, contract_id=contract_id, sha256=hash, status2='new', finaldestination=c,vessel=a,
                                        filename='document/BL_' + time_format + '.pdf')
 
                 # 로그인한 사용자 정보를 Contract에 같이 저장
@@ -2477,11 +2526,39 @@ def submit4_2(request):
         a = request.POST['a']
         b = request.POST['b']
         c = request.POST['c']
-        d = request.POST['d']
-        e = request.POST['e']
-        f = request.POST['f']
-        g = request.POST['g']
 
+        package = Contract_OS.objects.filter(id=contract_id)
+
+        item1 = package.values('item1')[0]['item1']
+        description1 = package.values('description1')[0]['description1']
+        quantity1 = package.values('quantity1')[0]['quantity1']
+        price1 = package.values('price1')[0]['price1']
+        amount1 = package.values('amount1')[0]['amount1']
+
+        item2 = package.values('item2')[0]['item2']
+        description2 = package.values('description2')[0]['description2']
+        quantity2 = package.values('quantity2')[0]['quantity2']
+        price2 = package.values('price2')[0]['price2']
+        amount2 = package.values('amount2')[0]['amount2']
+
+        item3 = package.values('item3')[0]['item3']
+        description3 = package.values('description3')[0]['description3']
+        quantity3 = package.values('quantity3')[0]['quantity3']
+        price3 = package.values('price3')[0]['price3']
+        amount3 = package.values('amount3')[0]['amount3']
+
+        item4 = package.values('item4')[0]['item4']
+        description4 = package.values('description4')[0]['description4']
+        quantity4 = package.values('quantity4')[0]['quantity4']
+        price4 = package.values('price4')[0]['price4']
+        amount4 = package.values('amount4')[0]['amount4']
+
+        item5 = package.values('item5')[0]['item5']
+        description5 = package.values('description5')[0]['description5']
+        quantity5 = package.values('quantity5')[0]['quantity5']
+        price5 = package.values('price5')[0]['price5']
+        amount5 = package.values('amount5')[0]['amount5']
+        importer = package.values('share1')[0]['share1']
         time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_DO.objects.filter(contract_id=contract_id)) == 0:
             try:
@@ -2489,30 +2566,47 @@ def submit4_2(request):
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['No.', 'title', 'content'],
-                           [1, 'Agent name:', a],
-                           [2, 'Restricted delivery(Yes or no):', b],
-                           [3, 'Adult signature restriced delivery(Yes or no):', c],
-                           [4, 'Agent Signture:', d],
-                           [5, 'ID verified (yes or no):', e],
-                           [6, 'USPS initals:', f],
-                           [7, 'Date:', g],
-                           ]
-
+                pdf.ln(0.75)
+                pdf.set_font('Arial', 'BU', 16.0)
+                pdf.cell(epw, 0.0, 'DELIVERY ORDER', align='C')
+                pdf.ln(0.25)
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
                 pdf.ln(0.25)
                 pdf.set_font('Arial', '', 12.0)
-                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-                pdf.set_font('Arial', '', 10.0)
                 pdf.ln(0.5)
-
                 th = pdf.font_size
-                for row in records:
-                    pdf.cell(0.5, 2 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3.5, 2 * th, str(row[1]), border=1)
-                    pdf.cell(3.5, 2 * th, str(row[2]), border=1)
-                    pdf.ln(2 * th)
+                pdf.cell(epw, 3 * th, 'Delivery To : ' + importer, border=0, align='C')
+                pdf.ln(3 * th)
+                pdf.cell(epw, 3 * th, 'Delivery Address :' , border=0, align='C')
+                pdf.ln(3 * th)
+                pdf.cell(epw, 3 * th, 'Delivery Date : ' + a, border=0, align='C')
+                pdf.ln(3 * th)
+                pdf.cell(epw, 3 * th, 'Delivery Time :' + b, border=0, align='C')
+                pdf.ln(3 * th)
+                pdf.cell(epw, 2.5 * th, 'Description of Goods and/or Services :', border=0, align='C')
+                pdf.ln(2.5 * th)
+                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
+                          [item1, description1, quantity1, price1, amount1],
+                          [item2, description2, quantity2, price2, amount2],
+                          [item3, description3, quantity3, price3, amount3],
+                          [item4, description4, quantity4, price4, amount4],
+                          [item5, description5, quantity5, price5, amount5]]
+
+                for row in tables:
+                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
+                    pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, 'Remarks:', border=1, align='R')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, '>  '+ c, border=1, align='R')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, ' Confirmed by : ' + user_id, border=0, align='R')
+                pdf.ln(2.5 * th)
+
 
                 pdf.output('document/DO_' + time_format + '.pdf', 'F')
                 file = open('document/DO_' + time_format + '.pdf', 'rb')
