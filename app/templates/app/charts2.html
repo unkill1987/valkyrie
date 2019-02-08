@@ -387,7 +387,7 @@
             document.getElementById('result1').value = result1.toFixed(2);}
             function mul2() {
             var jpnum = document.getElementById('jpnum');
-            var result2 = eval(jpnum.value)*{{ basePrice2 }}
+            var result2 = eval(jpnum.value)*{{ basePrice2 }}/100;
             document.getElementById('result2').value = result2.toFixed(2);}
             function mul3() {
             var chnum = document.getElementById('chnum');
