@@ -776,9 +776,9 @@ def addressmodify(request):
             postcode = request.POST['postcode']
             address = request.POST['address']
             details = request.POST['details']
-            extra = request.POST['extra_info']
+            country = request.POST['country']
             member = Member.objects.get(user_id=user_id)
-            user_address = '(' + postcode + ')' + address + extra + ' ' + details
+            user_address = '(' + postcode + ')' + details +', '+ address + ', ' + country
             member.address = user_address
             member.save()
             result_dict['result'] = 'success'
@@ -1760,15 +1760,18 @@ def submit(request):
         price5 = package.values('price5')[0]['price5']
         amount5 = package.values('amount5')[0]['amount5']
 
-        # beneficiary = Member.objects.filter(user_id=c)
-        # applicant = Member.objects.filter(user_id=d)
-        # beneficiary_name = beneficiary.values('user_name')[0]['user_name']
-        # beneficiary_address = beneficiary.values('address')[0]['address']
-        # applicant_name = applicant.values('user_name')[0]['user_name']
-        # applicant_address = applicant.values('address')[0]['address']
-        # beneficiary_info = beneficiary_name + '\n' + beneficiary_address
-        # applicant_info = applicant_name + '\n' + applicant_address
-
+        beneficiary = Member.objects.filter(user_id=c)
+        applicant = Member.objects.filter(user_id=d)
+        beneficiary_name = beneficiary.values('user_name')[0]['user_name']
+        beneficiary_address = beneficiary.values('address')[0]['address']
+        applicant_name = applicant.values('user_name')[0]['user_name']
+        applicant_address = applicant.values('address')[0]['address']
+        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
+        applicant_info = applicant_name + '\n' + applicant_address
+        advising = Member.objects.filter(user_id=a)
+        advising_name = advising.values('user_name')[0]['user_name']
+        advising_address = advising.values('address')[0]['address']
+        advising_info = advising_name + '\n' + advising_address
 
         time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_LCR.objects.filter(contract_id=contract_id)) == 0:
@@ -1778,9 +1781,9 @@ def submit(request):
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [['1.Advising bank:', '2.Type:'],
-                           ['>  '+a, '>  '+b],
+                           ['>  '+advising_info, '>  '+b],
                            ['3.Beneficiary:', '4.Applicant:'],
-                           ['>  '+c, '>  '+d],
+                           ['>  '+beneficiary_info, '>  '+applicant_info],
                            ['5.L/C Amount and Tolerance:', '6.Latest shipment date:'],
                            ['>  '+e, '>  '+k],
                            ['7.Partial shipment:', '8.Transshipment:'],
@@ -1917,7 +1920,6 @@ def submit2_1(request):
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
-
             pdf.set_font('Arial', '', 10.0)
             epw = pdf.w - 2 * pdf.l_margin
 
@@ -1996,6 +1998,7 @@ def submit2_1(request):
             result_dict['result'] = "작성완료"
             return JsonResponse(result_dict)
         except Exception as e:
+            print(e)
             result_dict['result'] = "영어로 작성해주세요."
             return JsonResponse(result_dict)
     except Exception as e:
@@ -2056,6 +2059,17 @@ def submit2_2(request):
         exporter = user_id
         importer = package.values('share1')[0]['share1']
         time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+
+        beneficiary = Member.objects.filter(user_id=exporter)
+        applicant = Member.objects.filter(user_id=importer)
+        beneficiary_name = beneficiary.values('user_name')[0]['user_name']
+        beneficiary_address = beneficiary.values('address')[0]['address']
+        applicant_name = applicant.values('user_name')[0]['user_name']
+        applicant_address = applicant.values('address')[0]['address']
+        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
+        applicant_info = applicant_name + '\n' + applicant_address
+
+
         if len(Contract_SR.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2063,7 +2077,7 @@ def submit2_2(request):
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [['1.Exporter:', '2.Importer:'],
-                           ['>  '+exporter, '>  '+importer],
+                           ['>  '+beneficiary_info, '>  '+applicant_info],
                            ['3.Consignee:', '4.Notify Party:'],
                            ['>  '+a, '>  '+b],
                            ['5.Departure Date.:', '6.Type:'],
@@ -2190,7 +2204,18 @@ def submit2_3(request):
         vessel = bl.values('vessel')[0]['vessel']
         shipper = bl.values('owner_id')[0]['owner_id']
 
-
+        beneficiary = Member.objects.filter(user_id=user_id)
+        applicant = bl.values('share1')[0]['share1']
+        beneficiary_name = beneficiary.values('user_name')[0]['user_name']
+        beneficiary_address = beneficiary.values('address')[0]['address']
+        applicant_name = applicant.values('user_name')[0]['user_name']
+        applicant_address = applicant.values('address')[0]['address']
+        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
+        applicant_info = applicant_name + '\n' + applicant_address
+        shipper_id= Member.objects.filter(user_id=shipper)
+        shipper_name = shipper_id.values('user_name')[0]['user_name']
+        shipper_address = shipper_id.values('address')[0]['address']
+        shipper_info = shipper_name + '\n' + shipper_address
 
         time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_CI.objects.filter(contract_id=contract_id)) == 0:
@@ -2202,9 +2227,9 @@ def submit2_3(request):
 
                 th = pdf.font_size
                 records = [['1.Shipper:', '2.Exporter:'],
-                           [shipper, user_id],
+                           [shipper_info, beneficiary_info],
                            ['3.Importer:', '4.Consignee:'],
-                           [importer, consignee],
+                           [applicant_info, consignee],
                            ['5.Notify Party:', '6.Remarks:'],
                            [notify, a],
                            ['7.Loading Port:', '8.Final Destination:'],
@@ -2326,6 +2351,20 @@ def submit3(request):
         price5 = package.values('price5')[0]['price5']
         amount5 = package.values('amount5')[0]['amount5']
 
+
+        beneficiary = package.values('owner_id')[0]['owner_id']
+        applicant = package.values('shrae1')[0]['shrae1']
+        beneficiary_name = beneficiary.values('user_name')[0]['user_name']
+        beneficiary_address = beneficiary.values('address')[0]['address']
+        applicant_name = applicant.values('user_name')[0]['user_name']
+        applicant_address = applicant.values('address')[0]['address']
+        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
+        applicant_info = applicant_name + '\n' + applicant_address
+        advising = Member.objects.filter(user_id=user_id)
+        advising_name = advising.values('user_name')[0]['user_name']
+        advising_address = advising.values('address')[0]['address']
+        advising_info = advising_name + '\n' + advising_address
+
         time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
         if len(Contract_LC.objects.filter(contract_id=contract_id)) == 0:
             try:
@@ -2334,11 +2373,11 @@ def submit3(request):
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [['1.Advising bank:', '2.Credit No.:'],
-                           ['>  '+e, '>  '+a],
+                           ['>  '+advising_info, '>  '+a],
                            ['3.Date of Issue:', '4.Expiry Date:'],
                            ['>  '+b, '>  '+c],
                            ['5.Applicant:', '6.Beneficiary:'],
-                           ['>  '+f, '>  '+g],
+                           ['>  '+applicant_info, '>  '+beneficiary_info],
                            ['7.Amount of Credit:', '8.Loding on board:'],
                            ['>  '+h, '>  '+k],
                            ['9.Partial Shipments:', '10.Transshipment:'],
@@ -2432,6 +2471,10 @@ def submit4_1(request):
         lport = sr.values('lport')[0]['lport']
         dport = sr.values('dport')[0]['dport']
         time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+        shipper = Member.objects.filter(user_id=user_id)
+        shipper_name = shipper.values('user_name')[0]['user_name']
+        shipper_address = shipper.values('address')[0]['address']
+        shipper_info = shipper_name +'\n'+ shipper_address
         if len(Contract_BL.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2440,7 +2483,7 @@ def submit4_1(request):
                 epw = pdf.w - 2 * pdf.l_margin
                 records = [
                            ['1.Shipper:', '2.Consignee:'],
-                           ['>  '+user_id, '>  '+consignee],
+                           ['>  '+shipper_info, '>  '+consignee],
                            ['3.Nodify party:', '4.Place of Receipt:'],
                            ['>  '+notify, '>  '+b],
                            ['5.Voyage No.:', '6.Loading Port:'],
@@ -2551,6 +2594,10 @@ def submit4_2(request):
         amount5 = package.values('amount5')[0]['amount5']
         importer = package.values('share1')[0]['share1']
         time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+        importer_info = Member.objects.filter(user_id = importer)
+        delivery_to = importer_info.values('user_name')[0]['user_name']
+        delivery_address = importer_info.values('address')[0]['address']
+
         if len(Contract_DO.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2567,9 +2614,9 @@ def submit4_2(request):
                 pdf.set_font('Arial', '', 12.0)
                 pdf.ln(0.5)
                 th = pdf.font_size
-                pdf.cell(epw, 3 * th, 'Delivery To : ' + importer, border=0, align='L')
+                pdf.cell(epw, 3 * th, 'Delivery To : ' + delivery_to, border=0, align='L')
                 pdf.ln(3 * th)
-                pdf.cell(epw, 3 * th, 'Delivery Address :' , border=0, align='L')
+                pdf.cell(epw, 3 * th, 'Delivery Address :' + delivery_address, border=0, align='L')
                 pdf.ln(3 * th)
                 pdf.cell(epw, 3 * th, 'Delivery Date : ' + a, border=0, align='L')
                 pdf.ln(3 * th)
@@ -3913,8 +3960,8 @@ def register(request):
         postcode = request.POST['postcode']
         address = request.POST['address']
         details = request.POST['details']
-        extra = request.POST['extra']
-        user_address = '(' + postcode + ')' + address + extra + ' ' + details
+        country = request.POST['country']
+        user_address = '(' + postcode + ')' + details + ', ' + address + ', '+ country
 
         password = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
         try:
