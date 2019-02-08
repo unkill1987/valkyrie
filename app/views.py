@@ -2200,14 +2200,6 @@ def submit2_3(request):
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
 
-
-                pdf.set_font('Arial', 'B', 14.0)
-                pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-                pdf.ln(0.25)
-                pdf.set_font('Arial', '', 12.0)
-                pdf.cell(epw, 0.0, contractname + ' From:' + user_id, align='C')
-                pdf.set_font('Arial', '', 10.0)
-                pdf.ln(0.5)
                 th = pdf.font_size
                 records = [['1.Shipper:', '2.Exporter:'],
                            [shipper, user_id],
@@ -2230,9 +2222,9 @@ def submit2_3(request):
                 pdf.set_font('Arial', '', 12.0)
                 pdf.ln(0.5)
                 for row in records:
-                    pdf.cell(3.5, 2.5 * th, str(row[0]), border=1)
-                    pdf.cell(3.5, 2.5 * th, str(row[1]), border=1)
-                    pdf.ln(2.5 * th)
+                    pdf.cell(epw/2, 3 * th, str(row[0]), border=1)
+                    pdf.cell(epw/2, 3 * th, str(row[1]), border=1)
+                    pdf.ln(3 * th)
                 tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
                           [item1, description1, quantity1, price1, amount1],
                           [item2, description2, quantity2, price2, amount2],
@@ -2243,12 +2235,12 @@ def submit2_3(request):
                 pdf.cell(epw, 0.5, 'Description of Goods and/or Services', align='C')
                 pdf.ln(0.5)
                 for row in tables:
-                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
-                    pdf.ln(2.5 * th)
+                    pdf.cell(epw / 7, 3 * th, str(row[0]), border=1, align='C')
+                    pdf.cell(3 * epw / 7, 3 * th, str(row[1]), border=1, align='C')
+                    pdf.cell(epw / 7, 3 * th, str(row[2]), border=1, align='C')
+                    pdf.cell(epw / 7, 3 * th, str(row[3]), border=1, align='C')
+                    pdf.cell(epw / 7, 3 * th, str(row[4]), border=1, align='C')
+                    pdf.ln(3 * th)
                 pdf.cell(epw, 0.5, ' Signed By:' + user_id, align='R')
                 pdf.ln(0.5)
                 pdf.output('document/CI_' + time_format + '.pdf', 'F')
@@ -2270,6 +2262,7 @@ def submit2_3(request):
                 result_dict['result'] = "작성완료"
                 return JsonResponse(result_dict)
             except Exception as e:
+                print(e)
                 result_dict['result'] = "영어로 작성해주세요."
                 return JsonResponse(result_dict)
         else:
