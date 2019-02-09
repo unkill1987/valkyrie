@@ -362,21 +362,19 @@
 
 </body>
 <script>
-
 $(document).ready(function(){
+   var length = $('#otpnum').length;
 
-   var keyCount = 0;
    $('#otpnum').keyup(function(){
 
-    keyCount++;
-
-    if(keyCount == 6){
-    $('#share').trigger('click');
-    return false;
+    if(this.value.length == 6){
+       $('#share').trigger('click');
+       return false;
     }
    });
   $('#preloader').hide();
 });
+
 $('#submit').click(function() {
     var share_user = $('#share_user').val();
     var check_id = $('input:checked').val();

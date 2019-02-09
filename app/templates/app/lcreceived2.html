@@ -357,15 +357,13 @@
 </body>
 <script>
 $(document).ready(function(){
+   var length = $('#otp').length;
 
-   var keyCount = 0;
-   $('#otpnum').keyup(function(){
+   $('#otp').keyup(function(){
 
-    keyCount++;
-
-    if(keyCount == 6){
-    $('#confirm').trigger('click');
-    return false;
+    if(this.value.length == 6){
+       $('#confirm').trigger('click');
+       return false;
     }
    });
   $('#preloader').hide();
