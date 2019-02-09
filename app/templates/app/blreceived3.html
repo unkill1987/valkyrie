@@ -283,10 +283,10 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">Input your OTP Number:
-                                    <input name="otp" id="otp" class="form-control">
+                                    <input name="otp" id="otpnum" class="form-control">
                                 </div>
                                 <div class="modal-footer">
-                                    <a class="btn" style="color:white;background:#ff8a12;" id="confirm">Confirm</a>
+                                    <a class="btn" style="display:none; color:white;background:#ff8a12;" id="confirm">Confirm</a>
                                     <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
                                 </div>
                             </div>
@@ -368,10 +368,20 @@
 
 </body>
 <script>
- $(document).ready(function(){
-       $('#preloader').hide();
-    });
+$(document).ready(function(){
 
+   var keyCount = 0;
+   $('#otpnum').keyup(function(){
+
+    keyCount++;
+
+    if(keyCount == 6){
+    $('#confirm').trigger('click');
+    return false;
+    }
+   });
+  $('#preloader').hide();
+});
 
 
 $('#delete').click(function() {

@@ -259,10 +259,10 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">Input your OTP Number:
-                                    <input name="otp" class="form-control">
+                                    <input id="otpnum" name="otp" class="form-control">
                                 </div>
                                 <div class="modal-footer">
-                                    <a class="btn" style="color:white;background:#ff8a12;" id="share">Send</a>
+                                    <a class="btn" style="display:none;color:white;background:#ff8a12;" id="share">Send</a>
                                     <a style="color:white;" class="btn btn-dark" data-dismiss="modal">Cancel</a>
                                 </div>
                             </div>
@@ -363,10 +363,20 @@
 </body>
 <script>
 
-  $(document).ready(function(){
+$(document).ready(function(){
+
+   var keyCount = 0;
+   $('#otpnum').keyup(function(){
+
+    keyCount++;
+
+    if(keyCount == 6){
+    $('#share').trigger('click');
+    return false;
+    }
+   });
   $('#preloader').hide();
 });
-
 $('#submit').click(function() {
     var share_user = $('#share_user').val();
     var check_id = $('input:checked').val();
