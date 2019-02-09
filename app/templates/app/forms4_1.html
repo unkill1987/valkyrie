@@ -167,29 +167,35 @@
                                                 <label>3.Final Destination:</label>
                                                 <input class="form-control" name="c" id="c">
                                             </div>
+                                            <div class="form-group">
+                                                <label>4.Laden on board the Vessel:</label>
+                                                <input class="form-control" name="i" id="i" type="date">
+
+                                            </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>4.Seal No.:</label>
+                                                <label>5.Seal No.:</label>
                                                 <textarea class="form-control" rows="3" name="d" id="d"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>5.Kind of Packages:</label>
+                                                <label>6.Kind of Packages:</label>
                                                 <textarea class="form-control" rows="3" name="e" id="e"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>6.Description of goods:</label>
+                                                <label>7.Description of goods:</label>
                                                 <textarea class="form-control"  rows="3" name="f" id="f"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label>7.Gross Weight:</label>
+                                                <label>8.Gross Weight:</label>
                                                 <input class="form-control" name="g" id="g">
                                             </div>
                                             <div class="form-group">
-                                                <label>8.Measurement:</label>
+                                                <label>9.Measurement:</label>
                                                 <input class="form-control" name="h" id="h">
 
                                             </div>
+
                                         </div>
 
 
@@ -293,6 +299,7 @@ $('#submit').click(function(){
     var f = $('#f').val();
     var g = $('#g').val();
     var h = $('#h').val();
+    var i = $('#i').val();
 
 
 
@@ -313,24 +320,28 @@ $('#submit').click(function(){
         $('#c').focus();
         return false;
     }else if(d.length == 0){
-        alert("4.Seal No.를 입력하세요");
+        alert("5.Seal No.를 입력하세요");
         $('#d').focus();
         return false;
     }else if(e.length == 0){
-        alert("5.Kind of Packages를 입력하세요");
+        alert("6.Kind of Packages를 입력하세요");
         $('#e').focus();
         return false;
     }else if(f.length == 0){
-        alert("6.Description of goods를 입력하세요");
+        alert("7.Description of goods를 입력하세요");
         $('#f').focus();
         return false;
     }else if(g.length == 0){
-        alert("7.Gross Weight를 입력하세요");
+        alert("8.Gross Weight를 입력하세요");
         $('#g').focus();
         return false;
     }else if(h.length == 0){
-        alert("8.Measurement를 입력하세요");
+        alert("9.Measurement를 입력하세요");
         $('#h').focus();
+        return false;
+    }else if(i.length == 0){
+        alert("4.Laden on board the Vessel를 입력하세요");
+        $('#i').focus();
         return false;
     }else{
         $.ajax({

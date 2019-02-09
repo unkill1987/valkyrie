@@ -319,7 +319,13 @@
                                 <label for="user_id">Email address (ID)</label>
                                 <input type="email" name='user_id' id="user_id" class="form-control"
                                        placeholder="Email address" required="required">
-
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <label for="tel">TEL:</label>
+                                <input type="text" name='tel' id="tel" class="form-control"
+                                       placeholder="Enter without '-'" required="required">
                             </div>
                         </div>
                         <div class="form-group">
@@ -327,7 +333,6 @@
                                 <label for="businessnum">Business Number</label>
                                 <input type="text" name='businessnum' id="businessnum" class="form-control"
                                        placeholder="Business Number" required="required">
-
                             </div>
                         </div>
                         <div class="form-group">
@@ -335,7 +340,6 @@
                                 <label for="tbc">Trade Business Code</label>
                                 <input type="text" name='tbc' id="tbc" class="form-control"
                                        placeholder="Trade Business Code" required="required">
-
                             </div>
                         </div>
                         <hr style="border-top:solid 1px; border-color:white!important;">
@@ -516,7 +520,7 @@ $("#user_pw").keyup(function(){
 $('#register').click(function(){
 
     var check_id = $('input:checked').val();
-
+    var tel = $('#tel').val();
     var name = $('#user_name').val();
     var businessnum = $('#businessnum').val();
     var tbc = $('#tbc').val();
@@ -531,6 +535,10 @@ $('#register').click(function(){
 
     }else if (name.length == 0){
         alert("이름을 입력하세요");
+        return false;
+
+    }else if (tel.length == 0){
+        alert("전화번호를 입력하세요");
         return false;
 
     }else if(!chk(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/, email, "이메일 형식에 어긋납니다.")){

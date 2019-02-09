@@ -778,7 +778,7 @@ def addressmodify(request):
             details = request.POST['details']
             country = request.POST['country']
             member = Member.objects.get(user_id=user_id)
-            user_address = '(' + postcode + ')' + details +', '+ address + ', ' + country
+            user_address = '(' + postcode + ')' +'/'+ details +'/'+ address + '/' + country
             member.address = user_address
             member.save()
             result_dict['result'] = 'success'
@@ -1764,32 +1764,25 @@ def submit(request):
         applicant = Member.objects.filter(user_id=d)
         beneficiary_name = beneficiary.values('user_name')[0]['user_name']
         beneficiary_address = beneficiary.values('address')[0]['address']
+        beneficiary_tel = beneficiary.values('tel')[0]['tel']
+        b_address_list = beneficiary_address.split('/')
         applicant_name = applicant.values('user_name')[0]['user_name']
         applicant_address = applicant.values('address')[0]['address']
-        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
-        applicant_info = applicant_name + '\n' + applicant_address
+        applicant_tel = applicant.values('tel')[0]['tel']
+        a_address_list = applicant_address.split('/')
         advising = Member.objects.filter(user_id=a)
         advising_name = advising.values('user_name')[0]['user_name']
-        advising_address = advising.values('address')[0]['address']
-        advising_info = advising_name + '\n' + advising_address
 
-        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+
+
+
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_LCR.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['1.Advising bank:', '2.Type:'],
-                           ['>  '+advising_info, '>  '+b],
-                           ['3.Beneficiary:', '4.Applicant:'],
-                           ['>  '+beneficiary_info, '>  '+applicant_info],
-                           ['5.L/C Amount and Tolerance:', '6.Latest shipment date:'],
-                           ['>  '+e, '>  '+k],
-                           ['7.Partial shipment:', '8.Transshipment:'],
-                           ['>  '+f, '>  '+g],
-                           ['9.Loading(shipment from):', '10.Discharging(shipment to):'],
-                           ['>  '+i, '>  '+j]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -1802,28 +1795,83 @@ def submit(request):
                 pdf.ln(0.5)
 
                 th = pdf.font_size
-                for row in records:
-                    pdf.cell(epw/2, 2 * th, str(row[0]), border=1)
-                    pdf.cell(epw/2, 2 * th, str(row[1]), border=1)
-                    pdf.ln(2 * th)
+                pdf.cell(epw/2, 2 * th, '1.Advising bank:', 'L,T', 0, 'L')
+                pdf.cell(epw/2, 2 * th, '2.Type:', 'L,T,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, '>  '+advising_name, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '>  '+b, 'L,B,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, '3.Beneficiary:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '4.Applicant:', 'L,T,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 1 * th, '>  '+ beneficiary_name, 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, '>  '+ applicant_name, 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 1 * th, b_address_list[0], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[0], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, b_address_list[1], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[1], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, b_address_list[2], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[2], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, b_address_list[3], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[3], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, 'TEL: '+ beneficiary_tel, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, 'TEL: '+ applicant_tel, 'L,B,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 2 * th, '5.L/C Amount and Tolerance:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '6.Latest shipment date:', 'L,T,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, '>  '+e, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '>  '+k, 'L,B,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, '7.Partial shipment:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '8.Transshipment:', 'L,T,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, '>  '+f, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '>  '+g, 'L,B,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, '9.Loading(shipment from):', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '10.Discharging(shipment to):', 'L,T,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, '>  '+i, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '>  '+j, 'L,B,R', 0, 'L')
+                pdf.ln(2 * th)
+
                 pdf.cell(epw, 2 * th, 'Trnasport mode : ' + h, border=1)
                 pdf.ln(2 * th)
-                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
-                          [item1, description1, quantity1, price1, amount1],
+                tables = [[item1, description1, quantity1, price1, amount1],
                           [item2, description2, quantity2, price2, amount2],
                           [item3, description3, quantity3, price3, amount3],
-                          [item4, description4, quantity4, price4, amount4],
-                          [item5, description5, quantity5, price5, amount5]]
+                          [item4, description4, quantity4, price4, amount4]]
+
                 pdf.set_font('Arial', '', 12.0)
                 pdf.cell(epw, 0.5, 'Description of Goods and/or Services', align='C')
                 pdf.ln(0.5)
+                pdf.cell(epw / 7, 2 * th, 'Item No.', 'L,T,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 2 * th, 'Description', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Quantity', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Unit Price', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Amount', 'L,T,B,R', 0, 'C')
+                pdf.ln(2 * th)
                 for row in tables:
-                    pdf.cell(epw/7, 2 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3*epw/7, 2 * th, str(row[1]), border=1, align='C')
-                    pdf.cell(epw/7, 2 * th, str(row[2]), border=1, align='C')
-                    pdf.cell(epw/7, 2 * th, str(row[3]), border=1, align='C')
-                    pdf.cell(epw/7, 2 * th, str(row[4]), border=1, align='C')
+                    pdf.cell(epw/7, 2 * th, str(row[0]), 'L', 0, 'C')
+                    pdf.cell(3*epw/7, 2 * th, str(row[1]), 'L', 0, 'C')
+                    pdf.cell(epw/7, 2 * th, str(row[2]), 'L', 0, 'C')
+                    pdf.cell(epw/7, 2 * th, str(row[3]), 'L', 0, 'C')
+                    pdf.cell(epw/7, 2 * th, str(row[4]), 'L,R', 0, 'C')
                     pdf.ln(2 * th)
+                pdf.cell(epw / 7, 2 * th,item5, 'L,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 2 * th,description5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, quantity5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, price5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, amount5, 'L,B,R', 0, 'C')
+                pdf.ln(2 * th)
                 pdf.ln(0.5)
                 pdf.cell(epw, 2 * th, ' All banking charges : ' + l, border=1)
                 pdf.ln(2 * th)
@@ -1868,10 +1916,10 @@ def submit(request):
 
 def submit2_1(request):
     result_dict = {}
+
     try:
         user_id = request.session['user_id']
         contractname = request.POST['contractname']
-
         a = request.POST['a']
         b = request.POST['b']
         c = request.POST['c']
@@ -1916,7 +1964,7 @@ def submit2_1(request):
         n5 = request.POST['n5']
         o5 = request.POST['o5']
 
-        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         try:
             pdf = FPDF(unit='in', format='A4')
             pdf.add_page()
@@ -1935,21 +1983,32 @@ def submit2_1(request):
             pdf.cell(epw, 0.0, 'We are pleased to offer under-mentioned article(s) as per conditions and details described as follows', align='L')
             pdf.ln(0.25)
             th = pdf.font_size
-            records = [['Item No.', 'Description', 'Unit', 'Quantity', 'Unit Price', 'Amount'],
-                       [j, k, l, m, n, o],
+            records = [[j, k, l, m, n, o],
                        [j2, k2, l2, m2, n2, o2],
                        [j3, k3, l3, m3, n3, o3],
-                       [j4, k4, l4, m4, n4, o4],
-                       [j5, k5, l5, m5, n5, o5]]
-
+                       [j4, k4, l4, m4, n4, o4]]
+            pdf.cell(1, 2 * th, 'Item No.', 'L,T,B', 0, 'C')
+            pdf.cell(2.5, 2 * th, 'Description', 'L,T,B', 0, 'C')
+            pdf.cell(1, 2 * th, 'Unit', 'L,T,B', 0, 'C')
+            pdf.cell(1, 2 * th, 'Quantity', 'L,T,B', 0, 'C')
+            pdf.cell(1, 2 * th, 'Unit Price', 'L,T,B', 0, 'C')
+            pdf.cell(1, 2 * th,  'Amount', 'L,T,B,R', 0, 'C')
+            pdf.ln(2 * th)
             for row in records:
-                pdf.cell(1, 2 * th, str(row[0]), border=1, align='C')
-                pdf.cell(2.5, 2 * th, str(row[1]), border=1, align='C')
-                pdf.cell(1, 2 * th, str(row[2]), border=1, align='C')
-                pdf.cell(1, 2 * th, str(row[3]), border=1, align='C')
-                pdf.cell(1, 2 * th, str(row[4]), border=1, align='C')
-                pdf.cell(1, 2 * th, str(row[5]), border=1, align='C')
+                pdf.cell(1, 2 * th, str(row[0]),  'L', 0, 'C')
+                pdf.cell(2.5, 2 * th, str(row[1]), 'L', 0, 'C')
+                pdf.cell(1, 2 * th, str(row[2]), 'L', 0, 'C')
+                pdf.cell(1, 2 * th, str(row[3]), 'L', 0, 'C')
+                pdf.cell(1, 2 * th, str(row[4]), 'L', 0, 'C')
+                pdf.cell(1, 2 * th, str(row[5]), 'L,R', 0, 'C')
                 pdf.ln(2 * th)
+            pdf.cell(1, 2 * th, j5, 'L,B', 0, 'C')
+            pdf.cell(2.5, 2 * th, k5, 'L,B', 0, 'C')
+            pdf.cell(1, 2 * th, l5, 'L,B', 0, 'C')
+            pdf.cell(1, 2 * th, m5, 'L,B', 0, 'C')
+            pdf.cell(1, 2 * th, n5, 'L,B', 0, 'C')
+            pdf.cell(1, 2 * th, o5, 'L,B,R', 0, 'C')
+            pdf.ln(2 * th)
             pdf.ln(0.5)
             bottom_content = [['Origin', ':', a],
                               ['Packing', ':', b],
@@ -2058,16 +2117,18 @@ def submit2_2(request):
 
         exporter = user_id
         importer = package.values('share1')[0]['share1']
-        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
 
         beneficiary = Member.objects.filter(user_id=exporter)
         applicant = Member.objects.filter(user_id=importer)
         beneficiary_name = beneficiary.values('user_name')[0]['user_name']
         beneficiary_address = beneficiary.values('address')[0]['address']
+        beneficiary_tel = beneficiary.values('tel')[0]['tel']
+        b_address_list = beneficiary_address.split('/')
         applicant_name = applicant.values('user_name')[0]['user_name']
         applicant_address = applicant.values('address')[0]['address']
-        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
-        applicant_info = applicant_name + '\n' + applicant_address
+        applicant_tel = applicant.values('tel')[0]['tel']
+        a_address_list = applicant_address.split('/')
 
 
         if len(Contract_SR.objects.filter(contract_id=contract_id)) == 0:
@@ -2076,18 +2137,7 @@ def submit2_2(request):
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['1.Exporter:', '2.Importer:'],
-                           ['>  '+beneficiary_info, '>  '+applicant_info],
-                           ['3.Consignee:', '4.Notify Party:'],
-                           ['>  '+a, '>  '+b],
-                           ['5.Departure Date.:', '6.Type:'],
-                           ['>  '+c, '>  '+e],
-                           ['7.Loading Port:', '8.Discharging Port:'],
-                           ['>  '+d, '>  '+h],
-                           ['9.Terms of Delivery:', '10.Terms of Payment:'],
-                           ['>  '+f, '>  '+g],
-                           ['11.Cargo Type:', '12.Pick up Date of Cargo:'],
-                           ['>  '+i, '>  '+j]]
+
 
                 pdf.ln(0.75)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2095,31 +2145,90 @@ def submit2_2(request):
                 pdf.ln(0.25)
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
-                pdf.ln(0.5)
+                pdf.ln(0.75)
                 pdf.set_font('Arial', '', 12.0)
 
                 th = pdf.font_size
-                for row in records:
-                    pdf.cell(epw/2, 2.5 * th, str(row[0]), border=1)
-                    pdf.cell(epw/2, 2.5 * th, str(row[1]), border=1)
-                    pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '1.Exporter:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '2.Importer:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 1 * th, '>  ' + beneficiary_name, 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, '>  ' + applicant_name, 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 1 * th, b_address_list[0], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[0], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, b_address_list[1], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[1], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, b_address_list[2], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[2], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, b_address_list[3], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, a_address_list[3], 'L,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.cell(epw / 2, 1 * th, 'TEL: ' + beneficiary_tel, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 1 * th, 'TEL: ' + applicant_tel, 'L,B,R', 0, 'L')
+                pdf.ln(1 * th)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 2.5 * th, '3.Consignee:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '4.Notify Party:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + a, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + b, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '5.Departure Date.:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '6.Type:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + c, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + e, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '7.Loading Port:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '8.Discharging Port:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + d, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + h, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '9.Terms of Delivery:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '10.Terms of Payment:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + f, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + g, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '11.Cargo Type:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '12.Pick up Date of Cargo:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + i, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + j, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
 
-                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
-                          [item1, description1, quantity1, price1, amount1],
-                          [item2, description2, quantity2, price2, amount2],
-                          [item3, description3, quantity3, price3, amount3],
-                          [item4, description4, quantity4, price4, amount4],
-                          [item5, description5, quantity5, price5, amount5]]
                 pdf.set_font('Arial', '', 12.0)
                 pdf.cell(epw, 0.5, 'Description of Goods and/or Services', align='C')
                 pdf.ln(0.5)
+                pdf.cell(epw / 7, 2 * th, 'Item No.', 'L,T,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 2 * th, 'Description', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Quantity', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Unit Price', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Amount', 'L,T,B,R', 0, 'C')
+                pdf.ln(2 * th)
+                tables = [[item1, description1, quantity1, price1, amount1],
+                          [item2, description2, quantity2, price2, amount2],
+                          [item3, description3, quantity3, price3, amount3],
+                          [item4, description4, quantity4, price4, amount4]]
                 for row in tables:
-                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
-                    pdf.ln(2.5 * th)
+                    pdf.cell(epw / 7, 2 * th, str(row[0]), 'L', 0, 'C')
+                    pdf.cell(3 * epw / 7, 2 * th, str(row[1]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 2 * th, str(row[2]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 2 * th, str(row[3]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 2 * th, str(row[4]), 'L,R', 0, 'C')
+                    pdf.ln(2 * th)
+                pdf.cell(epw / 7, 2 * th, item5, 'L,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 2 * th, description5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, quantity5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, price5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, amount5, 'L,B,R', 0, 'C')
+                pdf.ln(2 * th)
                 pdf.cell(epw, 0.5, ' Request By:' + user_id, align='R')
                 pdf.ln(0.5)
                 pdf.output('document/SR_' + time_format + '.pdf', 'F')
@@ -2205,19 +2314,22 @@ def submit2_3(request):
         shipper = bl.values('owner_id')[0]['owner_id']
 
         beneficiary = Member.objects.filter(user_id=user_id)
-        applicant = bl.values('share1')[0]['share1']
+        applicant = Member.objects.filter(user_id=importer)
         beneficiary_name = beneficiary.values('user_name')[0]['user_name']
         beneficiary_address = beneficiary.values('address')[0]['address']
+        beneficiary_tel = beneficiary.values('tel')[0]['tel']
+        b_address_list = beneficiary_address.split('/')
         applicant_name = applicant.values('user_name')[0]['user_name']
         applicant_address = applicant.values('address')[0]['address']
-        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
-        applicant_info = applicant_name + '\n' + applicant_address
-        shipper_id= Member.objects.filter(user_id=shipper)
+        applicant_tel = applicant.values('tel')[0]['tel']
+        a_address_list = applicant_address.split('/')
+        shipper_id = Member.objects.filter(user_id=shipper)
         shipper_name = shipper_id.values('user_name')[0]['user_name']
         shipper_address = shipper_id.values('address')[0]['address']
-        shipper_info = shipper_name + '\n' + shipper_address
+        shipper_tel = shipper_id.values('tel')[0]['tel']
+        s_address_list = shipper_address.split('/')
 
-        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_CI.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2226,16 +2338,6 @@ def submit2_3(request):
                 epw = pdf.w - 2 * pdf.l_margin
 
                 th = pdf.font_size
-                records = [['1.Shipper:', '2.Exporter:'],
-                           [shipper_info, beneficiary_info],
-                           ['3.Importer:', '4.Consignee:'],
-                           [applicant_info, consignee],
-                           ['5.Notify Party:', '6.Remarks:'],
-                           [notify, a],
-                           ['7.Loading Port:', '8.Final Destination:'],
-                           [lport, finaldestination],
-                           ['9.Vessel:', '10.Sailng On:'],
-                           [vessel, b]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2246,26 +2348,96 @@ def submit2_3(request):
                 pdf.ln(0.25)
                 pdf.set_font('Arial', '', 12.0)
                 pdf.ln(0.5)
-                for row in records:
-                    pdf.cell(epw/2, 3 * th, str(row[0]), border=1)
-                    pdf.cell(epw/2, 3 * th, str(row[1]), border=1)
-                    pdf.ln(3 * th)
-                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
-                          [item1, description1, quantity1, price1, amount1],
-                          [item2, description2, quantity2, price2, amount2],
-                          [item3, description3, quantity3, price3, amount3],
-                          [item4, description4, quantity4, price4, amount4],
-                          [item5, description5, quantity5, price5, amount5]]
+                pdf.cell(epw / 2, 2.5 * th, '1.Shipper:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '2.exporter:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, '>  ' + shipper_name, 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '>  ' + beneficiary_name, 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 1.5 * th, s_address_list[0], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[0], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, s_address_list[1], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[1], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, s_address_list[2], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[2], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, s_address_list[3], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[3], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, 'TEL: ' + shipper_tel, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, 'TEL: ' + beneficiary_tel, 'L,B,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 2.5 * th, '3.Importer:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '4.Remarks:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, '>  ' + applicant_name, 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '>  ' + a, 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[0], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '', 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[1], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '', 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[2], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '', 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[3], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '', 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, 'TEL: '+applicant_tel, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '', 'L,B,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 2.5 * th, '5.Consignee:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '6.Notify Party:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + consignee, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + notify, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '7.Loading Port:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '8.Final Destination:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + lport, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + finaldestination, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '9.Vessel:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '10.Sailng On:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + vessel, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + b, 'L,B,R', 0, 'L')
+                pdf.ln(2.5* th)
                 pdf.set_font('Arial', '', 12.0)
                 pdf.cell(epw, 0.5, 'Description of Goods and/or Services', align='C')
                 pdf.ln(0.5)
+                pdf.cell(epw / 7, 3 * th, 'Item No.', 'L,T,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 3 * th, 'Description', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 3 * th, 'Quantity', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 3 * th, 'Unit Price', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 3 * th, 'Amount', 'L,T,B,R', 0, 'C')
+                pdf.ln(3 * th)
+                tables = [[item1, description1, quantity1, price1, amount1],
+                          [item2, description2, quantity2, price2, amount2],
+                          [item3, description3, quantity3, price3, amount3],
+                          [item4, description4, quantity4, price4, amount4]]
                 for row in tables:
-                    pdf.cell(epw / 7, 3 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3 * epw / 7, 3 * th, str(row[1]), border=1, align='C')
-                    pdf.cell(epw / 7, 3 * th, str(row[2]), border=1, align='C')
-                    pdf.cell(epw / 7, 3 * th, str(row[3]), border=1, align='C')
-                    pdf.cell(epw / 7, 3 * th, str(row[4]), border=1, align='C')
+                    pdf.cell(epw / 7, 3 * th, str(row[0]), 'L', 0, 'C')
+                    pdf.cell(3 * epw / 7, 3 * th, str(row[1]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 3 * th, str(row[2]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 3 * th, str(row[3]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 3 * th, str(row[4]), 'L,R', 0, 'C')
                     pdf.ln(3 * th)
+                pdf.cell(epw / 7, 3 * th, item5, 'L,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 3 * th, description5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 3 * th, quantity5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 3 * th, price5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 3 * th, amount5, 'L,B,R', 0, 'C')
+                pdf.ln(3 * th)
                 pdf.cell(epw, 0.5, ' Signed By:' + user_id, align='R')
                 pdf.ln(0.5)
                 pdf.output('document/CI_' + time_format + '.pdf', 'F')
@@ -2352,36 +2524,28 @@ def submit3(request):
         amount5 = package.values('amount5')[0]['amount5']
 
 
-        beneficiary = package.values('owner_id')[0]['owner_id']
-        applicant = package.values('shrae1')[0]['shrae1']
+        applicant = Member.objects.filter(user_id=f)
+        beneficiary = Member.objects.filter(user_id=g)
         beneficiary_name = beneficiary.values('user_name')[0]['user_name']
         beneficiary_address = beneficiary.values('address')[0]['address']
+        beneficiary_tel = beneficiary.values('tel')[0]['tel']
+        b_address_list = beneficiary_address.split('/')
         applicant_name = applicant.values('user_name')[0]['user_name']
         applicant_address = applicant.values('address')[0]['address']
-        beneficiary_info = beneficiary_name + '\n' + beneficiary_address
-        applicant_info = applicant_name + '\n' + applicant_address
-        advising = Member.objects.filter(user_id=user_id)
+        applicant_tel = applicant.values('tel')[0]['tel']
+        a_address_list = applicant_address.split('/')
+        advising = Member.objects.filter(user_id=e)
         advising_name = advising.values('user_name')[0]['user_name']
-        advising_address = advising.values('address')[0]['address']
-        advising_info = advising_name + '\n' + advising_address
 
-        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+
+
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         if len(Contract_LC.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [['1.Advising bank:', '2.Credit No.:'],
-                           ['>  '+advising_info, '>  '+a],
-                           ['3.Date of Issue:', '4.Expiry Date:'],
-                           ['>  '+b, '>  '+c],
-                           ['5.Applicant:', '6.Beneficiary:'],
-                           ['>  '+applicant_info, '>  '+beneficiary_info],
-                           ['7.Amount of Credit:', '8.Loding on board:'],
-                           ['>  '+h, '>  '+k],
-                           ['9.Partial Shipments:', '10.Transshipment:'],
-                           ['>  '+i, '>  '+j]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2394,30 +2558,85 @@ def submit3(request):
                 pdf.ln(0.5)
 
                 th = pdf.font_size
-                for row in records:
-                    pdf.cell(epw/2, 2.5 * th, str(row[0]), border=1)
-                    pdf.cell(epw/2, 2.5 * th, str(row[1]), border=1)
-                    pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, 'Credit Available With :' + d, border=1)
+                pdf.cell(epw / 2, 2.5 * th, '1.Advising bank:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '2.Credit No.:', 'L,T,R', 0, 'L')
                 pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, 'Covering details :' + d, border=1)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + advising_name, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5* th, '>  ' + a, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '3.Date of Issue:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '4.Expiry Date:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + b, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + c, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '3.Beneficiary:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '4.Applicant:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, '>  ' + beneficiary_name, 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, '>  ' + applicant_name, 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[0], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[0], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[1], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[1], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[2], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[2], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, b_address_list[3], 'L', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, a_address_list[3], 'L,R', 0, 'L')
+                pdf.ln(1.5 * th)
+                pdf.cell(epw / 2, 1.5 * th, 'TEL: ' + beneficiary_tel, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 1.5 * th, 'TEL: ' + applicant_tel, 'L,B,R', 0, 'L')
+                pdf.ln(1.5 * th)
+
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 2.5 * th, '7.Amount of Credit:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '8.Loding on board:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + h, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + k, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '9.Partial Shipments:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '10.Transshipment:', 'L,T,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + i, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2.5 * th, '>  ' + j, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, '11.Credit Available With :' + d, border=1)
+                pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, '12.Covering details :' + d, border=1)
                 pdf.ln(2.5 * th)
                 pdf.cell(epw, 2.5 * th, 'Description of Goods and/or Services :', border=0, align='C')
                 pdf.ln(2.5 * th)
-                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
-                          [item1, description1, quantity1, price1, amount1],
+                tables = [[item1, description1, quantity1, price1, amount1],
                           [item2, description2, quantity2, price2, amount2],
                           [item3, description3, quantity3, price3, amount3],
-                          [item4, description4, quantity4, price4, amount4],
-                          [item5, description5, quantity5, price5, amount5]]
+                          [item4, description4, quantity4, price4, amount4]]
 
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 7, 2 * th, 'Item No.', 'L,T,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 2 * th, 'Description', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Quantity', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Unit Price', 'L,T,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, 'Amount', 'L,T,B,R', 0, 'C')
+                pdf.ln(2 * th)
                 for row in tables:
-                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
-                    pdf.ln(2.5 * th)
+                    pdf.cell(epw / 7, 2 * th, str(row[0]), 'L', 0, 'C')
+                    pdf.cell(3 * epw / 7, 2 * th, str(row[1]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 2 * th, str(row[2]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 2 * th, str(row[3]), 'L', 0, 'C')
+                    pdf.cell(epw / 7, 2 * th, str(row[4]), 'L,R', 0, 'C')
+                    pdf.ln(2 * th)
+                pdf.cell(epw / 7, 2 * th, item5, 'L,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 2 * th, description5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, quantity5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, price5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2 * th, amount5, 'L,B,R', 0, 'C')
+                pdf.ln(2 * th)
                 pdf.cell(epw, 2.5 * th, ' Confirmed by : ' + user_id, border=0, align='R')
                 pdf.ln(2.5 * th)
                 pdf.output('document/LC_' + time_format + '.pdf', 'F')
@@ -2464,32 +2683,26 @@ def submit4_1(request):
         f = request.POST['f']
         g = request.POST['g']
         h = request.POST['h']
+        i = request.POST['i']
 
         sr = Contract_SR.objects.filter(contract_id=contract_id)
         consignee = sr.values('consignee')[0]['consignee']
         notify = sr.values('notify')[0]['notify']
         lport = sr.values('lport')[0]['lport']
         dport = sr.values('dport')[0]['dport']
-        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         shipper = Member.objects.filter(user_id=user_id)
         shipper_name = shipper.values('user_name')[0]['user_name']
         shipper_address = shipper.values('address')[0]['address']
-        shipper_info = shipper_name +'\n'+ shipper_address
+        shipper_tel = shipper.values('tel')[0]['tel']
+        s_address_list = shipper_address.split('/')
+
         if len(Contract_BL.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
                 pdf.add_page()
                 pdf.set_font('Arial', '', 10.0)
                 epw = pdf.w - 2 * pdf.l_margin
-                records = [
-                           ['1.Shipper:', '2.Consignee:'],
-                           ['>  '+shipper_info, '>  '+consignee],
-                           ['3.Nodify party:', '4.Place of Receipt:'],
-                           ['>  '+notify, '>  '+b],
-                           ['5.Voyage No.:', '6.Loading Port:'],
-                           ['>  '+a,'>  '+lport],
-                           ['7.Discharging Port:', '8.Final Destination:'],
-                           ['>  '+dport,'>  '+c]]
 
                 pdf.ln(0.5)
                 pdf.set_font('Arial', 'BU', 16.0)
@@ -2498,25 +2711,66 @@ def submit4_1(request):
                 pdf.set_font('Arial', 'B', 14.0)
                 pdf.cell(epw, 0.0, 'Contract ID:' + contract_id + '/' + time_format, align='C')
                 pdf.set_font('Arial', '', 12.0)
-                pdf.ln(0.5)
+                pdf.ln(0.75)
 
                 th = pdf.font_size
-                for row in records:
-                    pdf.cell(epw/2, 3 * th, str(row[0]), border=1)
-                    pdf.cell(epw/2, 3 * th, str(row[1]), border=1)
-                    pdf.ln(3 * th)
-
-                pdf.cell(epw / 2, 3 * th, '9.Seal No.', border=1)
-                pdf.cell(epw / 2, 3 * th, '10.Packages', border=1)
-                pdf.cell(epw / 3, 3 * th, '11.Description', border=1)
-                pdf.cell(epw / 3, 3 * th, '12.Gross Weight:', border=1)
-                pdf.cell(epw / 3, 3 * th, '13.Measurement:', border=1)
+                pdf.cell(epw / 2, 3 * th, '1.Shipper:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '2.Consignee:', 'L,T,R', 0, 'L')
                 pdf.ln(3 * th)
-                pdf.cell(epw / 2, 10 * th, '>  '+e, border=1)
-                pdf.cell(epw / 2, 10 * th, '>  '+f, border=1)
-                pdf.cell(epw / 3, 10 * th, '>  '+d, border=1)
-                pdf.cell(epw / 3, 10 * th, '>  '+g, border=1)
-                pdf.cell(epw / 3, 10 * th, '>  '+h, border=1)
+                pdf.cell(epw / 2, 2 * th, '>  ' + shipper_name, 'L', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '>  ' + consignee, 'L,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 2 * th, s_address_list[0], 'L', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '', 'L,R,B', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, s_address_list[1], 'L', 0, 'L')
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 2 * th, '3.Nodify party: ','L,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 2 * th, s_address_list[2], 'L', 0, 'L')
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 2 * th, '>  ' + notify, 'L,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.set_font('Arial', '', 10.0)
+                pdf.cell(epw / 2, 2 * th, s_address_list[3], 'L', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '', 'L,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(epw / 2, 2 * th, 'TEL:' + shipper_tel, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '', 'L,B,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.set_font('Arial', '', 12.0)
+                pdf.cell(epw / 2, 3 * th, '4.Laden of board the vessel:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '5.Place of Receipt:', 'L,T,R', 0, 'L')
+                pdf.ln(3 * th)
+                pdf.cell(epw / 2, 3 * th, '>  ' + i, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '>  ' + b, 'L,B,R', 0, 'L')
+                pdf.ln(3 * th)
+                pdf.cell(epw / 2, 3 * th, '6.Voyage No.:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '7.Loading Port:', 'L,T,R', 0, 'L')
+                pdf.ln(3 * th)
+                pdf.cell(epw / 2, 3 * th, '>  ' + a, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '>  ' + lport, 'L,B,R', 0, 'L')
+                pdf.ln(3 * th)
+                pdf.cell(epw / 2, 3 * th, '8.Discharging Port:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '9.Final Destination:', 'L,T,R', 0, 'L')
+                pdf.ln(3 * th)
+                pdf.cell(epw / 2, 3 * th, '>  ' + dport, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '>  ' + c, 'L,B,R', 0, 'L')
+                pdf.ln(3 * th)
+
+                pdf.cell(epw /5, 3 * th, '9.Seal No.', border=1)
+                pdf.cell(epw /5, 3 * th, '10.Packages', border=1)
+                pdf.cell(epw /5, 3 * th, '11.Description', border=1)
+                pdf.cell(epw /5, 3 * th, '12.Gross Weight:', border=1)
+                pdf.cell(epw /5, 3 * th, '13.Measurement:', border=1)
+                pdf.ln(3 * th)
+                pdf.cell(epw /5, 10 * th, '>  '+e, border=1,)
+                pdf.cell(epw /5, 10 * th, '>  '+f, border=1,)
+                pdf.cell(epw /5, 10 * th, '>  '+d, border=1,)
+                pdf.cell(epw /5, 10 * th, '>  '+g, border=1,)
+                pdf.cell(epw /5, 10 * th, '>  '+h, border=1,)
                 pdf.ln(10 * th)
                 pdf.cell(epw, 2.5 * th, ' Issued by : ' + user_id, border=0, align='R')
                 pdf.ln(2.5 * th)
@@ -2593,11 +2847,12 @@ def submit4_2(request):
         price5 = package.values('price5')[0]['price5']
         amount5 = package.values('amount5')[0]['amount5']
         importer = package.values('share1')[0]['share1']
-        time_format = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(time.time()))
+        time_format = time.strftime('%Y-%m-%d_%H%M%S', time.localtime(time.time()))
         importer_info = Member.objects.filter(user_id = importer)
         delivery_to = importer_info.values('user_name')[0]['user_name']
         delivery_address = importer_info.values('address')[0]['address']
-
+        delivery_tel = importer_info.values('tel')[0]['tel']
+        filter_address = delivery_address.replace('/', ' ')
         if len(Contract_DO.objects.filter(contract_id=contract_id)) == 0:
             try:
                 pdf = FPDF(unit='in', format='A4')
@@ -2616,33 +2871,49 @@ def submit4_2(request):
                 th = pdf.font_size
                 pdf.cell(epw, 3 * th, 'Delivery To : ' + delivery_to, border=0, align='L')
                 pdf.ln(3 * th)
-                pdf.cell(epw, 3 * th, 'Delivery Address :' + delivery_address, border=0, align='L')
+                pdf.cell(epw, 3 * th, 'Delivery Address : ' + filter_address, border=0, align='L')
+                pdf.ln(3 * th)
+                pdf.cell(epw, 3 * th, 'Delivery Tel : ' + delivery_tel, border=0, align='L')
                 pdf.ln(3 * th)
                 pdf.cell(epw, 3 * th, 'Delivery Date : ' + a, border=0, align='L')
                 pdf.ln(3 * th)
-                pdf.cell(epw, 3 * th, 'Delivery Time :' + b, border=0, align='L')
+                pdf.cell(epw, 3 * th, 'Delivery Time : ' + b + '(UTC+9)', border=0, align='L')
                 pdf.ln(3 * th)
+                pdf.ln(0.25)
                 pdf.cell(epw, 2.5 * th, 'Description of Goods and/or Services :', border=0, align='C')
                 pdf.ln(2.5 * th)
-                tables = [['Item No.', 'Description', 'Quantity', 'Unit Price', 'Amount'],
-                          [item1, description1, quantity1, price1, amount1],
+
+                tables = [[item1, description1, quantity1, price1, amount1],
                           [item2, description2, quantity2, price2, amount2],
                           [item3, description3, quantity3, price3, amount3],
-                          [item4, description4, quantity4, price4, amount4],
-                          [item5, description5, quantity5, price5, amount5]]
+                          [item4, description4, quantity4, price4, amount4]]
+
+                pdf.cell(epw / 7, 2.5 * th, 'Item No.', border=1, align='C')
+                pdf.cell(3 * epw / 7, 2.5 * th, 'Description', border=1, align='C')
+                pdf.cell(epw / 7, 2.5 * th, 'Quantity', border=1, align='C')
+                pdf.cell(epw / 7, 2.5 * th, 'Unit Price', border=1, align='C')
+                pdf.cell(epw / 7, 2.5 * th, 'Amount', border=1, align='C')
+                pdf.ln(2.5 * th)
 
                 for row in tables:
-                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), border=1, align='C')
-                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), border=1, align='C')
-                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), border=1, align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[0]), 'L', align='C')
+                    pdf.cell(3 * epw / 7, 2.5 * th, str(row[1]), 'L', align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[2]), 'L', align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[3]), 'L', align='C')
+                    pdf.cell(epw / 7, 2.5 * th, str(row[4]), 'L,R', align='C')
                     pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, 'Remarks:', border=1, align='L')
+
+                pdf.cell(epw / 7, 2.5 * th, item5, 'L,B', 0, 'C')
+                pdf.cell(3 * epw / 7, 2.5 * th, description5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2.5 * th, quantity5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2.5 * th, price5, 'L,B', 0, 'C')
+                pdf.cell(epw / 7, 2.5 * th, amount5, 'L,R,B', 0, 'C')
                 pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, '>  '+ c, border=1, align='L')
+                pdf.cell(epw, 2.5 * th, 'Remarks:', 'L,T,R', 0,'L')
                 pdf.ln(2.5 * th)
-                pdf.cell(epw, 2.5 * th, ' Confirmed by : ' + user_id, border=0, align='L')
+                pdf.cell(epw, 2.5 * th, '>  '+ c, 'L,B,R', 0, 'L')
+                pdf.ln(2.5 * th)
+                pdf.cell(epw, 2.5 * th, ' Confirmed by : ' + user_id, border=0, align='R')
                 pdf.ln(2.5 * th)
 
 
@@ -3641,7 +3912,6 @@ def logout(request):
 def index(request):
     try:
         user_id = request.session['user_id']
-
         client_id = 'fpYuQKVX8str1aSVFrkc'
         client_secret = 'rLcccdn5R4'
         encText = urllib.parse.quote("국제무역,무역거래")
@@ -3955,13 +4225,14 @@ def register(request):
         user_name = request.POST.get('user_name', False)
         user_id = request.POST.get('user_id', False)
         user_pw = request.POST.get('user_pw', False)
+        tel = request.POST['tel']
         businessnum = request.POST['businessnum']
         tbc = request.POST['tbc']
         postcode = request.POST['postcode']
         address = request.POST['address']
         details = request.POST['details']
         country = request.POST['country']
-        user_address = '(' + postcode + ')' + details + ', ' + address + ', '+ country
+        user_address = '(' + postcode + ')'+'/' + details + '/' + address + '/' + country
 
         password = hashlib.sha256(user_pw.encode('utf-8')).hexdigest()
         try:
@@ -3969,7 +4240,7 @@ def register(request):
             result_dict['result'] = '이미 가입된 아이디가 있습니다.'
         except Member.DoesNotExist:
             member = Member(user_role=user_role, user_id=user_id, user_pw=password, user_name=user_name,
-                            address=user_address, tbc=tbc, businessnum=businessnum, otpkey="Not yet issued")
+                            address=user_address, tel=tel, tbc=tbc, businessnum=businessnum, otpkey="Not yet issued")
             member.c_date = timezone.now()
             member.save()
             result_dict['result'] = '가입완료'
