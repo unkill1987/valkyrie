@@ -2684,6 +2684,8 @@ def submit4_1(request):
         g = request.POST['g']
         h = request.POST['h']
         i = request.POST['i']
+        j = request.POST['j']
+        k = request.POST['k']
 
         sr = Contract_SR.objects.filter(contract_id=contract_id)
         consignee = sr.values('consignee')[0]['consignee']
@@ -2696,6 +2698,7 @@ def submit4_1(request):
         shipper_address = shipper.values('address')[0]['address']
         shipper_tel = shipper.values('tel')[0]['tel']
         s_address_list = shipper_address.split('/')
+
 
         if len(Contract_BL.objects.filter(contract_id=contract_id)) == 0:
             try:
@@ -2760,18 +2763,32 @@ def submit4_1(request):
                 pdf.cell(epw / 2, 3 * th, '>  ' + c, 'L,B,R', 0, 'L')
                 pdf.ln(3 * th)
 
-                pdf.cell(epw /5, 3 * th, '9.Seal No.', border=1)
-                pdf.cell(epw /5, 3 * th, '10.Packages', border=1)
-                pdf.cell(epw /5, 3 * th, '11.Description', border=1)
-                pdf.cell(epw /5, 3 * th, '12.Gross Weight:', border=1)
-                pdf.cell(epw /5, 3 * th, '13.Measurement:', border=1)
+                pdf.cell(3*epw / 4, 2 * th, '10.Seal No. and Marks', 'L,T', 0, 'L')
+                pdf.cell(epw / 4, 2 * th, '13.Gross Weight:', 'L,T,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(3*epw / 4, 2 * th, '>  ' + d, 'L', 0, 'L')
+                pdf.cell(epw / 4, 2 * th, '>  ' + g, 'L,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(3 * epw / 4, 2 * th, '11.Kind of Packages', 'L,T', 0, 'L')
+                pdf.cell(epw / 4, 2 * th,  '', 'L,B,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(3 * epw / 4, 2 * th, '>  ' + e, 'L', 0, 'L')
+                pdf.cell(epw / 4, 2 * th, '14.Measurement:', 'L,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(3 * epw / 4, 2 * th, '12.Description of Goods', 'L,T', 0, 'L')
+                pdf.cell(epw / 4, 2 * th,'>  ' + h, 'L,R', 0, 'L')
+                pdf.ln(2 * th)
+                pdf.cell(3 * epw / 4, 2 * th, '>  ' + f, 'L', 0, 'L')
+                pdf.cell(epw / 4, 2 * th, '', 'L,R', 0, 'L')
+                pdf.ln(2 * th)
+
+
+                pdf.cell(epw / 2, 3 * th, '15.Freight and Charge:', 'L,T', 0, 'L')
+                pdf.cell(epw / 2, 3 * th, '16.Place of issue:', 'L,T,R', 0, 'L')
                 pdf.ln(3 * th)
-                pdf.cell(epw /5, 10 * th, '>  '+e, border=1,)
-                pdf.cell(epw /5, 10 * th, '>  '+f, border=1,)
-                pdf.cell(epw /5, 10 * th, '>  '+d, border=1,)
-                pdf.cell(epw /5, 10 * th, '>  '+g, border=1,)
-                pdf.cell(epw /5, 10 * th, '>  '+h, border=1,)
-                pdf.ln(10 * th)
+                pdf.cell(epw / 2, 2 * th, '>  ' + j, 'L,B', 0, 'L')
+                pdf.cell(epw / 2, 2 * th, '>  ' + k, 'L,R,B', 0, 'L')
+                pdf.ln(2 * th)
                 pdf.cell(epw, 2.5 * th, ' Issued by : ' + user_id, border=0, align='R')
                 pdf.ln(2.5 * th)
 
