@@ -18,7 +18,7 @@ from django.urls import path
 from app import views
 
 urlpatterns = [
-    path('about/', views.about, name='about'),
+    path('', views.about, name='about'),
 
     path('Importer/', views.index, name='index'),
     path('Exporter/', views.index2, name='index2'),
@@ -120,7 +120,7 @@ urlpatterns = [
     path('download4_1/', views.download4_1, name='download4_1'),
     path('download4_2/', views.download4_2, name='download4_2'),
 
-    path('', views.login, name='login'),
+    path('login/', views.login, name='login'),
     path('registerpage', views.registerpage, name='registerpage'),
     path('register/', views.register, name='register'),
     path('forgot/', views.forgot, name='forgot'),
