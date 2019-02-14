@@ -703,7 +703,7 @@ def email(request):
         smtp_gmail.ehlo()
         # 연결을 암호화
         smtp_gmail.starttls()
-        smtp_gmail.login('saidtherapy23@gmail.com', 'erff8653!')
+        smtp_gmail.login('saidtherapy23@gmail.com', 'eRff8653!')
         msg = EmailMessage()
 
         try:
