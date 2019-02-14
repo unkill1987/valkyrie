@@ -43,7 +43,7 @@
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
     .dropdown-toggle:hover{cursor:pointer;}
 
-
+@media (max-width:768px){#news-body{font-size:18px}}
 
 
 
@@ -297,7 +297,7 @@
                         </div>
                         {% for news in result %}
                         <div class="card-body">
-                            <a style="color:white; font-weight:500" href="{{news.link}}" target="_blank">
+                            <a id="news-body" style="color:white; font-weight:500" href="{{news.link}}" target="_blank">
                                 {{news.title}}</a>
                         </div>
                         {% endfor %}

@@ -42,8 +42,9 @@
     border-bottom-left-radius:3px!important;}}
     @media (max-width:768px){.card-header{font-size:16px} th,td{font-size:15px}}
 
-
+    @media (max-width:768px){#news-body{font-size:18px}}
     .dropdown-toggle:hover{cursor:pointer;}
+
 
 
 
@@ -149,7 +150,8 @@
     </div>
 </header>
 <!-- Header Area End -->
-<div id="user-info"><a><i class="fas fa-globe-europe"> EXPORTER&nbsp </i><i class="fas fa-user">&nbsp{{user_id}}</i></a></div>
+<div id="user-info"><a><i class="fas fa-globe-europe"> EXPORTER&nbsp </i><i class="fas fa-user">&nbsp{{user_id}}</i></a>
+</div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -159,7 +161,7 @@
                 <div class="row">
                     <div class="col-lg-3 ">
                         <div class="card">
-                            <div class="card-header"><i class="fas fa-bell"></i>&nbsp 새로운 문서 </div>
+                            <div class="card-header"><i class="fas fa-bell"></i>&nbsp 새로운 문서</div>
                             <div class="card-body" style="text-align:right">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" role="button" data-toggle="dropdown"
@@ -196,7 +198,7 @@
                     </div>
                     <div class="col-lg-3 ">
                         <div class="card">
-                            <div class="card-header"><i class="fas fa-hands-helping"></i>&nbsp 진행중인 계약 </div>
+                            <div class="card-header"><i class="fas fa-hands-helping"></i>&nbsp 진행중인 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage2/?mytrade" style="color:white">{{ing}} 건</a>
                             </div>
@@ -204,7 +206,7 @@
                     </div>
                     <div class="col-lg-3 ">
                         <div class="card">
-                            <div class="card-header"><i class="fas fa-boxes"></i>&nbsp 완료된 계약 </div>
+                            <div class="card-header"><i class="fas fa-boxes"></i>&nbsp 완료된 계약</div>
                             <div class="card-body" style="font-size:20px;text-align:right">
                                 <a href="/mypage2/?mytrade" style="color:white">{{complete}} 건</a>
                             </div>
@@ -303,7 +305,7 @@
                         </div>
                         {% for news in result %}
                         <div class="card-body">
-                            <a style="color:white; font-weight:500" href="{{news.link}}" target="_blank">
+                            <a id="news-body" style="color:white; font-weight:500" href="{{news.link}}" target="_blank">
                                 {{news.title}}</a>
                         </div>
                         {% endfor %}
@@ -405,6 +407,7 @@ function toggleContent(obj) {
     contentBox.style.display = "inline-block";
     }
 }
+
 
 
 
