@@ -43,7 +43,7 @@ def os_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://222.239.231.247:8001/add_OS/' + contract_id + '- Exporter: ' + owner + '- importer: ' + share_user + '- offer sheet: ' + hash)
+                        'http://192.168.56.101:8001/add_OS/' + contract_id + '- Exporter: ' + owner + '- importer: ' + share_user + '- offer sheet: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "The contract already exists":
@@ -95,7 +95,7 @@ def lcr_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://222.239.231.247:8001/add_LCR/' + contract_id + '- importer: ' + owner + '- bank: ' + share_user + '- letter of credit request: ' + hash)
+                        'http://192.168.56.101:8001/add_LCR/' + contract_id + '- importer: ' + owner + '- bank: ' + share_user + '- letter of credit request: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -148,7 +148,7 @@ def lc_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://222.239.231.247:8001/add_LC/' + contract_id + '- bank: ' + owner + '- exporter: ' + share_user + '- letter of credit: ' + hash)
+                        'http://192.168.56.101:8001/add_LC/' + contract_id + '- bank: ' + owner + '- exporter: ' + share_user + '- letter of credit: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -200,7 +200,7 @@ def sr_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://222.239.231.247:8001/add_SR/' + contract_id + '- exporter: ' + owner + '- shipper: ' + share_user + '- shipping request: ' + hash)
+                        'http://192.168.56.101:8001/add_SR/' + contract_id + '- exporter: ' + owner + '- shipper: ' + share_user + '- shipping request: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -318,7 +318,7 @@ def bl_confirm2(request):
 
             if otp == nowotp:
                 url = (
-                        'http://222.239.231.247:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of letter: ' + hash)
+                        'http://192.168.56.101:8001/add_BL/' + contract_id + '- shipper: ' + owner + '- exporter: ' + share_user + '- bills of letter: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -372,7 +372,7 @@ def ci_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                        'http://222.239.231.247:8001/add_CI/' + contract_id + '- exporter: ' + owner + '- importer: ' + share_user + '- commercial invoice: ' + hash)
+                        'http://192.168.56.101:8001/add_CI/' + contract_id + '- exporter: ' + owner + '- importer: ' + share_user + '- commercial invoice: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -424,7 +424,7 @@ def do_confirm(request):
             hash = c.sha256
             if otp == nowotp:
                 url = (
-                            'http://222.239.231.247:8001/add_DO/' + contract_id + '- shipper: ' + owner + '- importer: ' + share_user + '- delivery order: ' + hash)
+                            'http://192.168.56.101:8001/add_DO/' + contract_id + '- shipper: ' + owner + '- importer: ' + share_user + '- delivery order: ' + hash)
                 response = requests.post(url)
                 res = response.text
                 if res == "Fail":
@@ -670,7 +670,7 @@ def checkcontract(request):
     try:
         result_dict = {}
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
         if len(history) == 0:
@@ -942,7 +942,7 @@ def search1(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -956,7 +956,7 @@ def search1(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -970,7 +970,7 @@ def search1(request):
         pass
     try:
         cid = str(request.POST['complete'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -988,7 +988,7 @@ def search2(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1002,7 +1002,7 @@ def search2(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1016,7 +1016,7 @@ def search2(request):
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+            url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1034,7 +1034,7 @@ def search3(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1048,7 +1048,7 @@ def search3(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1062,7 +1062,7 @@ def search3(request):
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+            url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 
@@ -1080,7 +1080,7 @@ def search4(request):
     user_id = request.session['user_id']
     try:
         cid = str(request.POST['cid'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1094,7 +1094,7 @@ def search4(request):
         pass
     try:
         cid = str(request.POST['mytrade'])
-        url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+        url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
         res = requests.post(url)
         history = res.json()
 
@@ -1108,7 +1108,7 @@ def search4(request):
         pass
         try:
             cid = str(request.POST['complete'])
-            url = ("http://222.239.231.247:8001/keyHistory/%s" % cid)
+            url = ("http://192.168.56.101:8001/keyHistory/%s" % cid)
             res = requests.post(url)
             history = res.json()
 

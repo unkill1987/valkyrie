@@ -39,10 +39,69 @@
 
 
 
+#howto {
+    position: relative;
+    background:#1b1e21;
+}
 
+#howto:after{
+		background:
+					linear-gradient(-45deg, transparent 16px, #1b1e21 0),
+					linear-gradient(45deg, transparent 16px, #1b1e21 0);
+        background-repeat: repeat-x;
+		background-position: left bottom;
+        background-size: 22px 32px;
+        content: "";
+        display: block;
 
+		width: 100%;
+		height: 32px;
 
+ 	    position: relative;
+		top:32px;
+		left:0px;
+	}
 
+#howto:before{
+		background:
+					linear-gradient(-45deg, #1b1e21 16px, red 16px, blue 16px,  transparent 0),
+					linear-gradient(45deg, #1b1e21 16px, transparent 0);
+        background-position: left top;
+        background-repeat: repeat-x;
+        background-size: 22px 32px;
+        content: " ";
+        display: block;
+
+        height: 32px;
+		width: 100%;
+
+		position: relative;
+		bottom: 32px;
+		left:0;
+	}
+
+#process {padding:60px; 0px;}
+
+#contact{position: relative;
+    background:#1b1e21;
+    padding-bottom:60px;}
+#contact:before{
+		background:
+					linear-gradient(-45deg, #1b1e21 16px, red 16px, blue 16px,  transparent 0),
+					linear-gradient(45deg, #1b1e21 16px, transparent 0);
+        background-position: left top;
+        background-repeat: repeat-x;
+        background-size: 22px 32px;
+        content: " ";
+        display: block;
+
+        height: 32px;
+		width: 100%;
+
+		position: relative;
+		bottom: 32px;
+		left:0;
+	}
 </style>
 <body>
 <!-- Preloader -->
@@ -108,7 +167,7 @@
 <!-- Header Area End -->
 
 <!-- Social Sidebar Area Start -->
-<section id="about" class="about-section text-center">
+<section id="about" class="about-section text-center" >
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto">
@@ -123,10 +182,10 @@
 </section>
 
 <!-- Projects Section -->
-<div id="projects" class="projects-section text-center">
+<div id="projects" class="projects-section text-center" style="padding-bottom:40px">
     <div class="container">
         <div style="margin:20px">
-            <h1 style="color:#353b41">System Advantages</h1>
+            <h1 style="color:#ff7b07;">System Advantages</h1>
         </div>
         <!-- Featured Project Row -->
         <div class="row align-items-center no-gutters ">
@@ -188,7 +247,7 @@
     </div>
 </div>
 
-<div id="projects" class="projects-section text-center" style="margin-bottom:20px;background-image: linear-gradient(#000000, #f8f9fa);padding-top:20px">
+<div id="howto" class="projects-section text-center">
     <div class="container">
         <div style="margin:20px">
             <h1 style="color:#ff7b07;">How To Work?</h1>
@@ -198,7 +257,7 @@
         <div class="row align-items-center">
 
                 <img class="img-fluid mx-auto"  src="{% static 'app/img/network.png'%}">
-                <h3 class=" text-center mx-auto">VALKYRIE PLATFORM은 FABRIC CA서버에서 인증된 CLIENT가 <br>NODE SDK를 통해 블록체인 네트워크에 기록 및 조회합니다.</h3>
+                <h3 class=" text-center mx-auto" style="color:white;padding-top:20px">VALKYRIE PLATFORM은 FABRIC CA서버에서 인증된 CLIENT가 <br>NODE SDK를 통해 블록체인 네트워크에 기록 및 조회합니다.</h3>
 
                 <p class="text-black-50 mb-0"></p>
 
@@ -209,17 +268,57 @@
     </div>
 </div>
 
-<div id="projects" class="projects-section text-center" style="margin-bottom:20px;">
+<div id="process" class="projects-section text-center" >
+                    <div class="container">
+                        <div style="margin:20px">
+                            <h1 style="color:#ff7b07;">Process</h1>
+                        </div>
+                        <div>&nbsp</div>
+                        <!-- Featured Project Row -->
+
+                        <div class="row align-items-center" style="color:#1d1d1d;">
+                            <div id="min" class="col-lg-6">
+                            <p class="featured-text text-center text-lg-left" style="color:#1d1d1d; font-size:large;">
+                                <img class="img-fluid" src="{% static 'app/img/about_one.png'%}" width = "20" alt="">
+                                수출자가 수입자에게 구매확약서를 전송하고 수입자의 승인시 계약이 체결됩니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_two.png'%}" width = "20" alt="">
+                                수입자가 은행에 신용장발행요청서를 전송해 신용장 개설을 요청합니다. <br>
+                                <img class="img-fluid" src="{% static 'app/img/about_three.png'%}" width = "20" alt="">
+                                은행은 수입자의 개설 요청 수락하고 신용장을 발행합니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_four.png'%}" width = "20" alt="">
+                                은행은 발행한 신용장을 수입자, 수출자에게 전송합니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_five.png'%}" width = "20" alt="">
+                                수출자는 운송사에 선적요청서를 전송해 운송계약을 체결합니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_six.png'%}" width = "20" alt="">
+                                운송사는 물품을 선적하고 수출자에게 유가증권인 선적서류를 전송합니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_seven.png'%}" width = "20" alt="">
+                                수출자는 은행에 선적서류를 전송합니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_eight.png'%}" width = "20" alt="">
+                                은행은 선적서류를 검증하고 수입자에게 전송합니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_nine.png'%}" width = "20" alt="">
+                                수입자는 운송사에 선적서류를 전송하고 물품을 인도받습니다.<br>
+                                <img class="img-fluid" src="{% static 'app/img/about_ten.png'%}" width = "20" alt="">
+                                운송사는 물품을 인도하고 명세서인 인도지시서를 발급해 수입자에게 전송합니다.
+                            </p>
+                        </div>
+                                <div id="min" class="col-lg-6">
+                                    <img class="img-fluid" src="{% static 'app/img/about_process.png'%}" alt="">
+                              </div>
+                        </div>
+                    </div>
+                </div>
+
+<div id="contact" class="projects-section text-center">
     <div class="container">
         <div style="margin:20px">
-            <h1 style="color:#353b41">Contact US</h1>
+            <h1 style="color:#ff7b07;">Contact US</h1>
         </div>
         <div>&nbsp</div>
         <!-- Featured Project Row -->
         <div class="row align-items-center">
 
-                <img class="img-fluid mx-auto" style="width:20%" src="{% static 'app/img/grey.png'%}">
-                <h2 style="color:#353b41" class=" text-left mx-auto">COMPANY : OPERATION VALKYRIE<br>
+                <img class="img-fluid mx-auto" style="width:20%" src="{% static 'app/img/white.png'%}">
+                <h2 style="color:white" class=" text-left mx-auto">COMPANY : OPERATION VALKYRIE<br>
        ADDRESS : 대한민국 서울특별시 서운로 220 HPE 센터 6층<br>
                     E-MAIL : valkyrie@valkyrie.online<br>
                     TEL : 000 - 0000 - 0000</h2>

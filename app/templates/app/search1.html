@@ -38,6 +38,8 @@
 
 
 
+
+
 </style>
 <body>
 <!-- Preloader -->
@@ -130,7 +132,8 @@
 </header>
 <!-- Header Area End -->
 
-<div id="user-info"><a><i class="fas fa-globe-asia"> IMPORTER&nbsp </i><i class="fas fa-user">&nbsp{{user_id}}</i></a></div>
+<div id="user-info"><a><i class="fas fa-globe-asia"> IMPORTER&nbsp </i><i class="fas fa-user">&nbsp{{user_id}}</i></a>
+</div>
 <!--Valkyrie System Area Start -->
 <section class="blog-area section_padding_100 mt-100">
     <div class="container">
@@ -140,12 +143,15 @@
             <div class="container-fluid">
                 <div class="wrapper" style="background-image: url(../../static/app/img/lock.jpg);">
                     <div class="card">
+
                         <div class="card-header"><i class="fas fa-receipt"></i> &nbsp
                             Trade History
                             &nbsp/&nbspContract ID : {{cid}}
                         </div>
-
                         <div class="card-body">
+                            <div>
+                                <a href="http://192.168.56.101:8080" target="_blank"  style="color:#7bdfef">More Details  <i class="fas fa-angle-double-right"></i> Hyperledger Explorer</a>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" style="border-radius:5px;text-align:center;">
                                     <tr style="text-align:center;">
@@ -325,6 +331,8 @@ $('#doc_check').click(function(){
 $('#list').change(function(){
     $('#list').css("color", "white");
 });
+
+
 
 
 
