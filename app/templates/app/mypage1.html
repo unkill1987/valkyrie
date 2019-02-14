@@ -29,7 +29,8 @@
     .card-body{border:1px solid;}
     th{font-size:10px;width:70px;}
     .card{margin-bottom:30px;}
-    @media (max-width:768px){h5{font-size:14px!important;}}
+    @media (max-width:768px){h5{font-size:14px!important;}
+    #otpkey-text{font-size:23px;}}
     #postcodify_search_button:hover{color:white;}
 
 
@@ -712,7 +713,7 @@ $("#npw").keyup(function(){
                             }else{
                                return false;
                             }
-                    $('#otpkey').append(`<h2 style="color:#0062cc;">${res.otpkey}</h2>`)
+                    $('#otpkey').append(`<h2 id="otpkey-text" style="color:#0062cc;">${res.otpkey}</h2>`)
                     }
                 }
             })
