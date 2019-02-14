@@ -25,7 +25,14 @@
 
 </head>
 <style>
-    @media (max-width:768px){section{padding-top:70%!important;}}
+    @media (max-width:768px){
+    section{padding-top:70%!important;}
+    #contact-text {font-size:15px}
+    #contact-image{margin-bottom:30px}
+    #howto-text{font-size:14px}
+    #title1, #title2, #title3 {font-size:25px}
+    h1{font-size:30px}
+    }
     @media (max-width:992px){#min{display:none;}}
     @media (min-width:993px){.card-login{width:500px}  #max{display:none;}}
     html, body{ height: 100%; margin: 0;}
@@ -80,7 +87,7 @@
 		left:0;
 	}
 
-#process {padding:60px; 0px;}
+#process {padding:60px 0px 60px 0px;}
 
 #contact{position: relative;
     background:#1b1e21;
@@ -193,7 +200,7 @@
                 <img class="img-fluid mb-3 mb-lg-0" src="{% static 'app/img/hyperledger.png'%}" alt="">
             </div>
             <div class="col-lg-6">
-                <h3 class="featured-text text-center text-lg-center">Hyperledger Fabric 기반 <br>허가형 블록체인
+                <h3 id="title3" class="featured-text text-center text-lg-center">Hyperledger Fabric 기반 <br>허가형 블록체인
                     플랫폼 </h3><br>
                 <p class="featured-text text-center text-lg-center">IBM 하이퍼레저 패브릭 블록체인 기술을 플랫폼에 <br>적용해
                     허가된 사용자만 참여할 수 있습니다.<br>하이퍼레저 패브릭은 오픈 소스 모범 사례를 활용하며 <br>비즈니스 환경의 기밀유지와 확장성을 지원합니다.
@@ -205,13 +212,13 @@
         <!-- Project One Row -->
         <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
             <div id="max" class="col-lg-6">
-                <img class="img-fluid" src="{% static 'app/img/blockchain.jpeg'%}" alt="">
+                <img class="img-fluid  mb-3 mb-lg-0" src="{% static 'app/img/blockchain.jpeg'%}" alt="">
             </div>
             <div class="col-lg-6">
                 <div class="bg-black text-center h-100 project">
                     <div class="d-flex h-100">
                         <div class="project-text w-100 my-auto text-center text-lg-center">
-                            <h3 class="featured-text text-center text-lg-center">블록체인 기반 문서 관리 시스템 </h3><br>
+                            <h3 id="title2" class="featured-text text-center text-lg-center">블록체인 기반 문서 관리 시스템 </h3><br>
                             <p class="featured-text text-center text-lg-center">
                                 블록체인 기반의 스마트 컨트랙트는 계약 이행 및 검증과정이
                                 <br>네트워크로 자동화 되고, 계약실행 조건을 확인하는 사람의 <br>
@@ -223,7 +230,7 @@
                 </div>
             </div>
             <div id="min" class="col-lg-6">
-                <img class="img-fluid" src="{% static 'app/img/blockchain.jpeg'%}" alt="">
+                <img class="img-fluid  mb-3 mb-lg-0" src="{% static 'app/img/blockchain.jpeg'%}" alt="">
             </div>
         </div>
 
@@ -235,7 +242,7 @@
             <div class="col-lg-6">
                 <div class="featured-text text-center text-lg-center">
                     <h3></h3>
-                    <h3 class="featured-text text-center text-lg-center"> 신속하고 투명한 무역거래 플랫폼 </h3><br>
+                    <h3 id="title1"class="featured-text text-center text-lg-center"> 신속하고 투명한 무역거래 플랫폼 </h3><br>
                     <p class="text-black-50 mb-0 ">무역 거래를 하고자 할때, 가장 중요한 것은 신뢰입니다.<br>
                         블록체인 기반 무역 계약 플랫폼을 통해 사업자와 은행,<br> 운송사는 신뢰성 기반의 투명한 거래가 가능해지고<br> 빠른 계약을 통해 많은 기회를 잡을 수
                         있습니다.
@@ -257,7 +264,7 @@
         <div class="row align-items-center">
 
                 <img class="img-fluid mx-auto"  src="{% static 'app/img/network.png'%}">
-                <h3 class=" text-center mx-auto" style="color:white;padding-top:20px">VALKYRIE PLATFORM은 FABRIC CA서버에서 인증된 CLIENT가 <br>NODE SDK를 통해 블록체인 네트워크에 기록 및 조회합니다.</h3>
+                <h3 id="howto-text" class=" text-center mx-auto" style="color:white;padding-top:20px">VALKYRIE PLATFORM은 FABRIC CA서버에서 인증된 CLIENT가 <br>NODE SDK를 통해 블록체인 네트워크에 기록 및 조회합니다.</h3>
 
                 <p class="text-black-50 mb-0"></p>
 
@@ -301,7 +308,7 @@
                                 운송사는 물품을 인도하고 명세서인 인도지시서를 발급해 수입자에게 전송합니다.
                             </p>
                         </div>
-                                <div id="min" class="col-lg-6">
+                                <div class="col-lg-6" >
                                     <img class="img-fluid" src="{% static 'app/img/about_process.png'%}" alt="">
                               </div>
                         </div>
@@ -317,8 +324,8 @@
         <!-- Featured Project Row -->
         <div class="row align-items-center">
 
-                <img class="img-fluid mx-auto" style="width:20%" src="{% static 'app/img/white.png'%}">
-                <h2 style="color:white" class=" text-left mx-auto">COMPANY : OPERATION VALKYRIE<br>
+                <img id="contact-image" class="img-fluid mx-auto" style="width:20%" src="{% static 'app/img/white.png'%}">
+                <h2 id="contact-text" style="color:white" class=" text-left mx-auto">COMPANY : OPERATION VALKYRIE<br>
        ADDRESS : 대한민국 서울특별시 서운로 220 HPE 센터 6층<br>
                     E-MAIL : valkyrie@valkyrie.online<br>
                     TEL : 000 - 0000 - 0000</h2>

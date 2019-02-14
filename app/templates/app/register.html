@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{% static 'app/css/core-style.css'%}">
     <link rel="stylesheet" href="{% static 'app/css/addrlinkSample.css'%}">
     <link rel="stylesheet" href="{% static 'app/css/style.css'%}">
-
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- Responsive CSS -->
     <link href="{% static 'app/css/responsive.css'%}" rel="stylesheet">
 
@@ -28,7 +28,9 @@
 
 <style>
     @media (min-width:968px){.card{width:700px;}}
-    @media (max-width:768px){section{padding:50px 0px 0px 0px!important}  .card{width:100%}}
+    @media (max-width:768px){section{padding:50px 0px 0px 0px!important}
+    .card{width:100%}}
+
     body{background-image: url(../../static/app/img/register.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -38,6 +40,7 @@
     .btn{color:#ff8a12;border-color:#ff8a12;}
     .btn:hover{background-color:#ff8a12; border-color:#ff8a12;}
     .card{background:#1d1d1de8; }
+
 
 
 
@@ -361,7 +364,7 @@
                                         <input type="text" id="details" name="details" placeholder="Details"
                                                class="form-control postcodify_details" value=""/><br/>
                                         <label class="form-group-text" for="country">Country</label>
-                                         <input type="text" id="country" name="country" placeholder="Country"
+                                        <input type="text" id="country" name="country" placeholder="Country"
                                                class="form-control" value=""/><br/>
                                         <span style="text-align:center;">
 
@@ -598,6 +601,7 @@ $('#register').click(function(){
         e.focus();
         return false;
     }
+
 
 
 
