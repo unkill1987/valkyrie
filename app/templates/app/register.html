@@ -573,7 +573,7 @@ $('#register').click(function(){
           success: function(res) {
             if(res.result == '가입완료') {
                 alert(res.result)
-                location = '/'
+                location = '/login'
             }else{
                 alert(res.result)
             }
